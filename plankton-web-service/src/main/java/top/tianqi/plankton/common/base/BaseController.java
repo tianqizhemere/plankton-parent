@@ -1,19 +1,8 @@
 package top.tianqi.plankton.common.base;
 
-import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import top.tianqi.plankton.common.Message;
 
-import javax.activation.MimetypesFileTypeMap;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.FileNameMap;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -24,6 +13,8 @@ import java.util.Map;
 public class BaseController {
 
     Map<String,String> orderTypeMap = new HashMap<>(2);
+
+    protected static final Message SUCCESS_MESSAGE = Message.success("操作成功");
 
     public BaseController(){
         orderTypeMap.put("asc","asc");
