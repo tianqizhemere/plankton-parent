@@ -3,7 +3,6 @@ package top.tianqi.plankton.system.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.tianqi.plankton.common.Message;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
