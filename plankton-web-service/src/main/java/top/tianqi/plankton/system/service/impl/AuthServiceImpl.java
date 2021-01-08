@@ -2,8 +2,10 @@ package top.tianqi.plankton.system.service.impl;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.stereotype.Service;
+import top.tianqi.plankton.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.Auth;
 import top.tianqi.plankton.system.entity.User;
+import top.tianqi.plankton.system.mapper.AuthDao;
 import top.tianqi.plankton.system.service.AuthService;
 
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
  * @create 2021-01-04
  */
 @Service(value = "authServiceImpl")
-public class AuthServiceImpl implements AuthService {
+public class AuthServiceImpl extends BaseServiceImpl<AuthDao, Auth> implements AuthService {
     @Override
     public List<Auth> getUserAuthListById(Long id) {
         return null;
