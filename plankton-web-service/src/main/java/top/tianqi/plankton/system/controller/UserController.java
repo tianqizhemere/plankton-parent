@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.tianqi.plankton.common.Message;
+import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.BaseController;
-import top.tianqi.plankton.common.base.annotation.aop.Operation;
 
 /**
  * @author tianQi
@@ -15,7 +15,7 @@ import top.tianqi.plankton.common.base.annotation.aop.Operation;
 @RequestMapping(value = "/system/user")
 public class UserController extends BaseController {
 
-    @Operation(value = "获取用户列表")
+    @OperLog(operationModel = "用户管理", operationDesc = "")
     @GetMapping(value = "/list")
     public Message list(){
         return SUCCESS_MESSAGE;
