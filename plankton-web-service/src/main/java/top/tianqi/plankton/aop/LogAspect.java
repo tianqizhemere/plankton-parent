@@ -40,6 +40,7 @@ public class LogAspect {
     private ExceptionLogService exceptionLogService;
 
 
+
     /** 设置操作日志切入点 记录操作日志 */
     @Pointcut("@annotation(top.tianqi.plankton.common.annotation.aop.OperLog)")
     public void logPointCut(){

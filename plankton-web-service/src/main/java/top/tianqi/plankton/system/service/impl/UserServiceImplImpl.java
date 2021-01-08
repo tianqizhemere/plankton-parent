@@ -5,12 +5,13 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
-import top.tianqi.plankton.base.service.BaseServiceImpl;
+import top.tianqi.plankton.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.mapper.UserDao;
 import top.tianqi.plankton.system.service.UserService;
 
 /**
+ * 用户服务层实现
  * @author Wukh
  * @create 2021-01-04
  */
