@@ -31,7 +31,7 @@ public class VersionController extends BaseController {
      * @return
      */
     @GetMapping(value = "/checkVersion")
-    public Result checkVersion(@Valid Mobile mobile, BindingResult result){
+    public Result checkVersion(@Valid Mobile mobile, BindingResult result) throws Exception {
         if (result.hasErrors()) {
             return new Result(500, result.getFieldError().getDefaultMessage());
         }
