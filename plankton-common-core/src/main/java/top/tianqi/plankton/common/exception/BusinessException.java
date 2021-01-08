@@ -14,7 +14,7 @@ public class BusinessException extends RuntimeException {
     /**
      * 错误编码
      */
-    private String errorCode ="500";
+    private Integer errorCode = 500;
 
     /**
      * 消息是否为属性文件中的Key
@@ -46,7 +46,7 @@ public class BusinessException extends RuntimeException {
      * @param errorCode
      * @param message
      */
-    public BusinessException(String errorCode, String message) {
+    public BusinessException(Integer errorCode, String message) {
         this(errorCode, message, true);
     }
 
@@ -57,7 +57,7 @@ public class BusinessException extends RuntimeException {
      * @param message
      * @param cause
      */
-    public BusinessException(String errorCode, String message, Throwable cause) {
+    public BusinessException(Integer errorCode, String message, Throwable cause) {
         this(errorCode, message, cause, true);
     }
 
@@ -68,7 +68,7 @@ public class BusinessException extends RuntimeException {
      * @param message
      * @param propertiesKey
      */
-    public BusinessException(String errorCode, String message, boolean propertiesKey) {
+    public BusinessException(Integer errorCode, String message, boolean propertiesKey) {
         super(message);
         this.setErrorCode(errorCode);
         this.setPropertiesKey(propertiesKey);
@@ -82,7 +82,7 @@ public class BusinessException extends RuntimeException {
      * @param cause
      * @param propertiesKey
      */
-    public BusinessException(String errorCode, String message, Throwable cause, boolean propertiesKey) {
+    public BusinessException(Integer errorCode, String message, Throwable cause, boolean propertiesKey) {
         super(message, cause);
         this.setErrorCode(errorCode);
         this.setPropertiesKey(propertiesKey);
@@ -98,11 +98,11 @@ public class BusinessException extends RuntimeException {
         super(message, cause);
     }
 
-    public String getErrorCode() {
+    public Integer getErrorCode() {
         return errorCode;
     }
 
-    public void setErrorCode(String errorCode) {
+    public void setErrorCode(Integer errorCode) {
         this.errorCode = errorCode;
     }
 

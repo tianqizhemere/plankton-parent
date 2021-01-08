@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import top.tianqi.plankton.common.Message;
+import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.exception.BusinessException;
 
 /**
@@ -25,9 +25,9 @@ public class MyControllerAdvice {
      */
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
-    public Message errorHandler(Exception ex) {
+    public Result errorHandler(Exception ex) {
         logger.error("未知异常！原因是:",ex);
-        return Message.error("common.error");
+        return new Result(-1, "未知错误");
     }
 
     /**
@@ -37,7 +37,8 @@ public class MyControllerAdvice {
      */
     @ResponseBody
     @ExceptionHandler(value = BusinessException.class)
-    public Message myErrorHandler(BusinessException ex) {
-        return Message.error(ex.getMessage());
+    public Result myErrorHandler(BusinessException ex) {
+        logger.error("业务异常", ex);
+        return new Result(ex.getErrorCode(), ex.getMessage());
     }
 }

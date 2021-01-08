@@ -17,4 +17,10 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionDao, VersionInfo>
 
     @Autowired
     private VersionDao versionDao;
+
+    @Override
+    public VersionInfo checkVersion(String currentVersion) {
+
+        return null;
+    }
 }

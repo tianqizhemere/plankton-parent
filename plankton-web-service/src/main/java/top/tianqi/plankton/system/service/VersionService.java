@@ -9,4 +9,6 @@ import top.tianqi.plankton.system.entity.VersionInfo;
  * @create 2021-01-08
  */
 public interface VersionService extends BaseService<VersionInfo> {
+
+    VersionInfo checkVersion(String currentVersion);
 }
