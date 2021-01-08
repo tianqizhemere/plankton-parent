@@ -1,70 +1,36 @@
 package top.tianqi.plankton.system.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
-
-import java.util.Date;
+import top.tianqi.plankton.base.entity.BaseEntity;
 
 /**
  * 版本信息
  * @author tianQi
  * @create 2021-01-05
  */
-@TableName("version_info")
-public class VersionInfo {
-    /** 主键 */
-    private Integer id;
-    /** 创建时间 */
-    private Date createTime;
-    /** 修改时间 */
-    private Date modifiedTime;
+@TableName("version_upgrade")
+public class VersionInfo extends BaseEntity {
+
+    private static final long serialVersionUID = 3577514419817872789L;
     /** 版本编号 */
-    private Integer versionCode;
-    /** 版本号 */
-    private String version;
+    private String versionCode;
     /** 下载路径 */
     private String downloadUrl;
     /** 版本描述 */
     private String versionDesc;
+    /** 是否有更新 */
+    @TableField(exist = false)
+    private Integer isUpdate = 0;
+    /** 是否升级 1升级，0不升级'*/
+    private Integer type;
 
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getModifiedTime() {
-        return modifiedTime;
-    }
-
-    public void setModifiedTime(Date modifiedTime) {
-        this.modifiedTime = modifiedTime;
-    }
-
-    public Integer getVersionCode() {
+    public String getVersionCode() {
         return versionCode;
     }
 
-    public void setVersionCode(Integer versionCode) {
+    public void setVersionCode(String versionCode) {
         this.versionCode = versionCode;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
     }
 
     public String getDownloadUrl() {
@@ -81,5 +47,21 @@ public class VersionInfo {
 
     public void setVersionDesc(String versionDesc) {
         this.versionDesc = versionDesc;
+    }
+
+    public Integer getIsUpdate() {
+        return isUpdate;
+    }
+
+    public void setIsUpdate(Integer isUpdate) {
+        this.isUpdate = isUpdate;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

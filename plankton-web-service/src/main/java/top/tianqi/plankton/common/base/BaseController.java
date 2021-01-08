@@ -27,7 +27,7 @@ public class BaseController {
     protected static Result SUCCESS_MESSAGE(Object object) {
         Result result = new Result();
         result.setCode(0);
-        result.setMsg("成功");
+        result.setMsg("操作成功");
         result.setData(object);
         return result;
     }

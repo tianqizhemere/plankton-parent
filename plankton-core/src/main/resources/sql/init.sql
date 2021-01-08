@@ -1,18 +1,18 @@
 -- version_upgrade 版本升级信息表
 drop table if exists version_upgrade;
 CREATE TABLE version_upgrade (
-    id smallint(4) unsigned NOT NULL AUTO_INCREMENT,
+    id int(11) NOT NULL AUTO_INCREMENT,
     create_time datetime NOT NULL,
     modify_time datetime NOT NULL,
-    version_id smallint(4) unsigned DEFAULT '0' COMMENT '大版本号id',
-    version_mini mediumint(8) unsigned DEFAULT '0' COMMENT '小版本号',
     version_code varchar(10) DEFAULT NULL COMMENT '版本标识 1.2',
-    type int(11) unsigned DEFAULT NULL COMMENT '是否升级 1升级，0不升级，2强制升级',
-    apk_url varchar(255) DEFAULT NULL,
-    upgrade_point varchar(255) DEFAULT NULL COMMENT '升级提示',
-    status int(11) DEFAULT NULL,
+    type int(11)  DEFAULT NULL COMMENT '是否升级 1升级，0不升级，2强制升级',
+    download_url varchar(255) DEFAULT NULL COMMENT '下载路径',
+    version_desc varchar(255) DEFAULT NULL COMMENT '升级提示',
+    status int(11) DEFAULT NULL COMMENT '0-停用，1-启用',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+insert into version_upgrade values(1, '2020-1-8 20:20:21', '2020-1-8 20:20:21', 'v1.0', '0', 'http://ip:8080/upload/file/aaaa.apk', '1.基于官方最新OneUI3.0\n2.更清晰、更简洁',1)
 
 -- 操作日志
 drop table if exists operation_log;
