@@ -1,7 +1,7 @@
 package top.tianqi.plankton.system.service.impl;
 
 import org.springframework.stereotype.Service;
-import top.tianqi.plankton.base.service.SuperService;
+import top.tianqi.plankton.base.service.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.ExceptionLog;
 import top.tianqi.plankton.system.mapper.ExceptionLogDao;
 import top.tianqi.plankton.system.service.ExceptionLogService;
@@ -12,5 +12,5 @@ import top.tianqi.plankton.system.service.ExceptionLogService;
  * @create 2021-01-08
  */
 @Service(value = "exceptionLogServiceImpl")
-public class ExceptionLogServiceImpl extends SuperService<ExceptionLogDao, ExceptionLog> implements ExceptionLogService {
+public class ExceptionLogServiceImplImpl extends BaseServiceImpl<ExceptionLogDao, ExceptionLog> implements ExceptionLogService {
 }

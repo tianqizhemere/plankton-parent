@@ -12,7 +12,7 @@ import top.tianqi.plankton.system.entity.User;
  * @author Wukh
  * @create 2021-01-04
  */
-public class SuperService<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
+public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
 
     /**
      * 获取当前用户
