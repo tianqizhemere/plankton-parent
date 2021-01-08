@@ -13,7 +13,7 @@ import top.tianqi.plankton.system.entity.User;
  * @author Wukh
  * @create 2021-01-04
  */
-public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> implements BaseService<M, T> {
+public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> implements BaseService<T>{
 
     @Override
     public User getCurrentUser() {

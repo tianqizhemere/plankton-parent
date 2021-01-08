@@ -1,6 +1,7 @@
 package top.tianqi.plankton.system.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import top.tianqi.plankton.base.service.BaseService;
 import top.tianqi.plankton.system.entity.Auth;
 import top.tianqi.plankton.system.entity.User;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @author Wukh
  * @create 2021-01-04
  */
-public interface AuthService {
+public interface AuthService extends BaseService<Auth> {
 
     /**
      * 根据用户 id 获取权限

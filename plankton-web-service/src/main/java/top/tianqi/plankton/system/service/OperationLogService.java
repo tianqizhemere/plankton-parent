@@ -1,6 +1,6 @@
 package top.tianqi.plankton.system.service;
 
-import com.baomidou.mybatisplus.service.IService;
+import top.tianqi.plankton.base.service.BaseService;
 import top.tianqi.plankton.system.entity.OperationLog;
 
 /**
@@ -8,5 +8,5 @@ import top.tianqi.plankton.system.entity.OperationLog;
  * @author Wukh
  * @create 2021-01-08
  */
-public interface OperationLogService extends IService<OperationLog> {
+public interface OperationLogService extends BaseService<OperationLog> {
 }

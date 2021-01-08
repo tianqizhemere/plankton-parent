@@ -1,7 +1,7 @@
 package top.tianqi.plankton.system.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.IService;
+import top.tianqi.plankton.base.service.BaseService;
 import top.tianqi.plankton.system.entity.User;
 
 /**
@@ -9,7 +9,7 @@ import top.tianqi.plankton.system.entity.User;
  * @author Wukh
  * @create 2021-01-04
  */
-public interface UserService extends IService<User> {
+public interface UserService extends BaseService<User> {
 
     /**
      * 用户登录
