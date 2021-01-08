@@ -1,7 +1,6 @@
 package top.tianqi.plankton.aop;
 
 import cn.hutool.system.SystemUtil;
-import com.alibaba.fastjson.JSON;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -12,10 +11,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
+import top.tianqi.plankton.common.utils.JsonUtil;
 import top.tianqi.plankton.system.entity.ExceptionLog;
 import top.tianqi.plankton.system.entity.OperationLog;
 import top.tianqi.plankton.system.service.ExceptionLogService;
-import top.tianqi.plankton.system.service.SysLogService;
+import top.tianqi.plankton.system.service.OperationLogService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -33,8 +33,8 @@ import java.util.Map;
 @Component
 public class LogAspect {
 
-    @Resource(name = "sysLogServiceImpl")
-    private SysLogService sysLogService;
+    @Resource(name = "operationLogServiceImpl")
+    private OperationLogService sysLogService;
 
     @Resource(name = "exceptionLogServiceImpl")
     private ExceptionLogService exceptionLogService;
@@ -91,15 +91,16 @@ public class LogAspect {
             // 请求的参数
             Map<String, String> rtnMap = convertMap(request.getParameterMap());
             // 将参数所在的数组转换成json
-            String params = JSON.toJSONString(rtnMap);
+            String params = JsonUtil.toJsonString(rtnMap);
 
             operlog.setRequestParam(params);
-            operlog.setResponseParam(JSON.toJSONString(keys)); // 返回结果
+            operlog.setResponseParam(JsonUtil.toJsonString(keys)); // 返回结果
             operlog.setUserId(1L);
             operlog.setUsername("test");
             operlog.setIp(SystemUtil.getHostInfo().getAddress()); // 请求IP
             operlog.setUri(request.getRequestURI()); // 请求URI
             operlog.setCreateTime(new Date());
+            operlog.setModifyTime(new Date());
             sysLogService.insert(operlog);
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,7 +136,7 @@ public class LogAspect {
             // 请求的参数
             Map<String, String> rtnMap = convertMap(request.getParameterMap());
             // 将参数所在的数组转换成json
-            String params = JSON.toJSONString(rtnMap);
+            String params = JsonUtil.toJsonString(rtnMap);
             excepLog.setRequestParam(params); // 请求参数
             excepLog.setMethod(methodName); // 请求方法名
             excepLog.setName(e.getClass().getName()); // 异常名称
@@ -145,6 +146,7 @@ public class LogAspect {
             excepLog.setUri(request.getRequestURI()); // 操作URI
             excepLog.setIp(SystemUtil.getHostInfo().getAddress()); // 操作员IP
             excepLog.setCreateTime(new Date()); // 发生异常时间
+            excepLog.setModifyTime(new Date());
             exceptionLogService.insert(excepLog);
         } catch (Exception e2) {
             e2.printStackTrace();

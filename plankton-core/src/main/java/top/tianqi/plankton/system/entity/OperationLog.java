@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
 
@@ -8,7 +9,7 @@ import top.tianqi.plankton.base.entity.BaseEntity;
  * @author tianQi
  * @create 2021-01-07
  */
-@TableName(value = "sys_log")
+@TableName(value = "operation_log")
 public class OperationLog extends BaseEntity {
 
     private static final long serialVersionUID = 3513566928111474788L;
@@ -20,6 +21,7 @@ public class OperationLog extends BaseEntity {
     private String type;
 
     /** 操作描述 */
+    @TableField(value = "operation_desc")
     private String desc;
 
     /** 请求参数 */

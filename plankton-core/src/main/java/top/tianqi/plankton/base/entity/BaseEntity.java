@@ -3,12 +3,13 @@ package top.tianqi.plankton.base.entity;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 基类试题
+ * 基类实体
  * @author tianQi
  * @create 2021-01-07
  */
@@ -22,11 +23,13 @@ public class BaseEntity implements Serializable {
 
     /** 创建时间 */
     @TableField("create_time")
+    @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd")
     private Date createTime;
 
     /**修改时间*/
-    @TableField("modified_time")
-    private Date modifiedTime;
+    @TableField("modify_time")
+    @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd")
+    private Date modifyTime;
 
     public BaseEntity(){super();}
 
@@ -51,11 +54,11 @@ public class BaseEntity implements Serializable {
         this.createTime = createTime;
     }
 
-    public Date getModifiedTime() {
-        return modifiedTime;
+    public Date getModifyTime() {
+        return modifyTime;
     }
 
-    public void setModifiedTime(Date modifiedTime) {
-        this.modifiedTime = modifiedTime;
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
     }
 }

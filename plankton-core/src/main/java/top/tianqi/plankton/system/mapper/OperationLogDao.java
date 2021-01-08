@@ -8,5 +8,5 @@ import top.tianqi.plankton.system.entity.OperationLog;
  * @author tianQi
  * @create 2021-01-07
  */
-public interface SysLogDao extends BaseMapper<OperationLog> {
+public interface OperationLogDao extends BaseMapper<OperationLog> {
 }

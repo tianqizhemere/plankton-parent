@@ -8,5 +8,5 @@ import top.tianqi.plankton.system.entity.OperationLog;
  * @author Wukh
  * @create 2021-01-08
  */
-public interface SysLogService extends IService<OperationLog> {
+public interface OperationLogService extends IService<OperationLog> {
 }
