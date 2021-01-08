@@ -64,6 +64,7 @@ public class LogAspect {
         // 获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         // 从获取RequestAttributes中获取HttpServletRequest的信息
+        assert requestAttributes != null;
         HttpServletRequest request = (HttpServletRequest) requestAttributes
                 .resolveReference(RequestAttributes.REFERENCE_REQUEST);
 
@@ -89,6 +90,7 @@ public class LogAspect {
             operlog.setMethod(methodName);
 
             // 请求的参数
+            assert request != null;
             Map<String, String> rtnMap = convertMap(request.getParameterMap());
             // 将参数所在的数组转换成json
             String params = JsonUtil.toJsonString(rtnMap);
@@ -119,6 +121,7 @@ public class LogAspect {
         // 获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         // 从获取RequestAttributes中获取HttpServletRequest的信息
+        assert requestAttributes != null;
         HttpServletRequest request = (HttpServletRequest) requestAttributes
                 .resolveReference(RequestAttributes.REFERENCE_REQUEST);
 
@@ -134,6 +137,7 @@ public class LogAspect {
             String methodName = method.getName();
             methodName = className + "." + methodName;
             // 请求的参数
+            assert request != null;
             Map<String, String> rtnMap = convertMap(request.getParameterMap());
             // 将参数所在的数组转换成json
             String params = JsonUtil.toJsonString(rtnMap);
@@ -180,7 +184,6 @@ public class LogAspect {
         for (StackTraceElement stet : elements) {
             strbuff.append(stet + "\n");
         }
-        String message = exceptionName + ":" + exceptionMessage + "\n\t" + strbuff.toString();
-        return message;
+        return exceptionName + ":" + exceptionMessage + "\n\t" + strbuff.toString();
     }
 }
