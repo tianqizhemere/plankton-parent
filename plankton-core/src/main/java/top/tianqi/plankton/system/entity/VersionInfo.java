@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * 版本信息
  * @author tianQi
@@ -19,6 +21,9 @@ public class VersionInfo extends BaseEntity {
     private String downloadUrl;
     /** 版本描述 */
     private String versionDesc;
+    /** 手机型号 */
+    @NotBlank(message = "手机型号不能为空")
+    private String model;
     /** 是否有更新 */
     @TableField(exist = false)
     private Integer isUpdate = 0;
@@ -63,5 +68,13 @@ public class VersionInfo extends BaseEntity {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 }

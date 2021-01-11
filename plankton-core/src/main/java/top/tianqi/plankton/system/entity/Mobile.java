@@ -2,8 +2,6 @@ package top.tianqi.plankton.system.entity;
 
 import top.tianqi.plankton.base.entity.BaseEntity;
 
-import javax.validation.constraints.NotBlank;
-
 /**
  * 手机信息
  * @author Wukh
@@ -13,7 +11,6 @@ public class Mobile extends BaseEntity {
     private static final long serialVersionUID = -5353397178787186262L;
     
     /** 手机型号 */
-    @NotBlank(message = "手机型号不能为空")
     private String model;
 
     /** 会员编号 */

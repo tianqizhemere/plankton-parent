@@ -1,12 +1,15 @@
 package top.tianqi.plankton.system.controller;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.tianqi.plankton.common.Result;
+import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.BaseController;
-import top.tianqi.plankton.system.entity.Mobile;
+import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.system.entity.VersionInfo;
 import top.tianqi.plankton.system.service.VersionService;
 
@@ -14,7 +17,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
- * 版本检测controller
+ * 版本controller
  * @author Wukh
  * @create 2021-01-08
  */
@@ -25,17 +28,50 @@ public class VersionController extends BaseController {
     @Resource(name = "versionServiceImpl")
     private VersionService versionService;
 
+    @OperLog(operationModel = "版本管理", operationDesc = "应用版本列表", operationType = OperationConst.SELECT)
+    @GetMapping(value = "/list")
+    public Result list(int pageNo, int pageSize){
+        Page<VersionInfo> page = versionService.selectPage(new Page<>(1, 10));
+        return Result.success(page);
+    }
+
     /**
      * 检测app版本
-     * @param mobile 手机信息
-     * @return
+     * @param model 手机型号
+     * @param currentVersion 当前版本
+     * @return Result 前端提示信息
      */
+    @OperLog(operationModel = "版本管理", operationDesc = "检测应用版本", operationType = OperationConst.SELECT)
     @GetMapping(value = "/checkVersion")
-    public Result checkVersion(@Valid Mobile mobile, BindingResult result) throws Exception {
+    public Result checkVersion(String currentVersion, String model) throws Exception {
+        VersionInfo versionInfo = versionService.checkVersion(currentVersion, model);
+        return SUCCESS_MESSAGE(versionInfo);
+    }
+
+    @OperLog(operationModel = "版本管理", operationDesc = "新增应用版本", operationType = OperationConst.INSERT)
+    @PostMapping(value = "/save")
+    public Result save(@Valid VersionInfo versionInfo, BindingResult result){
         if (result.hasErrors()) {
             return new Result(500, result.getFieldError().getDefaultMessage());
         }
-        VersionInfo versionInfo = versionService.checkVersion(mobile);
-        return SUCCESS_MESSAGE(versionInfo);
+        versionService.insert(versionInfo);
+        return SUCCESS_MESSAGE();
+    }
+
+    @OperLog(operationModel = "版本管理", operationDesc = "修改应用版本", operationType = OperationConst.UPDATE)
+    @PostMapping(value = "/update")
+    public Result update(@Valid VersionInfo versionInfo, BindingResult result){
+        if (result.hasErrors()) {
+            return new Result(500, result.getFieldError().getDefaultMessage());
+        }
+        versionService.updateById(versionInfo);
+        return SUCCESS_MESSAGE();
+    }
+
+    @OperLog(operationModel = "版本管理", operationDesc = "删除应用版本", operationType = OperationConst.DELETE)
+    @PostMapping(value = "/delete")
+    public Result delete(Long id){
+        versionService.deleteById(id);
+        return SUCCESS_MESSAGE();
     }
 }

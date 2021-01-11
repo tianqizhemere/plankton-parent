@@ -1,55 +1,161 @@
 package top.tianqi.plankton.common;
 
+import org.apache.http.HttpStatus;
+import top.tianqi.plankton.common.status.ErrorStateEnum;
+
+import java.util.HashMap;
+
 /**
  * 返回数据格式
  * @author Wukh
  * @create 2021-01-08
  */
-public class Result<T> {
+public class Result extends HashMap<String, Object> {
 
-    /** 错误码. */
-    private Integer code;
+    private static final long serialVersionUID = -3990768377677695712L;
+    /**
+     * 状态码
+     */
+    private static final String CODE_TAG = "code";
 
-    /** 提示信息. */
-    private String msg;
+    /**
+     * 返回内容
+     */
+    private static final String MSG_TAG = "msg";
 
-    /** 具体的内容. */
-    private T data;
+    /**
+     * 数据对象
+     */
+    private static final String DATA_TAG = "data";
 
-    public Result(){
+    /**
+     * 初始化一个新创建的 Result 对象，使其表示一个空消息。
+     */
+    public Result() {
     }
 
-    public Result(Integer code, String msg) {
-        this.code = code;
-        this.msg = msg;
+    /**
+     * 初始化一个新创建的 Result 对象
+     *
+     * @param code 状态码
+     * @param msg  返回内容
+     */
+    public Result(int code, String msg) {
+        super.put(CODE_TAG, code);
+        super.put(MSG_TAG, msg);
     }
 
-    public Result(Integer code, String msg, T data) {
-        this(code, msg);
-        this.data = data;
+    /**
+     * 初始化一个新创建的 Result 对象
+     *
+     * @param code 状态码
+     * @param msg  返回内容
+     * @param data 数据对象
+     */
+    public Result(int code, String msg, Object data) {
+        super.put(CODE_TAG, code);
+        super.put(MSG_TAG, msg);
+        if (data != null) {
+            super.put(DATA_TAG, data);
+        }
     }
 
-    public Integer getCode() {
-        return code;
+    /**
+     * 返回成功消息
+     *
+     * @return 成功消息
+     */
+    public static Result success() {
+        return Result.success("操作成功");
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    /**
+     * 返回成功数据
+     *
+     * @return 成功消息
+     */
+    public static Result success(Object data) {
+        return Result.success("操作成功", data);
     }
 
-    public String getMsg() {
-        return msg;
+    /**
+     * 返回成功消息
+     *
+     * @param msg 返回内容
+     * @return 成功消息
+     */
+    public static Result success(String msg) {
+        return Result.success(msg, null);
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    /**
+     * 返回成功消息
+     *
+     * @param msg  返回内容
+     * @param data 数据对象
+     * @return 成功消息
+     */
+    public static Result success(String msg, Object data) {
+        return new Result(HttpStatus.SC_OK, msg, data);
     }
 
-    public T getData() {
-        return data;
+    /**
+     * 返回错误消息
+     */
+    public static Result error() {
+        return Result.error("操作失败");
     }
 
-    public void setData(T data) {
-        this.data = data;
+    /**
+     * 返回错误消息
+     *
+     * @param msg 返回内容
+     * @return 警告消息
+     */
+    public static Result error(String msg) {
+        return Result.error(msg, null);
+    }
+
+    /**
+     * 返回错误消息
+     *
+     * @param msg  返回内容
+     * @param data 数据对象
+     * @return 警告消息
+     */
+    public static Result error(String msg, Object data) {
+        return new Result(HttpStatus.SC_INTERNAL_SERVER_ERROR, msg, data);
+    }
+
+    /**
+     * 返回错误消息
+     *
+     * @param code 状态码
+     * @param msg  返回内容
+     * @return 警告消息
+     */
+    public static Result error(int code, String msg) {
+        return new Result(code, msg, null);
+    }
+
+    /**
+     * 返回错误消息
+     *
+     * @param errorState  错误信息枚举类
+     * @return 警告消息
+     */
+    public static Result error(ErrorStateEnum errorState) {
+        return Result.error(errorState.getCode(), errorState.getMsg());
+    }
+
+    /**
+     * 返回错误消息
+     *
+     * @param errorState  错误信息枚举类
+     * @param data  返回内容
+     * @return 警告消息
+     */
+    public static Result error(ErrorStateEnum errorState, Object data) {
+        return new Result(errorState.getCode(), errorState.getMsg(), data);
     }
 }

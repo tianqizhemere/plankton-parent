@@ -1,7 +1,6 @@
 package top.tianqi.plankton.system.service;
 
 import top.tianqi.plankton.base.service.BaseService;
-import top.tianqi.plankton.system.entity.Mobile;
 import top.tianqi.plankton.system.entity.VersionInfo;
 
 /**
@@ -13,8 +12,10 @@ public interface VersionService extends BaseService<VersionInfo> {
 
     /**
      * 检查应用版本
-     * @param mobile 手机版本信息
+     * @param model 手机型号
+     * @param currentVersion 当前版本
      * @return VersionInfo更新信息
+     * @throws Exception e
      */
-    VersionInfo checkVersion(Mobile mobile) throws Exception;
+    VersionInfo checkVersion(String currentVersion, String model) throws Exception;
 }

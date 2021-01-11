@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.tianqi.plankton.base.service.impl.BaseServiceImpl;
-import top.tianqi.plankton.system.entity.Mobile;
 import top.tianqi.plankton.system.entity.VersionInfo;
 import top.tianqi.plankton.system.mapper.VersionDao;
 import top.tianqi.plankton.system.service.VersionService;
@@ -25,17 +24,18 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionDao, VersionInfo>
     private VersionDao versionDao;
 
     @Override
-    public VersionInfo checkVersion(Mobile mobile) throws Exception {
+    public VersionInfo checkVersion(String currentVersion, String model) throws Exception {
 
-        Map<String, Object> paramMap = new HashMap<>();
+        Map<String, Object> paramMap = new HashMap<>(3);
         paramMap.put("type", 1);
+        paramMap.put("model", model);
         List<VersionInfo> versionInfos = versionDao.selectByMap(paramMap);
         if (!CollectionUtils.isEmpty(versionInfos)) {
             VersionInfo versionInfo = versionInfos.get(0);
-            if (mobile.getVersionCode() != null) {
-                int result = compareVersion(mobile.getVersionCode(), versionInfo.getVersionCode());
+            if (currentVersion != null) {
+                int result = compareVersion(currentVersion, versionInfo.getVersionCode());
                 if (result < 1) {
-
+                    return versionInfo;
                 }
             }
         }

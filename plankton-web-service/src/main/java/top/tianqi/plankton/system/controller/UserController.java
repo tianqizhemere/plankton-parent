@@ -20,7 +20,7 @@ public class UserController extends BaseController {
      * 加载用户列表
      * @return Message 前端提示信息
      */
-    @OperLog(operationModel = "用户管理", operationDesc = OperationConst.SELECT, operationType = "查询用户列表")
+    @OperLog(operationModel = "用户管理", operationDesc = "查询用户列表", operationType = OperationConst.SELECT)
     @GetMapping(value = "/list")
     public Result list(){
         return SUCCESS_MESSAGE();

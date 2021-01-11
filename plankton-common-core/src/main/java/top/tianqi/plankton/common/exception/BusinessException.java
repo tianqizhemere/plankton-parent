@@ -1,6 +1,6 @@
 package top.tianqi.plankton.common.exception;
 
-import top.tianqi.plankton.common.status.StatusInfoEnum;
+import top.tianqi.plankton.common.status.ErrorStateEnum;
 
 /**
  * 自定义业务异常
@@ -35,8 +35,8 @@ public class BusinessException extends RuntimeException {
      *
      * @param o StatusInfoEnum枚举类
      */
-    public BusinessException(StatusInfoEnum o) {
-        super(o.getMessage());
+    public BusinessException(ErrorStateEnum o) {
+        super(o.getMsg());
         this.setErrorCode(o.getCode());
     }
 

@@ -21,15 +21,11 @@ public class BaseController {
 
     /**
      * 成功信息
-     * @param object 返回对象
+     * @param data 返回对象
      * @return
      */
-    protected static Result SUCCESS_MESSAGE(Object object) {
-        Result result = new Result();
-        result.setCode(0);
-        result.setMsg("操作成功");
-        result.setData(object);
-        return result;
+    protected static Result SUCCESS_MESSAGE(Object data) {
+        return Result.success("操作成功", data);
     }
 
     protected static Result SUCCESS_MESSAGE() {
@@ -38,15 +34,19 @@ public class BaseController {
 
     /**
      * 错误信息
-     * @param code
      * @param msg
      * @return
      */
-    protected static Result ERROR_MESSAGE(Integer code, String msg) {
-        Result result = new Result();
-        result.setCode(code);
-        result.setMsg(msg);
-        return result;
+    protected static Result ERROR_MESSAGE(String msg) {
+        return Result.error(msg);
+    }
+
+    /**
+     * 错误信息
+     * @return
+     */
+    protected static Result ERROR_MESSAGE() {
+        return Result.error();
     }
 
 }

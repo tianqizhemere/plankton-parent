@@ -8,11 +8,12 @@ CREATE TABLE version_upgrade (
     type int(11)  DEFAULT NULL COMMENT '是否升级 1升级，0不升级，2强制升级',
     download_url varchar(255) DEFAULT NULL COMMENT '下载路径',
     version_desc varchar(255) DEFAULT NULL COMMENT '升级提示',
+    model varchar(255) DEFAULT NULL COMMENT '手机型号',
     status int(11) DEFAULT NULL COMMENT '0-停用，1-启用',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
-insert into version_upgrade values(1, '2020-1-8 20:20:21', '2020-1-8 20:20:21', 'v1.0', '0', 'http://ip:8080/upload/file/aaaa.apk', '1.基于官方最新OneUI3.0\n2.更清晰、更简洁',1)
+insert into version_upgrade values(1, '2020-1-8 20:20:21', '2020-1-8 20:20:21', 'v1.0', '0', 'http://ip:8080/upload/file/aaaa.apk', '1.基于官方最新OneUI3.0\n2.更清晰、更简洁','G9880',1)
 
 -- 操作日志
 drop table if exists operation_log;

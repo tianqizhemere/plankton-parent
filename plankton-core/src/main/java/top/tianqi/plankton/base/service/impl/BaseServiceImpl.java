@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.apache.shiro.SecurityUtils;
 import top.tianqi.plankton.base.service.BaseService;
 import top.tianqi.plankton.common.exception.BusinessException;
-import top.tianqi.plankton.common.status.StatusInfoEnum;
+import top.tianqi.plankton.common.status.ErrorStateEnum;
 import top.tianqi.plankton.system.entity.User;
 
 /**
@@ -19,7 +19,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
     public User getCurrentUser() {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         if (user == null) {
-            throw new BusinessException(StatusInfoEnum.REQUEST_UNAUTHC_EXCEPTION);
+            throw new BusinessException(ErrorStateEnum.REQUEST_UNAUTHC_EXCEPTION);
         }
         return user;
     }
