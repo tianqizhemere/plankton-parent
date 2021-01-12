@@ -1,6 +1,7 @@
 package top.tianqi.plankton.system.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import top.tianqi.plankton.system.entity.User;
 
 /**
@@ -15,6 +16,6 @@ public interface UserDao extends BaseMapper<User> {
      * @param imel 会员编号
      * @return user
      */
-    User findUser(String imel);
+    User findUser(@Param("imel") String imel);
 
 }
