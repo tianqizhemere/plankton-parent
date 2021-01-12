@@ -17,6 +17,7 @@ import top.tianqi.plankton.common.shiro.MyShiroRealm;
 import top.tianqi.plankton.common.shiro.ShiroLoginFilter;
 import top.tianqi.plankton.common.shiro.ShiroPermsFilter;
 import top.tianqi.plankton.common.shiro.ShiroSessionManager;
+import top.tianqi.plankton.common.shiro.filter.JwtFilter;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
@@ -64,6 +65,7 @@ public class ShiroConfig {
         filtersMap.put("ShiroLoginFilter", shiroLoginFilter());
         filtersMap.put("ShiroPermsFilter", shiroPermsFilter());
 
+        filtersMap.put("jwt", new JwtFilter());
         factory.setFilters(filtersMap);
 
         // 设置过滤链

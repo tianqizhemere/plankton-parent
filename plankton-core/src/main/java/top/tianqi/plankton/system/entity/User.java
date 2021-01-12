@@ -1,6 +1,5 @@
 package top.tianqi.plankton.system.entity;
 
-import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
 
@@ -14,22 +13,51 @@ public class User extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 用户名
-     */
-    @TableField("user_name")
-    private String userName;
-    /**
-     * 用户密码
-     */
+    /** 手机型号 */
+    private String model;
+
+    /** 会员编号(设备识别号) */
+    private String imel;
+
+    /** 版本编号 */
+    private String versionCode;
+
+    /** 密码 */
     private String password;
 
-    public String getUserName() {
-        return userName;
+    /** 下载次数 */
+    private Integer uploadCounter = 2;
+
+    public String getModel() {
+        return model;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getImel() {
+        return imel;
+    }
+
+    public void setImel(String imel) {
+        this.imel = imel;
+    }
+
+    public String getVersionCode() {
+        return versionCode;
+    }
+
+    public void setVersionCode(String versionCode) {
+        this.versionCode = versionCode;
+    }
+
+    public Integer getUploadCounter() {
+        return uploadCounter;
+    }
+
+    public void setUploadCounter(Integer uploadCounter) {
+        this.uploadCounter = uploadCounter;
     }
 
     public String getPassword() {

@@ -9,4 +9,12 @@ import top.tianqi.plankton.system.entity.User;
  * @create 2021-01-04
  */
 public interface UserDao extends BaseMapper<User> {
+
+    /**
+     * 根据ieml获取用户信息
+     * @param imel 会员编号
+     * @return user
+     */
+    User findUser(String imel);
+
 }

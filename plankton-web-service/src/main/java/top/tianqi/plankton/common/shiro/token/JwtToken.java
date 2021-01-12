@@ -3,6 +3,7 @@ package top.tianqi.plankton.common.shiro.token;
 import org.apache.shiro.authc.AuthenticationToken;
 
 /**
+ * jwtToken
  * @author Wukh
  * @create 2021-01-10
  */
@@ -10,6 +11,7 @@ public class JwtToken implements AuthenticationToken {
 
     private static final long serialVersionUID = -7505098618144167329L;
 
+    /** 密码 */
     private String token;
 
     public JwtToken(String token) {

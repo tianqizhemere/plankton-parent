@@ -1,14 +1,15 @@
 package top.tianqi.plankton.common.shiro;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
+import top.tianqi.plankton.common.shiro.token.JwtUtil;
 import top.tianqi.plankton.system.entity.Auth;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.AuthService;
@@ -39,18 +40,21 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
             throws AuthenticationException {
-        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
-        String userName = token.getUsername();
-        if (StringUtils.isEmpty(userName)) {
-            return null;
+        String token = (String) authenticationToken.getCredentials();
+        // 解密获得ieml，用于和数据库进行对比
+        String imel = JwtUtil.getImel(token);
+        if (imel == null) {
+            throw new AuthenticationException("token 无效！");
         }
-        // 获取用户信息
-        User user = null;
-        // 注入凭证校验,userName 作为盐
-        ByteSource salt = ByteSource.Util.bytes(user.getUserName());
-        // 注入凭证匹配器.进行 md5 校验
-        AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user, user.getPassword(), salt, getName());
-        return authcInfo;
+        User user = userService.getUser(imel);
+        if (user == null) {
+            throw new AuthenticationException("ieml:"+imel+"不存在") ;
+        }
+//
+//        if (!JWTUtil.verify(token, username, user.getPassword())) {
+//            throw new AuthenticationException("账户密码错误!");
+//        }
+        return new SimpleAuthenticationInfo(token, token, "my_realm");
     }
 
     /**

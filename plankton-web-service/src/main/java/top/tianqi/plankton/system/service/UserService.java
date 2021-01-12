@@ -21,17 +21,17 @@ public interface UserService extends BaseService<User> {
     Boolean userLogin(String userName, String password);
 
     /**
-     * 获取当前用户
-     *
-     * @return
-     */
-    User getCurrentUser();
-
-    /**
      * 获取所有用户信息
      *
      * @param request
      * @return
      */
     Page<User> listUserPage(Page<User> request);
+
+    /**
+     * 根据ieml获取user
+     * @param imel 会员编号
+     * @return
+     */
+    User getUser(String imel);
 }

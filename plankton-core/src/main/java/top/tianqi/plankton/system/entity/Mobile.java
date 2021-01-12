@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.entity;
 
+import com.baomidou.mybatisplus.annotations.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
 
 /**
@@ -7,6 +8,7 @@ import top.tianqi.plankton.base.entity.BaseEntity;
  * @author Wukh
  * @create 2021-01-08
  */
+@TableName(value = "mobile")
 public class Mobile extends BaseEntity {
     private static final long serialVersionUID = -5353397178787186262L;
     
