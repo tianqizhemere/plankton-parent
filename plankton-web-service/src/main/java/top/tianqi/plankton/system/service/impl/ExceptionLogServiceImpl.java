@@ -12,5 +12,5 @@ import top.tianqi.plankton.system.service.ExceptionLogService;
  * @create 2021-01-08
  */
 @Service(value = "exceptionLogServiceImpl")
-public class ExceptionLogServiceImplImpl extends BaseServiceImpl<ExceptionLogDao, ExceptionLog> implements ExceptionLogService {
+public class ExceptionLogServiceImpl extends BaseServiceImpl<ExceptionLogDao, ExceptionLog> implements ExceptionLogService {
 }

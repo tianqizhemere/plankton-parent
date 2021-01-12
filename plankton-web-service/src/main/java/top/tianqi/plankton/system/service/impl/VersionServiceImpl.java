@@ -4,10 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.tianqi.plankton.base.service.impl.BaseServiceImpl;
+import top.tianqi.plankton.system.entity.Attach;
 import top.tianqi.plankton.system.entity.VersionInfo;
+import top.tianqi.plankton.system.enumeration.AttachDataTypeEnum;
+import top.tianqi.plankton.system.mapper.AttachDao;
 import top.tianqi.plankton.system.mapper.VersionDao;
+import top.tianqi.plankton.system.service.AttachService;
 import top.tianqi.plankton.system.service.VersionService;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +28,14 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionDao, VersionInfo>
     @Autowired
     private VersionDao versionDao;
 
+    @Autowired
+    private AttachDao attachDao;
+
+    @Resource(name = "attachServiceImpl")
+    private AttachService attachService;
+
     @Override
     public VersionInfo checkVersion(String currentVersion, String model) throws Exception {
-
         Map<String, Object> paramMap = new HashMap<>(3);
         paramMap.put("type", 1);
         paramMap.put("model", model);
@@ -35,11 +45,31 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionDao, VersionInfo>
             if (currentVersion != null) {
                 int result = compareVersion(currentVersion, versionInfo.getVersionCode());
                 if (result < 1) {
+                    List<Attach> fileList = attachService.getFileList(versionInfo.getId(), AttachDataTypeEnum.value(model));
+                    if (!CollectionUtils.isEmpty(fileList)) {
+                        Attach attach = fileList.get(0);
+                        versionInfo.setDownloadUrl(attach.getPath());
+                    }
                     return versionInfo;
                 }
             }
         }
         return new VersionInfo();
+    }
+
+    @Override
+    public boolean insert(VersionInfo versionInfo) {
+        boolean result = super.insert(versionInfo);
+        if (versionInfo.getAttachId() != null) {
+            for (String attachId : versionInfo.getAttachId().split(",")) {
+                Attach attach = attachDao.selectById(new Long(attachId));
+                if (attach != null) {
+                    attach.setRecordId(versionInfo.getId());
+                    attachDao.updateById(attach);
+                }
+            }
+        }
+        return result;
     }
 
     /**

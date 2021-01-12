@@ -2,10 +2,7 @@ package top.tianqi.plankton.system.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.BaseController;
@@ -43,7 +40,7 @@ public class VersionController extends BaseController {
      */
     @OperLog(operationModel = "版本管理", operationDesc = "检测应用版本", operationType = OperationConst.SELECT)
     @GetMapping(value = "/checkVersion")
-    public Result checkVersion(String currentVersion, String model) throws Exception {
+    public Result checkVersion(@RequestParam("v") String currentVersion, String model) throws Exception {
         VersionInfo versionInfo = versionService.checkVersion(currentVersion, model);
         return SUCCESS_MESSAGE(versionInfo);
     }

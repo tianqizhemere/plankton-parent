@@ -24,8 +24,8 @@ CREATE TABLE operation_log (
     model varchar(50) DEFAULT NULL COMMENT '功能模块',
     type varchar(50) DEFAULT NULL COMMENT '操作类型',
     operation_desc varchar(50) DEFAULT NULL COMMENT '操作描述',
-    request_param varchar(100) DEFAULT NULL COMMENT '请求参数',
-    response_param varchar(50) DEFAULT NULL COMMENT '响应参数',
+    request_param varchar(500) DEFAULT NULL COMMENT '请求参数',
+    response_param varchar(250) DEFAULT NULL COMMENT '响应参数',
     user_id int(11) DEFAULT NULL COMMENT '用户id',
     username varchar(50)  DEFAULT NULL COMMENT '用户名',
     ip varchar(50)  DEFAULT NULL COMMENT '请求ip',
@@ -42,11 +42,29 @@ CREATE TABLE exception_log (
     modify_time datetime NOT NULL,
     message varchar(50) DEFAULT NULL COMMENT '异常信息',
     name varchar(50) DEFAULT NULL COMMENT '异常名称',
-    request_param varchar(100) DEFAULT NULL COMMENT '请求参数',
+    request_param varchar(500) DEFAULT NULL COMMENT '请求参数',
     user_id int(11) DEFAULT NULL COMMENT '用户id',
     username varchar(50)  DEFAULT NULL COMMENT '用户名',
     ip varchar(50)  DEFAULT NULL COMMENT '请求ip',
     uri varchar(50) DEFAULT NULL COMMENT 'uri',
-    method varchar(200) DEFAULT NULL COMMENT '操作方法',
+    method text DEFAULT NULL COMMENT '操作方法',
     PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- 附件
+DROP TABLE IF EXISTS attach;
+CREATE TABLE attach (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  create_time datetime NOT NULL,
+  modify_time datetime NOT NULL,
+  data_type int(11) DEFAULT NULL,
+  ext varchar(50) DEFAULT NULL,
+  file_name varchar(50) DEFAULT NULL,
+  file_size int(11) DEFAULT NULL,
+  file_type varchar(50) DEFAULT NULL,
+  mime varchar(50) DEFAULT NULL,
+  original_name varchar(50) DEFAULT NULL,
+  path varchar(500) DEFAULT NULL,
+  record_id bigint(20) DEFAULT NULL,
+  PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;

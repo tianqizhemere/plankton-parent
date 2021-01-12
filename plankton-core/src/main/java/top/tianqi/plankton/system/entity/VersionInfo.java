@@ -15,20 +15,30 @@ import javax.validation.constraints.NotBlank;
 public class VersionInfo extends BaseEntity {
 
     private static final long serialVersionUID = 3577514419817872789L;
+
     /** 版本编号 */
     private String versionCode;
+
     /** 下载路径 */
     private String downloadUrl;
+
     /** 版本描述 */
     private String versionDesc;
+
     /** 手机型号 */
     @NotBlank(message = "手机型号不能为空")
     private String model;
+
     /** 是否有更新 0:无更新，1：有更新*/
     @TableField(exist = false)
     private Integer isUpdate = 0;
+
     /** 是否升级 1升级，0不升级'*/
-    private Integer type;
+    private Integer type = 1;
+
+    /** 附件id */
+    @TableField(exist = false)
+    private String attachId;
 
     public String getVersionCode() {
         return versionCode;
@@ -76,5 +86,13 @@ public class VersionInfo extends BaseEntity {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public String getAttachId() {
+        return attachId;
+    }
+
+    public void setAttachId(String attachId) {
+        this.attachId = attachId;
     }
 }
