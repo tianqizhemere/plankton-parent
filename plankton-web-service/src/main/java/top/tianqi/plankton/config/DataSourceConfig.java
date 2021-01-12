@@ -54,7 +54,7 @@ public class DataSourceConfig {
         factoryBean.setDataSource(dataSource);
         factoryBean.setMapperLocations(
                 new PathMatchingResourcePatternResolver().getResources(ResourceUtils.CLASSPATH_URL_PREFIX
-                        + "top/tianqi/plankton/*/mapper/*Mapper.xml"));
+                        + "top/tianqi/plankton/*/mapper/*Dao.xml"));
         factoryBean.setTypeAliasesPackage("top.tianqi.plankton.*.entity");
         factoryBean.setPlugins(new Interceptor[] { paginationInterceptor(),
                 optimisticLockerInterceptor(), sqlExplainInterceptor(), performanceInterceptor()});
