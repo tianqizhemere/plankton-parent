@@ -24,7 +24,7 @@ public class VersionInfo extends BaseEntity {
     /** 手机型号 */
     @NotBlank(message = "手机型号不能为空")
     private String model;
-    /** 是否有更新 */
+    /** 是否有更新 0:无更新，1：有更新*/
     @TableField(exist = false)
     private Integer isUpdate = 0;
     /** 是否升级 1升级，0不升级'*/
