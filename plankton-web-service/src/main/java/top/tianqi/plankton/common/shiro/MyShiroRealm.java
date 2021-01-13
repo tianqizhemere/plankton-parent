@@ -49,7 +49,7 @@ public class MyShiroRealm extends AuthorizingRealm {
             throw new AuthenticationException("ieml:"+imel+"不存在") ;
         }
         if (Objects.equals(user.getIsEnable(), 0)){
-            throw new LockedAccountException("账号已被禁用");
+            throw new AuthenticationException("账号已被禁用,请联系管理员!");
         }
 //
 //        if (!JWTUtil.verify(token, username, user.getPassword())) {
@@ -74,7 +74,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         // 构造权限
         for (Auth auth : authList) {
-            authorizationInfo.addStringPermission(auth.getAuthName());
+            authorizationInfo.addStringPermission(auth.getName());
         }
         return authorizationInfo;
     }

@@ -23,6 +23,13 @@ public class JwtUtil {
 
     public static final String TOKEN_KEY = "imel";
 
+    /**
+     * 校验
+     * @param token
+     * @param username
+     * @param secret
+     * @return
+     */
     public static boolean verify(String token, String username, String secret) {
         try {
             Algorithm algorithm = Algorithm.HMAC512(secret);

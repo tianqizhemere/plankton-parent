@@ -1,12 +1,7 @@
 package top.tianqi.plankton.system.entity;
 
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
-
-import java.io.Serializable;
+import top.tianqi.plankton.base.entity.BaseEntity;
 
 /**
  * 用户-角色中间表
@@ -14,38 +9,18 @@ import java.io.Serializable;
  * @create 2021-01-04
  */
 @TableName("user_role")
-public class UserRole extends Model<UserRole> {
+public class UserRole extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键 id
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
-    /**
      * 用户 id
      */
-    @TableField("user_id")
     private Long userId;
     /**
      * 角色 id
      */
-    @TableField("role_id")
-    private Integer roleId;
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Long roleId;
 
     public Long getUserId() {
         return userId;
@@ -55,11 +30,11 @@ public class UserRole extends Model<UserRole> {
         this.userId = userId;
     }
 
-    public Integer getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Integer roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 }

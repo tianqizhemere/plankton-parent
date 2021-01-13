@@ -1,63 +1,25 @@
 package top.tianqi.plankton.system.entity;
 
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
-
-import java.io.Serializable;
+import top.tianqi.plankton.base.entity.BaseEntity;
 
 /**
- * 用户角色
+ * 角色
  * @author Wukh
  * @create 2021-01-04
  */
 @TableName("role")
-public class Role extends Model<Role> {
+public class Role extends BaseEntity {
 
-    /**
-     * 主键 id
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
-    /**
-     * 用户 id
-     */
-    @TableField("user_id")
-    private Long userId;
-    /**
-     * 角色 id
-     */
-    @TableField("role_id")
-    private Integer roleId;
+    private static final long serialVersionUID = -2149389089173706205L;
+    /** 角色名称 */
+    private String name;
 
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
+    public String getName() {
+        return name;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public void setName(String name) {
+        this.name = name;
     }
 }
