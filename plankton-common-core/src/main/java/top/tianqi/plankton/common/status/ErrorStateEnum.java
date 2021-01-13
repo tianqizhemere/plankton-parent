@@ -31,7 +31,10 @@ public enum ErrorStateEnum {
     // 接口请求限制
     REQUEST_LIMIT(1009, "请求频繁,请稍后重试"),
     // refreshToken无效
-    REFRESH_TOKEN_INVALID(1010, "认证过期,请重新登录");
+    REFRESH_TOKEN_INVALID(1010, "认证过期,请重新登录"),
+    // ieml不存在
+    IEML_NOT_EXIST(1004, "ieml不存在");
+
     /**
      * 状态码
      */

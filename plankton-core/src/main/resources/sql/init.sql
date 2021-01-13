@@ -82,3 +82,5 @@ CREATE TABLE user (
   upload_counter int(11) NOT NULL COMMENT '下载次数',
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+insert into user values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 'N9877', '9527', '123456', '1.1', 2);

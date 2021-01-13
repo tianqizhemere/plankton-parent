@@ -2,9 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="top.tianqi.plankton.system.mapper.UserDao">
     <select id="findUser" resultType="top.tianqi.plankton.system.entity.User">
-        select * from user where
-        <if test="imel != null">
-            ieml = #{imel}
-        </if>
+        select u.* from user u
+        <where>
+            <if test="imel != null">
+                u.imel = #{imel}
+            </if>
+        </where>
+
     </select>
 </mapper>

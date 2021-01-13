@@ -47,8 +47,8 @@ public class UserController extends BaseController {
         if (user == null) {
             throw new BusinessException("登录失败，ieml不存在或错误");
         }
-        String token = JwtUtil.sign(ieml, user.getVersionCode());
-        return Result.success(token);
+        String token = JwtUtil.sign(ieml, user.getModel());
+        return Result.success("登录成功", token);
     }
 
     /**

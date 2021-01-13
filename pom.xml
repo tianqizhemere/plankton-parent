@@ -26,7 +26,7 @@
         <mybatis.version>2.1.2</mybatis.version>
         <jackson.version>2.9.2</jackson.version>
         <mybatis.plus.version>2.3.1</mybatis.plus.version>
-        <shiro.redis>2.4.2.1-RELEASE</shiro.redis>
+        <shiro.redis>2.8.24</shiro.redis>
         <druid.version>1.1.10</druid.version>
     </properties>
 
