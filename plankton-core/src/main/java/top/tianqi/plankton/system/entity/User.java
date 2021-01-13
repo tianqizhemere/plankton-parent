@@ -3,6 +3,8 @@ package top.tianqi.plankton.system.entity;
 import com.baomidou.mybatisplus.annotations.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * 用户实体
  * @author Wukh
@@ -17,6 +19,7 @@ public class User extends BaseEntity {
     private String model;
 
     /** 会员编号(设备识别号) */
+    @NotBlank(message = "imel码不能为空")
     private String imel;
 
     /** 版本编号 */

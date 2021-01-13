@@ -1,6 +1,7 @@
 package top.tianqi.plankton.system.service.impl;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.tianqi.plankton.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.Auth;
@@ -17,9 +18,13 @@ import java.util.List;
  */
 @Service(value = "authServiceImpl")
 public class AuthServiceImpl extends BaseServiceImpl<AuthDao, Auth> implements AuthService {
+
+    @Autowired
+    private AuthDao authDao;
+
     @Override
-    public List<Auth> getUserAuthListById(Long id) {
-        return null;
+    public List<Auth> getUserAuthListById(Long userId) {
+        return authDao.findListByUserId(userId);
     }
 
     @Override

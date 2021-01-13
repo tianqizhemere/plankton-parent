@@ -1,11 +1,18 @@
 package top.tianqi.plankton.common.shiro;
 
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.shiro.token.JwtUtil;
 import top.tianqi.plankton.system.entity.Auth;
 import top.tianqi.plankton.system.entity.User;
@@ -13,7 +20,6 @@ import top.tianqi.plankton.system.service.AuthService;
 import top.tianqi.plankton.system.service.UserService;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 自定义 realm
@@ -21,6 +27,8 @@ import java.util.Objects;
  * @create 2021-01-04
  */
 public class MyShiroRealm extends AuthorizingRealm {
+
+    private static final Logger log = LoggerFactory.getLogger(MyShiroRealm.class);
 
     @Autowired
     private UserService userService;
@@ -48,14 +56,15 @@ public class MyShiroRealm extends AuthorizingRealm {
         if (user == null) {
             throw new AuthenticationException("ieml:"+imel+"不存在") ;
         }
-        if (Objects.equals(user.getIsEnable(), 0)){
+        if (Constant.USER_FREEZE.equals(user.getIsEnable())){
             throw new AuthenticationException("账号已被禁用,请联系管理员!");
         }
 //
 //        if (!JWTUtil.verify(token, username, user.getPassword())) {
 //            throw new AuthenticationException("账户密码错误!");
 //        }
-        return new SimpleAuthenticationInfo(token, user.getModel(), getName());
+        // user对象 token  ByteSource.Util.bytes((盐值)),getName());
+        return new SimpleAuthenticationInfo(user, token, ByteSource.Util.bytes(user.getModel()),getName());
     }
 
     /**
@@ -68,6 +77,10 @@ public class MyShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         // 缓存中取用户信息
         User user = (User) principals.getPrimaryPrincipal();
+        if (user == null) {
+            log.error("授权失败，用户信息为空！！！");
+            return null;
+        }
         // 查询权限
         List<Auth> authList = authService.getUserAuthListById(user.getId());
         // 构造权限后返回

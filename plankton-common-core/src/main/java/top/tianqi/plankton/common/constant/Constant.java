@@ -34,4 +34,14 @@ public class Constant {
      * 两次相同参数的请求，如果间隔时间大于该参数，系统不会认定为重复提交的数据
      */
     public static int FORM_REPEAT_TIME = 10;
+
+    /**
+     * 是否用户已被冻结 1(解冻)正常
+     */
+    public static final Integer USER_UNFREEZE = 1;
+
+    /**
+     * 是否用户已被冻结  0冻结
+     */
+    public static final Integer USER_FREEZE = 0;
 }

@@ -116,8 +116,8 @@ CREATE TABLE user_role (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- 角色权限(关系)表
-DROP TABLE IF EXISTS user_role;
-CREATE TABLE user_role (
+DROP TABLE IF EXISTS role_auth;
+CREATE TABLE role_auth (
   id int(11) NOT NULL AUTO_INCREMENT,
   create_time datetime NOT NULL,
   modify_time datetime NOT NULL,
@@ -128,3 +128,4 @@ CREATE TABLE user_role (
 
 
 insert into user values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 'N9877', '9527', '123456', '1.1', 2);
+insert into role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '超级用户');

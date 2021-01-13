@@ -16,10 +16,10 @@ public interface AuthService extends BaseService<Auth> {
 
     /**
      * 根据用户 id 获取权限
-     * @param id 用户id
+     * @param userId 用户id
      * @return List<Auth> 权限列表
      */
-    List<Auth> getUserAuthListById(Long id);
+    List<Auth> getUserAuthListById(Long userId);
 
     /**
      * 用户登录
