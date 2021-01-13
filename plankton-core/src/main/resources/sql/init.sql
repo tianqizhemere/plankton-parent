@@ -80,6 +80,21 @@ CREATE TABLE user (
   password varchar(50) DEFAULT NULL COMMENT '密码',
   version_code varchar(50) DEFAULT NULL COMMENT '应用版本',
   upload_counter int(11) NOT NULL COMMENT '下载次数',
+  is_enable int(2) DEFAULT 1 comment '0:禁用, 1；启用',
+  PRIMARY KEY (id) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- 角色类
+DROP TABLE IF EXISTS role;
+CREATE TABLE role (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  create_time datetime NOT NULL,
+  modify_time datetime NOT NULL,
+  model varchar(50) NOT NULL COMMENT '手机型号',
+  imel varchar(50) NOT NULL COMMENT '会员编号(设备识别码)',
+  password varchar(50) DEFAULT NULL COMMENT '密码',
+  version_code varchar(50) DEFAULT NULL COMMENT '应用版本',
+  upload_counter int(11) NOT NULL COMMENT '下载次数',
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 

@@ -1,9 +1,6 @@
 package top.tianqi.plankton.common.shiro;
 
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -16,6 +13,7 @@ import top.tianqi.plankton.system.service.AuthService;
 import top.tianqi.plankton.system.service.UserService;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 自定义 realm
@@ -50,11 +48,14 @@ public class MyShiroRealm extends AuthorizingRealm {
         if (user == null) {
             throw new AuthenticationException("ieml:"+imel+"不存在") ;
         }
+        if (Objects.equals(user.getIsEnable(), 0)){
+            throw new LockedAccountException("账号已被禁用");
+        }
 //
 //        if (!JWTUtil.verify(token, username, user.getPassword())) {
 //            throw new AuthenticationException("账户密码错误!");
 //        }
-        return new SimpleAuthenticationInfo(token, token, "my_realm");
+        return new SimpleAuthenticationInfo(token, user.getModel(), getName());
     }
 
     /**

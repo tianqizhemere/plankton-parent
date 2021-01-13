@@ -2,9 +2,11 @@ package top.tianqi.plankton.config;
 
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.mgt.SessionStorageEvaluator;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.mgt.DefaultWebSessionStorageEvaluator;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
@@ -62,26 +64,33 @@ public class ShiroConfig {
 
         LinkedHashMap<String, Filter> filtersMap = new LinkedHashMap<>();
 
-        filtersMap.put("ShiroLoginFilter", shiroLoginFilter());
+//        filtersMap.put("ShiroLoginFilter", shiroLoginFilter());
         filtersMap.put("ShiroPermsFilter", shiroPermsFilter());
-
-        filtersMap.put("jwt", new JwtFilter());
+        filtersMap.put("jwt", jwtFilter());
         factory.setFilters(filtersMap);
 
         // 设置过滤链
         Map<String, String> filterChainMap = new LinkedHashMap<>();
 
-        filterChainMap.put("/user/login", "anon");
-        filterChainMap.put("/user/logout", "anon");
-        filterChainMap.put("/user/**", "authc");
+        filterChainMap.put("/system/user/login", "anon");
+        filterChainMap.put("/system/user/logout", "anon");
+        filterChainMap.put("/system/user/**", "authc");
+        filterChainMap.put("/**", "authc");
+        filterChainMap.put("/**", "jwt");
 
         factory.setFilterChainDefinitionMap(filterChainMap);
 
         // 没有认证用户,shiro 会跳转到登录页面,前后端分离项目后端不控制跳转,跳转到未授权界面,返回 json
-        factory.setLoginUrl("/user/unAuthc");
-        factory.setUnauthorizedUrl("/user/unPerms");
+        factory.setLoginUrl("/system/user/401");
+        factory.setUnauthorizedUrl("/system/user/unPerms");
 
         return factory;
+    }
+
+
+    @Bean
+    public JwtFilter jwtFilter() {
+        return new JwtFilter();
     }
 
     /**
@@ -98,6 +107,17 @@ public class ShiroConfig {
         // 自定义 session 管理
         serurityManeger.setSessionManager(sessionManager());
         return serurityManeger;
+    }
+
+    /**
+     * 禁用session, 不保存用户登录状态。保证每次请求都重新认证。
+     * 需要注意的是，如果用户代码里调用Subject.getSession()还是可以用session，如果要完全禁用，要配合下面的noSessionCreation的Filter来实现
+     */
+    @Bean
+    protected SessionStorageEvaluator sessionStorageEvaluator(){
+        DefaultWebSessionStorageEvaluator sessionStorageEvaluator = new DefaultWebSessionStorageEvaluator();
+        sessionStorageEvaluator.setSessionStorageEnabled(false);
+        return sessionStorageEvaluator;
     }
 
     /**

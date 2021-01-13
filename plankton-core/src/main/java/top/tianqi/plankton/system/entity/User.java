@@ -28,6 +28,8 @@ public class User extends BaseEntity {
     /** 下载次数 */
     private Integer uploadCounter = 2;
 
+    private Integer isEnable;
+
     public String getModel() {
         return model;
     }
@@ -66,5 +68,9 @@ public class User extends BaseEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getIsEnable() {
+        return isEnable;
     }
 }
