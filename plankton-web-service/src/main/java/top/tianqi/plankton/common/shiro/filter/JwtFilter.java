@@ -1,5 +1,6 @@
 package top.tianqi.plankton.common.shiro.filter;
 
+import org.apache.shiro.util.AntPathMatcher;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +24,14 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
 
     public static final String AUTHORIZATION = "Authorization";
 
+//    @Autowired
+//    private RedisUtil redisUtil;
+    private AntPathMatcher antPathMatcher =new AntPathMatcher();
+
     private static final Logger log = LoggerFactory.getLogger(JwtFilter.class);
 
     /**
-     * 判断用户是否想要登入。
+     * 执行登录认证(判断用户是否想要登入)
      * 检测header里面是否包含Authorization字段即可
      */
     @Override
