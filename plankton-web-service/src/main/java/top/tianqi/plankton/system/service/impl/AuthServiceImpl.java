@@ -9,7 +9,9 @@ import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.mapper.AuthDao;
 import top.tianqi.plankton.system.service.AuthService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户权限服务层实现
@@ -23,8 +25,13 @@ public class AuthServiceImpl extends BaseServiceImpl<AuthDao, Auth> implements A
     private AuthDao authDao;
 
     @Override
-    public List<Auth> getUserAuthListById(Long userId) {
-        return authDao.findListByUserId(userId);
+    public Set<String> getUserAuthListById(Long userId) {
+        List<Auth> list = authDao.findListByUserId(userId);
+        Set<String> auths = new HashSet<>();
+        for (Auth auth : list) {
+            auths.add(auth.getCode());
+        }
+        return auths;
     }
 
     @Override

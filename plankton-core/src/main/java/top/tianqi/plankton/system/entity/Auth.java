@@ -12,10 +12,11 @@ import top.tianqi.plankton.base.entity.BaseEntity;
 public class Auth extends BaseEntity  {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 权限名称
-     */
+    /** 权限名称 */
     private String name;
+
+    /** 权限值 */
+    private String code;
 
     public String getName() {
         return name;
@@ -23,5 +24,13 @@ public class Auth extends BaseEntity  {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

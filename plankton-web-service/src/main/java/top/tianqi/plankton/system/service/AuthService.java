@@ -5,7 +5,7 @@ import top.tianqi.plankton.base.service.BaseService;
 import top.tianqi.plankton.system.entity.Auth;
 import top.tianqi.plankton.system.entity.User;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * 用户权限服务层接口
@@ -17,9 +17,9 @@ public interface AuthService extends BaseService<Auth> {
     /**
      * 根据用户 id 获取权限
      * @param userId 用户id
-     * @return List<Auth> 权限列表
+     * @return Set<String> 权限列表
      */
-    List<Auth> getUserAuthListById(Long userId);
+    Set<String> getUserAuthListById(Long userId);
 
     /**
      * 用户登录

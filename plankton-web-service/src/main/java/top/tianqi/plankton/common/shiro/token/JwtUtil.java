@@ -25,16 +25,16 @@ public class JwtUtil {
 
     /**
      * 校验
-     * @param token
-     * @param username
+     * @param token 秘钥
+     * @param ieml 移动设备码
      * @param secret
      * @return
      */
-    public static boolean verify(String token, String username, String secret) {
+    public static boolean verify(String token, String ieml, String secret) {
         try {
             Algorithm algorithm = Algorithm.HMAC512(secret);
             JWTVerifier verifier = JWT.require(algorithm)
-                    .withClaim(TOKEN_KEY, username)
+                    .withClaim(TOKEN_KEY, ieml)
                     .build();
             verifier.verify(token);
             return true;
@@ -52,7 +52,7 @@ public class JwtUtil {
     public static String getImel(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
-            return jwt.getClaim(TOKEN_KEY).toString();
+            return jwt.getClaim(TOKEN_KEY).asString();
         } catch (JWTDecodeException e) {
             return null;
         }
@@ -66,12 +66,13 @@ public class JwtUtil {
      * @throws UnsupportedEncodingException
      */
     public static String sign(String ieml, String secret) throws UnsupportedEncodingException {
-        Date date = new Date(System.currentTimeMillis()+EXPRIE_TIME);
+        Date date = new Date(System.currentTimeMillis() + EXPRIE_TIME);
         Algorithm algorithm = Algorithm.HMAC512(secret);
         // 附带ieml信息
         return JWT.create()
                 .withClaim(TOKEN_KEY, ieml)
                 .withExpiresAt(date)
+                // 创建一个新的JWT，并使用给定的算法进行标记
                 .sign(algorithm);
     }
 

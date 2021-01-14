@@ -8,18 +8,19 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import top.tianqi.plankton.common.constant.Constant;
+import top.tianqi.plankton.common.shiro.token.JwtToken;
 import top.tianqi.plankton.common.shiro.token.JwtUtil;
-import top.tianqi.plankton.system.entity.Auth;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.AuthService;
 import top.tianqi.plankton.system.service.UserService;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * 自定义 realm
@@ -35,6 +36,11 @@ public class MyShiroRealm extends AuthorizingRealm {
 
     @Autowired
     private AuthService authService;
+
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof JwtToken;
+    }
 
     /**
      * 认证
@@ -63,8 +69,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 //        if (!JWTUtil.verify(token, username, user.getPassword())) {
 //            throw new AuthenticationException("账户密码错误!");
 //        }
-        // user对象 token  ByteSource.Util.bytes((盐值)),getName());
-        return new SimpleAuthenticationInfo(user, token, ByteSource.Util.bytes(user.getModel()),getName());
+        return new SimpleAuthenticationInfo(token, token, imel);
     }
 
     /**
@@ -76,20 +81,25 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         // 缓存中取用户信息
-        User user = (User) principals.getPrimaryPrincipal();
-        if (user == null) {
-            log.error("授权失败，用户信息为空！！！");
-            return null;
+        String imel = JwtUtil.getImel(principals.toString());
+        System.out.println(imel);
+        if (!StringUtils.isEmpty(imel)) {
+            User user = userService.getUser(imel);
+            if (user == null) {
+                log.error("授权失败，用户信息为空！！！");
+                return null;
+            }
+            // 查询权限
+            Set<String> auths = authService.getUserAuthListById(user.getId());
+            if (!CollectionUtils.isEmpty(auths)){
+                // 构造权限后返回
+                SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+                // 构造权限
+                authorizationInfo.addStringPermissions(auths);
+                return authorizationInfo;
+            }
         }
-        // 查询权限
-        List<Auth> authList = authService.getUserAuthListById(user.getId());
-        // 构造权限后返回
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        // 构造权限
-        for (Auth auth : authList) {
-            authorizationInfo.addStringPermission(auth.getName());
-        }
-        return authorizationInfo;
+        return null;
     }
 }
 

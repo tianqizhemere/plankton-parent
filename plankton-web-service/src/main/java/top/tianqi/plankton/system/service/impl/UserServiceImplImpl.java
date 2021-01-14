@@ -1,6 +1,7 @@
 package top.tianqi.plankton.system.service.impl;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -38,5 +39,18 @@ public class UserServiceImplImpl extends BaseServiceImpl<UserDao, User> implemen
     @Override
     public User getUser(String imel) {
         return userDao.findUser(imel);
+    }
+
+    @Override
+    public boolean insert(User user) {
+        if (user.getPassword() != null) {
+            user.setPassword(DigestUtils.md5Hex(user.getPassword()));
+        }
+       return super.insert(user);
+    }
+
+    public static void main(String[] args) {
+        String s = DigestUtils.md5Hex("123456");
+        System.out.println(s);
     }
 }

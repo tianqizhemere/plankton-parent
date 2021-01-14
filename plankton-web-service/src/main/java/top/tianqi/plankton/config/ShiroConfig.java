@@ -72,17 +72,15 @@ public class ShiroConfig {
         // 设置过滤链
         Map<String, String> filterChainMap = new LinkedHashMap<>();
 
-        filterChainMap.put("/system/user/login", "anon");
-        filterChainMap.put("/system/user/logout", "anon");
-        filterChainMap.put("/system/user/**", "authc");
-        filterChainMap.put("/**", "authc");
+        filterChainMap.put("/login", "anon");
+        filterChainMap.put("/logout", "anon");
         filterChainMap.put("/**", "jwt");
 
         factory.setFilterChainDefinitionMap(filterChainMap);
 
         // 没有认证用户,shiro 会跳转到登录页面,前后端分离项目后端不控制跳转,跳转到未授权界面,返回 json
-        factory.setLoginUrl("/system/user/401");
-        factory.setUnauthorizedUrl("/system/user/unPerms");
+        factory.setLoginUrl("/login");
+        factory.setUnauthorizedUrl("/401");
 
         return factory;
     }
@@ -104,6 +102,8 @@ public class ShiroConfig {
         DefaultWebSecurityManager serurityManeger = new DefaultWebSecurityManager(realm);
         // 自定义缓存实现
         serurityManeger.setCacheManager(cacheManager());
+        // realm
+        serurityManeger.setRealm(realm);
         // 自定义 session 管理
         serurityManeger.setSessionManager(sessionManager());
         return serurityManeger;
@@ -180,11 +180,8 @@ public class ShiroConfig {
      * @return
      */
     @Bean
-    public MyShiroRealm customRealm(HashedCredentialsMatcher credentialsMatcher) {
-        MyShiroRealm realm = new MyShiroRealm();
-        // 注入凭证匹配器
-        realm.setCredentialsMatcher(credentialsMatcher);
-        return realm;
+    public MyShiroRealm customRealm() {
+        return new MyShiroRealm();
     }
 
     /**

@@ -1,5 +1,6 @@
 package top.tianqi.plankton;
 
+import org.apache.shiro.authz.AuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,6 +28,9 @@ public class MyControllerAdvice {
     @ExceptionHandler(value = Exception.class)
     public Result errorHandler(Exception ex) {
         logger.error("未知异常！原因是:",ex);
+        if (ex instanceof AuthorizationException) {
+            return new Result(402, "权限不足");
+        }
         return new Result(-1, "未知错误");
     }
 

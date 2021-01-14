@@ -11,7 +11,7 @@ public class JwtToken implements AuthenticationToken {
 
     private static final long serialVersionUID = -7505098618144167329L;
 
-    /** 密码 */
+    /** 秘钥 */
     private String token;
 
     public JwtToken(String token) {

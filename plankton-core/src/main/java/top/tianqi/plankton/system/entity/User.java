@@ -26,7 +26,7 @@ public class User extends BaseEntity {
     private String versionCode;
 
     /** 密码 */
-    private String password;
+    private String password = "rts123!@#";
 
     /** 下载次数 */
     private Integer uploadCounter = 2;

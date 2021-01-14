@@ -101,6 +101,7 @@ CREATE TABLE auth (
   create_time datetime NOT NULL,
   modify_time datetime NOT NULL,
   name varchar(50) NOT NULL COMMENT '权限名称',
+  code varchar(50) NOT NULL COMMENT '权限值',
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
@@ -129,3 +130,17 @@ CREATE TABLE role_auth (
 
 insert into user values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 'N9877', '9527', '123456', '1.1', 2);
 insert into role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '超级用户');
+-- 系统权限
+insert into auth values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理', 'system:index');
+insert into auth values('2', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理', 'system:version:index');
+insert into auth values('3', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-新增', 'system:version:save');
+insert into auth values('4', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-修改', 'system:version:update');
+insert into auth values('5', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-检查', 'system:version:check');
+
+insert into role_auth values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
+insert into role_auth values('2', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 2);
+insert into role_auth values('3', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 3);
+insert into role_auth values('4', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 4);
+insert into role_auth values('5', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 5);
+
+insert into user_role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
