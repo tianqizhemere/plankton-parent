@@ -16,8 +16,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import top.tianqi.plankton.common.shiro.MyShiroRealm;
-import top.tianqi.plankton.common.shiro.ShiroLoginFilter;
-import top.tianqi.plankton.common.shiro.ShiroPermsFilter;
 import top.tianqi.plankton.common.shiro.ShiroSessionManager;
 import top.tianqi.plankton.common.shiro.filter.JwtFilter;
 
@@ -64,8 +62,6 @@ public class ShiroConfig {
 
         LinkedHashMap<String, Filter> filtersMap = new LinkedHashMap<>();
 
-        //filtersMap.put("ShiroLoginFilter", shiroLoginFilter());
-        //filtersMap.put("ShiroPermsFilter", shiroPermsFilter());
         filtersMap.put("jwt", jwtFilter());
         factory.setFilters(filtersMap);
         // 设置过滤链
@@ -176,27 +172,6 @@ public class ShiroConfig {
         return new MyShiroRealm();
     }
 
-    /**
-     * 自定义认证拦截器
-     *
-     * @return
-     */
-    @Bean(name = "shiroLoginFilter")
-    public ShiroLoginFilter shiroLoginFilter() {
-        ShiroLoginFilter advice = new ShiroLoginFilter();
-        return advice;
-    }
-
-    /**
-     * 自定义授权拦截器
-     *
-     * @return
-     */
-    @Bean(name = "shiroPermsFilter")
-    public ShiroPermsFilter shiroPermsFilter() {
-        ShiroPermsFilter advice = new ShiroPermsFilter();
-        return advice;
-    }
 
     /**
      * 自定义凭证校验

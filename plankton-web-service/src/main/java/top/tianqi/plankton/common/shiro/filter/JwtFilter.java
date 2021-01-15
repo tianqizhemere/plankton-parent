@@ -30,10 +30,11 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(JwtFilter.class);
 
     public static final String AUTHORIZATION = "Authorization";
-    /**
-     * 执行登录认证(判断用户是否想要登入)
-     * 检测header里面是否包含Authorization字段即可
-     */
+
+        /**
+         * 执行登录认证(判断用户是否想要登入)
+         * 检测header里面是否包含Authorization字段即可
+         */
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         HttpServletRequest req = (HttpServletRequest) request;

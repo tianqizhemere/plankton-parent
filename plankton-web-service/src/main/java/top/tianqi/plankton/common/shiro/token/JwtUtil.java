@@ -29,7 +29,7 @@ public class JwtUtil {
     /**
      * 盐
      */
-    private static final String SIGNING_KEY = "secret-token-key";
+    private static final String SECRET_KEY = "secret-token-key";
 
     /**
      * 校验
@@ -39,7 +39,7 @@ public class JwtUtil {
      */
     public static boolean verify(String token, String ieml) {
         try {
-            Algorithm algorithm = Algorithm.HMAC512(SIGNING_KEY);
+            Algorithm algorithm = Algorithm.HMAC512(SECRET_KEY);
             JWTVerifier verifier = JWT.require(algorithm)
                     .withClaim(TOKEN_KEY, ieml)
                     .build();
@@ -73,7 +73,7 @@ public class JwtUtil {
      */
     public static String sign(String ieml) throws UnsupportedEncodingException {
         Date date = new Date(System.currentTimeMillis() + EXPRIE_TIME * 24 * 60 * 60 * 1000);
-        Algorithm algorithm = Algorithm.HMAC512(SIGNING_KEY);
+        Algorithm algorithm = Algorithm.HMAC512(SECRET_KEY);
         // 附带ieml信息
         return JWT.create()
                 .withClaim(TOKEN_KEY, ieml)
