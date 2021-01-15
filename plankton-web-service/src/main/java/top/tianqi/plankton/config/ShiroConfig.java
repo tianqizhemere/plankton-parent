@@ -64,24 +64,16 @@ public class ShiroConfig {
 
         LinkedHashMap<String, Filter> filtersMap = new LinkedHashMap<>();
 
-//        filtersMap.put("ShiroLoginFilter", shiroLoginFilter());
-        filtersMap.put("ShiroPermsFilter", shiroPermsFilter());
+        //filtersMap.put("ShiroLoginFilter", shiroLoginFilter());
+        //filtersMap.put("ShiroPermsFilter", shiroPermsFilter());
         filtersMap.put("jwt", jwtFilter());
         factory.setFilters(filtersMap);
-
         // 设置过滤链
         Map<String, String> filterChainMap = new LinkedHashMap<>();
-
         filterChainMap.put("/login", "anon");
         filterChainMap.put("/logout", "anon");
         filterChainMap.put("/**", "jwt");
-
         factory.setFilterChainDefinitionMap(filterChainMap);
-
-        // 没有认证用户,shiro 会跳转到登录页面,前后端分离项目后端不控制跳转,跳转到未授权界面,返回 json
-        factory.setLoginUrl("/login");
-        factory.setUnauthorizedUrl("/401");
-
         return factory;
     }
 
@@ -145,7 +137,8 @@ public class ShiroConfig {
         redisManager.setPort(port);
         //redisManager.setPassword(password);
         // 配置缓存过期时间
-        redisManager.setExpire(30 * 24 * 60 * 60);
+//        redisManager.setExpire(30 * 24 * 60 * 60);
+        redisManager.setExpire(30);
         redisManager.setTimeout(timeout);
         return redisManager;
     }
@@ -176,7 +169,6 @@ public class ShiroConfig {
     /**
      * 自定义 Realm
      *
-     * @param credentialsMatcher
      * @return
      */
     @Bean

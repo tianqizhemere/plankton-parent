@@ -3,7 +3,7 @@ package top.tianqi.plankton.base.service.impl;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.apache.shiro.SecurityUtils;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import top.tianqi.plankton.base.service.BaseService;
 import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.common.status.ErrorStateEnum;
@@ -14,7 +14,7 @@ import top.tianqi.plankton.system.entity.User;
  * @author Wukh
  * @create 2021-01-04
  */
-@Transactional
+@EnableTransactionManagement
 public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> implements BaseService<T>{
 
     @Override

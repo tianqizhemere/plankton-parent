@@ -1,14 +1,17 @@
 package top.tianqi.plankton.common.shiro.filter;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import org.apache.shiro.ShiroException;
-import org.apache.shiro.util.AntPathMatcher;
+import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMethod;
+import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.shiro.token.JwtToken;
+import top.tianqi.plankton.common.status.ErrorStateEnum;
 
 import javax.servlet.Filter;
 import javax.servlet.ServletRequest;
@@ -24,14 +27,9 @@ import java.io.IOException;
  */
 public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
 
-    public static final String AUTHORIZATION = "Authorization";
-
-//    @Autowired
-//    private RedisUtil redisUtil;
-    private AntPathMatcher antPathMatcher =new AntPathMatcher();
-
     private static final Logger log = LoggerFactory.getLogger(JwtFilter.class);
 
+    public static final String AUTHORIZATION = "Authorization";
     /**
      * 执行登录认证(判断用户是否想要登入)
      * 检测header里面是否包含Authorization字段即可
@@ -57,6 +55,24 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
         getSubject(request, response).login(token);
         // 如果没有抛出异常则代表登入成功，返回true
         return true;
+    }
+
+    @Override
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+        // 获取请求头token
+        AuthenticationToken token = this.createToken(request, response);
+        if (token.getPrincipal() == null) {
+            response401(request,response);
+            return false;
+        } else {
+
+            try {
+                this.getSubject(request, response).login(token);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
     }
 
     /**
@@ -105,8 +121,11 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
     @ExceptionHandler(ShiroException.class)
     private void response401(ServletRequest req, ServletResponse resp) {
         try {
-            HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
-            httpServletResponse.sendRedirect("/401");
+            HttpServletResponse httpResponse = (HttpServletResponse) resp;
+            httpResponse.setStatus(HttpStatus.LENGTH_REQUIRED.value());
+            httpResponse.setContentType("application/json;charset=utf-8");
+            Result result = new Result(ErrorStateEnum.REQUEST_UNAUTHC_EXCEPTION.getCode(),ErrorStateEnum.REQUEST_UNAUTHC_EXCEPTION.getMsg());
+            httpResponse.getWriter().write(JSONUtils.toJSONString(result));
         } catch (IOException e) {
             log.error(e.getMessage());
         }

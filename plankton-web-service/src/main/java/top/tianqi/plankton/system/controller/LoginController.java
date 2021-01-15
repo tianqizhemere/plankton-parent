@@ -47,7 +47,7 @@ public class LoginController extends BaseController {
         }
         // 获取当前用户主体
         Subject subject = SecurityUtils.getSubject();
-        String tokenStr = JwtUtil.sign(ieml, user.getModel());
+        String tokenStr = JwtUtil.sign(ieml);
         try {
             subject.login(new JwtToken(tokenStr));
         } catch (UnknownAccountException e) {

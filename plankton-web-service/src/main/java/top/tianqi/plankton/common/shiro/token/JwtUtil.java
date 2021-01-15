@@ -17,22 +17,29 @@ import java.util.Date;
 public class JwtUtil {
 
     /**
-     * 过期时间24小时
+     * 过期时间1(天)
      */
-    private static final long EXPRIE_TIME = 24 * 60 * 60 * 1000;
+    private static final long EXPRIE_TIME = 1;
 
+    /**
+     * token key
+     */
     public static final String TOKEN_KEY = "imel";
+
+    /**
+     * 盐
+     */
+    private static final String SIGNING_KEY = "secret-token-key";
 
     /**
      * 校验
      * @param token 秘钥
      * @param ieml 移动设备码
-     * @param secret
      * @return
      */
-    public static boolean verify(String token, String ieml, String secret) {
+    public static boolean verify(String token, String ieml) {
         try {
-            Algorithm algorithm = Algorithm.HMAC512(secret);
+            Algorithm algorithm = Algorithm.HMAC512(SIGNING_KEY);
             JWTVerifier verifier = JWT.require(algorithm)
                     .withClaim(TOKEN_KEY, ieml)
                     .build();
@@ -61,13 +68,12 @@ public class JwtUtil {
     /**
      * 生成token
      * @param ieml 设备识别号
-     * @param secret 盐值
      * @return token值
      * @throws UnsupportedEncodingException
      */
-    public static String sign(String ieml, String secret) throws UnsupportedEncodingException {
-        Date date = new Date(System.currentTimeMillis() + EXPRIE_TIME);
-        Algorithm algorithm = Algorithm.HMAC512(secret);
+    public static String sign(String ieml) throws UnsupportedEncodingException {
+        Date date = new Date(System.currentTimeMillis() + EXPRIE_TIME * 24 * 60 * 60 * 1000);
+        Algorithm algorithm = Algorithm.HMAC512(SIGNING_KEY);
         // 附带ieml信息
         return JWT.create()
                 .withClaim(TOKEN_KEY, ieml)
