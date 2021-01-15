@@ -136,11 +136,13 @@ insert into auth values('2', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统
 insert into auth values('3', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-新增', 'system:version:save');
 insert into auth values('4', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-修改', 'system:version:update');
 insert into auth values('5', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-检查', 'system:version:check');
+insert into auth values('6', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-用户管理', 'system:user:index');
 
 insert into role_auth values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
 insert into role_auth values('2', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 2);
 insert into role_auth values('3', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 3);
 insert into role_auth values('4', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 4);
 insert into role_auth values('5', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 5);
+insert into role_auth values('6', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 6);
 
 insert into user_role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);

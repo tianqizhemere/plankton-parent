@@ -42,6 +42,11 @@ public class UserServiceImplImpl extends BaseServiceImpl<UserDao, User> implemen
     }
 
     @Override
+    public Page<User> getPage(String ieml, String username, Page<User> page) {
+        return userDao.findPage(page, ieml, username);
+    }
+
+    @Override
     public boolean insert(User user) {
         if (user.getPassword() != null) {
             user.setPassword(DigestUtils.md5Hex(user.getPassword()));

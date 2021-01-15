@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.controller;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.UserService;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -31,10 +33,11 @@ public class UserController extends BaseController {
      * 加载用户列表
      * @return Result 前端提示信息
      */
-    @RequiresPermissions("system:user")
+    @RequiresPermissions("system:user:index")
     @OperLog(operationModel = "用户管理", operationDesc = "查询用户列表", operationType = OperationConst.SELECT)
     @GetMapping(value = "/list")
-    public Result list(){
+    public Result list(String ieml, String username, Integer pageNo, Integer pageSize, HttpServletRequest request){
+        Page<User> page = userService.getPage(ieml, username, getPage());
         return SUCCESS_MESSAGE();
     }
 

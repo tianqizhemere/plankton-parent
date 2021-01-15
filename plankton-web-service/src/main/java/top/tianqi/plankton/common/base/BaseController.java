@@ -1,7 +1,13 @@
 package top.tianqi.plankton.common.base;
 
+import com.baomidou.mybatisplus.plugins.Page;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import top.tianqi.plankton.base.entity.BaseEntity;
 import top.tianqi.plankton.common.Result;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +24,48 @@ public class BaseController {
         orderTypeMap.put("asc","asc");
         orderTypeMap.put("desc","desc");
     }
+
+    public HttpServletRequest getRequest() {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        return servletRequestAttributes.getRequest();
+    }
+
+    /**
+     * 获取分页对象
+     * @return Page分页对象
+     */
+    public <T extends BaseEntity> Page<T> getPage() {
+        HttpServletRequest request = getRequest();
+        String pageNo = request.getParameter("pageNo");
+        if (StringUtils.isEmpty(pageNo)) {
+            pageNo = "1";
+        }
+        String pageSize = request.getParameter("pageSize");
+        if (StringUtils.isEmpty(pageSize)) {
+            pageSize = "10";
+        }
+        return new Page<>(Integer.parseInt(pageNo), Integer.parseInt(pageSize));
+    }
+
+    /**
+     * 获取分页对象
+     * @param <T> T
+     * @return Page分页对象
+     */
+    public <T extends  BaseEntity> Page<T> getPage(T t) {
+        HttpServletRequest request = getRequest();
+        String pageNo = request.getParameter("pageNo");
+        if (StringUtils.isEmpty(pageNo)) {
+            pageNo = "1";
+        }
+        String pageSize = request.getParameter("pageSize");
+        if (StringUtils.isEmpty(pageSize)) {
+            pageSize = "10";
+        }
+        return new Page<T>(Integer.parseInt(pageNo), Integer.parseInt(pageSize));
+    }
+
+
 
     /**
      * 成功信息

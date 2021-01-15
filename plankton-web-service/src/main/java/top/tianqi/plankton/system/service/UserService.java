@@ -34,4 +34,6 @@ public interface UserService extends BaseService<User> {
      * @return
      */
     User getUser(String imel);
+
+    Page<User> getPage(String ieml, String username, Page<User> page);
 }

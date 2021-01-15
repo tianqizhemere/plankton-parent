@@ -25,6 +25,9 @@ public class User extends BaseEntity {
     /** 版本编号 */
     private String versionCode;
 
+    /** 用户名 */
+    private String username;
+
     /** 密码 */
     private String password = "rts123!@#";
 
@@ -75,5 +78,13 @@ public class User extends BaseEntity {
 
     public Integer getIsEnable() {
         return isEnable;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

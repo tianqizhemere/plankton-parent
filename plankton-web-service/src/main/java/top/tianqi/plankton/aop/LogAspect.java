@@ -14,6 +14,7 @@ import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.utils.JsonUtil;
 import top.tianqi.plankton.system.entity.ExceptionLog;
 import top.tianqi.plankton.system.entity.OperationLog;
+import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.ExceptionLogService;
 import top.tianqi.plankton.system.service.OperationLogService;
 
@@ -38,8 +39,6 @@ public class LogAspect {
 
     @Resource(name = "exceptionLogServiceImpl")
     private ExceptionLogService exceptionLogService;
-
-
 
     /** 设置操作日志切入点 记录操作日志 */
     @Pointcut("@annotation(top.tianqi.plankton.common.annotation.aop.OperLog)")
@@ -98,8 +97,12 @@ public class LogAspect {
 
             operlog.setRequestParam(params);
             operlog.setResponseParam(JsonUtil.toJsonString(keys)); // 返回结果
-            operlog.setUserId(1L);
-            operlog.setUsername("test");
+            User currentUser = sysLogService.getCurrentUser();
+            if (currentUser == null) {
+                currentUser = new User();
+            }
+            operlog.setUserId(currentUser.getId());
+            operlog.setUsername(currentUser.getImel());
             operlog.setIp(SystemUtil.getHostInfo().getAddress()); // 请求IP
             operlog.setUri(request.getRequestURI()); // 请求URI
             operlog.setCreateTime(new Date());
@@ -146,8 +149,12 @@ public class LogAspect {
             excepLog.setMethod(methodName); // 请求方法名
             excepLog.setName(e.getClass().getName()); // 异常名称
             excepLog.setMethod(stackTraceToString(e.getClass().getName(), e.getMessage(), e.getStackTrace())); // 异常信息
-            excepLog.setUserId(1L); // 操作员ID
-            excepLog.setUsername("数据测试"); // 操作员名称
+            User currentUser = sysLogService.getCurrentUser();
+            if (currentUser == null) {
+                currentUser = new User();
+            }
+            excepLog.setUserId(currentUser.getId()); // 操作员ID
+            excepLog.setUsername(currentUser.getImel()); // 操作员名称
             excepLog.setUri(request.getRequestURI()); // 操作URI
             excepLog.setIp(SystemUtil.getHostInfo().getAddress()); // 操作员IP
             excepLog.setCreateTime(new Date()); // 发生异常时间
