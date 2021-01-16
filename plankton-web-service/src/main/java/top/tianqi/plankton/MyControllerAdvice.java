@@ -1,7 +1,6 @@
 package top.tianqi.plankton;
 
 import org.apache.shiro.ShiroException;
-import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +32,7 @@ public class MyControllerAdvice {
     @ExceptionHandler(value = Exception.class)
     public Result errorHandler(Exception ex) {
         logger.error("未知异常！原因是:",ex);
-        if (ex instanceof AuthorizationException) {
-            return new Result(402, "权限不足");
-        }
-        return new Result(-1, "未知错误");
+        return Result.error(-1, "未知错误");
     }
 
     /**
@@ -48,7 +44,7 @@ public class MyControllerAdvice {
     @ExceptionHandler(value = BusinessException.class)
     public Result myErrorHandler(BusinessException ex) {
         logger.error("业务异常", ex);
-        return new Result(ex.getErrorCode(), ex.getMessage());
+        return Result.error(ex.getErrorCode(), ex.getMessage());
     }
 
     /**
@@ -59,7 +55,7 @@ public class MyControllerAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(ShiroException.class)
     public Result handle401(ShiroException e) {
-        return new Result(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):" + e.getMessage(), null);
+        return Result.error(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):" + e.getMessage());
     }
 
     /**
@@ -71,7 +67,7 @@ public class MyControllerAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthenticatedException.class)
     public Result handle401(UnauthenticatedException e) {
-        return new Result(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):当前Subject是匿名Subject，请先登录(This subject is anonymous.)", null);
+        return Result.error(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):当前Subject是匿名Subject，请先登录");
     }
 
     /**
@@ -81,6 +77,6 @@ public class MyControllerAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthorizedException.class)
     public Result handle401(UnauthorizedException e) {
-        return new Result(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):" + e.getMessage(), null);
+        return Result.error(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):" + e.getMessage());
     }
 }

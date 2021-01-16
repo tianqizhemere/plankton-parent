@@ -12,6 +12,8 @@ import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.mapper.UserDao;
 import top.tianqi.plankton.system.service.UserService;
 
+import java.util.List;
+
 /**
  * 用户服务层实现
  * @author Wukh
@@ -37,21 +39,16 @@ public class UserServiceImplImpl extends BaseServiceImpl<UserDao, User> implemen
     }
 
     @Override
-    public User getUser(String imel) {
-        return userDao.findUser(imel);
+    public User getUser(String code) {
+        return userDao.findUser(code);
     }
 
     @Override
-    public Page<User> getPage(String ieml, String username, Page<User> page) {
-        return userDao.findPage(page, ieml, username);
-    }
-
-    @Override
-    public boolean insert(User user) {
-        if (user.getPassword() != null) {
-            user.setPassword(DigestUtils.md5Hex(user.getPassword()));
-        }
-       return super.insert(user);
+    public List<User> getPage(String ieml, String username, Page<User> page) {
+        List<User> page1 = userDao.findPage(page, ieml, username);
+        long total = page.getTotal();
+        System.out.println("total = " + total);
+        return page1;
     }
 
     public static void main(String[] args) {

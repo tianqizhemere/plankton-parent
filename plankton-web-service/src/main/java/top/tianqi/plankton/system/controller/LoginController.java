@@ -12,14 +12,14 @@ import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.exception.BusinessException;
-import top.tianqi.plankton.config.shiro.token.JwtUtil;
 import top.tianqi.plankton.common.util.JedisUtil;
+import top.tianqi.plankton.config.shiro.token.JwtUtil;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.UserService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
+import java.util.Objects;
 
 /**
  * 登录controller
@@ -40,26 +40,30 @@ public class LoginController extends BaseController {
 
     /**
      * 登录
-     * @param ieml 会员编号
+     * @param code uuid值
+     * @param model 设备识别号
      * @return Result
      */
     @OperLog(operationModel = "用户管理", operationDesc = "用户登录", operationType = OperationConst.SELECT)
     @PostMapping(value = "/login")
-    public Result login(String ieml, HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
-        User user = userService.getUser(ieml);
+    public Result login(String code, String model, HttpServletResponse httpServletResponse)  {
+        User user = userService.getUser(code);
         if (user == null) {
-            throw new BusinessException("登录失败，ieml不存在或错误");
+            throw new BusinessException("登录失败，用户不存在或错误");
+        }
+        if (!Objects.equals(model, user.getModel())) {
+            throw new BusinessException("设备型号不一致");
         }
         // 获取当前用户主体
         // 清除可能存在的Shiro权限信息缓存
-        if (JedisUtil.exists(Constant.PREFIX_SHIRO_CACHE + ieml)) {
-            JedisUtil.delKey(Constant.PREFIX_SHIRO_CACHE + ieml);
+        if (JedisUtil.exists(Constant.PREFIX_SHIRO_CACHE + user.getCode())) {
+            JedisUtil.delKey(Constant.PREFIX_SHIRO_CACHE + user.getCode());
         }
         // 设置RefreshToken，时间戳为当前时间戳，直接设置即可(不用先删后设，会覆盖已有的RefreshToken)
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
-        JedisUtil.setObject(Constant.PREFIX_SHIRO_REFRESH_TOKEN + ieml, currentTimeMillis, Integer.parseInt(refreshTokenExpireTime));
+        JedisUtil.setObject(Constant.PREFIX_SHIRO_REFRESH_TOKEN + user.getCode(), currentTimeMillis, Integer.parseInt(refreshTokenExpireTime));
         // 从Header中Authorization返回AccessToken，时间戳为当前时间戳
-        String token = JwtUtil.sign(ieml, currentTimeMillis);
+        String token = JwtUtil.sign(user.getCode(), currentTimeMillis);
         httpServletResponse.setHeader("Authorization", token);
         httpServletResponse.setHeader("Access-Control-Expose-Headers", "Authorization");
         return Result.success("登录成功(Login Success.)", token);

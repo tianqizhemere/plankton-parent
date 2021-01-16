@@ -102,7 +102,7 @@ public class LogAspect {
                 currentUser = new User();
             }
             operlog.setUserId(currentUser.getId());
-            operlog.setUsername(currentUser.getImel());
+            operlog.setCode(currentUser.getCode());
             operlog.setIp(SystemUtil.getHostInfo().getAddress()); // 请求IP
             operlog.setUri(request.getRequestURI()); // 请求URI
             operlog.setCreateTime(new Date());
@@ -154,7 +154,7 @@ public class LogAspect {
                 currentUser = new User();
             }
             excepLog.setUserId(currentUser.getId()); // 操作员ID
-            excepLog.setUsername(currentUser.getImel()); // 操作员名称
+            excepLog.setCode(currentUser.getCode()); // 操作员名称
             excepLog.setUri(request.getRequestURI()); // 操作URI
             excepLog.setIp(SystemUtil.getHostInfo().getAddress()); // 操作员IP
             excepLog.setCreateTime(new Date()); // 发生异常时间

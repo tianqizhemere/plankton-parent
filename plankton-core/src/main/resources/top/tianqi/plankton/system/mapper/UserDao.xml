@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="top.tianqi.plankton.system.mapper.UserDao">
+
+    <resultMap id="BaseResultMap" type="top.tianqi.plankton.system.entity.User">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="model" jdbcType="VARCHAR" property="model" />
+        <result column="phone_model" jdbcType="VARCHAR" property="phoneModel" />
+        <result column="version_code" jdbcType="VARCHAR" property="versionCode" />
+        <result column="upload_counter" jdbcType="INTEGER" property="uploadCounter" />
+        <result column="user_mode" jdbcType="VARCHAR" property="userMode" />
+        <result column="is_enable" jdbcType="INTEGER" property="isEnable" />
+    </resultMap>
+
     <select id="findUser" resultType="top.tianqi.plankton.system.entity.User">
         select u.* from user u
         <where>
-            <if test="imel != null">
-                u.imel = #{imel}
+            <if test="code != null">
+                u.code = #{code}
             </if>
         </where>
 
@@ -13,7 +27,7 @@
     <select id="findPage" resultType="top.tianqi.plankton.system.entity.User">
         select * from user u where 1=1
         <if test="ieml != null">
-           and u.ieml like '%#{ieml}%'
+           and u.code like '%#{code}%'
         </if>
         <if test="username != null ">
            and u.username like '%#{username}%'

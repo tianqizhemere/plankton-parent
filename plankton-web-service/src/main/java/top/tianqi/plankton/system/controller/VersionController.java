@@ -1,7 +1,6 @@
 package top.tianqi.plankton.system.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
@@ -39,7 +38,7 @@ public class VersionController extends BaseController {
      * @param currentVersion 当前版本
      * @return Result 前端提示信息
      */
-    @RequiresPermissions("system:version:check")
+    //@RequiresPermissions("system:version:check")
     @OperLog(operationModel = "版本管理", operationDesc = "检测应用版本", operationType = OperationConst.SELECT)
     @GetMapping(value = "/checkVersion")
     public Result checkVersion(@RequestParam("v") String currentVersion, String model) throws Exception {

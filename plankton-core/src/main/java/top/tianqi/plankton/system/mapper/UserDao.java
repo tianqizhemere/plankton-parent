@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.ibatis.annotations.Param;
 import top.tianqi.plankton.system.entity.User;
 
+import java.util.List;
+
 /**
  * 用户数据表 Mapper 接口
  * @author Wukh
@@ -13,18 +15,18 @@ import top.tianqi.plankton.system.entity.User;
 public interface UserDao extends BaseMapper<User> {
 
     /**
-     * 根据ieml获取用户信息
-     * @param imel 会员编号
-     * @return user
+     * 根据code获取user
+     * @param code 用户唯一标识
+     * @return
      */
-    User findUser(@Param("imel") String imel);
+    User findUser(@Param("code") String code);
 
     /**
      * 加载数据列表
-     * @param ieml 会员编号
+     * @param code 会员编号
      * @param username 用户名
      * @param page 分页对象
      * @return Page<User> 用户分页对象
      */
-    Page<User> findPage(@Param("page") Page<User> page, @Param("ieml") String ieml, @Param("username") String username);
+    List<User> findPage(@Param("page") Page<User> page, @Param("code") String code, @Param("username") String username);
 }

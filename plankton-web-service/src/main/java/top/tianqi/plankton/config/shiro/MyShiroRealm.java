@@ -14,13 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import top.tianqi.plankton.common.constant.Constant;
+import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.config.shiro.token.JwtToken;
 import top.tianqi.plankton.config.shiro.token.JwtUtil;
-import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.AuthService;
 import top.tianqi.plankton.system.service.UserService;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -54,26 +55,25 @@ public class MyShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
             throws AuthenticationException {
         String token = (String) authenticationToken.getCredentials();
-        // 解密获得ieml，用于和数据库进行对比
-        String imel = JwtUtil.getClaim(token, Constant.ACCOUNT);
-        if (imel == null) {
+        // 解密获得code，用于和数据库进行对比
+        String code = JwtUtil.getClaim(token, Constant.ACCOUNT);
+        if (code == null) {
             throw new AuthenticationException("Token中帐号为空(The account in Token is empty.)");
         }
-        User user = userService.getUser(imel);
+        User user = userService.getUser(code);
         if (user == null) {
-            throw new AuthenticationException("ieml:"+imel+"不存在") ;
+            throw new AuthenticationException("UUID:"+code+"不存在") ;
         }
         if (Constant.USER_FREEZE.equals(user.getIsEnable())){
             throw new AuthenticationException("账号已被禁用,请联系管理员!");
         }
-//
-//        if (!JWTUtil.verify(token, username, user.getPassword())) {
-//            throw new AuthenticationException("账户密码错误!");
-//        }
+        if (!Objects.equals(user.getModel(), user.getModel())) {
+            throw new AuthenticationException("设备型号不一致");
+        }
         // 开始认证，要AccessToken认证通过，且Redis中存在RefreshToken，且两个Token时间戳一致
-        if (JwtUtil.verify(token) && JedisUtil.exists(Constant.PREFIX_SHIRO_REFRESH_TOKEN + imel)) {
+        if (JwtUtil.verify(token) && JedisUtil.exists(Constant.PREFIX_SHIRO_REFRESH_TOKEN + code)) {
             // 获取RefreshToken的时间戳
-            String currentTimeMillisRedis = JedisUtil.getObject(Constant.PREFIX_SHIRO_REFRESH_TOKEN + imel).toString();
+            String currentTimeMillisRedis = JedisUtil.getObject(Constant.PREFIX_SHIRO_REFRESH_TOKEN + code).toString();
             // 获取AccessToken时间戳，与RefreshToken的时间戳对比
             if (JwtUtil.getClaim(token, Constant.CURRENT_TIME_MILLIS).equals(currentTimeMillisRedis)) {
                     return new SimpleAuthenticationInfo(token, token, getName());
@@ -91,10 +91,9 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         // 缓存中取用户信息
-        String imel = JwtUtil.getClaim(principals.toString(), Constant.ACCOUNT);
-        System.out.println(imel);
-        if (!StringUtils.isEmpty(imel)) {
-            User user = userService.getUser(imel);
+        String code = JwtUtil.getClaim(principals.toString(), Constant.ACCOUNT);
+        if (!StringUtils.isEmpty(code)) {
+            User user = userService.getUser(code);
             if (user == null) {
                 log.error("授权失败，用户信息为空！！！");
                 return null;

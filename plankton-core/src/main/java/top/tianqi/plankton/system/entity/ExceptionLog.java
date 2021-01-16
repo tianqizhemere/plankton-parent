@@ -25,8 +25,8 @@ public class ExceptionLog extends BaseEntity {
     /** 用户id */
     private Long userId;
 
-    /** 用户名 */
-    private String username;
+    /** 用户code */
+    private String code;
 
     /** 操作方法 */
     private String method;
@@ -69,12 +69,12 @@ public class ExceptionLog extends BaseEntity {
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getCode() {
+        return code;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getMethod() {

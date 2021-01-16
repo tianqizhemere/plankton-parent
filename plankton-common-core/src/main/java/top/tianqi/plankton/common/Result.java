@@ -21,12 +21,17 @@ public class Result extends HashMap<String, Object> {
     /**
      * 返回内容
      */
-    private static final String MSG_TAG = "msg";
+    private static final String MSG_TAG = "massage";
 
     /**
      * 数据对象
      */
     private static final String DATA_TAG = "data";
+
+    /**
+     * 是否成功
+     */
+    private static final String  IS_SUCCESS = "success";
 
     /**
      * 初始化一个新创建的 Result 对象，使其表示一个空消息。
@@ -43,6 +48,7 @@ public class Result extends HashMap<String, Object> {
     public Result(int code, String msg) {
         super.put(CODE_TAG, code);
         super.put(MSG_TAG, msg);
+        super.put(IS_SUCCESS, Boolean.TRUE);
     }
 
     /**
@@ -58,6 +64,7 @@ public class Result extends HashMap<String, Object> {
         if (data != null) {
             super.put(DATA_TAG, data);
         }
+        super.put(IS_SUCCESS, Boolean.TRUE);
     }
 
     /**
@@ -113,7 +120,9 @@ public class Result extends HashMap<String, Object> {
      * @return 警告消息
      */
     public static Result error(String msg) {
-        return Result.error(msg, null);
+        Result error = Result.error(msg, null);
+        error.put(IS_SUCCESS,  Boolean.FALSE);
+        return error;
     }
 
     /**
@@ -124,7 +133,9 @@ public class Result extends HashMap<String, Object> {
      * @return 警告消息
      */
     public static Result error(String msg, Object data) {
-        return new Result(HttpStatus.SC_INTERNAL_SERVER_ERROR, msg, data);
+        Result result = new Result(HttpStatus.SC_INTERNAL_SERVER_ERROR, msg, data);
+        result.put(IS_SUCCESS, Boolean.FALSE);
+        return result;
     }
 
     /**
@@ -135,7 +146,9 @@ public class Result extends HashMap<String, Object> {
      * @return 警告消息
      */
     public static Result error(int code, String msg) {
-        return new Result(code, msg, null);
+        Result result = new Result(code, msg, null);
+        result.put(IS_SUCCESS, Boolean.FALSE);
+        return result;
     }
 
     /**
@@ -145,7 +158,9 @@ public class Result extends HashMap<String, Object> {
      * @return 警告消息
      */
     public static Result error(ErrorStateEnum errorState) {
-        return Result.error(errorState.getCode(), errorState.getMsg());
+        Result error = Result.error(errorState.getCode(), errorState.getMsg());
+        error.put(IS_SUCCESS, Boolean.FALSE);
+        return error;
     }
 
     /**
@@ -156,6 +171,8 @@ public class Result extends HashMap<String, Object> {
      * @return 警告消息
      */
     public static Result error(ErrorStateEnum errorState, Object data) {
-        return new Result(errorState.getCode(), errorState.getMsg(), data);
+        Result result = new Result(errorState.getCode(), errorState.getMsg(), data);
+        result.put(IS_SUCCESS, Boolean.FALSE);
+        return result;
     }
 }
