@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import top.tianqi.plankton.base.service.impl.BaseServiceImpl;
+import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.Attach;
 import top.tianqi.plankton.system.mapper.AttachDao;
 import top.tianqi.plankton.system.plugin.StoragePlugin;

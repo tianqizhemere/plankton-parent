@@ -1,7 +1,7 @@
 package top.tianqi.plankton.system.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import top.tianqi.plankton.base.service.BaseService;
+import top.tianqi.plankton.common.base.service.BaseService;
 import top.tianqi.plankton.system.entity.User;
 
 /**

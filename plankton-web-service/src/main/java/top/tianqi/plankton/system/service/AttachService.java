@@ -1,7 +1,7 @@
 package top.tianqi.plankton.system.service;
 
 import org.springframework.web.multipart.MultipartFile;
-import top.tianqi.plankton.base.service.BaseService;
+import top.tianqi.plankton.common.base.service.BaseService;
 import top.tianqi.plankton.system.entity.Attach;
 
 import java.math.BigInteger;

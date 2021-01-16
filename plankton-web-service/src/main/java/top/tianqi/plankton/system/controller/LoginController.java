@@ -1,9 +1,6 @@
 package top.tianqi.plankton.system.controller;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,14 +9,16 @@ import org.springframework.web.bind.annotation.RestController;
 import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.BaseController;
+import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
-import top.tianqi.plankton.common.exception.BusinessException;
-import top.tianqi.plankton.common.shiro.token.JwtToken;
-import top.tianqi.plankton.common.shiro.token.JwtUtil;
+import top.tianqi.plankton.common.exception.UnauthorizedException;
+import top.tianqi.plankton.common.util.JedisUtil;
+import top.tianqi.plankton.config.shiro.token.JwtUtil;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.UserService;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -29,6 +28,12 @@ import java.io.UnsupportedEncodingException;
  */
 @RestController
 public class LoginController extends BaseController {
+
+    /**
+     * RefreshToken过期时间
+     */
+    @Value("${refreshTokenExpireTime}")
+    private String refreshTokenExpireTime;
 
     @Resource(name = "userServiceImpl")
     private UserService userService;
@@ -40,24 +45,24 @@ public class LoginController extends BaseController {
      */
     @OperLog(operationModel = "用户管理", operationDesc = "用户登录", operationType = OperationConst.SELECT)
     @PostMapping(value = "/login")
-    public Result login(String ieml) throws UnsupportedEncodingException {
+    public Result login(String ieml, HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
         User user = userService.getUser(ieml);
         if (user == null) {
-            throw new BusinessException("登录失败，ieml不存在或错误");
+            throw new UnauthorizedException("登录失败，ieml不存在或错误");
         }
         // 获取当前用户主体
-        Subject subject = SecurityUtils.getSubject();
-        String tokenStr = JwtUtil.sign(ieml);
-        try {
-            subject.login(new JwtToken(tokenStr));
-        } catch (UnknownAccountException e) {
-            return Result.error("user.account.error");
-        } catch (AuthenticationException e) {
-            return Result.error(e.getMessage());
-        } catch (Exception e) {
-            return Result.error("system.error");
+        // 清除可能存在的Shiro权限信息缓存
+        if (JedisUtil.exists(Constant.PREFIX_SHIRO_CACHE + ieml)) {
+            JedisUtil.delKey(Constant.PREFIX_SHIRO_CACHE + ieml);
         }
-        return Result.success("登录成功", tokenStr);
+        // 设置RefreshToken，时间戳为当前时间戳，直接设置即可(不用先删后设，会覆盖已有的RefreshToken)
+        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
+        JedisUtil.setObject(Constant.PREFIX_SHIRO_REFRESH_TOKEN + ieml, currentTimeMillis, Integer.parseInt(refreshTokenExpireTime));
+        // 从Header中Authorization返回AccessToken，时间戳为当前时间戳
+        String token = JwtUtil.sign(ieml, currentTimeMillis);
+        httpServletResponse.setHeader("Authorization", token);
+        httpServletResponse.setHeader("Access-Control-Expose-Headers", "Authorization");
+        return Result.success("登录成功(Login Success.)", token);
     }
 
     /**

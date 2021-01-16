@@ -1,7 +1,7 @@
 package top.tianqi.plankton.system.service.impl;
 
 import org.springframework.stereotype.Service;
-import top.tianqi.plankton.base.service.impl.BaseServiceImpl;
+import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.Mobile;
 import top.tianqi.plankton.system.mapper.MobileDao;
 import top.tianqi.plankton.system.service.MobileService;

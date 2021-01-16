@@ -3,7 +3,7 @@ package top.tianqi.plankton.system.service.impl;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.tianqi.plankton.base.service.impl.BaseServiceImpl;
+import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.Auth;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.mapper.AuthDao;

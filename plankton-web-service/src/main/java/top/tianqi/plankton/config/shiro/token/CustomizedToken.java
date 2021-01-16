@@ -1,4 +1,4 @@
-package top.tianqi.plankton.common.shiro.token;
+package top.tianqi.plankton.config.shiro.token;
 
 import org.apache.shiro.authc.UsernamePasswordToken;
 

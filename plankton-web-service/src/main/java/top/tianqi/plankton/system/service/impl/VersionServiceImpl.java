@@ -3,7 +3,7 @@ package top.tianqi.plankton.system.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import top.tianqi.plankton.base.service.impl.BaseServiceImpl;
+import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.Attach;
 import top.tianqi.plankton.system.entity.VersionInfo;
 import top.tianqi.plankton.system.enumeration.AttachDataTypeEnum;

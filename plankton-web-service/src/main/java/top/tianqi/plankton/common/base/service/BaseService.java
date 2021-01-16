@@ -1,4 +1,4 @@
-package top.tianqi.plankton.base.service;
+package top.tianqi.plankton.common.base.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import top.tianqi.plankton.system.entity.User;
