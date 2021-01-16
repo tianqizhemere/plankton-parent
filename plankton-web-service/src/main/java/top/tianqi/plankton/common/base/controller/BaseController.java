@@ -1,4 +1,4 @@
-package top.tianqi.plankton.common.base;
+package top.tianqi.plankton.common.base.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.commons.lang3.StringUtils;

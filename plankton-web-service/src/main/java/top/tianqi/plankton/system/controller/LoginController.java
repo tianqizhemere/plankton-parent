@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
-import top.tianqi.plankton.common.base.BaseController;
+import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
-import top.tianqi.plankton.common.exception.UnauthorizedException;
-import top.tianqi.plankton.common.util.JedisUtil;
+import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.config.shiro.token.JwtUtil;
+import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.UserService;
 
@@ -48,7 +48,7 @@ public class LoginController extends BaseController {
     public Result login(String ieml, HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
         User user = userService.getUser(ieml);
         if (user == null) {
-            throw new UnauthorizedException("登录失败，ieml不存在或错误");
+            throw new BusinessException("登录失败，ieml不存在或错误");
         }
         // 获取当前用户主体
         // 清除可能存在的Shiro权限信息缓存

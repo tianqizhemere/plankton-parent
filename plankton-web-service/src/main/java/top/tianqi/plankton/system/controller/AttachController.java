@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import top.tianqi.plankton.common.Result;
-import top.tianqi.plankton.common.base.BaseController;
+import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.system.entity.Attach;
 import top.tianqi.plankton.system.service.AttachService;
 

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.tianqi.plankton.common.Result;
-import top.tianqi.plankton.common.base.BaseController;
+import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.system.entity.Mobile;
 import top.tianqi.plankton.system.service.MobileService;
 

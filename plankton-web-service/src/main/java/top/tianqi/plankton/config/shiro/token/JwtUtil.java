@@ -30,12 +30,12 @@ public class JwtUtil {
     /**
      * 过期时间改为从配置文件获取
      */
-    private static String accessTokenExpireTime = "300";
+    private static String accessTokenExpireTime;
 
     /**
      * JWT认证加密私钥(Base64加密)
      */
-    private static String encryptJWTKey = "VElBTlFJa2V5OTUyNw==";
+    private static String encryptJWTKey;
 
     @Value("${accessTokenExpireTime}")
     public void setAccessTokenExpireTime(String accessTokenExpireTime) {
