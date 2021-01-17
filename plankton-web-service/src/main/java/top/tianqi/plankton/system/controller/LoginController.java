@@ -3,10 +3,7 @@ package top.tianqi.plankton.system.controller;
 import cn.hutool.core.bean.BeanUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
@@ -42,18 +39,20 @@ public class LoginController extends BaseController {
 
     /**
      * 登录
-     * @param code uuid值
-     * @param model 设备识别号
+     * @param loginUser uuid值
      * @return Result
      */
     @OperLog(operationModel = "用户管理", operationDesc = "用户登录", operationType = OperationConst.SELECT)
     @PostMapping(value = "/login")
-    public Result login(String code, String model, HttpServletResponse httpServletResponse)  {
-        User user = userService.getUser(code);
+    public Result login(@RequestBody User loginUser, HttpServletResponse httpServletResponse)  {
+        if (loginUser == null) {
+            throw new BusinessException("登录参数不能为空");
+        }
+        User user = userService.getUser(loginUser.getCode());
         if (user == null) {
             throw new BusinessException("登录失败，用户不存在或错误");
         }
-        if (!Objects.equals(model, user.getModel())) {
+        if (!Objects.equals(loginUser.getModel(), user.getModel())) {
             throw new BusinessException("设备型号不一致");
         }
         UserVO userVO = new UserVO();

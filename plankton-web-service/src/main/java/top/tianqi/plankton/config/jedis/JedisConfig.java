@@ -42,6 +42,9 @@ public class JedisConfig {
     @Value("${redis.pool.max-wait}")
     private int maxWait;
 
+    @Value("${redis.pool.max-wait}")
+    private int maxTotal;
+
     @Value("${redis.pool.max-idle}")
     private int maxIdle;
 
@@ -56,6 +59,7 @@ public class JedisConfig {
             jedisPoolConfig.setMaxWaitMillis(maxWait);
             jedisPoolConfig.setMaxTotal(maxActive);
             jedisPoolConfig.setMinIdle(minIdle);
+            jedisPoolConfig.setMaxTotal(maxTotal);
             // 密码为空设置为null
             if (StringUtils.isBlank(password)) {
                 password = null;

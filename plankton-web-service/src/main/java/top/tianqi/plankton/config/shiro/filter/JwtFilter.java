@@ -9,14 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.HandlerInterceptor;
 import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.constant.Constant;
-import top.tianqi.plankton.config.shiro.token.JwtToken;
-import top.tianqi.plankton.config.shiro.token.JwtUtil;
 import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.common.utils.PropertiesUtil;
+import top.tianqi.plankton.config.shiro.token.JwtToken;
+import top.tianqi.plankton.config.shiro.token.JwtUtil;
 
-import javax.servlet.Filter;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ import java.io.IOException;
  * @author tianQi
  * @create 2021-01-12
  */
-public class JwtFilter extends BasicHttpAuthenticationFilter implements Filter {
+public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerInterceptor {
 
     private static final Logger log = LoggerFactory.getLogger(JwtFilter.class);
 
