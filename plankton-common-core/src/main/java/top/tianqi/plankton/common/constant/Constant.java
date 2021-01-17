@@ -98,4 +98,14 @@ public class Constant {
      */
     public static final Integer PASSWORD_MAX_LEN = 8;
 
+    /**
+     * 用户类型：normal普通用户
+     */
+    public static final String USER_MODE_NORMAL = "normal";
+
+    /**
+     * 用户类型：powerful 专业
+     */
+    public static final String USER_MODE_POWERFUL= "powerful";
+
 }

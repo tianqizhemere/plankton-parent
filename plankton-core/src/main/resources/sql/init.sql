@@ -77,11 +77,11 @@ CREATE TABLE user (
   modify_time datetime NOT NULL,
   code varchar(50) DEFAULT NULL COMMENT 'UUID',
   model varchar(50) NOT NULL COMMENT '设备型号',
-  phone_model varchar(50) NOT NULL COMMENT '设备型号',
   version_code varchar(50) DEFAULT NULL COMMENT '应用版本',
   upload_counter int(11) NOT NULL COMMENT '下载次数',
   user_mode varchar(50) NOT NULL COMMENT '用户状态，normal 普通用户 powerful专业',
   is_enable int(2) DEFAULT 1 comment '0:禁用, 1；启用',
+  source int(2) DEFAULT NULL comment '用户来源 0 或1',
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
@@ -129,7 +129,7 @@ CREATE TABLE role_auth (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 
-insert into user values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 'af9526b5623d4752800fbc79782012ab', 'N9877', '1.0', 2, 'powerful', 1);
+insert into user values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 'af9526b5623d4752800fbc79782012ab', 'N9877', '1.0', 2, 'powerful', 1, 1);
 insert into role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '超级用户');
 -- 系统权限
 insert into auth values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理', 'system:index');

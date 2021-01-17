@@ -1,4 +1,4 @@
-package top.tianqi.plankton.config;
+package top.tianqi.plankton.config.mybatis;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.entity.GlobalConfiguration;

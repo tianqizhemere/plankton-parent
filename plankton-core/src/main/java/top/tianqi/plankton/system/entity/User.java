@@ -35,8 +35,12 @@ public class User extends BaseEntity {
     @TableField(value = "upload_Counter")
     private Integer uploadCounter = 2;
 
-    /** 是否被禁用 */
-    private Integer isEnable = 1;
+    /** 是否被禁用 0:禁用，1：未禁用*/
+    @TableField(value = "is_enable")
+    private Boolean isEnable = true;
+
+    /** 用户来源 0 或1 */
+    private Integer source;
 
     public String getCode() {
         return code;
@@ -70,11 +74,11 @@ public class User extends BaseEntity {
         this.versionCode = versionCode;
     }
 
-    public Integer getIsEnable() {
+    public Boolean getIsEnable() {
         return isEnable;
     }
 
-    public void setIsEnable(Integer isEnable) {
+    public void setIsEnable(Boolean isEnable) {
         this.isEnable = isEnable;
     }
 
@@ -84,5 +88,21 @@ public class User extends BaseEntity {
 
     public void setUploadCounter(Integer uploadCounter) {
         this.uploadCounter = uploadCounter;
+    }
+
+    public Integer getSource() {
+        return source;
+    }
+
+    public void setSource(Integer source) {
+        this.source = source;
+    }
+
+    public Boolean getEnable() {
+        return isEnable;
+    }
+
+    public void setEnable(Boolean enable) {
+        isEnable = enable;
     }
 }

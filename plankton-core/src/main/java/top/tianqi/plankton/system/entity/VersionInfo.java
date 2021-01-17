@@ -31,7 +31,7 @@ public class VersionInfo extends BaseEntity {
 
     /** 是否有更新 0:无更新，1：有更新*/
     @TableField(exist = false)
-    private Integer isUpdate = 0;
+    private Boolean isUpdate = Boolean.FALSE;
 
     /** 是否升级 1升级，0不升级'*/
     private Integer type = 1;
@@ -64,11 +64,11 @@ public class VersionInfo extends BaseEntity {
         this.versionDesc = versionDesc;
     }
 
-    public Integer getIsUpdate() {
+    public Boolean getIsUpdate() {
         return isUpdate;
     }
 
-    public void setIsUpdate(Integer isUpdate) {
+    public void setIsUpdate(Boolean isUpdate) {
         this.isUpdate = isUpdate;
     }
 

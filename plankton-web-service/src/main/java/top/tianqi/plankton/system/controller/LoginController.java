@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.config.shiro.token.JwtUtil;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.UserService;
+import top.tianqi.plankton.system.vo.UserVO;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -54,6 +56,8 @@ public class LoginController extends BaseController {
         if (!Objects.equals(model, user.getModel())) {
             throw new BusinessException("设备型号不一致");
         }
+        UserVO userVO = new UserVO();
+        BeanUtil.copyProperties(user, userVO);
         // 获取当前用户主体
         // 清除可能存在的Shiro权限信息缓存
         if (JedisUtil.exists(Constant.PREFIX_SHIRO_CACHE + user.getCode())) {
@@ -64,9 +68,10 @@ public class LoginController extends BaseController {
         JedisUtil.setObject(Constant.PREFIX_SHIRO_REFRESH_TOKEN + user.getCode(), currentTimeMillis, Integer.parseInt(refreshTokenExpireTime));
         // 从Header中Authorization返回AccessToken，时间戳为当前时间戳
         String token = JwtUtil.sign(user.getCode(), currentTimeMillis);
+        userVO.setAuthorization(token);
         httpServletResponse.setHeader("Authorization", token);
         httpServletResponse.setHeader("Access-Control-Expose-Headers", "Authorization");
-        return Result.success("登录成功(Login Success.)", token);
+        return Result.success("登录成功(Login Success.)", userVO);
     }
 
     /**

@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
+import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.system.entity.Attach;
+import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.entity.VersionInfo;
 import top.tianqi.plankton.system.enumeration.AttachDataTypeEnum;
 import top.tianqi.plankton.system.mapper.AttachDao;
@@ -16,6 +18,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 版本检测服务层实现
@@ -36,21 +39,25 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionDao, VersionInfo>
 
     @Override
     public VersionInfo checkVersion(String currentVersion, String model) throws Exception {
-        Map<String, Object> paramMap = new HashMap<>(3);
-        paramMap.put("type", 1);
-        paramMap.put("model", model);
-        List<VersionInfo> versionInfos = versionDao.selectByMap(paramMap);
-        if (!CollectionUtils.isEmpty(versionInfos)) {
-            VersionInfo versionInfo = versionInfos.get(0);
-            if (currentVersion != null) {
-                int result = compareVersion(currentVersion, versionInfo.getVersionCode());
-                if (result < 1) {
-                    List<Attach> fileList = attachService.getFileList(versionInfo.getId(), AttachDataTypeEnum.value(model));
-                    if (!CollectionUtils.isEmpty(fileList)) {
-                        Attach attach = fileList.get(0);
-                        versionInfo.setDownloadUrl(attach.getPath());
+        User currentUser = getCurrentUser();
+        if (Objects.equals(currentUser.getUserMode(), Constant.USER_MODE_POWERFUL)) {
+            Map<String, Object> paramMap = new HashMap<>(3);
+            paramMap.put("type", 1);
+            paramMap.put("model", model);
+            List<VersionInfo> versionInfos = versionDao.selectByMap(paramMap);
+            if (!CollectionUtils.isEmpty(versionInfos)) {
+                VersionInfo versionInfo = versionInfos.get(0);
+                if (currentVersion != null) {
+                    int result = compareVersion(currentVersion, versionInfo.getVersionCode());
+                    if (result < 0) {
+                        List<Attach> fileList = attachService.getFileList(versionInfo.getId(), AttachDataTypeEnum.value(model));
+                        if (!CollectionUtils.isEmpty(fileList)) {
+                            Attach attach = fileList.get(0);
+                            versionInfo.setDownloadUrl(attach.getPath());
+                            versionInfo.setIsUpdate(Boolean.TRUE);
+                        }
+                        return versionInfo;
                     }
-                    return versionInfo;
                 }
             }
         }
@@ -59,7 +66,13 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionDao, VersionInfo>
 
     @Override
     public boolean insert(VersionInfo versionInfo) {
-        boolean result = super.insert(versionInfo);
+        if (versionInfo.getModel() != null) {
+            for (String modelId : versionInfo.getModel().split(",")) {
+                versionInfo.setModel(modelId);
+                versionInfo.setType(1);
+                super.insert(versionInfo);
+            }
+        }
         if (versionInfo.getAttachId() != null) {
             for (String attachId : versionInfo.getAttachId().split(",")) {
                 Attach attach = attachDao.selectById(new Long(attachId));
@@ -69,7 +82,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionDao, VersionInfo>
                 }
             }
         }
-        return result;
+        return true;
     }
 
     /**

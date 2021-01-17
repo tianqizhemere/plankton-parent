@@ -34,15 +34,15 @@ public class VersionController extends BaseController {
 
     /**
      * 检测app版本
-     * @param model 手机型号
-     * @param currentVersion 当前版本
+     * @param model 设备型号
+     * @param version 当前版本
      * @return Result 前端提示信息
      */
     //@RequiresPermissions("system:version:check")
     @OperLog(operationModel = "版本管理", operationDesc = "检测应用版本", operationType = OperationConst.SELECT)
     @GetMapping(value = "/checkVersion")
-    public Result checkVersion(@RequestParam("v") String currentVersion, String model) throws Exception {
-        VersionInfo versionInfo = versionService.checkVersion(currentVersion, model);
+    public Result checkVersion(@RequestParam("version") String version, String model) throws Exception {
+        VersionInfo versionInfo = versionService.checkVersion(version, model);
         return SUCCESS_MESSAGE(versionInfo);
     }
 

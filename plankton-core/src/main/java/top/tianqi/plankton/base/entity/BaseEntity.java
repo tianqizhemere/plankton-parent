@@ -23,12 +23,12 @@ public class BaseEntity implements Serializable {
 
     /** 创建时间 */
     @TableField("create_time")
-    @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd")
+    @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**修改时间*/
     @TableField("modify_time")
-    @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd")
+    @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date modifyTime;
 
     public BaseEntity(){super();}

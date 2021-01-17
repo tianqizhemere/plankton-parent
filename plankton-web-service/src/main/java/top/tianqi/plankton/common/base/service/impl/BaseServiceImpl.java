@@ -27,13 +27,16 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
 
     @Override
     public User getCurrentUser() {
-        String token = SecurityUtils.getSubject().getPrincipal().toString();
-        // 解密获得ieml
-        String ieml = JwtUtil.getClaim(token, Constant.ACCOUNT);
-        User user = userService.getUser(ieml);
-        if (user == null) {
-            throw new BusinessException(ErrorStateEnum.REQUEST_UNAUTHC_EXCEPTION);
+        if (SecurityUtils.getSubject().getPrincipal() != null) {
+            String token = SecurityUtils.getSubject().getPrincipal().toString();
+            // 解密获得code
+            String code = JwtUtil.getClaim(token, Constant.ACCOUNT);
+            User user = userService.getUser(code);
+            if (user == null) {
+                throw new BusinessException(ErrorStateEnum.REQUEST_UNAUTHC_EXCEPTION);
+            }
+            return user;
         }
-        return user;
+        return null;
     }
 }

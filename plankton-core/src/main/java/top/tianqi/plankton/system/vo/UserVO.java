@@ -17,7 +17,10 @@ public class UserVO {
     private String userMode;
 
     /** 是否启用 */
-    private boolean isEnable;
+    private Boolean isEnable;
+
+    /** 令牌 */
+    private String Authorization;
 
     public Long getId() {
         return id;
@@ -43,11 +46,19 @@ public class UserVO {
         this.userMode = userMode;
     }
 
-    public boolean isEnable() {
+    public Boolean getIsEnable() {
         return isEnable;
     }
 
-    public void setEnable(boolean enable) {
-        isEnable = enable;
+    public void setIsEnable(Boolean isEnable) {
+        this.isEnable = isEnable;
+    }
+
+    public String getAuthorization() {
+        return Authorization;
+    }
+
+    public void setAuthorization(String authorization) {
+        this.Authorization = authorization;
     }
 }
