@@ -1,6 +1,7 @@
 package top.tianqi.plankton.config.web;
 
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import java.io.IOException;
  * @author Wukh
  * @create 2021-01-17
  */
+@Component
 public class OriginFilter implements Filter {
 
     @Override
