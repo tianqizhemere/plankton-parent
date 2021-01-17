@@ -115,6 +115,12 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
             if ("/login".equals(requestURI)) {
                 return true;
             }
+            if ("/system/user/save".equals(requestURI)) {
+                return true;
+            }
+            if ("/system/version/save".equals(requestURI)) {
+                return true;
+            }
             if (mustLoginFlag) {
                 this.response401(response, "请先登录");
                 return false;
@@ -169,7 +175,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
             httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
             httpResponse.setCharacterEncoding("UTF-8");
             httpResponse.setContentType("application/json;charset=utf-8");
-            Result result = new Result(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):" + msg);
+            Result result = Result.error(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):" + msg);
             httpResponse.getWriter().write(JSONUtils.toJSONString(result));
         } catch (IOException e) {
             log.error(e.getMessage());
