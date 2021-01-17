@@ -129,7 +129,7 @@ CREATE TABLE role_auth (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 
-insert into user values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 'af9526b5623d4752800fbc79782012ab', '9527', 'N9877', '1.0', 2, 'powerful', 1);
+insert into user values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 'af9526b5623d4752800fbc79782012ab', 'N9877', '1.0', 2, 'powerful', 1);
 insert into role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '超级用户');
 -- 系统权限
 insert into auth values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理', 'system:index');

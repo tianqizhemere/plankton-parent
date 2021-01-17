@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.Attach;
 import top.tianqi.plankton.system.mapper.AttachDao;
-import top.tianqi.plankton.system.plugin.StoragePlugin;
+import top.tianqi.plankton.attach.plugin.StoragePlugin;
 import top.tianqi.plankton.system.service.AttachService;
 
 import javax.annotation.Resource;

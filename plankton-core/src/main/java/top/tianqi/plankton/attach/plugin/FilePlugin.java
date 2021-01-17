@@ -1,10 +1,10 @@
-package top.tianqi.plankton.system.plugin;
+package top.tianqi.plankton.attach.plugin;
 
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import top.tianqi.plankton.system.vo.FileInfo;
+import top.tianqi.plankton.attach.vo.FileInfo;
 
 import java.io.File;
 import java.io.IOException;

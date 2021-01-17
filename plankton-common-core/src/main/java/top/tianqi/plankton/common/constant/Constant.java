@@ -84,9 +84,9 @@ public class Constant {
     public static final String PREFIX_SHIRO_REFRESH_TOKEN = "shiro:refresh_token:";
 
     /**
-     * JWT-ieml(移动设备号):
+     * JWT-code(UUID):
      */
-    public static final String ACCOUNT = "ieml";
+    public static final String ACCOUNT = "code";
 
     /**
      * JWT-currentTimeMillis:

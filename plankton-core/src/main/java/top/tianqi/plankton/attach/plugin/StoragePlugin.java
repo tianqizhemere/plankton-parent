@@ -1,6 +1,6 @@
-package top.tianqi.plankton.system.plugin;
+package top.tianqi.plankton.attach.plugin;
 
-import top.tianqi.plankton.system.vo.FileInfo;
+import top.tianqi.plankton.attach.vo.FileInfo;
 
 import java.io.File;
 import java.util.List;

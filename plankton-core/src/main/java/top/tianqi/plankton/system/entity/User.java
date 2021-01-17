@@ -19,13 +19,9 @@ public class User extends BaseEntity {
     /** UUID */
     private String code;
 
-    /** 设备识别号 */
-    private String model;
-
     /** 设备型号 */
     @NotBlank(message = "设备型号不能为空")
-    @TableField(value = "phone_model")
-    private String phoneModel;
+    private String model;
 
     /** 用户状态，normal 普通用户 powerful专业 */
     @TableField(value = "user_mode")
@@ -56,14 +52,6 @@ public class User extends BaseEntity {
 
     public void setModel(String model) {
         this.model = model;
-    }
-
-    public String getPhoneModel() {
-        return phoneModel;
-    }
-
-    public void setPhoneModel(String phoneModel) {
-        this.phoneModel = phoneModel;
     }
 
     public String getUserMode() {

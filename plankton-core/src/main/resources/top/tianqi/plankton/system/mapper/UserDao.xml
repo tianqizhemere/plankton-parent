@@ -8,7 +8,6 @@
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
         <result column="code" jdbcType="VARCHAR" property="code" />
         <result column="model" jdbcType="VARCHAR" property="model" />
-        <result column="phone_model" jdbcType="VARCHAR" property="phoneModel" />
         <result column="version_code" jdbcType="VARCHAR" property="versionCode" />
         <result column="upload_counter" jdbcType="INTEGER" property="uploadCounter" />
         <result column="user_mode" jdbcType="VARCHAR" property="userMode" />
