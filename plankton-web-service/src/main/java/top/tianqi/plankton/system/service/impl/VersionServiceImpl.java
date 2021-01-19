@@ -15,10 +15,7 @@ import top.tianqi.plankton.system.service.AttachService;
 import top.tianqi.plankton.system.service.VersionService;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 版本检测服务层实现
@@ -68,6 +65,18 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     public boolean insert(VersionInfo versionInfo) {
         if (versionInfo.getModel() != null) {
             for (String modelId : versionInfo.getModel().split(",")) {
+                Map<String, Object> paramMap = new HashMap<>();
+                paramMap.put("model", modelId);
+                paramMap.put("type", 1);
+                List<VersionInfo> versionInfos = versionDao.selectByMap(paramMap);
+                if (!CollectionUtils.isEmpty(versionInfos)) {
+                    for (VersionInfo info : versionInfos) {
+                        // 之前版本设置为不升级版本
+                        info.setType(0);
+                        info.setModifyTime(new Date());
+                        versionDao.updateById(info);
+                    }
+                }
                 versionInfo.setModel(modelId.toUpperCase());
                 versionInfo.setType(1);
                 super.insert(versionInfo);

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
+import top.tianqi.plankton.common.util.AddressUtils;
 import top.tianqi.plankton.common.utils.JsonUtil;
 import top.tianqi.plankton.system.entity.ExceptionLog;
 import top.tianqi.plankton.system.entity.OperationLog;
@@ -103,7 +104,7 @@ public class LogAspect {
             }
             operlog.setUserId(currentUser.getId());
             operlog.setCode(currentUser.getCode());
-            operlog.setIp(SystemUtil.getHostInfo().getAddress()); // 请求IP
+            operlog.setIp(AddressUtils.getRemoteIp(request)); // 请求IP
             operlog.setUri(request.getRequestURI()); // 请求URI
             operlog.setCreateTime(new Date());
             operlog.setModifyTime(new Date());
