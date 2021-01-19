@@ -12,8 +12,8 @@
 
     <modules>
         <module>plankton-web-service</module>
-        <module>plankton-mobile-app</module>
-        <module>plankton-mobile-service</module>
+        <!--<module>plankton-mobile-app</module>-->
+        <!--<module>plankton-mobile-service</module>-->
         <module>plankton-core</module>
         <module>plankton-common-core</module>
     </modules>
