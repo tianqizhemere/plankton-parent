@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="top.tianqi.plankton.system.mapper.AttachDao">
+<mapper namespace="top.tianqi.plankton.system.mapper.AttachMapper">
     <select id="findList" resultType="top.tianqi.plankton.system.entity.Attach">
         select a.* from attach a where
         <if test="dataType != null">

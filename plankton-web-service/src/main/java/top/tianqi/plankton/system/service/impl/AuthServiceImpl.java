@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.Auth;
 import top.tianqi.plankton.system.entity.User;
-import top.tianqi.plankton.system.mapper.AuthDao;
+import top.tianqi.plankton.system.mapper.AuthMapper;
 import top.tianqi.plankton.system.service.AuthService;
 
 import java.util.HashSet;
@@ -19,10 +19,10 @@ import java.util.Set;
  * @create 2021-01-04
  */
 @Service(value = "authServiceImpl")
-public class AuthServiceImpl extends BaseServiceImpl<AuthDao, Auth> implements AuthService {
+public class AuthServiceImpl extends BaseServiceImpl<AuthMapper, Auth> implements AuthService {
 
     @Autowired
-    private AuthDao authDao;
+    private AuthMapper authDao;
 
     @Override
     public Set<String> getUserAuthListById(Long userId) {

@@ -8,5 +8,5 @@ import top.tianqi.plankton.system.entity.Mobile;
  * @author Wukh
  * @create 2021-01-10
  */
-public interface MobileDao extends BaseMapper<Mobile> {
+public interface MobileMapper extends BaseMapper<Mobile> {
 }

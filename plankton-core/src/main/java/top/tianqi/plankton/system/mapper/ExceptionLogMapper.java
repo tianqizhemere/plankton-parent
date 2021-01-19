@@ -8,5 +8,5 @@ import top.tianqi.plankton.system.entity.ExceptionLog;
  * @author Wukh
  * @create 2021-01-08
  */
-public interface ExceptionLogDao extends BaseMapper<ExceptionLog> {
+public interface ExceptionLogMapper extends BaseMapper<ExceptionLog> {
 }

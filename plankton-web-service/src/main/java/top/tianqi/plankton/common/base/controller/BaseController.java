@@ -77,7 +77,7 @@ public class BaseController {
     }
 
     protected static Result SUCCESS_MESSAGE() {
-        return SUCCESS_MESSAGE(null);
+        return Result.success();
     }
 
     /**

@@ -11,7 +11,7 @@ import java.util.List;
  * @author Wukh
  * @create 2021-01-12
  */
-public interface AttachDao extends BaseMapper<Attach> {
+public interface AttachMapper extends BaseMapper<Attach> {
 
     List<Attach> findList(@Param("recordId") Long recordId,@Param("dataType") String dataType);
 }

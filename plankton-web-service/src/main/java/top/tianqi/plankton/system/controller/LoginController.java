@@ -42,7 +42,7 @@ public class LoginController extends BaseController {
      * @param loginUser uuid值
      * @return Result
      */
-    @OperLog(operationModel = "用户管理", operationDesc = "用户登录", operationType = OperationConst.SELECT)
+    @OperLog(operationModel = "用户管理", operationDesc = "用户登录", operationType = OperationConst.LOGIN)
     @PostMapping(value = "/login")
     public Result login(@RequestBody User loginUser, HttpServletResponse httpServletResponse)  {
         if (loginUser == null) {
@@ -50,6 +50,7 @@ public class LoginController extends BaseController {
         }
         User user = userService.getUser(loginUser.getCode());
         if (user == null) {
+
             throw new BusinessException("登录失败，用户不存在或错误");
         }
         if (!Objects.equals(loginUser.getModel(), user.getModel())) {

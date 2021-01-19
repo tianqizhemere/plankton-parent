@@ -27,8 +27,8 @@ public class VersionController extends BaseController {
 
     @OperLog(operationModel = "版本管理", operationDesc = "应用版本列表", operationType = OperationConst.SELECT)
     @GetMapping(value = "/list")
-    public Result list(int pageNo, int pageSize){
-        Page<VersionInfo> page = versionService.selectPage(new Page<>(1, 10));
+    public Result list(){
+        Page<VersionInfo> page = versionService.selectPage(getPage());
         return Result.success(page);
     }
 

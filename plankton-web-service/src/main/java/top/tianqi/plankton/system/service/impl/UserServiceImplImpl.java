@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.User;
-import top.tianqi.plankton.system.mapper.UserDao;
+import top.tianqi.plankton.system.mapper.UserMapper;
 import top.tianqi.plankton.system.service.UserService;
 
 import java.util.List;
@@ -20,10 +20,10 @@ import java.util.List;
  * @create 2021-01-04
  */
 @Service(value = "userServiceImpl")
-public class UserServiceImplImpl extends BaseServiceImpl<UserDao, User> implements UserService {
+public class UserServiceImplImpl extends BaseServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired
-    private UserDao userDao;
+    private UserMapper userDao;
 
     @Override
     public Boolean userLogin(String userName, String password) {

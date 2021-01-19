@@ -42,7 +42,7 @@ public class UserController extends BaseController {
 
 
     //@RequiresPermissions("system:user:save")
-    @OperLog(operationModel = "用户管理", operationDesc = "新增用户", operationType = OperationConst.SELECT)
+    @OperLog(operationModel = "用户管理", operationDesc = "新增用户", operationType = OperationConst.INSERT)
     @PostMapping(value = "/save")
     public Result save(@Valid User user, BindingResult result){
         if (result.hasErrors()){

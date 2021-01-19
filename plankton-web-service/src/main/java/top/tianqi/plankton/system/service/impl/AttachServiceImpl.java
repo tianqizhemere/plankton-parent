@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.Attach;
-import top.tianqi.plankton.system.mapper.AttachDao;
+import top.tianqi.plankton.system.mapper.AttachMapper;
 import top.tianqi.plankton.attach.plugin.StoragePlugin;
 import top.tianqi.plankton.system.service.AttachService;
 
@@ -25,7 +25,7 @@ import java.util.*;
  * @create 2021-01-12
  */
 @Service(value = "attachServiceImpl")
-public class AttachServiceImpl extends BaseServiceImpl<AttachDao, Attach> implements AttachService {
+public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> implements AttachService {
 
     @Value("${attachUploadBase}")
     private String uploadBase;
@@ -40,7 +40,7 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachDao, Attach> implem
     private String fileUploadPath;
 
     @Autowired
-    private AttachDao attachDao;
+    private AttachMapper attachDao;
 
     @Resource(name = "taskExecutor")
     private TaskExecutor taskExecutor;

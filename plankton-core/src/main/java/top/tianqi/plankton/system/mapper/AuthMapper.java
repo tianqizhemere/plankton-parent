@@ -7,11 +7,11 @@ import top.tianqi.plankton.system.entity.Auth;
 import java.util.List;
 
 /**
- * 权限持久层
+ * 权限持久层接口
  * @author Wukh
  * @create 2021-01-08
  */
-public interface AuthDao extends BaseMapper<Auth> {
+public interface AuthMapper extends BaseMapper<Auth> {
 
     /**
      * 根据用户 id 获取权限

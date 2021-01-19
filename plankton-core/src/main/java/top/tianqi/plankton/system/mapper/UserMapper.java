@@ -12,7 +12,7 @@ import java.util.List;
  * @author Wukh
  * @create 2021-01-04
  */
-public interface UserDao extends BaseMapper<User> {
+public interface UserMapper extends BaseMapper<User> {
 
     /**
      * 根据code获取user

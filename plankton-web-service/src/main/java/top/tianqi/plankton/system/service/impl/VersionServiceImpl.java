@@ -9,8 +9,8 @@ import top.tianqi.plankton.system.entity.Attach;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.entity.VersionInfo;
 import top.tianqi.plankton.system.enumeration.AttachDataTypeEnum;
-import top.tianqi.plankton.system.mapper.AttachDao;
-import top.tianqi.plankton.system.mapper.VersionDao;
+import top.tianqi.plankton.system.mapper.AttachMapper;
+import top.tianqi.plankton.system.mapper.VersionMapper;
 import top.tianqi.plankton.system.service.AttachService;
 import top.tianqi.plankton.system.service.VersionService;
 
@@ -26,13 +26,13 @@ import java.util.Objects;
  * @create 2021-01-08
  */
 @Service(value = "versionServiceImpl")
-public class VersionServiceImpl extends BaseServiceImpl<VersionDao, VersionInfo> implements VersionService {
+public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionInfo> implements VersionService {
 
     @Autowired
-    private VersionDao versionDao;
+    private VersionMapper versionDao;
 
     @Autowired
-    private AttachDao attachDao;
+    private AttachMapper attachDao;
 
     @Resource(name = "attachServiceImpl")
     private AttachService attachService;
@@ -68,7 +68,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionDao, VersionInfo>
     public boolean insert(VersionInfo versionInfo) {
         if (versionInfo.getModel() != null) {
             for (String modelId : versionInfo.getModel().split(",")) {
-                versionInfo.setModel(modelId);
+                versionInfo.setModel(modelId.toUpperCase());
                 versionInfo.setType(1);
                 super.insert(versionInfo);
             }
