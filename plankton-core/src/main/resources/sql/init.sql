@@ -139,6 +139,17 @@ CREATE TABLE nonmember (
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
+DROP TABLE IF EXISTS version_upgrade_item;
+CREATE TABLE version_upgrade_item (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  create_time datetime NOT NULL,
+  modify_time datetime NOT NULL,
+  version_info_id int(11) NOT NULL COMMENT '版本明细id',
+  version_code varchar(50) NOT NULL COMMENT '版本编号',
+  model varchar(50) NOT NULL COMMENT '版本编号',
+  PRIMARY KEY (id) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
 
 insert into user values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 'af9526b5623d4752800fbc79782012ab', 'N9877', '1.0', 2, 'powerful', 1, 1);
 insert into role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '超级用户');

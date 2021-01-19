@@ -26,7 +26,7 @@ import java.util.*;
 public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionInfo> implements VersionService {
 
     @Autowired
-    private VersionMapper versionDao;
+    private VersionMapper versionMapper;
 
     @Autowired
     private AttachMapper attachDao;
@@ -41,7 +41,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
             Map<String, Object> paramMap = new HashMap<>(3);
             paramMap.put("type", 1);
             paramMap.put("model", model);
-            List<VersionInfo> versionInfos = versionDao.selectByMap(paramMap);
+            List<VersionInfo> versionInfos = versionMapper.selectByMap(paramMap);
             if (!CollectionUtils.isEmpty(versionInfos)) {
                 VersionInfo versionInfo = versionInfos.get(0);
                 if (currentVersion != null) {
@@ -68,13 +68,13 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                 Map<String, Object> paramMap = new HashMap<>();
                 paramMap.put("model", modelId);
                 paramMap.put("type", 1);
-                List<VersionInfo> versionInfos = versionDao.selectByMap(paramMap);
+                List<VersionInfo> versionInfos = versionMapper.selectByMap(paramMap);
                 if (!CollectionUtils.isEmpty(versionInfos)) {
                     for (VersionInfo info : versionInfos) {
                         // 之前版本设置为不升级版本
                         info.setType(0);
                         info.setModifyTime(new Date());
-                        versionDao.updateById(info);
+                        versionMapper.updateById(info);
                     }
                 }
                 versionInfo.setModel(modelId.toUpperCase());

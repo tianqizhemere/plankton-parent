@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="top.tianqi.plankton.system.mapper.AttachMapper">
-    <select id="findList" resultType="top.tianqi.plankton.system.entity.Attach">
+    <resultMap id="BaseResultMap" type="top.tianqi.plankton.system.entity.Attach">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+        <result column="data_type" jdbcType="VARCHAR" property="dataType" />
+        <result column="ext" jdbcType="VARCHAR" property="ext" />
+        <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+        <result column="file_size" jdbcType="INTEGER" property="fileSize" />
+        <result column="file_type" jdbcType="VARCHAR" property="fileType" />
+        <result column="mime" jdbcType="VARCHAR" property="mime" />
+        <result column="original_name" jdbcType="VARCHAR" property="originalName" />
+        <result column="path" jdbcType="INTEGER" property="path" />
+        <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    </resultMap>
+
+    <select id="findList" resultMap="BaseResultMap">
         select a.* from attach a where
-        <if test="dataType != null">
+        <if test="recordId != null">
              a.record_id = #{recordId}
         </if>
-        <if test="recordId != null">
+        <if test="dataType != null">
             and a.data_type = #{dataType}
         </if>
     </select>

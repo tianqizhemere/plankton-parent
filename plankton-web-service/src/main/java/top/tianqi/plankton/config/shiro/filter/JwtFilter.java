@@ -121,6 +121,9 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
             if ("/system/version/save".equals(requestURI)) {
                 return true;
             }
+            if ("/system/attach/uploadFile".equals(requestURI)) {
+                return true;
+            }
             if (mustLoginFlag) {
                 this.response401(response, "请先登录");
                 return false;
