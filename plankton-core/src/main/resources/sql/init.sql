@@ -128,6 +128,17 @@ CREATE TABLE role_auth (
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
+-- 非会员表
+DROP TABLE IF EXISTS nonmember;
+CREATE TABLE nonmember (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  create_time datetime NOT NULL,
+  modify_time datetime NOT NULL,
+  code varchar(50) DEFAULT NULL COMMENT 'UUID',
+  model varchar(50) NOT NULL COMMENT '设备型号',
+  PRIMARY KEY (id) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
 
 insert into user values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 'af9526b5623d4752800fbc79782012ab', 'N9877', '1.0', 2, 'powerful', 1, 1);
 insert into role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '超级用户');

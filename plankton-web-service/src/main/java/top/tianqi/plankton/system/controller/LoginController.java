@@ -12,12 +12,15 @@ import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.config.shiro.token.JwtUtil;
+import top.tianqi.plankton.system.entity.Nonmember;
 import top.tianqi.plankton.system.entity.User;
+import top.tianqi.plankton.system.service.NonmemberService;
 import top.tianqi.plankton.system.service.UserService;
 import top.tianqi.plankton.system.vo.UserVO;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -37,6 +40,9 @@ public class LoginController extends BaseController {
     @Resource(name = "userServiceImpl")
     private UserService userService;
 
+    @Resource(name = "nonmemberServiceImpl")
+    private NonmemberService nonmemberService;
+
     /**
      * 登录
      * @param loginUser uuid值
@@ -50,7 +56,12 @@ public class LoginController extends BaseController {
         }
         User user = userService.getUser(loginUser.getCode());
         if (user == null) {
-
+            Nonmember nonmember = new Nonmember();
+            nonmember.setCreateTime(new Date());
+            nonmember.setModifyTime(new Date());
+            nonmember.setModel(loginUser.getModel());
+            nonmember.setCode(loginUser.getCode());
+            nonmemberService.insert(nonmember);
             throw new BusinessException("登录失败，用户不存在或错误");
         }
         if (!Objects.equals(loginUser.getModel(), user.getModel())) {

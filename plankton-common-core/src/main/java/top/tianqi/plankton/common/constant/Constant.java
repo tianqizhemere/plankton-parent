@@ -38,14 +38,14 @@ public class Constant {
     public static int FORM_REPEAT_TIME = 10;
 
     /**
-     * 是否用户已被冻结 1(解冻)正常
+     * 是否用户已被冻结 true(解冻)正常
      */
-    public static final Integer USER_UNFREEZE = 1;
+    public static final Boolean USER_UNFREEZE = Boolean.TRUE;
 
     /**
-     * 是否用户已被冻结  0冻结
+     * 是否用户已被冻结 true冻结
      */
-    public static final Integer USER_FREEZE = 0;
+    public static final Boolean USER_FREEZE = Boolean.FALSE;
 
 
     /**
