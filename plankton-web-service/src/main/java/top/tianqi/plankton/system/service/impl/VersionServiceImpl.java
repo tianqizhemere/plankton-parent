@@ -47,7 +47,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                 if (currentVersion != null) {
                     int result = compareVersion(currentVersion, versionInfo.getVersionCode());
                     if (result < 0) {
-                        List<Attach> fileList = attachService.getFileList(versionInfo.getId(), AttachDataTypeEnum.value(model));
+                        List<Attach> fileList = attachService.getFileList(versionInfo.getId(), AttachDataTypeEnum.N9760.getCode());
                         if (!CollectionUtils.isEmpty(fileList)) {
                             Attach attach = fileList.get(0);
                             versionInfo.setDownloadUrl(attach.getPath());
@@ -63,6 +63,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
 
     @Override
     public boolean insert(VersionInfo versionInfo) {
+        List<Long> versionIds = new ArrayList<>();
         if (versionInfo.getModel() != null) {
             for (String modelId : versionInfo.getModel().split(",")) {
                 Map<String, Object> paramMap = new HashMap<>();
@@ -80,14 +81,20 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                 versionInfo.setModel(modelId.toUpperCase());
                 versionInfo.setType(1);
                 super.insert(versionInfo);
+                versionIds.add(versionInfo.getId());
             }
         }
         if (versionInfo.getAttachId() != null) {
             for (String attachId : versionInfo.getAttachId().split(",")) {
                 Attach attach = attachDao.selectById(new Long(attachId));
                 if (attach != null) {
-                    attach.setRecordId(versionInfo.getId());
-                    attachDao.updateById(attach);
+                    if (!CollectionUtils.isEmpty(versionIds)) {
+                        for (Long versionId : versionIds) {
+                            attach.setRecordId(versionId);
+                            attach.setDataType(AttachDataTypeEnum.N9760.getCode());
+                            attachDao.insert(attach);
+                        }
+                    }
                 }
             }
         }

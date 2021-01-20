@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @create 2021-01-19
  */
 @Configuration
-public class MyWebAppConfigurer implements WebMvcConfigurer {
+public class MyWebAppConfig implements WebMvcConfigurer {
 
     @Value("${attachUploadBase}")
     private String attachUploadBase;
