@@ -128,5 +128,8 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     public static void main(String[] args) throws Exception {
         int i = compareVersion("1.2", "2.1");
         System.out.println(i);
+
+        String result = "1.修复自定义BIX按键无效问题\n2.修复最近任务点击失效".replaceAll("\n", System.getProperty("line.separator"));
+        System.out.println(result);
     }
 }
