@@ -46,7 +46,6 @@ public class LimitAspect {
         Method method = signature.getMethod();
         Limit limitAnnotation = method.getAnnotation(Limit.class);
         LimitTypeEnum limitType = limitAnnotation.limitType();
-        String name = limitAnnotation.name();
         String key;
         String ip = AddressUtils.getRemoteIp(request);
         // 限流时间

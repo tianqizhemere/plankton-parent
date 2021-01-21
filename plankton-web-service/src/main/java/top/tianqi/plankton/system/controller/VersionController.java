@@ -41,7 +41,7 @@ public class VersionController extends BaseController {
      * @return Result 前端提示信息
      */
     //@RequiresPermissions("system:version:check")
-    @Limit(count = 5, period = 60, limitType = LimitTypeEnum.IP, key = "checkVersion", prefix = "limit", name = "检查应用版本")
+    @Limit(count = 5, period = 60, limitType = LimitTypeEnum.IP, key = "checkVersion", prefix = "limit")
     @OperLog(model = "版本管理", desc = "检测应用版本", type = OperationConst.SELECT)
     @GetMapping(value = "/checkVersion")
     public Result checkVersion(@RequestParam("version") String version, String model) throws Exception {

@@ -16,8 +16,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Limit {
 
-    /** 资源名称，用于描述接口功能 */
-    String name() default "";
     /** 资源 key */
     String key() default "";
     /** key prefix */
