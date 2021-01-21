@@ -48,7 +48,7 @@ public class ShiroConfig {
         factory.setSecurityManager(manager);
 
         // 设置过滤链
-        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>(3);
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>(16);
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/logout", "anon");
         filterChainDefinitionMap.put("/system/user/save", "anon");
@@ -65,27 +65,28 @@ public class ShiroConfig {
 
     /**
      * 安全管理器
-     *
-     * @param realm
+     * 配置使用自定义Realm，关闭Shiro自带的session
+     * @param myShiroRealm 自定义realm
      * @return
      */
-    @Bean
-    public DefaultWebSecurityManager securityManager(MyShiroRealm realm) {
-        DefaultWebSecurityManager serurityManeger = new DefaultWebSecurityManager(realm);
-        // realm
-        serurityManeger.setRealm(realm);
+    @Bean("securityManager")
+    public DefaultWebSecurityManager securityManager(MyShiroRealm myShiroRealm) {
+        DefaultWebSecurityManager serurityManeger = new DefaultWebSecurityManager();
+        // 使用自定义realm
+        serurityManeger.setRealm(myShiroRealm);
         // 关闭Shiro自带的session
         DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
         DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
         defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
         subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        serurityManeger.setSubjectDAO(subjectDAO);
         // 设置自定义Cache缓存
         serurityManeger.setCacheManager(new CustomCacheManager());
         return serurityManeger;
     }
 
     /**
-     * 下面的代码是添加注解支持
+     * 添加注解支持
      */
     @Bean
     @DependsOn("lifecycleBeanPostProcessor")
@@ -97,16 +98,6 @@ public class ShiroConfig {
     @Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
-    }
-
-    /**
-     * 自定义 Realm
-     *
-     * @return
-     */
-    @Bean
-    public MyShiroRealm myShiroRealm() {
-        return new MyShiroRealm();
     }
 
     /**

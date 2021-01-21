@@ -31,10 +31,10 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
 
     private static final Logger log = LoggerFactory.getLogger(JwtFilter.class);
 
-        /**
-         * 执行登录认证(判断用户是否想要登入)
-         * 检测header里面是否包含Authorization字段即可
-         */
+    /**
+     * 执行登录认证(判断用户是否想要登入)
+     * 检测header里面是否包含Authorization字段即可
+     */
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         String token = this.getAuthzHeader(request);
@@ -47,11 +47,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
      */
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
-        // 拿到当前Header中Authorization的AccessToken(Shiro中getAuthzHeader方法已经实现)
         JwtToken token = new JwtToken(this.getAuthzHeader(request));
-        // 提交给UserRealm进行认证，如果错误他会抛出异常并被捕获
         this.getSubject(request, response).login(token);
-        // 如果没有抛出异常则代表登入成功，返回true
         return true;
     }
 
@@ -62,13 +59,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
     }
 
     /**
-     * 这里我们详细说明下为什么最终返回的都是true，即允许访问
-     * 例如我们提供一个地址 GET /article
-     * 登入用户和游客看到的内容是不同的
-     * 如果在这里返回了false，请求会被直接拦截，用户看不到任何东西
-     * 所以我们在这里返回true，Controller中可以通过 subject.isAuthenticated() 来判断用户是否登入
-     * 如果有些资源只有登入用户才能访问，我们只需要在方法上面加上 @RequiresAuthentication 注解即可
-     * 但是这样做有一个缺点，就是不能够对GET,POST等请求进行分别过滤鉴权(因为我们重写了官方的方法)，但实际上对应用影响不大
+     *
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
@@ -76,12 +67,10 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
             try {
                 executeLogin(request, response);
             } catch (Exception e) {
-                // 认证出现异常，传递错误信息msg
                 String msg = e.getMessage();
                 // 获取应用异常(该Cause是导致抛出此throwable(异常)的throwable(异常))
                 Throwable throwable = e.getCause();
                 if (throwable instanceof SignatureVerificationException) {
-                    // 该异常为JWT的AccessToken认证失败(Token或者密钥不正确)
                     msg = "Token或者密钥不正确(" + throwable.getMessage() + ")";
                 } else if (throwable instanceof TokenExpiredException) {
                     // 该异常为JWT的AccessToken已过期，判断RefreshToken未过期就进行AccessToken刷新
@@ -91,7 +80,6 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
                         msg = "Token已过期(" + throwable.getMessage() + ")";
                     }
                 } else {
-                    // 应用异常不为空
                     if (throwable != null) {
                         // 获取应用异常msg
                         msg = throwable.getMessage();
@@ -136,9 +124,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
      * 此处为AccessToken刷新，进行判断RefreshToken是否过期，未过期就返回新的AccessToken且继续正常访问
      */
     private boolean refreshToken(ServletRequest request, ServletResponse response) {
-        // 拿到当前Header中Authorization的AccessToken(Shiro中getAuthzHeader方法已经实现)
         String token = this.getAuthzHeader(request);
-        // 获取当前Token的帐号信息
         String account = JwtUtil.getClaim(token, Constant.ACCOUNT);
         // 判断Redis中RefreshToken是否存在
         if (JedisUtil.exists(Constant.PREFIX_SHIRO_REFRESH_TOKEN + account)) {
@@ -157,7 +143,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
                 token = JwtUtil.sign(account, currentTimeMillis);
                 // 将新刷新的AccessToken再次进行Shiro的登录
                 JwtToken jwtToken = new JwtToken(token);
-                // 提交给UserRealm进行认证，如果错误他会抛出异常并被捕获，如果没有抛出异常则代表登入成功，返回true
+                // 提交给realm进行认证，如果没有抛出异常则代表登入成功
                 this.getSubject(request, response).login(jwtToken);
                 // 最后将刷新的AccessToken存放在Response的Header中的Authorization字段返回
                 HttpServletResponse httpServletResponse = WebUtils.toHttp(response);

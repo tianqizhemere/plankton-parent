@@ -11,6 +11,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import top.tianqi.plankton.common.constant.Constant;
@@ -21,7 +22,6 @@ import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.AuthService;
 import top.tianqi.plankton.system.service.UserService;
 
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -29,6 +29,7 @@ import java.util.Set;
  * @author Wukh
  * @create 2021-01-04
  */
+@Component
 public class MyShiroRealm extends AuthorizingRealm {
 
     private static final Logger log = LoggerFactory.getLogger(MyShiroRealm.class);
@@ -66,9 +67,6 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
         if (Constant.USER_FREEZE.equals(user.getIsEnable())){
             throw new AuthenticationException("账号已被禁用,请联系管理员!");
-        }
-        if (!Objects.equals(user.getModel(), user.getModel())) {
-            throw new AuthenticationException("设备型号不一致");
         }
         // 开始认证，要AccessToken认证通过，且Redis中存在RefreshToken，且两个Token时间戳一致
         if (JwtUtil.verify(token) && JedisUtil.exists(Constant.PREFIX_SHIRO_REFRESH_TOKEN + code)) {

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 /**
  * 用户实体
@@ -38,6 +39,9 @@ public class User extends BaseEntity {
     /** 是否被禁用 0:禁用，1：未禁用*/
     @TableField(value = "is_enable")
     private Boolean isEnable = true;
+
+    /** 用户最后登录时间 */
+    private Date loginTime;
 
     /** 用户来源 0 或1 */
     private Integer source;
@@ -104,5 +108,13 @@ public class User extends BaseEntity {
 
     public void setEnable(Boolean enable) {
         isEnable = enable;
+    }
+
+    public Date getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Date loginTime) {
+        this.loginTime = loginTime;
     }
 }

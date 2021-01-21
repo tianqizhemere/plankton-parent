@@ -2,8 +2,10 @@ package top.tianqi.plankton.system.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
@@ -29,6 +31,7 @@ import java.util.Objects;
  * @create 2021-01-14
  */
 @RestController
+@PropertySource("classpath:config.properties")
 public class LoginController extends BaseController {
 
     /**
@@ -74,7 +77,7 @@ public class LoginController extends BaseController {
         if (JedisUtil.exists(Constant.PREFIX_SHIRO_CACHE + user.getCode())) {
             JedisUtil.delKey(Constant.PREFIX_SHIRO_CACHE + user.getCode());
         }
-        // 设置RefreshToken，时间戳为当前时间戳，直接设置即可(不用先删后设，会覆盖已有的RefreshToken)
+        // 设置RefreshToken，时间戳为当前时间戳，覆盖已有的RefreshToken
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
         JedisUtil.setObject(Constant.PREFIX_SHIRO_REFRESH_TOKEN + user.getCode(), currentTimeMillis, Integer.parseInt(refreshTokenExpireTime));
         // 从Header中Authorization返回AccessToken，时间戳为当前时间戳
@@ -83,15 +86,5 @@ public class LoginController extends BaseController {
         httpServletResponse.setHeader("Authorization", token);
         httpServletResponse.setHeader("Access-Control-Expose-Headers", "Authorization");
         return Result.success("登录成功(Login Success.)", userVO);
-    }
-
-    /**
-     * 未授权
-     * @return Result
-     */
-    @RequestMapping("/401")
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Result unauthorized() {
-        return new Result(401, "未授权");
     }
 }
