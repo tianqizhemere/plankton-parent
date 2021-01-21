@@ -41,6 +41,7 @@ public class User extends BaseEntity {
     private Boolean isEnable = true;
 
     /** 用户最后登录时间 */
+    @TableField(exist = false)
     private Date loginTime;
 
     /** 用户来源 0 或1 */
