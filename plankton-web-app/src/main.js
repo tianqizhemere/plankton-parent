@@ -1,25 +1,40 @@
 import Vue from 'vue'
-import 'normalize.css/normalize.css'// A modern alternative to CSS resets
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/zh-CN'
-import App from './App'
+import Febs from './FEBS'
 import router from './router'
+import Antd from 'ant-design-vue'
 import store from './store'
-import '@/icons' // icon
-import '@/permission' // 权限
-import {default as api} from './utils/api'
-import {hasPermission} from "./utils/hasPermission";
-Vue.use(ElementUI, {locale})
-Vue.prototype.api = api
-//全局的常量
-Vue.prototype.hasPerm = hasPermission
-//生产环境时自动设置为 false 以阻止 vue 在启动时生成生产提示。
-Vue.config.productionTip = (process.env.NODE_ENV != 'production')
+import request from 'utils/request'
+import db from 'utils/localstorage'
+import AesEncrypt from 'utils/aesEncrypt'
+import VueMeta from 'vue-meta'
+import 'ant-design-vue/dist/antd.css'
+import echarts from 'echarts'
+import 'utils/install'
+
+Vue.config.productionTip = false
+Vue.use(Antd)
+Vue.use(db)
+Vue.use(VueMeta)
+Vue.prototype.$echarts = echarts
+Vue.use({
+  install (Vue) {
+    Vue.prototype.$db = db
+  }
+})
+
+Vue.prototype.$post = request.post
+Vue.prototype.$get = request.get
+Vue.prototype.$put = request.put
+Vue.prototype.$delete = request.delete
+Vue.prototype.$export = request.export
+Vue.prototype.$download = request.download
+Vue.prototype.$upload = request.upload
+Vue.prototype.$originalGet = request.originalGet
+Vue.prototype.$aesEncrypt = AesEncrypt
+
+/* eslint-disable no-new */
 new Vue({
-  el: '#app',
   router,
   store,
-  template: '<App/>',
-  components: {App}
-})
+  render: h => h(Febs)
+}).$mount('#febs')

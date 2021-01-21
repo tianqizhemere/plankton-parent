@@ -1,65 +1,117 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// in development env not use Lazy Loading,because Lazy Loading too many pages will cause webpack hot update too slow.so only in production use Lazy Loading
-/* layout */
-import Layout from '../views/layout/Layout'
+import MenuView from '@/views/common/MenuView'
+import PageView from '@/views/common/PageView'
+import LoginView from '@/views/login/Common'
+import EmptyPageView from '@/views/common/EmptyPageView'
+import HomePageView from '@/views/HomePage'
+import db from 'utils/localstorage'
+import request from 'utils/request'
 
-const _import = require('./_import_' + process.env.NODE_ENV)
+// 全局Router异常处理
+const originalPush = Router.prototype.push
+Router.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => { if (typeof err !== 'undefined')console.log(err) })
+}
 Vue.use(Router)
-export const constantRouterMap = [
-  {path: '/login', component: _import('login/index'), hidden: true},
-  {path: '/404', component: _import('404'), hidden: true},
+
+let constRouter = [
   {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
+    path: '/login',
+    name: '登录页',
+    component: LoginView
+  },
+  {
+    path: '/index',
     name: '首页',
-    hidden: true,
-    children: [{
-      path: 'dashboard', component: _import('dashboard/index')
-    }]
+    redirect: '/home'
   }
 ]
-export default new Router({
-  // mode: 'history', //后端支持可开
-  scrollBehavior: () => ({y: 0}),
-  routes: constantRouterMap
+
+let router = new Router({
+  routes: constRouter
 })
-export const asyncRouterMap = [
-  {
-    path: '/system',
-    component: Layout,
-    redirect: '/system/article',
-    name: '功能模块',
-    meta: {title: '功能模块', icon: 'tree'},
-    children: [
-      {
-        path: 'article',
-        name: '文章',
-        component: _import('article/article'),
-        meta: {title: '文章', icon: 'example'},
-        menu: 'article'
-      },
-    ]
-  },
-  {
-    path: '/user',
-    component: Layout,
-    redirect: '/user/',
-    name: '',
-    meta: {title: '用户权限', icon: 'table'},
-    children: [
-      {
-        path: '', name: '用户列表', component: _import('user/user'), meta: {title: '用户列表', icon: 'user'}, menu: 'user'
-      },
-      {
-        path: 'role',
-        name: '权限管理',
-        component: _import('user/role'),
-        meta: {title: '权限管理', icon: 'password'},
-        menu: 'role'
-      },
-    ]
-  },
-  {path: '*', redirect: '/404', hidden: true}
-]
+
+const whiteList = ['/login']
+
+let asyncRouter
+
+// 导航守卫，渲染动态路由
+router.beforeEach((to, from, next) => {
+  if (whiteList.indexOf(to.path) !== -1) {
+    next()
+  }
+  let token = db.get('USER_TOKEN')
+  let user = db.get('USER')
+  let userRouter = get('USER_ROUTER')
+  if (token.length && user) {
+    if (!asyncRouter) {
+      if (!userRouter) {
+        request.get(`menu/${user.username}`).then((res) => {
+          asyncRouter = res.data
+          save('USER_ROUTER', asyncRouter)
+          go(to, next)
+        }).catch(err => { console.error(err) })
+      } else {
+        asyncRouter = userRouter
+        go(to, next)
+      }
+    } else {
+      next()
+    }
+  } else {
+    next('/login')
+  }
+})
+
+function go (to, next) {
+  asyncRouter = filterAsyncRouter(asyncRouter)
+  router.addRoutes(asyncRouter)
+  next({...to, replace: true})
+}
+
+function save (name, data) {
+  localStorage.setItem(name, JSON.stringify(data))
+}
+
+function get (name) {
+  return JSON.parse(localStorage.getItem(name))
+}
+
+function filterAsyncRouter (routes) {
+  return routes.filter((route) => {
+    let component = route.component
+    if (component) {
+      switch (route.component) {
+        case 'MenuView':
+          route.component = MenuView
+          break
+        case 'PageView':
+          route.component = PageView
+          break
+        case 'EmptyPageView':
+          route.component = EmptyPageView
+          break
+        case 'HomePageView':
+          route.component = HomePageView
+          break
+        default:
+          route.component = view(component)
+      }
+      if (route.children && route.children.length) {
+        route.children = filterAsyncRouter(route.children)
+      }
+      return true
+    }
+  })
+}
+
+function view (path) {
+  return function (resolve) {
+    import(`@/views/${path}.vue`).then(mod => {
+      resolve(mod)
+    })
+  }
+}
+
+export default router

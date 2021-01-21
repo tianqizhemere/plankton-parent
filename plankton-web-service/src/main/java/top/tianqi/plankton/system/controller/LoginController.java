@@ -51,7 +51,7 @@ public class LoginController extends BaseController {
      * @param loginUser uuid值
      * @return Result
      */
-    @OperLog(operationModel = "用户管理", operationDesc = "用户登录", operationType = OperationConst.LOGIN)
+    @OperLog(model = "用户管理", desc = "用户登录", type = OperationConst.LOGIN)
     @PostMapping(value = "/login")
     public Result login(@RequestBody User loginUser, HttpServletResponse httpServletResponse)  {
         if (loginUser == null) {

@@ -78,9 +78,9 @@ public class LogAspect {
             // 获取操作
             OperLog opLog = method.getAnnotation(OperLog.class);
             if (opLog != null) {
-                operlog.setModel(opLog.operationModel()); // 操作模块
-                operlog.setType(opLog.operationType()); // 操作类型
-                operlog.setDesc(opLog.operationDesc()); // 操作描述
+                operlog.setModel(opLog.model()); // 操作模块
+                operlog.setType(opLog.type()); // 操作类型
+                operlog.setDesc(opLog.desc()); // 操作描述
             }
             // 获取请求的类名
             String className = joinPoint.getTarget().getClass().getName();

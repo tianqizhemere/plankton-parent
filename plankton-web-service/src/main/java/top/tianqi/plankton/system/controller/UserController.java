@@ -40,7 +40,7 @@ public class UserController extends BaseController {
      * @return Result 前端提示信息
      */
     //@RequiresPermissions("system:user:index")
-    @OperLog(operationModel = "用户管理", operationDesc = "查询用户列表", operationType = OperationConst.SELECT)
+    @OperLog(model = "用户管理", desc = "查询用户列表", type = OperationConst.SELECT)
     @GetMapping(value = "/list")
     public Result list(String ieml, String username){
         List<User> page = userService.getPage(ieml, username, getPage());
@@ -49,7 +49,7 @@ public class UserController extends BaseController {
 
 
     //@RequiresPermissions("system:user:save")
-    @OperLog(operationModel = "用户管理", operationDesc = "新增用户", operationType = OperationConst.INSERT)
+    @OperLog(model = "用户管理", desc = "新增用户", type = OperationConst.INSERT)
     @PostMapping(value = "/save")
     public Result save(@Valid User user, BindingResult result){
         if (result.hasErrors()){
@@ -68,7 +68,7 @@ public class UserController extends BaseController {
      * @return Result 前端提示信息
      */
     @GetMapping("/online")
-    @OperLog(operationModel = "用户管理", operationDesc = "获取在线用户", operationType = OperationConst.SELECT)
+    @OperLog(model = "用户管理", desc = "获取在线用户", type = OperationConst.SELECT)
     public Result online() {
         List<Object> users = new ArrayList<Object>();
         // 查询所有Redis键

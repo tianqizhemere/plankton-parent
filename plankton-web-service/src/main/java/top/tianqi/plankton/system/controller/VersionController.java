@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
+import top.tianqi.plankton.common.annotation.aop.Limit;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
+import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
 import top.tianqi.plankton.system.entity.VersionInfo;
 import top.tianqi.plankton.system.service.VersionService;
 
@@ -25,7 +27,7 @@ public class VersionController extends BaseController {
     @Resource(name = "versionServiceImpl")
     private VersionService versionService;
 
-    @OperLog(operationModel = "版本管理", operationDesc = "应用版本列表", operationType = OperationConst.SELECT)
+    @OperLog(model = "版本管理", desc = "应用版本列表", type = OperationConst.SELECT)
     @GetMapping(value = "/list")
     public Result list(){
         Page<VersionInfo> page = versionService.selectPage(getPage());
@@ -39,14 +41,15 @@ public class VersionController extends BaseController {
      * @return Result 前端提示信息
      */
     //@RequiresPermissions("system:version:check")
-    @OperLog(operationModel = "版本管理", operationDesc = "检测应用版本", operationType = OperationConst.SELECT)
+    @Limit(count = 5, period = 60, limitType = LimitTypeEnum.IP, key = "checkVersion", prefix = "limit", name = "检查应用版本")
+    @OperLog(model = "版本管理", desc = "检测应用版本", type = OperationConst.SELECT)
     @GetMapping(value = "/checkVersion")
     public Result checkVersion(@RequestParam("version") String version, String model) throws Exception {
         VersionInfo versionInfo = versionService.checkVersion(version, model);
         return SUCCESS_MESSAGE(versionInfo);
     }
 
-    @OperLog(operationModel = "版本管理", operationDesc = "新增应用版本", operationType = OperationConst.INSERT)
+    @OperLog(model = "版本管理", desc = "新增应用版本", type = OperationConst.INSERT)
     @PostMapping(value = "/save")
     public Result save(@Valid VersionInfo versionInfo, BindingResult result){
         if (result.hasErrors()) {
@@ -56,7 +59,7 @@ public class VersionController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(operationModel = "版本管理", operationDesc = "修改应用版本", operationType = OperationConst.UPDATE)
+    @OperLog(model = "版本管理", desc = "修改应用版本", type = OperationConst.UPDATE)
     @PostMapping(value = "/update")
     public Result update(@Valid VersionInfo versionInfo, BindingResult result){
         if (result.hasErrors()) {
@@ -66,7 +69,7 @@ public class VersionController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(operationModel = "版本管理", operationDesc = "删除应用版本", operationType = OperationConst.DELETE)
+    @OperLog(model = "版本管理", desc = "删除应用版本", type = OperationConst.DELETE)
     @PostMapping(value = "/delete")
     public Result delete(Long id){
         versionService.deleteById(id);
