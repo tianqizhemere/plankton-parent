@@ -56,7 +56,9 @@
           <el-cascader
                   :options="options"
                   :props="props"
+                  ref="myCascader"
                   collapse-tags
+                  @change="onProvincesChange"
                   clearable v-model="dataForm.model" style="width: 100%;"></el-cascader>
         </el-form-item>
         <el-form-item label="用户来源" prop="source">
@@ -76,18 +78,10 @@
             </el-option>
           </el-select>
         </el-form-item>
-<!--        <el-form-item label="角色" prop="userRoles">-->
-<!--          <el-select v-model="dataForm.userRoles" multiple placeholder="请选择"-->
-<!--                     style="width: 100%;">-->
-<!--            <el-option v-for="item in roles" :key="item.id"-->
-<!--                       :label="item.remark" :value="item.id">-->
-<!--            </el-option>-->
-<!--          </el-select>-->
-<!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button :size="size" @click.native="dialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">
+        <el-button :size="size" type="primary" @click.native="operation ? submitForm('save') : submitForm('edit')" :loading="editLoading">
           {{$t('action.submit')}}
         </el-button>
       </div>
@@ -135,16 +129,17 @@
         dataForm: {
           id: 0,
           code: '',
-          model: '123456',
+          model: '',
           source: '1',
           userMode: '',
-          isEnable: '',
+          isEnable: true,
+          modelName:'',
         },
         roles: [],
         // 用户状态
         userModes:[ { id:'normal', name:'普通用户'}, {id:'powerful',name:'会员'}],
         // 用户启用状态
-        enableStatus: [{id:'1', name:'启用'},{id:'0', name:'停用'}],
+        enableStatus: [{id:true, name:'启用'},{id:false, name:'停用'}],
         // 级联组件,多选
         props: { multiple: false },
         options: [{
@@ -182,24 +177,19 @@
       }
     },
     methods: {
+      // Cascader 级联选择器选中事件
+      onProvincesChange(item){
+        this.dataForm.modelName = item[1];
+      },
       // 获取分页数据
       findPage: function (data) {
         if (data !== null) {
           this.pageRequest = data.pageRequest
         }
-        console.log(this.pageRequest)
         this.pageRequest.columnFilters = {username: '', ieml:''}
         this.$api.user.findPage({'pageNum': this.pageRequest.pageNum, 'pageSize': this.pageRequest.pageSize, 'code': ''}).then((res) => {
           this.pageResult = res.data
-          this.findUserRoles()
         }).then(data != null ? data.callback : '')
-      },
-      // 加载用户角色信息
-      findUserRoles: function () {
-        // this.$api.role.findAll().then((res) => {
-        //   // 加载角色集合
-        //   this.roles = res.data
-        // })
       },
       // 批量删除
       handleDelete: function (data) {
@@ -213,8 +203,9 @@
           id: 0,
           code: '',
           model: '',
-          isEnable: '',
+          isEnable: true,
           source:'',
+          modelName:''
         }
       },
       // 显示编辑界面
@@ -222,40 +213,44 @@
         this.dialogVisible = true
         this.operation = false
         this.dataForm = Object.assign({}, params.row)
-        let userRoles = []
-        for (let i = 0, len = params.row.userRoles.length; i < len; i++) {
-          userRoles.push(params.row.userRoles[i].roleId)
-        }
-        this.dataForm.userRoles = userRoles
       },
       // 编辑
-      submitForm: function () {
+      submitForm: function (val) {
         this.$refs.dataForm.validate((valid) => {
           if (valid) {
             this.$confirm('确认提交吗？', '提示', {}).then(() => {
               this.editLoading = true
+              if (this.dataForm.modelName) {
+                this.dataForm.model = this.dataForm.modelName;
+              }
               let params = Object.assign({}, this.dataForm)
-              // let userRoles = []
-              // for (let i = 0, len = params.userRoles.length; i < len; i++) {
-              //   let userRole = {
-              //     userId: params.id,
-              //     roleId: params.userRoles[i]
-              //   }
-              //   userRoles.push(userRole)
-              // }
-              // params.userRoles = userRoles
-              debugger
-              this.$api.user.save(params).then((res) => {
-                this.editLoading = false
-                if (res.code == 200) {
-                  this.$message({message: '操作成功', type: 'success'})
-                  this.dialogVisible = false
-                  this.$refs['dataForm'].resetFields()
-                } else {
-                  this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-                }
-                this.findPage(null)
-              })
+              params.enable = params.isEnable;
+              if (val === '新增') {
+                this.$api.user.save(params).then((res) => {
+                  this.editLoading = false
+                  if (res.code == 200) {
+                    this.$message({message: '操作成功', type: 'success'})
+                    this.dialogVisible = false
+                    this.$refs['dataForm'].resetFields()
+                  } else {
+                    this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                  }
+                  this.findPage(null)
+                })
+              } else {
+                this.$api.user.edit(params).then((res) => {
+                  this.editLoading = false
+                  if (res.code == 200) {
+                    this.$message({message: '操作成功', type: 'success'})
+                    this.dialogVisible = false
+                    this.$refs['dataForm'].resetFields()
+                  } else {
+                    this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                  }
+                  this.findPage(null)
+                })
+              }
+
             })
           }
         })
@@ -279,9 +274,8 @@
           {prop: "id", label: "ID", minWidth: 50},
           {prop: "code", label: "CODE", minWidth: 120},
           {prop: "model", label: "设备型号", minWidth: 120},
-          {prop: "roleNames", label: "角色", minWidth: 100},
           {prop: "userMode", label: "用户状态", minWidth: 100},
-          {prop: "isEnable", label: "状态", minWidth: 70},
+          {prop: "enableStatus", label: "状态", minWidth: 70},
           {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
         ]
         this.filterColumns = JSON.parse(JSON.stringify(this.columns));

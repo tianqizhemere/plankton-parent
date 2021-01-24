@@ -107,8 +107,8 @@ public class User extends BaseEntity {
         return isEnable;
     }
 
-    public void setEnable(Boolean enable) {
-        isEnable = enable;
+    public void setEnable(Boolean isEnable) {
+        this.isEnable = isEnable;
     }
 
     public Date getLoginTime() {
@@ -117,5 +117,12 @@ public class User extends BaseEntity {
 
     public void setLoginTime(Date loginTime) {
         this.loginTime = loginTime;
+    }
+
+    public String getEnableStatus(){
+        if (this.isEnable) {
+            return "启用";
+        }
+        return "禁用";
     }
 }

@@ -12,6 +12,14 @@ export const save = (data) => {
         data
     })
 }
+// 修改
+export const edit = (data) => {
+    return axios({
+        url: '/system/user/update',
+        method: 'post',
+        data
+    })
+}
 export const findByName = (params) => {
     return axios({
         url: '/system/user/findByName',
@@ -29,7 +37,6 @@ export const batchDelete = (data) => {
 }
 // 分页查询
 export const findPage = (params) => {
-    console.log(params)
     return axios({
         url: '/system/user/list',
         method: 'get',

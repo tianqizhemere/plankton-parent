@@ -2,10 +2,7 @@ package top.tianqi.plankton.system.controller;
 
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
@@ -56,15 +53,25 @@ public class UserController extends BaseController {
     //@RequiresPermissions("system:user:save")
     @OperLog(model = "用户管理", desc = "新增用户", type = OperationConst.INSERT)
     @PostMapping(value = "/save")
-    public Result save(@Valid User user, BindingResult result){
+    public Result save(@Valid @RequestBody User user, BindingResult result){
         if (result.hasErrors()){
             return Result.error(result.getFieldError().getDefaultMessage());
         }
         User baseUser = userService.getUser(user.getCode());
         if (baseUser != null) {
-            return Result.error(1007, "uuid已存在");
+            return Result.error(1007, "code已存在");
         }
         userService.insert(user);
+        return SUCCESS_MESSAGE();
+    }
+
+    @OperLog(model = "用户管理", desc = "修改用户", type = OperationConst.UPDATE)
+    @PostMapping(value = "/update")
+    public Result update(@Valid @RequestBody User user, BindingResult result){
+        if (result.hasErrors()){
+            return Result.error(result.getFieldError().getDefaultMessage());
+        }
+        userService.updateById(user);
         return SUCCESS_MESSAGE();
     }
 
