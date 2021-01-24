@@ -32,8 +32,7 @@ public class FilePlugin implements StoragePlugin {
 	public byte[] download(String fileUrl) {
 		File downFile = new File(uploadBase + fileUrl);
 		try {
-			byte[] bs = FileUtils.readFileToByteArray(downFile);
-			return bs;
+			return FileUtils.readFileToByteArray(downFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

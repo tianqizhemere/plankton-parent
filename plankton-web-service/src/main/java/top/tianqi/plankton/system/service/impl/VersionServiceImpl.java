@@ -51,12 +51,25 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                         if (!CollectionUtils.isEmpty(fileList)) {
                             Attach attach = fileList.get(0);
                             versionInfo.setDownloadUrl(attach.getPath());
-                            versionInfo.setIsUpdate(Boolean.TRUE);
                         }
+                        versionInfo.setIsUpdate(Boolean.TRUE);
                         return versionInfo;
                     }
+                    return versionInfo;
                 }
             }
+        }
+        return new VersionInfo();
+    }
+
+    @Override
+    public VersionInfo getVersionInfo(String model) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("model", model);
+        paramMap.put("type", 1);
+        List<VersionInfo> versionInfos = versionMapper.selectByMap(paramMap);
+        if (!CollectionUtils.isEmpty(versionInfos)) {
+            return versionInfos.get(0);
         }
         return new VersionInfo();
     }

@@ -13,8 +13,6 @@ CREATE TABLE version_upgrade (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
-insert into version_upgrade values(1, '2020-1-8 20:20:21', '2020-1-8 20:20:21', 'v1.0', '0', 'http://ip:8080/upload/file/aaaa.apk', '1.基于官方最新OneUI3.0\n2.更清晰、更简洁','G9880',1)
-
 -- 操作日志
 drop table if exists operation_log;
 CREATE TABLE operation_log (
@@ -85,6 +83,29 @@ CREATE TABLE user (
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
+-- 非会员表
+DROP TABLE IF EXISTS nonmember;
+CREATE TABLE nonmember (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  create_time datetime NOT NULL,
+  modify_time datetime NOT NULL,
+  code varchar(50) DEFAULT NULL COMMENT 'UUID',
+  model varchar(50) NOT NULL COMMENT '设备型号',
+  PRIMARY KEY (id) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- 版本
+DROP TABLE IF EXISTS version_upgrade_item;
+CREATE TABLE version_upgrade_item (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  create_time datetime NOT NULL,
+  modify_time datetime NOT NULL,
+  version_info_id int(11) NOT NULL COMMENT '版本明细id',
+  version_code varchar(50) NOT NULL COMMENT '版本编号',
+  model varchar(50) NOT NULL COMMENT '版本编号',
+  PRIMARY KEY (id) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
 -- 角色表
 DROP TABLE IF EXISTS role;
 CREATE TABLE role (
@@ -92,6 +113,8 @@ CREATE TABLE role (
   create_time datetime NOT NULL,
   modify_time datetime NOT NULL,
   name varchar(50) NOT NULL COMMENT '角色名称',
+  remark varchar(50) NOT NULL COMMENT '角色描述',
+  enabled int(2) DEFAULT NULL COMMENT '是否启用 1：启用，0禁用',
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
@@ -103,6 +126,7 @@ CREATE TABLE auth (
   modify_time datetime NOT NULL,
   name varchar(50) NOT NULL COMMENT '权限名称',
   code varchar(50) NOT NULL COMMENT '权限值',
+  url varchar (50) DEFAULT NULL COMMENT '资源路径',
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
@@ -128,44 +152,43 @@ CREATE TABLE role_auth (
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
--- 非会员表
-DROP TABLE IF EXISTS nonmember;
-CREATE TABLE nonmember (
+-- 菜单
+DROP TABLE IF EXISTS menu;
+CREATE TABLE menu (
   id int(11) NOT NULL AUTO_INCREMENT,
   create_time datetime NOT NULL,
   modify_time datetime NOT NULL,
-  code varchar(50) DEFAULT NULL COMMENT 'UUID',
-  model varchar(50) NOT NULL COMMENT '设备型号',
+  url varchar(64) DEFAULT NULL COMMENT '访问路径',
+  perms varchar(500) DEFAULT NULL COMMENT '授权(多个用逗号分隔，如：sys:user:add,sys:user:edit)',
+  name varchar(64) DEFAULT NULL COMMENT '模块名称',
+  type int(11) DEFAULT NULL COMMENT '类型   0：目录   1：菜单   2：按钮',
+  icon_cls varchar(64) DEFAULT NULL COMMENT 'icon图标',
+  component varchar(64) DEFAULT NULL COMMENT '组件',
+  parent_id int(11) DEFAULT NULL COMMENT '父菜单ID，一级菜单为0',
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
-DROP TABLE IF EXISTS version_upgrade_item;
-CREATE TABLE version_upgrade_item (
+-- 角色与菜单(关系)表
+DROP TABLE IF EXISTS role_menu;
+CREATE TABLE role_menu (
   id int(11) NOT NULL AUTO_INCREMENT,
   create_time datetime NOT NULL,
   modify_time datetime NOT NULL,
-  version_info_id int(11) NOT NULL COMMENT '版本明细id',
-  version_code varchar(50) NOT NULL COMMENT '版本编号',
-  model varchar(50) NOT NULL COMMENT '版本编号',
+  role_id int(11) NOT NULL COMMENT '角色id',
+  menu_id int(11) NOT NULL COMMENT '菜单id',
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
-
-insert into user values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 'af9526b5623d4752800fbc79782012ab', 'N9877', '1.0', 2, 'powerful', 1, 1);
-insert into role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '超级用户');
--- 系统权限
-insert into auth values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理', 'system:index');
-insert into auth values('2', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理', 'system:version:index');
-insert into auth values('3', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-新增', 'system:version:save');
-insert into auth values('4', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-修改', 'system:version:update');
-insert into auth values('5', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-检查', 'system:version:check');
-insert into auth values('6', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-用户管理', 'system:user:index');
-
-insert into role_auth values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
-insert into role_auth values('2', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 2);
-insert into role_auth values('3', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 3);
-insert into role_auth values('4', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 4);
-insert into role_auth values('5', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 5);
-insert into role_auth values('6', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 6);
-
-insert into user_role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
+DROP TABLE IF EXISTS dictionaries;
+CREATE TABLE dictionaries (
+  id int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  create_time datetime NOT NULL,
+  modify_time datetime NOT NULL,
+  value varchar(100) NOT NULL COMMENT '数据值',
+  label varchar(100) NOT NULL COMMENT '标签名',
+  type varchar(100) NOT NULL COMMENT '类型',
+  description varchar(100) NOT NULL COMMENT '描述',
+  sort decimal(10,0) NOT NULL COMMENT '排序（升序）',
+  remarks varchar(255) DEFAULT NULL COMMENT '备注信息',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='字典表';

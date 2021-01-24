@@ -14,6 +14,7 @@ import top.tianqi.plankton.system.service.VersionService;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.Map;
 
 /**
  * 版本controller
@@ -74,5 +75,17 @@ public class VersionController extends BaseController {
     public Result delete(Long id){
         versionService.deleteById(id);
         return SUCCESS_MESSAGE();
+    }
+
+    /**
+     * 根据手机型号查询最新版本更新信息
+     * @param model 手机型号
+     * @return 前端提示信息
+     */
+    @OperLog(model = "版本管理", desc = "查询最新版本信息", type = OperationConst.SELECT)
+    @GetMapping(value = "/info")
+    public Result info(String model){
+        VersionInfo versionInfo = versionService.getVersionInfo(model);
+        return SUCCESS_MESSAGE(versionInfo);
     }
 }

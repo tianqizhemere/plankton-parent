@@ -6,6 +6,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import top.tianqi.plankton.base.entity.BaseEntity;
 import top.tianqi.plankton.common.Result;
+import top.tianqi.plankton.common.utils.PageResult;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class BaseController {
      */
     public <T extends BaseEntity> Page<T> getPage() {
         HttpServletRequest request = getRequest();
-        String pageNo = request.getParameter("pageNo");
+        String pageNo = request.getParameter("pageNum");
         if (StringUtils.isEmpty(pageNo)) {
             pageNo = "1";
         }
@@ -54,7 +55,7 @@ public class BaseController {
      */
     public <T extends  BaseEntity> Page<T> getPage(T t) {
         HttpServletRequest request = getRequest();
-        String pageNo = request.getParameter("pageNo");
+        String pageNo = request.getParameter("pageNum");
         if (StringUtils.isEmpty(pageNo)) {
             pageNo = "1";
         }

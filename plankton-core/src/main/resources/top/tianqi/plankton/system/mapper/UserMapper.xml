@@ -25,11 +25,9 @@
     </select>
     <select id="findPage" resultMap="BaseResultMap">
         select * from user u where 1=1
-        <if test="ieml != null">
+        <if test="code != null and code != ''">
            and u.code like '%#{code}%'
         </if>
-        <if test="username != null ">
-           and u.username like '%#{username}%'
-        </if>
+        order by u.create_time desc
     </select>
 </mapper>

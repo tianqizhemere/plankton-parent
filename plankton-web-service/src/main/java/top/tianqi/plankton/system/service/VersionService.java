@@ -18,4 +18,12 @@ public interface VersionService extends BaseService<VersionInfo> {
      * @throws Exception e
      */
     VersionInfo checkVersion(String currentVersion, String model) throws Exception;
+
+    /**
+     * 根据手机型号查询最新版本更新信息
+     * @param model 手机型号
+     * @return versionInfo
+     */
+    VersionInfo getVersionInfo(String model);
+
 }

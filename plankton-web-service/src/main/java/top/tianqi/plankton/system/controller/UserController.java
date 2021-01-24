@@ -13,7 +13,9 @@ import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.common.util.JedisUtil;
+import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.User;
+import top.tianqi.plankton.system.service.AuthService;
 import top.tianqi.plankton.system.service.UserService;
 
 import javax.annotation.Resource;
@@ -35,6 +37,9 @@ public class UserController extends BaseController {
     @Resource(name = "userServiceImpl")
     private UserService userService;
 
+    @Resource(name = "authServiceImpl")
+    private AuthService authService;
+
     /**
      * 加载用户列表
      * @return Result 前端提示信息
@@ -42,8 +47,8 @@ public class UserController extends BaseController {
     //@RequiresPermissions("system:user:index")
     @OperLog(model = "用户管理", desc = "查询用户列表", type = OperationConst.SELECT)
     @GetMapping(value = "/list")
-    public Result list(String ieml, String username){
-        List<User> page = userService.getPage(ieml, username, getPage());
+    public Result list(String code, String username){
+        PageResult page = userService.getPage(code, username, getPage());
         return SUCCESS_MESSAGE(page);
     }
 
@@ -61,6 +66,31 @@ public class UserController extends BaseController {
         }
         userService.insert(user);
         return SUCCESS_MESSAGE();
+    }
+
+    /**
+     * 根据username获取用户信息
+     * @param username 用户名(code)
+     * @return Result 前端提示信息
+     */
+    @GetMapping(value = "/findByName")
+    public Result findByName(String username){
+        User user = userService.getUser(username);
+        // 获取登录时间
+        user.setLoginTime(new Date(Long.parseLong(JedisUtil.getObject(Constant.PREFIX_SHIRO_REFRESH_TOKEN + username).toString())));
+        return SUCCESS_MESSAGE(user);
+    }
+
+    /**
+     * 查找用户的菜单权限标识集合
+     * @param username 用户名(code)
+     * @return Result 前端提示信息
+     */
+    @GetMapping(value = "/findPermissions")
+    public Result findPermissions(String username){
+        User user = userService.getUser(username);
+        Set<String> permissions = authService.getUserAuthListById(user.getId());
+        return SUCCESS_MESSAGE(permissions);
     }
 
     /**

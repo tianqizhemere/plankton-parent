@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.service.impl;
 
+import com.alibaba.druid.sql.PagerUtils;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.shiro.SecurityUtils;
@@ -8,11 +9,18 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
+import top.tianqi.plankton.common.utils.PageResult;
+import top.tianqi.plankton.system.entity.Auth;
+import top.tianqi.plankton.system.entity.Role;
 import top.tianqi.plankton.system.entity.User;
+import top.tianqi.plankton.system.mapper.AuthMapper;
 import top.tianqi.plankton.system.mapper.UserMapper;
+import top.tianqi.plankton.system.service.AuthService;
 import top.tianqi.plankton.system.service.UserService;
 
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户服务层实现
@@ -24,6 +32,11 @@ public class UserServiceImplImpl extends BaseServiceImpl<UserMapper, User> imple
 
     @Autowired
     private UserMapper userDao;
+
+    @Resource(name = "authServiceImpl")
+    private AuthService authService;
+
+
 
     @Override
     public Boolean userLogin(String userName, String password) {
@@ -44,11 +57,19 @@ public class UserServiceImplImpl extends BaseServiceImpl<UserMapper, User> imple
     }
 
     @Override
-    public List<User> getPage(String ieml, String username, Page<User> page) {
-        List<User> page1 = userDao.findPage(page, ieml, username);
-        long total = page.getTotal();
-        System.out.println("total = " + total);
-        return page1;
+    public PageResult getPage(String code, String username, Page<User> page) {
+        List<User> users = userDao.findPage(page, code, username);
+        return new PageResult(page.getCurrent(), page.getSize(),  page.getTotal() , page.getPages(), users);
+    }
+
+    @Override
+    public Set<String> getUserRoles(Long userId) {
+        return null;
+    }
+
+    @Override
+    public Set<String> getUserPermissions(Long userId) {
+        return authService.getUserAuthListById(userId);
     }
 
     public static void main(String[] args) {

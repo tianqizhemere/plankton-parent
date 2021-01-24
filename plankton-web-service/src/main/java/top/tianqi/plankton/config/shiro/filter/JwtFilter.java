@@ -7,6 +7,7 @@ import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 import top.tianqi.plankton.common.Result;
@@ -21,6 +22,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * JWT过滤器
@@ -30,6 +32,10 @@ import java.io.IOException;
 public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerInterceptor {
 
     private static final Logger log = LoggerFactory.getLogger(JwtFilter.class);
+
+    /** 排除拦截的请求 */
+    @Value("${excludedPages}")
+    private String excludedPages;
 
     /**
      * 执行登录认证(判断用户是否想要登入)
@@ -99,18 +105,12 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
             log.info("当前请求 {} Authorization属性(Token)为空 请求类型 {}", requestURI, httpMethod);
             // mustLoginFlag = true 开启任何请求必须登录才可访问
             final Boolean mustLoginFlag = true;
-            // 放行登录链接
-            if ("/login".equals(requestURI)) {
-                return true;
-            }
-            if ("/system/user/save".equals(requestURI)) {
-                return true;
-            }
-            if ("/system/version/save".equals(requestURI)) {
-                return true;
-            }
-            if ("/system/attach/uploadFile".equals(requestURI)) {
-                return true;
+            for (String url : excludedPages.split(",")) {
+                // 是否为放行路径
+                if (Objects.equals(url, requestURI)) {
+                    log.info("放行路径--->{}", requestURI);
+                    return true;
+                }
             }
             if (mustLoginFlag) {
                 this.response401(response, "请先登录");

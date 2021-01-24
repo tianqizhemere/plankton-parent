@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="top.tianqi.plankton.system.mapper.OperationLogMapper">
+    <resultMap id="BaseResultMap" type="top.tianqi.plankton.system.entity.OperationLog">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="model" jdbcType="VARCHAR" property="model" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="operation_desc" jdbcType="VARCHAR" property="desc" />
+        <result column="request_param" jdbcType="VARCHAR" property="requestParam" />
+        <result column="response_param" jdbcType="VARCHAR" property="responseParam" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="method" jdbcType="VARCHAR" property="method" />
+        <result column="uri" jdbcType="VARCHAR" property="uri" />
+        <result column="ip" jdbcType="VARCHAR" property="ip" />
+    </resultMap>
+    <select id="findPage" resultMap="BaseResultMap">
+        select ol.* from operation_log ol where 1=1
+        order by ol.create_time desc
+    </select>
 </mapper>
