@@ -1,6 +1,9 @@
 package top.tianqi.plankton.system.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
+import top.tianqi.plankton.base.entity.BaseEntity;
 import top.tianqi.plankton.common.base.service.BaseService;
+import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.VersionInfo;
 
 /**
@@ -26,4 +29,11 @@ public interface VersionService extends BaseService<VersionInfo> {
      */
     VersionInfo getVersionInfo(String model);
 
+    /**
+     * 加载数据列表
+     * @param name 版本
+     * @param page 页码
+     * @return PageResult page对象
+     */
+    PageResult getPage(String name, Page<BaseEntity> page);
 }

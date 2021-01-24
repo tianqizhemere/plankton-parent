@@ -9,6 +9,7 @@ import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
+import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.VersionInfo;
 import top.tianqi.plankton.system.service.VersionService;
 
@@ -28,10 +29,15 @@ public class VersionController extends BaseController {
     @Resource(name = "versionServiceImpl")
     private VersionService versionService;
 
+    /**
+     * 加载数据列表
+     * @param name
+     * @return
+     */
     @OperLog(model = "版本管理", desc = "应用版本列表", type = OperationConst.SELECT)
     @GetMapping(value = "/list")
-    public Result list(){
-        Page<VersionInfo> page = versionService.selectPage(getPage());
+    public Result list(String name){
+        PageResult page = versionService.getPage(name, getPage());
         return Result.success(page);
     }
 

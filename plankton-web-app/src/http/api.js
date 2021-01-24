@@ -9,6 +9,7 @@ import * as dict from './moudules/dict'
 import * as log from './moudules/log'
 import * as sys from './moudules/jvm'
 import * as admin from './moudules/wechatAppAdmin'
+import * as version from './moudules/version'
 
 
 // 默认全部导出
@@ -20,5 +21,6 @@ export default {
     dict,
     log,
     sys,
-    admin
+    admin,
+    version
 }
