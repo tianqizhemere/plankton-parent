@@ -95,4 +95,11 @@ public class VersionInfo extends BaseEntity {
     public void setAttachId(String attachId) {
         this.attachId = attachId;
     }
+
+    public String getTypeName(){
+        if (this.type == 1){
+            return "最新版本";
+        }
+        return "历史版本";
+    }
 }

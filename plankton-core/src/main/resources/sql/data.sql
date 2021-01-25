@@ -18,6 +18,11 @@ insert into auth values('10', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系�
 insert into auth values('11', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-字典管理-新增', 'system:dict:save', '/system/dict');
 insert into auth values('12', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-字典管理-修改', 'system:dict:update', '/system/dict');
 insert into auth values('13', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-字典管理-删除', 'system:dict:delete', '/system/dict');
+insert into auth values('14', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理', 'system:version:index', '/system/version');
+insert into auth values('15', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-视图', 'system:version:view', '/system/version');
+insert into auth values('16', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-新增', 'system:version:save', '/system/version');
+insert into auth values('17', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-修改', 'system:version:update', '/system/version');
+insert into auth values('18', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-删除', 'system:version:delete', '/system/version');
 
 
 -- 角色和菜单权限
@@ -46,6 +51,11 @@ insert into role_auth values('10', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1
 insert into role_auth values('11', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 11);
 insert into role_auth values('12', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 12);
 insert into role_auth values('13', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 13);
+insert into role_auth values('14', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 14);
+insert into role_auth values('15', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 15);
+insert into role_auth values('16', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 16);
+insert into role_auth values('17', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 17);
+insert into role_auth values('18', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 18);
 
 insert into user_role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
 
