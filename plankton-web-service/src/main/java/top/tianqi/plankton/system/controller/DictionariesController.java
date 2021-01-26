@@ -11,7 +11,6 @@ import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.Dictionaries;
-import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.DictionariesService;
 
 import javax.annotation.Resource;

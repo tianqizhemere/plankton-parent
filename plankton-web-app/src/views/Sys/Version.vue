@@ -68,11 +68,15 @@
           <el-upload class="upload-demo"
                   drag
                   ref="upload"
-                  action="action"
+                  action="/api/system/upload/uploadFile"
                   :on-change="fileChange"
                   :file-list="fileList"
-                  :http-request="uploadImage"
-                  :before-upload="onBeforeUploadImage">
+                     :on-success="uploadSuccess"
+          >
+            <!--
+            :http-request="uploadImage"
+           :before-upload="onBeforeUploadImage"
+            -->
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
           </el-upload>
@@ -176,18 +180,24 @@
       }
     },
     methods: {
-      // 上传文件之前的钩子
-      onBeforeUploadImage(file) {
-      },
-      uploadImage(param){
-        const formData = new FormData()
-        formData.append('file', param.file)
-        formData.append('dataType', 1)
-        this.$api.version.upload(formData, { headers: { 'Content-Type': 'multipart/form-data'}})
-                .then(res => {
-                  res = res.data
-                  this.dataForm.attachIds += res.id;
-                })
+        uploadSuccess(response, file, fileList) {
+          var attachIds = "";
+          response.resultMap.list.map((val) => {
+            fileList.map((obj) => {
+              if (val.orginalName == obj.name) {
+                obj.url = val.path
+              }
+            })
+          })
+          fileList.map((obj) => {
+            if (obj.id) {
+              attachIds = attachIds + obj.id + ","
+            } else {
+              attachIds = attachIds + obj.response.resultMap.list[0].id + ','
+            }
+          })
+          this.$emit("setAttachIds", attachIds)
+        }
       },
       fileChange(file){
         /**
