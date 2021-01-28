@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -16,13 +18,12 @@ public class Dictionaries extends BaseEntity {
     private static final long serialVersionUID = -5201090437613680914L;
 
     /** 数据值 */
+    @NotBlank(message = "名称不能为空")
     private String name;
-
-    /** code编码 */
-    private String code;
 
     /** 上级字典ID，一级字典为0 */
     @TableField(value = "parent_id")
+    @NotNull(message = "父节点id不能为空")
     private Long parentId;
 
     /** 排序 */
@@ -33,8 +34,10 @@ public class Dictionaries extends BaseEntity {
     @TableField(value = "del_flag")
     private Integer delFlag;
 
+    /** 父节点名称 */
     @TableField(exist = false)
     private String parentName;
+
     @TableField(exist = false)
     private Integer level;
 
@@ -48,14 +51,6 @@ public class Dictionaries extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public Long getParentId() {

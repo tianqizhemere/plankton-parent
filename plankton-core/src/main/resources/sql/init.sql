@@ -185,7 +185,6 @@ CREATE TABLE dictionaries (
   create_time datetime NOT NULL,
   modify_time datetime NOT NULL,
   name varchar(100) NOT NULL COMMENT '数据值',
-  code varchar(100) NOT NULL COMMENT 'code编码',
   parent_id int(20) DEFAULT NULL COMMENT '上级字典ID，一级字典为0',
   order_num int(11) DEFAULT NULL COMMENT '排序',
   del_flag int(1) DEFAULT '0' comment '删除状态（0，正常，1已删除）',

@@ -50,16 +50,16 @@ public class DictionariesServiceImpl extends BaseServiceImpl<DictionariesMapper,
      * @param dictionaries 数据列表
      */
     private void findChildren(List<Dictionaries> tempDictionaries, List<Dictionaries> dictionaries) {
-        for (Dictionaries temp : tempDictionaries) {
+        for (Dictionaries parentDictionaries : tempDictionaries) {
             List<Dictionaries> children = new ArrayList<>();
-            for (Dictionaries dept : dictionaries) {
-                if (temp.getId() != null && temp.getId().equals(dept.getParentId())) {
-                    dept.setParentName(dept.getName());
-                    dept.setLevel(temp.getLevel() + 1);
-                    children.add(dept);
+            for (Dictionaries childrenDictionaries : dictionaries) {
+                if (parentDictionaries.getId() != null && parentDictionaries.getId().equals(childrenDictionaries.getParentId())) {
+                    childrenDictionaries.setParentName(parentDictionaries.getName());
+                    childrenDictionaries.setLevel(parentDictionaries.getLevel() + 1);
+                    children.add(childrenDictionaries);
                 }
             }
-            temp.setChildren(children);
+            parentDictionaries.setChildren(children);
             findChildren(children, dictionaries);
         }
     }

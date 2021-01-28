@@ -12,6 +12,14 @@ export const save = (data) => {
         data
     })
 }
+// 修改
+export const edit = (data) => {
+    return axios({
+        url: '/system/dictionaries/update',
+        method: 'post',
+        data
+    })
+}
 // 删除
 export const batchDelete = (data) => {
     return axios({

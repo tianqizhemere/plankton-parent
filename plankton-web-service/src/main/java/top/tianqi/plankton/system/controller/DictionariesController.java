@@ -29,6 +29,7 @@ public class DictionariesController extends BaseController {
     private DictionariesService dictionariesService;
 
     @GetMapping(value = "/findTree")
+    @OperLog(model = "字段管理", desc = "获取字典树形", type = OperationConst.SELECT)
     public Result findTree(){
         List<Dictionaries> page = dictionariesService.findTree();
         return SUCCESS_MESSAGE(page);
@@ -44,7 +45,7 @@ public class DictionariesController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "字段管理", desc = "修改字典", type = OperationConst.INSERT)
+    @OperLog(model = "字段管理", desc = "修改字典", type = OperationConst.UPDATE)
     @PostMapping(value = "/update")
     public Result update(@Valid Dictionaries dictionaries, BindingResult result){
         if (result.hasErrors()){

@@ -75,7 +75,12 @@ INSERT INTO menu VALUES ('9', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system
 INSERT INTO menu VALUES ('10','2021-1-13 16:24:24', '2021-1-13 16:24:24', 'system:version','/sys/version', '菜单管理', 0, 'kt-icon-xinxi', 'content/ArticleManagement', '3');
 
 -- 数字字典
-INSERT INTO dictionaries VALUES ('1', '2021-1-24 0:01:01', '2021-1-24 0:01:01', '性别', 'sex',  '0', '0',0);
-INSERT INTO dictionaries VALUES ('2', '2021-1-24 0:01:01', '2021-1-24 0:01:01', '男', 'man',  '1', '0',0);
-INSERT INTO dictionaries VALUES ('3', '2021-1-24 0:01:01', '2021-1-24 0:01:01', '女', 'female', '1',  '0',0);
+INSERT INTO dictionaries VALUES ('1', '2021-1-24 0:01:01', '2021-1-24 0:01:01', '性别',  '0', '0', 0);
+INSERT INTO dictionaries VALUES ('2', '2021-1-24 0:01:01', '2021-1-24 0:01:01', '男', '1', '0', 0);
+INSERT INTO dictionaries VALUES ('3', '2021-1-24 0:01:01', '2021-1-24 0:01:01', '女', '1', '0', 0);
+INSERT INTO dictionaries VALUES ('4', '2021-1-24 0:01:01', '2021-1-24 0:01:01', 'Galaxy S10', '0', '0', 0);
+INSERT INTO dictionaries VALUES ('5', '2021-1-24 0:01:01', '2021-1-24 0:01:01', 'Galaxy Note10', '0', '0', 0);
+INSERT INTO dictionaries VALUES ('6', '2021-1-24 0:01:01', '2021-1-24 0:01:01', 'Galaxy S20', '0', '0', 0);
+INSERT INTO dictionaries VALUES ('7', '2021-1-24 0:01:01', '2021-1-24 0:01:01', 'Galaxy Note20', '0', '0', 0);
+INSERT INTO dictionaries VALUES ('8', '2021-1-24 0:01:01', '2021-1-24 0:01:01', 'Galaxy S21U', '0', '0', 0);
 

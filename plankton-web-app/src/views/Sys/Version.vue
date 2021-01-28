@@ -74,9 +74,10 @@
               :on-change="handleChange"
               :file-list="fileList"
               multiple
-          >选取文件</el-upload>
+          >选取文件
+          </el-upload>
+          <el-button type="primary" size="small" @click="submitUpload">上传到服务器</el-button>
 
-          <el-button type="primary" size="small" @click="submitUpload">上传</el-button>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -171,7 +172,7 @@ export default {
       },
         {
           label: 'Galaxy Note10',
-          value:'2',
+          value: '2',
           children: [{
             value: 'N971N',
             label: 'N971N',
@@ -187,7 +188,7 @@ export default {
         },
         {
           label: 'Galaxy S20',
-          value:'3',
+          value: '3',
           children: [{
             value: 'G981N',
             label: 'G981N',
@@ -242,7 +243,7 @@ export default {
       this.fileList = fileList;
     },
     // 上传文件
-    submitUpload(){
+    submitUpload() {
       let formData = new FormData();
       this.fileList.forEach(item => {
         formData.append("files", item.raw);
@@ -289,7 +290,6 @@ export default {
     },
     // Cascader 级联选择器选中事件
     onProvincesChange(item) {
-      debugger
       let modelName = ""
       item.forEach(key => {
         modelName += key[1] + ",";
