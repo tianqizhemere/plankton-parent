@@ -3,7 +3,6 @@ package top.tianqi.plankton.system.mapper;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.ibatis.annotations.Param;
-import top.tianqi.plankton.base.entity.BaseEntity;
 import top.tianqi.plankton.system.entity.OperationLog;
 
 import java.util.Date;
@@ -24,5 +23,6 @@ public interface OperationLogMapper extends BaseMapper<OperationLog> {
      * @param page 分页对象
      * @return List<OperationLog> 数据列表
      */
-    List<OperationLog> findPage(@Param("type") String type,@Param("beginTime") Date beginTime, @Param("endTime") Date endTime, @Param("page") Page<OperationLog> page);
+    List<OperationLog> findPage(@Param("type") String type, @Param("name") String name,@Param("beginTime") Date beginTime, @Param("endTime") Date endTime, @Param("page") Page<OperationLog> page);
+
 }

@@ -28,3 +28,10 @@ export const findPage = (params) => {
         params
     })
 }
+// 树形查询
+export const findDeptTree = () => {
+    return axios({
+        url: '/system/dictionaries/findTree',
+        method: 'get'
+    })
+}

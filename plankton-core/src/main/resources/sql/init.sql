@@ -184,11 +184,12 @@ CREATE TABLE dictionaries (
   id int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
   create_time datetime NOT NULL,
   modify_time datetime NOT NULL,
-  value varchar(100) NOT NULL COMMENT '数据值',
-  label varchar(100) NOT NULL COMMENT '标签名',
-  type varchar(100) NOT NULL COMMENT '类型',
-  description varchar(100) NOT NULL COMMENT '描述',
-  sort decimal(10,0) NOT NULL COMMENT '排序（升序）',
-  remarks varchar(255) DEFAULT NULL COMMENT '备注信息',
+  name varchar(100) NOT NULL COMMENT '数据值',
+  code varchar(100) NOT NULL COMMENT 'code编码',
+  parent_id int(20) DEFAULT NULL COMMENT '上级字典ID，一级字典为0',
+  order_num int(11) DEFAULT NULL COMMENT '排序',
+  del_flag int(1) DEFAULT '0' comment '删除状态（0，正常，1已删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='字典表';
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='字典管理表';
+
+

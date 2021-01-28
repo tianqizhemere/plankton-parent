@@ -53,7 +53,7 @@ public class UserController extends BaseController {
     //@RequiresPermissions("system:user:save")
     @OperLog(model = "用户管理", desc = "新增用户", type = OperationConst.INSERT)
     @PostMapping(value = "/save")
-    public Result save(@Valid @RequestBody User user, BindingResult result){
+    public Result save(@Valid User user, BindingResult result){
         if (result.hasErrors()){
             return Result.error(result.getFieldError().getDefaultMessage());
         }
@@ -67,11 +67,20 @@ public class UserController extends BaseController {
 
     @OperLog(model = "用户管理", desc = "修改用户", type = OperationConst.UPDATE)
     @PostMapping(value = "/update")
-    public Result update(@Valid @RequestBody User user, BindingResult result){
+    public Result update(@Valid User user, BindingResult result){
         if (result.hasErrors()){
             return Result.error(result.getFieldError().getDefaultMessage());
         }
         userService.updateById(user);
+        return SUCCESS_MESSAGE();
+    }
+
+    @OperLog(model = "用户管理", desc = "删除用户", type = OperationConst.DELETE)
+    @PostMapping(value = "/delete")
+    public Result delete(List<User> users){
+        for (User user : users) {
+            userService.deleteById(user.getId());
+        }
         return SUCCESS_MESSAGE();
     }
 
@@ -83,8 +92,6 @@ public class UserController extends BaseController {
     @GetMapping(value = "/findByName")
     public Result findByName(String username){
         User user = userService.getUser(username);
-        // 获取登录时间
-        user.setLoginTime(new Date(Long.parseLong(JedisUtil.getObject(Constant.PREFIX_SHIRO_REFRESH_TOKEN + username).toString())));
         return SUCCESS_MESSAGE(user);
     }
 

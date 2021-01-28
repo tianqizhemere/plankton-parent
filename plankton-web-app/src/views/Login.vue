@@ -35,8 +35,8 @@ export default {
     return {
       loading: false,
       loginForm: {
-        account: 'superAdmin',
-        password: 'rts!@#123',
+        account: '',
+        password: '',
         src: ''
       },
       fieldRules: {
@@ -57,7 +57,7 @@ export default {
       this.$api.login.login(userInfo).then((res) => {
           if(res.code != 200) {
             this.$message({
-              message: res.msg,
+              message: '用户或密码错误',
               type: 'error'
             })
           } else {

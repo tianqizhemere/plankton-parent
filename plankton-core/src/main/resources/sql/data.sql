@@ -23,7 +23,8 @@ insert into auth values('15', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系�
 insert into auth values('16', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-新增', 'system:version:save', '/system/version');
 insert into auth values('17', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-修改', 'system:version:update', '/system/version');
 insert into auth values('18', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-删除', 'system:version:delete', '/system/version');
-
+insert into auth values('19', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-日志管理', 'system:log:index', '/system/log');
+insert into auth values('20', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-日志管理-视图', 'system:log:view', '/system/log');
 
 -- 角色和菜单权限
 insert into role_menu values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
@@ -56,6 +57,8 @@ insert into role_auth values('15', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1
 insert into role_auth values('16', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 16);
 insert into role_auth values('17', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 17);
 insert into role_auth values('18', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 18);
+insert into role_auth values('19', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 19);
+insert into role_auth values('20', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 20);
 
 insert into user_role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
 
@@ -64,14 +67,15 @@ INSERT INTO menu VALUES ('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system
 INSERT INTO menu VALUES ('2', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system:index','/home/intro','运行情况', 0, null, 'dashboard/admin/index', '1');
 INSERT INTO menu VALUES ('3', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system:index','/sys', '系统管理', 0,'el-icon-s-tools', 'AdminIndex', '0');
 INSERT INTO menu VALUES ('4', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system:user','/admin', '内容管理', 0, 'el-icon-tickets', 'AdminIndex', '0');
-INSERT INTO menu VALUES ('5', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system:user','/admin', '系统配置', 0, 'el-icon-s-tools', 'AdminIndex', '0');
-INSERT INTO menu VALUES ('6', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system:user','/sys/user', '用户信息', 0, null, 'user/UserProfile', '3');
-INSERT INTO menu VALUES ('7', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system:role','/sys/role', '角色配置', 0, null, 'user/Role', '3');
-INSERT INTO menu VALUES ('8', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system:log','/sys/log', '日志管理', 0, null, 'content/BookManagement', '3');
-INSERT INTO menu VALUES ('9', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system:dict','/sys/dict', '字典管理', 0, null, 'content/BannerManagement', '4');
-INSERT INTO menu VALUES ('10','2021-1-13 16:24:24', '2021-1-13 16:24:24', 'system:user','/admin/content/article', '文章管理', 0, null, 'content/ArticleManagement', '4');
+INSERT INTO menu VALUES ('5', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system:index','/admin', '系统配置', 0, 'el-icon-s-tools', 'AdminIndex', '0');
+INSERT INTO menu VALUES ('6', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system:user','/sys/user', '用户信息', 0, 'kt-icon-qunzu', 'user/UserProfile', '3');
+INSERT INTO menu VALUES ('7', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system:role','/sys/role', '角色配置', 0, 'kt-icon-weixiufuwu_o', 'user/Role', '3');
+INSERT INTO menu VALUES ('8', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system:log','/sys/log', '日志管理', 0, 'kt-icon-lishijilu', 'content/BookManagement', '3');
+INSERT INTO menu VALUES ('9', '2021-1-13 16:24:24', '2021-1-13 16:24:24','system:dict','/sys/dict', '字典管理', 0, 'kt-icon-shuzhuangtu', 'content/BannerManagement', '4');
+INSERT INTO menu VALUES ('10','2021-1-13 16:24:24', '2021-1-13 16:24:24', 'system:version','/sys/version', '菜单管理', 0, 'kt-icon-xinxi', 'content/ArticleManagement', '3');
 
 -- 数字字典
-INSERT INTO dictionaries VALUES ('1', '2021-1-24 0:01:01', '2021-1-24 0:01:01','male', '男', 'sex', '性别', '0', '性别');
-INSERT INTO dictionaries VALUES ('2', '2021-1-24 0:01:01', '2021-1-24 0:01:01','female', '女', 'sex', '性别', '1',  '性别');
+INSERT INTO dictionaries VALUES ('1', '2021-1-24 0:01:01', '2021-1-24 0:01:01', '性别', 'sex',  '0', '0',0);
+INSERT INTO dictionaries VALUES ('2', '2021-1-24 0:01:01', '2021-1-24 0:01:01', '男', 'man',  '1', '0',0);
+INSERT INTO dictionaries VALUES ('3', '2021-1-24 0:01:01', '2021-1-24 0:01:01', '女', 'female', '1',  '0',0);
 

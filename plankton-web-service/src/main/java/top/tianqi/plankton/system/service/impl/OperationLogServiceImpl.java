@@ -3,7 +3,6 @@ package top.tianqi.plankton.system.service.impl;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.tianqi.plankton.base.entity.BaseEntity;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.OperationLog;
@@ -25,8 +24,8 @@ public class OperationLogServiceImpl extends BaseServiceImpl<OperationLogMapper,
     private OperationLogMapper operationLogMapper;
 
     @Override
-    public PageResult getPage(String type, Date beginTime, Date endTime, Page<OperationLog> page) {
-        List<OperationLog> list = operationLogMapper.findPage(type, beginTime, endTime, page);
+    public PageResult getPage(String type, String name, Date beginTime, Date endTime, Page<OperationLog> page) {
+        List<OperationLog> list = operationLogMapper.findPage(type, name, beginTime, endTime, page);
         return new PageResult(page.getCurrent(), page.getSize(),  page.getTotal() , page.getPages(), list);
     }
 }

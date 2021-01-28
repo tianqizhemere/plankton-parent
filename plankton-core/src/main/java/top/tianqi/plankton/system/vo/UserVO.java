@@ -1,9 +1,5 @@
 package top.tianqi.plankton.system.vo;
 
-import top.tianqi.plankton.system.entity.UserConfig;
-
-import java.util.Set;
-
 /**
  * 用户VO
  * @author Wukh
@@ -29,8 +25,6 @@ public class UserVO {
     /** 令牌 */
     private String authorization;
 
-    /** token过期时间 */
-    private Integer expireTime;
 
     public Long getId() {
         return id;
@@ -70,14 +64,6 @@ public class UserVO {
 
     public void setAuthorization(String authorization) {
         this.authorization = authorization;
-    }
-
-    public Integer getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(Integer expireTime) {
-        this.expireTime = expireTime;
     }
 
     public String getCode() {

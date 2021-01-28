@@ -13,7 +13,10 @@
     </resultMap>
 
     <select id="findList" resultMap="BaseResultMap">
-        select vu.* from version_upgrade vu
+        select vu.* from version_upgrade vu where 1=1
+        <if test="name != null and name != ''">
+            and vu.version_code like '%${name}%'
+        </if>
         order by vu.create_time desc
     </select>
 </mapper>

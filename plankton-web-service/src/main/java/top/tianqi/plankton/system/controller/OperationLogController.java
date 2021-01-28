@@ -32,8 +32,8 @@ public class OperationLogController extends BaseController {
      * @return Result 前端提示信息
      */
     @GetMapping(value = "/list")
-    public Result list(String type, Date beginTime, Date endTime){
-        PageResult page = operationLogService.getPage(type, beginTime, endTime, getPage());
+    public Result list(String type, String name,Date beginTime, Date endTime){
+        PageResult page = operationLogService.getPage(type, name, beginTime, endTime, getPage());
         return SUCCESS_MESSAGE(page);
     }
 }

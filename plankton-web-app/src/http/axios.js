@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from './config';
 import router from '@/router'
+import qs from 'qs';
 
 // 使用vuex做全局loading时使用
 // import store from '@/store'
@@ -31,16 +32,19 @@ export default function $axios(options) {
         }
         // 3. 根据请求方法，序列化传来的参数，根据后端需求是否序列化
         if (config.method === 'post') {
-          // if (config.data.__proto__ === FormData.prototype
-          //   || config.url.endsWith('path')
-          //   || config.url.endsWith('mark')
-          //   || config.url.endsWith('patchs')
-          // ) {
-          // } else {
-            // config.data = qs.stringify(config.data)
-          // }
+          if (config.url === '/login') {
+            config.headers = {"Content-Type": "application/json;charset=UTF-8"}
+          } else {
+            if (config.data.__proto__ === FormData.prototype
+                || config.url.endsWith('path')
+                || config.url.endsWith('mark')
+                || config.url.endsWith('patchs')
+            ) {
+            } else {
+              config.data = qs.stringify(config.data)
+            }
+          }
         }
-
         return config
       },
 
@@ -148,5 +152,18 @@ export default function $axios(options) {
     }).catch(error => {
       reject(error)
     })
+  })
+}
+
+/**
+ * post方法，对应post请求
+ * @param {String} url [请求的url地址]
+ * @param {Object} params [请求时携带的参数]
+ */
+export function post(url, params) {
+  return new Promise((resolve, reject) => {
+    axios.post(url, qs.stringify(params, { arrayFormat: 'indices', allowDots: true }))
+        .then(res => { resolve(res.data) })
+        .catch(err => { reject(err.data) })
   })
 }

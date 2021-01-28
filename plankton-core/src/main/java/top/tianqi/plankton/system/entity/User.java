@@ -2,6 +2,7 @@ package top.tianqi.plankton.system.entity;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import top.tianqi.plankton.base.entity.BaseEntity;
 
 import javax.validation.constraints.NotBlank;
@@ -33,7 +34,7 @@ public class User extends BaseEntity {
     private String versionCode;
 
     /** 下载次数 */
-    @TableField(value = "upload_Counter")
+    @TableField(value = "upload_counter")
     private Integer uploadCounter = 2;
 
     /** 是否被禁用 0:禁用，1：未禁用*/
@@ -41,11 +42,18 @@ public class User extends BaseEntity {
     private Boolean isEnable = true;
 
     /** 用户最后登录时间 */
-    @TableField(exist = false)
+    @TableField(value = "login_time")
+    @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date loginTime;
 
     /** 用户来源 0 或1 */
     private Integer source;
+
+    /** 手机号码 */
+    private String phone;
+
+    /** QQ */
+    private String qq;
 
     public String getCode() {
         return code;
@@ -117,6 +125,22 @@ public class User extends BaseEntity {
 
     public void setLoginTime(Date loginTime) {
         this.loginTime = loginTime;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
     }
 
     public String getEnableStatus(){

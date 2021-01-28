@@ -9,12 +9,12 @@ import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
-import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.Dictionaries;
 import top.tianqi.plankton.system.service.DictionariesService;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 字典controller
@@ -28,9 +28,9 @@ public class DictionariesController extends BaseController {
     @Resource(name = "dictionariesServiceImpl")
     private DictionariesService dictionariesService;
 
-    @GetMapping(value = "/list")
-    public Result list(String name){
-        PageResult page = dictionariesService.getPage(name, getPage());
+    @GetMapping(value = "/findTree")
+    public Result findTree(){
+        List<Dictionaries> page = dictionariesService.findTree();
         return SUCCESS_MESSAGE(page);
     }
 
