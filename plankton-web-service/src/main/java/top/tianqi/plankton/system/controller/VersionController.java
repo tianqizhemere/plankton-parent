@@ -1,6 +1,5 @@
 package top.tianqi.plankton.system.controller;
 
-import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
@@ -15,7 +14,7 @@ import top.tianqi.plankton.system.service.VersionService;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.Map;
+import java.util.List;
 
 /**
  * 版本controller
@@ -78,20 +77,23 @@ public class VersionController extends BaseController {
 
     @OperLog(model = "版本管理", desc = "删除应用版本", type = OperationConst.DELETE)
     @PostMapping(value = "/delete")
-    public Result delete(Long id){
-        versionService.deleteById(id);
+    public Result delete(List<VersionInfo> versionInfos){
+        for (VersionInfo versionInfo : versionInfos) {
+            versionService.deleteById(versionInfo.getId());
+        }
         return SUCCESS_MESSAGE();
     }
 
     /**
      * 根据手机型号查询最新版本更新信息
      * @param model 手机型号
+     * @param version 当前版本
      * @return 前端提示信息
      */
     @OperLog(model = "版本管理", desc = "查询最新版本信息", type = OperationConst.SELECT)
     @GetMapping(value = "/info")
-    public Result info(String model){
-        VersionInfo versionInfo = versionService.getVersionInfo(model);
+    public Result info(String model, String version){
+        VersionInfo versionInfo = versionService.getVersionInfo(version, model);
         return SUCCESS_MESSAGE(versionInfo);
     }
 }

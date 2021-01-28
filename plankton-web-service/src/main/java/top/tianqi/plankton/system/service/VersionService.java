@@ -24,10 +24,12 @@ public interface VersionService extends BaseService<VersionInfo> {
 
     /**
      * 根据手机型号查询最新版本更新信息
+     *
+     * @param version 当前版本
      * @param model 手机型号
      * @return versionInfo
      */
-    VersionInfo getVersionInfo(String model);
+    VersionInfo getVersionInfo(String version, String model);
 
     /**
      * 加载数据列表

@@ -17,14 +17,14 @@ import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.config.shiro.token.JwtUtil;
 import top.tianqi.plankton.system.entity.Nonmember;
 import top.tianqi.plankton.system.entity.User;
-import top.tianqi.plankton.system.entity.UserConfig;
 import top.tianqi.plankton.system.service.NonmemberService;
 import top.tianqi.plankton.system.service.UserService;
 import top.tianqi.plankton.system.vo.UserVO;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * 登录controller
@@ -84,7 +84,8 @@ public class LoginController extends BaseController {
         // 从Header中Authorization返回AccessToken，时间戳为当前时间戳
         String token = JwtUtil.sign(user.getCode(), currentTimeMillis);
         userVO.setAuthorization(token);
-        userVO.setExpireTime(Integer.parseInt(refreshTokenExpireTime));
+        user.setLoginTime(new Date());
+        userService.updateById(user);
         httpServletResponse.setHeader("Authorization", token);
         httpServletResponse.setHeader("Access-Control-Expose-Headers", "Authorization");
         return Result.success("登录成功(Login Success.)", userVO);

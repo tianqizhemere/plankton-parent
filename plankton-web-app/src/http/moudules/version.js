@@ -1,7 +1,7 @@
 import axios from '../axios'
 
 /*
- * 用户管理模块
+ * 版本管理模块
  */
 
 // 保存
@@ -18,13 +18,6 @@ export const edit = (data) => {
         url: '/system/version/update',
         method: 'post',
         data
-    })
-}
-export const findByName = (params) => {
-    return axios({
-        url: '/system/version/findByName',
-        method: 'get',
-        params
     })
 }
 // 删除

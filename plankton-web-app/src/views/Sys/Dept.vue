@@ -7,11 +7,11 @@
                     <el-input v-model="filters.name" placeholder="名称"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:dept:view" type="primary"
+                    <kt-button icon="fa fa-search" :label="$t('action.search')" perms="system:user:view" type="primary"
                                @click="findTreeData(null)"/>
                 </el-form-item>
                 <el-form-item>
-                    <kt-button icon="fa fa-plus" :label="$t('action.add')" perms="sys:dept:add" type="primary"
+                    <kt-button icon="fa fa-plus" :label="$t('action.add')" perms="system:user:view" type="primary"
                                @click="handleAdd"/>
                 </el-form-item>
             </el-form>
@@ -40,9 +40,9 @@
             <el-table-column
                     fixed="right" header-align="center" align="center" width="185" :label="$t('action.operation')">
                 <template slot-scope="scope">
-                    <kt-button icon="fa fa-edit" :label="$t('action.edit')" perms="sys:dept:edit"
+                    <kt-button icon="fa fa-edit" :label="$t('action.edit')" perms="system:user:edit"
                                @click="handleEdit(scope.row)"/>
-                    <kt-button icon="fa fa-trash" :label="$t('action.delete')" perms="sys:dept:delete" type="danger"
+                    <kt-button icon="fa fa-trash" :label="$t('action.delete')" perms="system:user:delete" type="danger"
                                @click="handleDelete(scope.row)"/>
                 </template>
             </el-table-column>
@@ -124,7 +124,7 @@
             // 获取数据
             findTreeData: function () {
                 this.loading = true
-                this.$api.dept.findDeptTree().then((res) => {
+                this.$api.dict.findDeptTree().then((res) => {
                     this.tableTreeDdata = res.data
                     this.popupTreeData = this.getParentMenuTree(res.data)
                     this.loading = false

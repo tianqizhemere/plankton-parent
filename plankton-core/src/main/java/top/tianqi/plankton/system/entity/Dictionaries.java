@@ -1,7 +1,10 @@
 package top.tianqi.plankton.system.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
+
+import java.util.List;
 
 /**
  * 字典
@@ -13,68 +16,93 @@ public class Dictionaries extends BaseEntity {
     private static final long serialVersionUID = -5201090437613680914L;
 
     /** 数据值 */
-    private String value;
+    private String name;
 
-    /** 标签名 */
-    private String label;
+    /** code编码 */
+    private String code;
 
-    /** 类型 */
-    private String type;
+    /** 上级字典ID，一级字典为0 */
+    @TableField(value = "parent_id")
+    private Long parentId;
 
-    /** 描述 */
-    private String description;
+    /** 排序 */
+    @TableField(value = "order_num")
+    private Integer orderNum;
 
-    /** 排序（升序） */
-    private Long sort;
+    /** 删除状态（0，正常，1已删除） */
+    @TableField(value = "del_flag")
+    private Integer delFlag;
 
-    /** 备注信息 */
-    private String remarks;
+    @TableField(exist = false)
+    private String parentName;
+    @TableField(exist = false)
+    private Integer level;
 
-    public String getValue() {
-        return value;
+    /** 子节点 */
+    @TableField(exist = false)
+    private List<Dictionaries> children;
+
+    public String getName() {
+        return name;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLabel() {
-        return label;
+    public String getCode() {
+        return code;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getType() {
-        return type;
+    public Long getParentId() {
+        return parentId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getOrderNum() {
+        return orderNum;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
     }
 
-    public Long getSort() {
-        return sort;
+    public Integer getDelFlag() {
+        return delFlag;
     }
 
-    public void setSort(Long sort) {
-        this.sort = sort;
+    public void setDelFlag(Integer delFlag) {
+        this.delFlag = delFlag;
     }
 
-    public String getRemarks() {
-        return remarks;
+    public String getParentName() {
+        return parentName;
     }
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public List<Dictionaries> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Dictionaries> children) {
+        this.children = children;
     }
 }

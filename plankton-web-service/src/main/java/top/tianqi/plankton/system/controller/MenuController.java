@@ -39,4 +39,10 @@ public class MenuController extends BaseController {
         return SUCCESS_MESSAGE(list);
     }
 
+    @GetMapping("/findMenuTree")
+    public Result findMenuTree(String name){
+        List<Menu> list = menuService.findNavTree(null);
+        return Result.success(list);
+    }
+
 }
