@@ -22,7 +22,6 @@ import top.tianqi.plankton.system.service.UserService;
 import top.tianqi.plankton.system.vo.UserVO;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.Objects;
 
@@ -54,7 +53,7 @@ public class LoginController extends BaseController {
      */
     @OperLog(model = "登录管理", desc = "登录", type = OperationConst.LOGIN)
     @PostMapping(value = "/login")
-    public Result login(@RequestBody User loginUser, HttpServletResponse httpServletResponse)  {
+    public Result login(@RequestBody User loginUser)  {
         if (loginUser == null) {
             throw new BusinessException("登录参数不能为空");
         }
@@ -86,8 +85,6 @@ public class LoginController extends BaseController {
         userVO.setAuthorization(token);
         user.setLoginTime(new Date());
         userService.updateById(user);
-        httpServletResponse.setHeader("Authorization", token);
-        httpServletResponse.setHeader("Access-Control-Expose-Headers", "Authorization");
         return Result.success("登录成功(Login Success.)", userVO);
     }
 

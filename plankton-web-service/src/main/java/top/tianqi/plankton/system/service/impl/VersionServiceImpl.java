@@ -106,8 +106,8 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                 versionIds.add(versionInfo.getId());
             }
         }
-        if (versionInfo.getAttachId() != null) {
-            for (String attachId : versionInfo.getAttachId().split(",")) {
+        if (versionInfo.getAttachIds() != null) {
+            for (String attachId : versionInfo.getAttachIds().split(",")) {
                 Attach attach = attachDao.selectById(new Long(attachId));
                 if (attach != null) {
                     if (!CollectionUtils.isEmpty(versionIds)) {

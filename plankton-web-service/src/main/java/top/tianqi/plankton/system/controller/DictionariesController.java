@@ -1,10 +1,7 @@
 package top.tianqi.plankton.system.controller;
 
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
@@ -37,7 +34,7 @@ public class DictionariesController extends BaseController {
 
     @OperLog(model = "字段管理", desc = "新增字典", type = OperationConst.INSERT)
     @PostMapping(value = "/save")
-    public Result save(@Valid Dictionaries dictionaries, BindingResult result){
+    public Result save(@Valid @RequestBody Dictionaries dictionaries, BindingResult result){
         if (result.hasErrors()){
             return Result.error(result.getFieldError().getDefaultMessage());
         }
@@ -47,11 +44,20 @@ public class DictionariesController extends BaseController {
 
     @OperLog(model = "字段管理", desc = "修改字典", type = OperationConst.UPDATE)
     @PostMapping(value = "/update")
-    public Result update(@Valid Dictionaries dictionaries, BindingResult result){
+    public Result update(@Valid @RequestBody Dictionaries dictionaries, BindingResult result){
         if (result.hasErrors()){
             return Result.error(result.getFieldError().getDefaultMessage());
         }
         dictionariesService.updateById(dictionaries);
+        return SUCCESS_MESSAGE();
+    }
+
+    @OperLog(model = "字段管理", desc = "删除字典", type = OperationConst.DELETE)
+    @PostMapping(value = "/delete")
+    public Result delete(@RequestBody List<Dictionaries> dictionaries) {
+        for (Dictionaries dictionary : dictionaries) {
+            dictionariesService.deleteById(dictionary);
+        }
         return SUCCESS_MESSAGE();
     }
 }

@@ -50,14 +50,14 @@ public class VersionController extends BaseController {
     @Limit(count = 5, period = 60, limitType = LimitTypeEnum.IP, key = "checkVersion", prefix = "limit")
     @OperLog(model = "版本管理", desc = "检测应用版本", type = OperationConst.SELECT)
     @GetMapping(value = "/checkVersion")
-    public Result checkVersion(@RequestParam("version") String version, String model) throws Exception {
+    public Result checkVersion(String version, String model) throws Exception {
         VersionInfo versionInfo = versionService.checkVersion(version, model);
         return SUCCESS_MESSAGE(versionInfo);
     }
 
     @OperLog(model = "版本管理", desc = "新增应用版本", type = OperationConst.INSERT)
     @PostMapping(value = "/save")
-    public Result save(@Valid VersionInfo versionInfo, BindingResult result){
+    public Result save(@Valid @RequestBody VersionInfo versionInfo, BindingResult result){
         if (result.hasErrors()) {
             return new Result(500, result.getFieldError().getDefaultMessage());
         }
@@ -67,7 +67,7 @@ public class VersionController extends BaseController {
 
     @OperLog(model = "版本管理", desc = "修改应用版本", type = OperationConst.UPDATE)
     @PostMapping(value = "/update")
-    public Result update(@Valid VersionInfo versionInfo, BindingResult result){
+    public Result update(@Valid @RequestBody VersionInfo versionInfo, BindingResult result){
         if (result.hasErrors()) {
             return new Result(500, result.getFieldError().getDefaultMessage());
         }
@@ -77,7 +77,7 @@ public class VersionController extends BaseController {
 
     @OperLog(model = "版本管理", desc = "删除应用版本", type = OperationConst.DELETE)
     @PostMapping(value = "/delete")
-    public Result delete(List<VersionInfo> versionInfos){
+    public Result delete(@RequestBody List<VersionInfo> versionInfos){
         for (VersionInfo versionInfo : versionInfos) {
             versionService.deleteById(versionInfo.getId());
         }

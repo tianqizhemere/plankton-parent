@@ -158,7 +158,7 @@
                     type: 'warning'
                 }).then(() => {
                     let params = this.getDeleteIds([], row)
-                    this.$api.dept.batchDelete(params).then(res => {
+                    this.$api.dict.batchDelete(params).then(res => {
                         this.findTreeData()
                         this.$message({message: '删除成功', type: 'success'})
                     })

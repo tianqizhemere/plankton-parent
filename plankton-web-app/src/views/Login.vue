@@ -35,8 +35,8 @@ export default {
     return {
       loading: false,
       loginForm: {
-        account: '',
-        password: '',
+        account: 'superAdmin',
+        password: 'rts!@#123',
         src: ''
       },
       fieldRules: {

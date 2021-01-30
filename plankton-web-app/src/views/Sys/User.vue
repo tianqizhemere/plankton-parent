@@ -53,13 +53,11 @@
           <el-input v-model="dataForm.code" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="设备型号" prop="model">
-          <el-cascader
-              :options="options"
-              :props="props"
-              ref="myCascader"
-              collapse-tags
-              @change="onProvincesChange"
-              clearable v-model="dataForm.model" style="width: 100%;"></el-cascader>
+          <popup-tree-input
+              :data="popupTreeData" :props="popupTreeProps"
+              :prop="dataForm.model==null?'顶级菜单':dataForm.model"
+              :nodeKey="''+dataForm.parentId" :currentChangeHandle="handleTreeSelectChange">
+          </popup-tree-input>
         </el-form-item>
         <el-form-item label="用户来源" prop="source">
           <el-input v-model="dataForm.source" auto-complete="off"></el-input>
@@ -129,7 +127,7 @@ export default {
           {required: true, message: '请输入code', trigger: 'blur'}
         ],
         model: [
-          {required: true, message: '请输入设备型号', trigger: 'blur'}
+          {required: true, message: '请选择设备型号', trigger: 'blur'}
         ],
       },
       // 新增编辑界面数据
@@ -142,113 +140,46 @@ export default {
         isEnable: true,
         modelName: '',
         qq:'',
-        phone:''
+        phone:'',
+        parentId:0
       },
       roles: [],
       // 用户状态
-      userModes: [{id: 'normal', name: '普通用户'}, {id: 'powerful', name: '会员'}],
+      userModes: [{id: 'normal', name: 'normal'}, {id: 'powerful', name: 'powerful'}],
       // 用户启用状态
       enableStatus: [{id: true, name: '启用'}, {id: false, name: '停用'}],
-      // 级联组件,多选
-      props: {multiple: false},
-      options: [{
-        label: 'Galaxy S10',
-        value: '1',
-        children: [{
-          value: 'G973N',
-          label: 'G973N',
-        }, {
-          value: 'G973F',
-          label: 'G973F'
-        }, {
-          value: 'G975N',
-          label: 'G975N',
-        },
-          {
-            value: 'G975F',
-            label: 'G975F',
-          },
-          {
-            value: 'G977N',
-            label: 'G977N',
-          },
-          {
-            value: 'G977B',
-            label: 'G977B',
-          },
-        ]
-      },
-        {
-          label: 'Galaxy Note10',
-          value:'2',
-          children: [{
-            value: 'N971N',
-            label: 'N971N',
-          }, {
-            value: 'N976N',
-            label: 'N976N',
-          },
-            {
-              value: 'N976B',
-              label: 'N976B',
-            }
-          ]
-        },
-        {
-          label: 'Galaxy S20',
-          value:'3',
-          children: [{
-            value: 'G981N',
-            label: 'G981N',
-          }, {
-            value: 'G9810',
-            label: 'G9810',
-          },
-            {
-              value: 'G986N',
-              label: 'G986N',
-            },
-            {
-              value: 'G9860',
-              label: 'G9860',
-            },
-            {
-              value: 'G988N',
-              label: 'G988N',
-            },
-            {
-              value: 'G988N',
-              label: 'G988N',
-            }]
-        },
-        {
-          label: 'Galaxy Note20',
-          value: '4',
-          children: [{
-            value: 'N986N',
-            label: 'N986N',
-          }, {
-            value: 'N9860',
-            label: 'N9860'
-          }]
-        },
-        {
-          label: 'Galaxy S21U',
-          value: '5',
-          children: [{
-            value: 'G998N',
-            label: 'G998N',
-          }, {
-            value: 'G9980',
-            label: 'G9980'
-          }]
-        }]
+      // 树形数据
+      tableTreeDdata: [],
+      popupTreeData: [],
+      popupTreeProps: {
+        label: 'name',
+        children: 'children'
+      }
     }
   },
   methods: {
-    // Cascader 级联选择器选中事件
-    onProvincesChange(item) {
-      this.dataForm.modelName = item[1];
+    // 获取型号树形数据
+    findTreeData: function () {
+      this.loading = true
+      this.$api.dict.findDeptTree().then((res) => {
+        this.tableTreeDdata = res.data
+        this.popupTreeData = this.getParentMenuTree(res.data)
+        this.loading = false
+      })
+    },
+    // 获取上级字典树
+    getParentMenuTree: function (tableTreeDdata) {
+      let parent = {
+        parentId: 0,
+        name: '顶级菜单',
+        children: tableTreeDdata
+      }
+      return [parent]
+    },
+    // 型号树选中
+    handleTreeSelectChange(data, node) {
+      this.dataForm.parentId = data.id
+      this.dataForm.model = data.name
     },
     // 获取分页数据
     findPage: function (data) {
@@ -278,9 +209,9 @@ export default {
         model: '',
         isEnable: true,
         source: '',
-        modelName: '',
         qq:'',
-        phone:''
+        phone:'',
+        parentId:0
       }
     },
     // 显示编辑界面
@@ -360,7 +291,8 @@ export default {
     }
   },
   mounted() {
-    this.initColumns()
+    this.initColumns();
+    this.findTreeData()
   }
 }
 </script>

@@ -61,22 +61,25 @@
               :options="options"
               :props="props"
               ref="myCascader"
-              collapse-tags
               @change="onProvincesChange"
               clearable v-model="dataForm.model" style="width: 100%;"></el-cascader>
         </el-form-item>
         <el-form-item label="升级文件" prop="attachIds">
           <el-upload
+              class="upload-demo"
               ref="uploadMutiple"
-              :auto-upload="false"
+              :auto-upload="true"
+              drag
               action="fakeAction"
               :on-success="uploadSuccess"
               :on-change="handleChange"
+              :http-request="submitUpload"
               :file-list="fileList"
-              multiple
-          >选取文件
+              multiple>
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <div class="el-upload__tip" slot="tip">可上传任意文件，且不超过500MB</div>
           </el-upload>
-          <el-button type="primary" size="small" @click="submitUpload">上传到服务器</el-button>
 
         </el-form-item>
       </el-form>
@@ -125,7 +128,7 @@ export default {
           {required: true, message: '请输入版本号', trigger: 'blur'}
         ],
         model: [
-          {required: true, message: '请输入设备型号', trigger: 'blur'}
+          {required: true, message: '请选择设备型号', trigger: 'blur'}
         ],
       },
       // 新增编辑界面数据
@@ -135,109 +138,34 @@ export default {
         model: '',
         versionDesc: '',
         attachIds: '',
-        modelName: ''
+        modelName: '',
       },
-      roles: [],
       // 文件列表
       fileList: [],
       logo: '',
-      // 级联组件,多选
-      props: {multiple: true},
-      options: [{
-        label: 'Galaxy S10',
-        value: '1',
-        children: [{
-          value: 'G973N',
-          label: 'G973N',
-        }, {
-          value: 'G973F',
-          label: 'G973F'
-        }, {
-          value: 'G975N',
-          label: 'G975N',
-        },
-          {
-            value: 'G975F',
-            label: 'G975F',
-          },
-          {
-            value: 'G977N',
-            label: 'G977N',
-          },
-          {
-            value: 'G977B',
-            label: 'G977B',
-          },
-        ]
-      },
-        {
-          label: 'Galaxy Note10',
-          value: '2',
-          children: [{
-            value: 'N971N',
-            label: 'N971N',
-          }, {
-            value: 'N976N',
-            label: 'N976N',
-          },
-            {
-              value: 'N976B',
-              label: 'N976B',
-            }
-          ]
-        },
-        {
-          label: 'Galaxy S20',
-          value: '3',
-          children: [{
-            value: 'G981N',
-            label: 'G981N',
-          }, {
-            value: 'G9810',
-            label: 'G9810',
-          },
-            {
-              value: 'G986N',
-              label: 'G986N',
-            },
-            {
-              value: 'G9860',
-              label: 'G9860',
-            },
-            {
-              value: 'G988N',
-              label: 'G988N',
-            },
-            {
-              value: 'G988N',
-              label: 'G988N',
-            }]
-        },
-        {
-          label: 'Galaxy Note20',
-          value: '4',
-          children: [{
-            value: 'N986N',
-            label: 'N986N',
-          }, {
-            value: 'N9860',
-            label: 'N9860'
-          }]
-        },
-        {
-          label: 'Galaxy S21U',
-          value: '5',
-          children: [{
-            value: 'G998N',
-            label: 'G998N',
-          }, {
-            value: 'G9980',
-            label: 'G9980'
-          }]
-        }]
+      // 自定义 props
+      props : { label:'name', value:'name', multiple: true},
+      // 选项
+      options:[]
     }
   },
   methods: {
+    // Cascader 级联选择器选中事件
+    onProvincesChange(item) {
+      let modelName = ""
+      item.forEach(key => {
+        modelName += key[1] + ",";
+      })
+      this.dataForm.modelName = modelName;
+    },
+    // 获取型号树形数据
+    findTreeData() {
+      this.loading = true
+      this.$api.dict.findDeptTree().then((res) => {
+        this.options = res.data
+        this.loading = false
+      })
+    },
     // 获取文件列表
     handleChange(file, fileList) {
       this.fileList = fileList;
@@ -254,7 +182,7 @@ export default {
         if (res.code === 200) {
           let attachIds = '';
           res.data.forEach(key => {
-            attachIds += key.id;
+            attachIds += key.id + ',';
           })
           selt.dataForm.attachIds += attachIds;
         }
@@ -288,16 +216,8 @@ export default {
       this.logo = file.raw
       this.fileList = [{name: file.name, url: file.url}]
     },
-    // Cascader 级联选择器选中事件
-    onProvincesChange(item) {
-      let modelName = ""
-      item.forEach(key => {
-        modelName += key[1] + ",";
-      })
-      this.dataForm.modelName = modelName;
-    },
     // 获取分页数据
-    findPage: function (data) {
+    findPage(data) {
       if (data !== null) {
         this.pageRequest = data.pageRequest
       }
@@ -340,7 +260,6 @@ export default {
         if (valid) {
           this.$confirm('确认提交吗？', '提示', {}).then(() => {
             this.editLoading = true
-            debugger
             if (this.dataForm.modelName) {
               this.dataForm.model = this.dataForm.modelName;
             }
@@ -403,7 +322,8 @@ export default {
     },
   },
   mounted() {
-    this.initColumns()
+    this.initColumns();
+    this.findTreeData()
   }
 }
 </script>

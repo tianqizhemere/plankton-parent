@@ -38,7 +38,7 @@ public class VersionInfo extends BaseEntity {
 
     /** 附件id */
     @TableField(exist = false)
-    private String attachId;
+    private String attachIds;
 
     public String getVersionCode() {
         return versionCode;
@@ -88,12 +88,12 @@ public class VersionInfo extends BaseEntity {
         this.model = model;
     }
 
-    public String getAttachId() {
-        return attachId;
+    public String getAttachIds() {
+        return attachIds;
     }
 
-    public void setAttachId(String attachId) {
-        this.attachId = attachId;
+    public void setAttachIds(String attachIds) {
+        this.attachIds = attachIds;
     }
 
     public String getTypeName(){
