@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
@@ -30,13 +31,14 @@ public class VersionController extends BaseController {
 
     /**
      * 加载数据列表
-     * @param name
-     * @return
+     * @param name 版本编号
+     * @param dictId 数据字典id
+     * @return Result 前端提示信息
      */
     @OperLog(model = "版本管理", desc = "应用版本列表", type = OperationConst.SELECT)
     @GetMapping(value = "/list")
-    public Result list(String name){
-        PageResult page = versionService.getPage(name, getPage());
+    public Result list(String name, String dictId){
+        PageResult page = versionService.getPage(name, dictId, getPage());
         return Result.success(page);
     }
 
@@ -77,6 +79,7 @@ public class VersionController extends BaseController {
 
     @OperLog(model = "版本管理", desc = "删除应用版本", type = OperationConst.DELETE)
     @PostMapping(value = "/delete")
+    @RequiresPermissions(value = "system:version:delete")
     public Result delete(@RequestBody List<VersionInfo> versionInfos){
         for (VersionInfo versionInfo : versionInfos) {
             versionService.deleteById(versionInfo.getId());

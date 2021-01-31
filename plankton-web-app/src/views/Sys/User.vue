@@ -148,7 +148,7 @@ export default {
       userModes: [{id: 'normal', name: 'normal'}, {id: 'powerful', name: 'powerful'}],
       // 用户启用状态
       enableStatus: [{id: true, name: '启用'}, {id: false, name: '停用'}],
-      // 树形数据
+      // 机型树形数据
       tableTreeDdata: [],
       popupTreeData: [],
       popupTreeProps: {

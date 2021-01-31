@@ -10,6 +10,7 @@ import top.tianqi.plankton.system.entity.UserRole;
 import top.tianqi.plankton.system.mapper.*;
 import top.tianqi.plankton.system.service.MenuService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,13 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implement
                 .stream().map(RoleMenu::getMenuId).collect(Collectors.toList());
         List<Menu> menus = menuMapper.selectBatchIds(menusIds);
         handleMenus(menus);
+        return menus;
+    }
+
+    @Override
+    public List<Menu> findMenuTree(int menuType, String name) {
+        List<Menu> menus = new ArrayList<>();
+        boolean isSearch = false;
         return menus;
     }
 

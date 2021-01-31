@@ -33,9 +33,11 @@ public interface VersionService extends BaseService<VersionInfo> {
 
     /**
      * 加载数据列表
+     *
+     * @param dictId 数据字典id
      * @param name 版本
      * @param page 页码
      * @return PageResult page对象
      */
-    PageResult getPage(String name, Page<BaseEntity> page);
+    PageResult getPage(String name, String dictId, Page<BaseEntity> page);
 }

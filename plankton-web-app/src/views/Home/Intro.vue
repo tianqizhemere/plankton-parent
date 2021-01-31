@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-row :gutter="20">
-      <el-col :span="8">
+    <el-row :gutter="24">
+      <el-col :span="9">
         <div class="card bbxx">
           <p class="title">
             <i class="fa fa-server"></i>个人头像
@@ -31,7 +31,7 @@
         </div>
       </el-col>
 
-      <el-col :span="16">
+      <el-col :span="15">
         <div class="card bbxx">
           <p class="title">
             <i class="fa fa-server"/>个人信息
@@ -53,8 +53,37 @@
         </div>
       </el-col>
     </el-row>
-    <el-row :gutter="20">
-      <el-col :span="12">
+    <el-row :gutter="24">
+      <el-col :span="9">
+        <div class="card bbxx">
+          <p class="title">
+            <i class="fa fa-server"></i>个人头像
+          </p>
+          <div class="user_img">
+            <img v-if="newImageUrl" :src="newImageUrl" alt="用户头像" />
+            <img v-else :src="personalInfo.avatar" alt="用户头像" />
+            <el-upload
+                class="avatar-uploader"
+                action
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload"
+            >
+              <!--  <img v-if="imageUrl" :src="imageUrl" class="avatar"> -->
+              <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
+              <button
+                  type="button"
+                  class="el-button filter-item el-button--primary"
+                  style="margin-top:10px"
+              >
+                <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                <span>上传头像</span>
+              </button>
+            </el-upload>
+          </div>
+        </div>
+      </el-col>
+      <el-col :span="15">
         <div class="card kjfs">
           <div class="card kjfs">
             <p class="title">
@@ -67,14 +96,6 @@
                     <i class="el-icon-service fa-2x"></i>
                   </span>
                   <span>用户管理</span>
-                </router-link>
-              </li>
-              <li>
-                <router-link to="/Monitor/System" class="kjfs kjfs-pinkk">
-                  <span>
-                    <i class="el-icon-news fa-2x"></i>
-                  </span>
-                  <span>系统信息</span>
                 </router-link>
               </li>
               <li>
@@ -96,14 +117,6 @@
                 </router-link>
               </li>
               <li>
-                <router-link to="/sys/menu" class="kjfs kjfs-purplee">
-                  <span>
-                    <i class="fa el-icon-menu fa-2x"></i>
-                  </span>
-                  <span>菜单管理</span>
-                </router-link>
-              </li>
-              <li>
                 <router-link to="/sys/log" class="kjfs kjfs-lightBluee">
                   <span>
                     <i class="el-icon-tickets fa-2x"></i>
@@ -115,7 +128,9 @@
           </div>
         </div>
       </el-col>
+
     </el-row>
+
   </div>
 </template>
 

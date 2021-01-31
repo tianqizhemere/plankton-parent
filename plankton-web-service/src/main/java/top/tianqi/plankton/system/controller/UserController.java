@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -77,6 +78,7 @@ public class UserController extends BaseController {
 
     @OperLog(model = "用户管理", desc = "删除用户", type = OperationConst.DELETE)
     @PostMapping(value = "/delete")
+    @RequiresPermissions(value = "system:user:delete")
     public Result delete(@RequestBody List<User> users){
         for (User user : users) {
             userService.deleteById(user.getId());
@@ -89,6 +91,7 @@ public class UserController extends BaseController {
      * @param username 用户名(code)
      * @return Result 前端提示信息
      */
+    @OperLog(model = "用户管理", desc = "获取用户信息", type = OperationConst.SELECT)
     @GetMapping(value = "/findByName")
     public Result findByName(@RequestParam String username){
         User user = userService.getUser(username);

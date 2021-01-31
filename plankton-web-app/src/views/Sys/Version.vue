@@ -7,6 +7,13 @@
           <el-input v-model="filters.name" placeholder="版本编号"></el-input>
         </el-form-item>
         <el-form-item>
+          <popup-tree-input
+              :data="popupTreeData" :props="popupTreeProps"
+              :prop="filters.model==null?'顶级菜单':filters.model"
+              :nodeKey="''+filters.parentId" :currentChangeHandle="handleTreeSelectChange">
+          </popup-tree-input>
+        </el-form-item>
+        <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="system:version:view" type="primary"
                      @click="findPage(null)"/>
         </el-form-item>
@@ -57,28 +64,29 @@
                     auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="设备型号" prop="model">
-          <el-cascader
-              :options="options"
-              :props="props"
-              ref="myCascader"
-              @change="onProvincesChange"
-              clearable v-model="dataForm.model" style="width: 100%;"></el-cascader>
+          <popup-tree-input
+              :data="popupTreeData" :props="popupTreeProps"
+              multiple
+              :prop="dataForm.model==null?'顶级菜单':dataForm.model"
+              @node-click="handleNodeClick"
+              :nodeKey="''+dataForm.parentId" :currentChangeHandle="dataFormTreeSelectChange">
+          </popup-tree-input>
         </el-form-item>
         <el-form-item label="升级文件" prop="attachIds">
           <el-upload
               class="upload-demo"
               ref="uploadMutiple"
-              :auto-upload="true"
               drag
-              action="fakeAction"
+              action="/api/system/attach/uploadFile"
               :on-success="uploadSuccess"
               :on-change="handleChange"
-              :http-request="submitUpload"
+              :headers="headers"
+              :data="{ dataType: 1 }"
               :file-list="fileList"
               multiple>
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-            <div class="el-upload__tip" slot="tip">可上传任意文件，且不超过500MB</div>
+            <div class="el-upload__tip" slot="tip">可上传任意文件，且不超过100MB</div>
           </el-upload>
 
         </el-form-item>
@@ -101,9 +109,11 @@ import KtButton from "@/views/Core/KtButton"
 import TableColumnFilterDialog from "@/views/Core/TableColumnFilterDialog"
 import {format} from "@/utils/datetime"
 import * as version from "../../http/moudules/version";
+import TreeSelect from "../../components/treeSelect/TreeSelect";
 
 export default {
   components: {
+    TreeSelect,
     PopupTreeInput,
     KtTable,
     KtButton,
@@ -113,7 +123,9 @@ export default {
     return {
       size: 'small',
       filters: {
-        name: ''
+        name: '',
+        model:'',
+        parentId:''
       },
       columns: [],
       filterColumns: [],
@@ -135,21 +147,61 @@ export default {
       dataForm: {
         id: 0,
         versionCode: '',
-        model: '',
+        model: [],
         versionDesc: '',
         attachIds: '',
         modelName: '',
+        parentId:'',
+        isSuccess: false
       },
       // 文件列表
       fileList: [],
       logo: '',
-      // 自定义 props
-      props : { label:'name', value:'name', multiple: true},
-      // 选项
-      options:[]
+      // 机型树形数据
+      tableTreeDdata: [],
+      popupTreeData: [],
+      popupTreeProps: {
+        label: 'name',
+        children: 'children'
+      },
+      headers:{Authorization : sessionStorage.getItem('token')},
     }
   },
   methods: {
+    popoverHide (checkedIds, checkedData) {
+      console.log(checkedIds);
+      console.log(checkedData);
+    },
+    // 获取型号树形数据
+    searchTreeData: function () {
+      this.loading = true
+      this.$api.dict.findDeptTree().then((res) => {
+        this.tableTreeDdata = res.data
+        this.popupTreeData = this.getParentMenuTree(res.data)
+        this.loading = false
+      })
+    },
+    // 获取上级字典树
+    getParentMenuTree: function (tableTreeDdata) {
+      let parent = {
+        parentId: 0,
+        name: '顶级菜单',
+        children: tableTreeDdata
+      }
+      return [parent]
+    },
+    dataFormTreeSelectChange(data, node){
+      debugger
+      data.forEach(val => {
+        this.dataForm.model += val.name + ",";
+      })
+      console.log(data);
+    },
+    // 型号树选中
+    handleTreeSelectChange(data, node) {
+      this.filters.parentId = data.id
+      this.filters.model = data.name
+    },
     // Cascader 级联选择器选中事件
     onProvincesChange(item) {
       let modelName = ""
@@ -170,27 +222,9 @@ export default {
     handleChange(file, fileList) {
       this.fileList = fileList;
     },
-    // 上传文件
-    submitUpload() {
-      let formData = new FormData();
-      this.fileList.forEach(item => {
-        formData.append("files", item.raw);
-        formData.append("dataType", 1);
-      });
-      let selt = this;
-      this.$api.version.upload(formData).then(res => {
-        if (res.code === 200) {
-          let attachIds = '';
-          res.data.forEach(key => {
-            attachIds += key.id + ',';
-          })
-          selt.dataForm.attachIds += attachIds;
-        }
-      });
-    },
     uploadSuccess(response, file, fileList) {
       var attachIds = "";
-      response.resultMap.list.map((val) => {
+      response.data.map((val) => {
         fileList.map((obj) => {
           if (val.orginalName == obj.name) {
             obj.url = val.path
@@ -201,7 +235,7 @@ export default {
         if (obj.id) {
           attachIds = attachIds + obj.id + ","
         } else {
-          attachIds = attachIds + obj.response.resultMap.list[0].id + ','
+          attachIds = attachIds + obj.response.data[0].id + ','
         }
       })
       this.dataForm.attachIds = attachIds;
@@ -225,7 +259,8 @@ export default {
       this.$api.version.findPage({
         'pageNum': this.pageRequest.pageNum,
         'pageSize': this.pageRequest.pageSize,
-        'name': this.filters.name
+        'name': this.filters.name,
+        'dictId': this.filters.parentId
       }).then((res) => {
         this.pageResult = res.data
       }).then(data != null ? data.callback : '')
@@ -244,7 +279,9 @@ export default {
         model: '',
         modelName: '',
         versionDesc: '',
-        attachIds: ''
+        parentId:'',
+        attachIds: '',
+        isSuccess:true
       }
       this.fileList = []
     },
@@ -252,6 +289,7 @@ export default {
     handleEdit: function (params) {
       this.dialogVisible = true
       this.operation = false
+      params.row.isSuccess = true;
       this.dataForm = Object.assign({}, params.row)
     },
     // 编辑
@@ -259,38 +297,41 @@ export default {
       this.$refs.dataForm.validate((valid) => {
         if (valid) {
           this.$confirm('确认提交吗？', '提示', {}).then(() => {
-            this.editLoading = true
-            if (this.dataForm.modelName) {
-              this.dataForm.model = this.dataForm.modelName;
-            }
-            let params = Object.assign({}, this.dataForm)
-            params.enable = params.isEnable;
-            if (val === 'save') {
-              this.$api.version.save(params).then((res) => {
-                this.editLoading = false
-                if (res.code == 200) {
-                  this.$message({message: '操作成功', type: 'success'})
-                  this.dialogVisible = false
-                  this.$refs['dataForm'].resetFields()
-                } else {
-                  this.$message({message: '操作失败, ' + res.massage, type: 'error'})
-                }
-                this.findPage(null)
-              })
+            if (this.dataForm.isSuccess) {
+              this.editLoading = true
+              if (this.dataForm.modelName) {
+                this.dataForm.model = this.dataForm.modelName;
+              }
+              let params = Object.assign({}, this.dataForm)
+              params.enable = params.isEnable;
+              if (val === 'save') {
+                this.$api.version.save(params).then((res) => {
+                  this.editLoading = false
+                  if (res.code == 200) {
+                    this.$message({message: '操作成功', type: 'success'})
+                    this.dialogVisible = false
+                    this.$refs['dataForm'].resetFields()
+                  } else {
+                    this.$message({message: '操作失败, ' + res.massage, type: 'error'})
+                  }
+                  this.findPage(null)
+                })
+              } else {
+                this.$api.version.edit(params).then((res) => {
+                  this.editLoading = false
+                  if (res.code == 200) {
+                    this.$message({message: '操作成功', type: 'success'})
+                    this.dialogVisible = false
+                    this.$refs['dataForm'].resetFields()
+                  } else {
+                    this.$message({message: '操作失败, ' + res.massage, type: 'error'})
+                  }
+                  this.findPage(null)
+                })
+              }
             } else {
-              this.$api.version.edit(params).then((res) => {
-                this.editLoading = false
-                if (res.code == 200) {
-                  this.$message({message: '操作成功', type: 'success'})
-                  this.dialogVisible = false
-                  this.$refs['dataForm'].resetFields()
-                } else {
-                  this.$message({message: '操作失败, ' + res.massage, type: 'error'})
-                }
-                this.findPage(null)
-              })
+              this.$message({message: '文件上传中! ', type: 'warning'})
             }
-
           })
         }
       })
@@ -322,8 +363,9 @@ export default {
     },
   },
   mounted() {
+    this.searchTreeData();
     this.initColumns();
-    this.findTreeData()
+    this.findTreeData();
   }
 }
 </script>

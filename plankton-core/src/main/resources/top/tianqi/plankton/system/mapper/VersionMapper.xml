@@ -17,6 +17,9 @@
         <if test="name != null and name != ''">
             and vu.version_code like '%${name}%'
         </if>
+        <if test="dictId != null and dictId != ''">
+            and vu.model in (select name from dictionaries d where d.id = #{dictId} or d.parent_id = #{dictId})
+        </if>
         order by vu.create_time desc
     </select>
 </mapper>

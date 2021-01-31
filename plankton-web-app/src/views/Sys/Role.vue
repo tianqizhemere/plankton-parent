@@ -82,10 +82,7 @@ export default {
 				{prop:"id", label:"ID", minWidth:50},
 				{prop:"name", label:"角色名", minWidth:120},
 				{prop:"remark", label:"备注", minWidth:120},
-				{prop:"createBy", label:"创建人", minWidth:120},
 				{prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
-				// {prop:"lastUpdateBy", label:"更新人", minWidth:100},
-				// {prop:"lastUpdateTime", label:"更新时间", minWidth:120, formatter:this.dateFormat}
 			],
 			pageRequest: { pageNum: 1, pageSize: 10 },
 			pageResult: {},
@@ -174,7 +171,7 @@ export default {
 		// 获取数据
 		findTreeData: function () {
 			this.menuLoading = true
-			this.$api.menu.findMenuTree({'name':''}).then((res) => {
+			this.$api.menu.findNavTree({'name':''}).then((res) => {
 				this.menuData = res.data
 				this.menuLoading = false
 			})

@@ -2,7 +2,6 @@ package top.tianqi.plankton.system.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import top.tianqi.plankton.base.entity.BaseEntity;
 import top.tianqi.plankton.system.entity.VersionInfo;
@@ -22,6 +21,6 @@ public interface VersionMapper extends BaseMapper<VersionInfo> {
      * @param page
      * @return
      */
-    List<VersionInfo> findList(@Param("name") String name, @Param("page") Page<BaseEntity> page);
+    List<VersionInfo> findList(@Param("name") String name, @Param("dictId") String dictId,@Param("page") Page<BaseEntity> page);
 
 }

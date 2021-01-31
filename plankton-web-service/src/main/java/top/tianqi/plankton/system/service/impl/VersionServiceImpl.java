@@ -7,6 +7,7 @@ import org.springframework.util.CollectionUtils;
 import top.tianqi.plankton.base.entity.BaseEntity;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.common.constant.Constant;
+import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.Attach;
 import top.tianqi.plankton.system.entity.User;
@@ -48,8 +49,8 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
             if (!CollectionUtils.isEmpty(versionInfos)) {
                 VersionInfo versionInfo = versionInfos.get(0);
                 if (currentVersion != null) {
-                    int result = compareVersion(currentVersion, versionInfo.getVersionCode());
-                    if (result < 0) {
+                    Map<String, Object> resultMap = compareVersion(currentVersion, versionInfo.getVersionCode());
+                    if ((Integer) resultMap.get("result") < 0) {
                         List<Attach> fileList = attachService.getFileList(versionInfo.getId(), AttachDataTypeEnum.N9760.getCode());
                         if (!CollectionUtils.isEmpty(fileList)) {
                             Attach attach = fileList.get(0);
@@ -78,8 +79,8 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     }
 
     @Override
-    public PageResult getPage(String name, Page<BaseEntity> page) {
-        List<VersionInfo> list = versionMapper.findList(name, page);
+    public PageResult getPage(String name, String dictId, Page<BaseEntity> page) {
+        List<VersionInfo> list = versionMapper.findList(name, dictId, page);
         return new PageResult(page.getCurrent(), page.getSize(),  page.getTotal() , page.getPages(), list);
     }
 
@@ -124,13 +125,15 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     }
 
     /**
-     * 比较版本号的大小,前者大则返回一个正数,后者大返回一个负数,相等则返回0
+     * 对比字符串版本号的大小，返回1则clientVersion大于baseVersion，返回-1则clientVersion小于baseVersion，返回0则clientVersion等于baseVersion
      * @param clientVersion 客户端版本
      * @param baseVersion 数据库版本
      */
-    private static int compareVersion(String clientVersion, String baseVersion) throws Exception {
+    private static Map<String, Object> compareVersion(String clientVersion, String baseVersion) throws Exception {
+        Map<String, Object> paramMap = new HashMap<>();
+
         if (clientVersion == null || baseVersion == null) {
-            throw new Exception("compareVersion error:illegal params.");
+            throw new BusinessException("compareVersion error:illegal params.");
         }
         String[] clientVersionArray = clientVersion.split("\\.");//注意此处为正则匹配，不能用.；
         String[] baseVersionArray2 = baseVersion.split("\\.");
@@ -143,12 +146,57 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
             ++idx;
         }
         //如果已经分出大小，则直接返回，如果未分出大小，则再比较位数，有子版本的为大；
-        diff = (diff != 0) ? diff : clientVersionArray.length - baseVersionArray2.length;
-        return diff;
+        if (diff != 0){
+            // 大版本更新
+            // 数据表是否为大版本更新
+            paramMap.put("bigVersionFlag", true);
+            paramMap.put("result", diff);
+        } else {
+            diff = clientVersionArray.length - baseVersionArray2.length;
+            // 小版本更新
+            paramMap.put("bigVersionFlag", false);
+            paramMap.put("result", diff);
+        }
+        return paramMap;
+    }
+
+    public static int compareVersion2(String version1, String version2) {
+        if (version1.equals(version2)) {
+            return 0;
+        }
+
+        String[] version1Array = version1.split("\\.");
+        String[] version2Array = version2.split("\\.");
+
+        int index = 0;
+        int minLen = Math.min(version1Array.length, version2Array.length);
+        int diff = 0;
+
+        while (index < minLen && (diff = Integer.parseInt(version1Array[index]) - Integer.parseInt(version2Array[index])) == 0) {
+            index ++;
+        }
+
+        if (diff == 0) {
+            for (int i = index; i < version1Array.length; i ++) {
+                if (Integer.parseInt(version1Array[i]) > 0) {
+                    return 1;
+                }
+            }
+
+            for (int i = index; i < version2Array.length; i ++) {
+                if (Integer.parseInt(version2Array[i]) > 0) {
+                    return -1;
+                }
+            }
+
+            return 0;
+        } else {
+            return diff > 0 ? 1 : -1;
+        }
     }
 
     public static void main(String[] args) throws Exception {
-        int i = compareVersion("1.2", "2.1");
+       int i = compareVersion2("1.2", "2.3");
         System.out.println(i);
 
         String result = "1.修复自定义BIX按键无效问题\n2.修复最近任务点击失效".replaceAll("\n", System.getProperty("line.separator"));

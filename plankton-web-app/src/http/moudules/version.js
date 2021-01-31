@@ -36,6 +36,14 @@ export const upload = (data) => {
         data
     })
 }
+// 删除文件
+export const deleteFile = (data) => {
+    return axios({
+        url: '/system/attach/delete',
+        method: 'post',
+        data
+    })
+}
 // 分页查询
 export const findPage = (params) => {
     return axios({

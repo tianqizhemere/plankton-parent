@@ -6,6 +6,7 @@
         :props="props"
         node-key="nodeKey"
         ref="popupTree"
+        :show-checkbox="multiple"
         @current-change="currentChangeHandle"
         :default-expand-all="defaultExpandAll"
         :highlight-current="true"
@@ -51,7 +52,14 @@ export default {
     currentChangeHandle: {
       type: Function,
       default: null
-    }
+    },
+    // 配置是否可多选
+    multiple: {
+      type: Boolean,
+      default () {
+        return false;
+      }
+    },
   }
 }
 </script>

@@ -39,9 +39,14 @@ public class MenuController extends BaseController {
         return SUCCESS_MESSAGE(list);
     }
 
+    /**
+     * 根据菜单名称查询数据列表
+     * @param name 菜单名称
+     * @return
+     */
     @GetMapping("/findMenuTree")
     public Result findMenuTree(String name){
-        List<Menu> list = menuService.findNavTree(null);
+        List<Menu> list = menuService.findMenuTree(0, name);
         return Result.success(list);
     }
 
