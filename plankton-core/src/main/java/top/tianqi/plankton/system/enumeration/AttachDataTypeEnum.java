@@ -7,7 +7,8 @@ package top.tianqi.plankton.system.enumeration;
  */
 public enum AttachDataTypeEnum {
 
-    N9760(1, "N9760");
+    N9760(1, "N9760"),
+    EXTERNAL_APPLICATION(2, "外置应用");
 
     private AttachDataTypeEnum(int code, String typeName) {
         this.code = code;
@@ -15,10 +16,10 @@ public enum AttachDataTypeEnum {
     }
 
     /** 编码 */
-    private int code;
+    private final int code;
 
     /** 名称 */
-    private String typeName;
+    private final String typeName;
 
     public int getCode() {
         return code;

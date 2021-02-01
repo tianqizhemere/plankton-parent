@@ -45,7 +45,7 @@
       </table-column-filter-dialog>
     </div>
     <!--表格内容栏-->
-    <kt-table :height="350" permsEdit="system:version:update" permsDelete="system:version:delete"
+    <kt-table :height="750" permsEdit="system:version:update" permsDelete="system:version:delete"
               :data="pageResult" :columns="filterColumns"
               @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
     </kt-table>
@@ -64,13 +64,20 @@
                     auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="设备型号" prop="model">
-          <popup-tree-input
-              :data="popupTreeData" :props="popupTreeProps"
-              multiple
-              :prop="dataForm.model==null?'顶级菜单':dataForm.model"
-              @node-click="handleNodeClick"
-              :nodeKey="''+dataForm.parentId" :currentChangeHandle="dataFormTreeSelectChange">
-          </popup-tree-input>
+          <!--          <popup-tree-input-->
+          <!--              :data="popupTreeData" :props="popupTreeProps"-->
+          <!--              multiple-->
+          <!--              :prop="dataForm.model==null?'顶级菜单':dataForm.model"-->
+          <!--              @node-click="handleNodeClick"-->
+          <!--              :nodeKey="''+dataForm.parentId" :currentChangeHandle="dataFormTreeSelectChange">-->
+          <!--          </popup-tree-input>-->
+          <test-code size="medium" :data="popupTreeData" v-model="dataForm.model"
+                     multiple
+                     clearable
+                     checkStrictly
+                     checkClickNode
+                     :modelId="dataForm.model"
+                     @getValue="setTreeMenu" style="width:100%;"></test-code>
         </el-form-item>
         <el-form-item label="升级文件" prop="attachIds">
           <el-upload
@@ -109,11 +116,11 @@ import KtButton from "@/views/Core/KtButton"
 import TableColumnFilterDialog from "@/views/Core/TableColumnFilterDialog"
 import {format} from "@/utils/datetime"
 import * as version from "../../http/moudules/version";
-import TreeSelect from "../../components/treeSelect/TreeSelect";
+import TestCode from "../../components/treeSelect/TreeSelect";
 
 export default {
   components: {
-    TreeSelect,
+    TestCode,
     PopupTreeInput,
     KtTable,
     KtButton,
@@ -124,8 +131,8 @@ export default {
       size: 'small',
       filters: {
         name: '',
-        model:'',
-        parentId:''
+        model: '',
+        parentId: ''
       },
       columns: [],
       filterColumns: [],
@@ -147,11 +154,11 @@ export default {
       dataForm: {
         id: 0,
         versionCode: '',
-        model: [],
+        model: '',
         versionDesc: '',
         attachIds: '',
         modelName: '',
-        parentId:'',
+        parentId: '',
         isSuccess: false
       },
       // 文件列表
@@ -164,13 +171,20 @@ export default {
         label: 'name',
         children: 'children'
       },
-      headers:{Authorization : sessionStorage.getItem('token')},
+      headers: {Authorization: sessionStorage.getItem('token')},
     }
   },
   methods: {
-    popoverHide (checkedIds, checkedData) {
-      console.log(checkedIds);
-      console.log(checkedData);
+    setTreeMenu(key, data) {//获取子组件值
+      let modelName = '';
+      if (data) {
+        data.forEach(val => {
+          if (!val.children) {
+            modelName += val.name + ",";
+          }
+        })
+        this.dataForm.modelName = modelName;
+      }
     },
     // 获取型号树形数据
     searchTreeData: function () {
@@ -190,8 +204,7 @@ export default {
       }
       return [parent]
     },
-    dataFormTreeSelectChange(data, node){
-      debugger
+    dataFormTreeSelectChange(data, node) {
       data.forEach(val => {
         this.dataForm.model += val.name + ",";
       })
@@ -279,9 +292,9 @@ export default {
         model: '',
         modelName: '',
         versionDesc: '',
-        parentId:'',
+        parentId: '',
         attachIds: '',
-        isSuccess:true
+        isSuccess: true
       }
       this.fileList = []
     },

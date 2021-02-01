@@ -31,7 +31,7 @@ public class DictionariesServiceImpl extends BaseServiceImpl<DictionariesMapper,
 
     @Override
     public List<Dictionaries> findTree() {
-        List<Dictionaries> tempDictionaries = new ArrayList<>();;
+        List<Dictionaries> tempDictionaries = new ArrayList<>();
         List<Dictionaries> dictionaries = dictionariesMapper.selectList(null);
         for (Dictionaries dictionary : dictionaries) {
             if (dictionary.getParentId() == null || dictionary.getParentId() == 0) {

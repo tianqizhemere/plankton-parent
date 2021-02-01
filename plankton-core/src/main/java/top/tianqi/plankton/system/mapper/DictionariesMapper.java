@@ -14,5 +14,11 @@ import java.util.List;
  */
 public interface DictionariesMapper extends BaseMapper<Dictionaries> {
 
+    /**
+     * 分页查询数据字典
+     * @param name
+     * @param page
+     * @return
+     */
     List<Dictionaries> findPage(@Param("name") String name, @Param("page") Page<Dictionaries> page);
 }

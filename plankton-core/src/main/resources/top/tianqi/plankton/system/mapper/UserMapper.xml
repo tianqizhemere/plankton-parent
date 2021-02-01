@@ -9,8 +9,8 @@
         <result column="model" jdbcType="VARCHAR" property="model" />
         <result column="version_code" jdbcType="VARCHAR" property="versionCode" />
         <result column="upload_counter" jdbcType="INTEGER" property="uploadCounter" />
-        <result column="phone" jdbcType="INTEGER" property="phone" />
-        <result column="qq" jdbcType="INTEGER" property="qq" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="qq" jdbcType="VARCHAR" property="qq" />
         <result column="user_mode" jdbcType="VARCHAR" property="userMode" />
         <result column="is_enable" jdbcType="INTEGER" property="isEnable" />
         <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />

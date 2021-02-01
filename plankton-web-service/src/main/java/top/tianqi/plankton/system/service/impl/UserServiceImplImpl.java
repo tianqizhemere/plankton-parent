@@ -1,6 +1,5 @@
 package top.tianqi.plankton.system.service.impl;
 
-import com.alibaba.druid.sql.PagerUtils;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.shiro.SecurityUtils;
@@ -10,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.common.utils.PageResult;
-import top.tianqi.plankton.system.entity.Auth;
-import top.tianqi.plankton.system.entity.Role;
 import top.tianqi.plankton.system.entity.User;
-import top.tianqi.plankton.system.mapper.AuthMapper;
 import top.tianqi.plankton.system.mapper.UserMapper;
 import top.tianqi.plankton.system.service.AuthService;
 import top.tianqi.plankton.system.service.UserService;
@@ -35,8 +31,6 @@ public class UserServiceImplImpl extends BaseServiceImpl<UserMapper, User> imple
 
     @Resource(name = "authServiceImpl")
     private AuthService authService;
-
-
 
     @Override
     public Boolean userLogin(String userName, String password) {

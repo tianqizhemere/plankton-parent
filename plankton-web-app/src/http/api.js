@@ -10,6 +10,7 @@ import * as log from './moudules/log'
 import * as sys from './moudules/jvm'
 import * as admin from './moudules/wechatAppAdmin'
 import * as version from './moudules/version'
+import * as external from './moudules/external'
 
 
 // 默认全部导出
@@ -22,5 +23,6 @@ export default {
     log,
     sys,
     admin,
-    version
+    version,
+    external
 }

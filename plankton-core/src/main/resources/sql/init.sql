@@ -192,4 +192,17 @@ CREATE TABLE dictionaries (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='字典管理表';
 
-
+-- 外置应用
+DROP TABLE IF EXISTS external_application;
+CREATE TABLE external_application (
+  id int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  create_time datetime NOT NULL,
+  modify_time datetime NOT NULL,
+  name varchar(100) NOT NULL COMMENT '应用名称',
+  version_code varchar(100) DEFAULT NULL COMMENT '版本编号',
+  version_desc varchar(100) DEFAULT NULL COMMENT '编号描述',
+  download_url varchar(100) DEFAULT NULL COMMENT '下载路径',
+  external_type int(11) DEFAULT NULL COMMENT '应用类型',
+  type int(1) DEFAULT '0' comment '是否升级 1-升级，0-不升级',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='外置应用表';

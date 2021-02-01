@@ -3,6 +3,7 @@ package top.tianqi.plankton.system.entity;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
+import top.tianqi.plankton.system.enumeration.VersionTypeEnum;
 
 import javax.validation.constraints.NotBlank;
 
@@ -98,8 +99,8 @@ public class VersionInfo extends BaseEntity {
 
     public String getTypeName(){
         if (this.type == 1){
-            return "最新版本";
+            return VersionTypeEnum.value(this.type);
         }
-        return "历史版本";
+        return null;
     }
 }

@@ -12,7 +12,7 @@
 		</el-form>
 	</div>
 	<!--表格内容栏-->
-	<kt-table :height="350"
+	<kt-table :height="750"
     :data="pageResult" :columns="columns" :showOperation="showOperation" @findPage="findPage">
 	</kt-table>
   </div>
