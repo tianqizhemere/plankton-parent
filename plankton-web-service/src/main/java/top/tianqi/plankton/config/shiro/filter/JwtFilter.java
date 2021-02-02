@@ -22,7 +22,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * JWT过滤器
@@ -106,8 +105,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
             // mustLoginFlag = true 开启任何请求必须登录才可访问
             final Boolean mustLoginFlag = true;
             for (String url : excludedPages.split(",")) {
-                // 是否为放行路径
-                if (Objects.equals(url, requestURI)) {
+                // 是否为放行路径 Objects.equals(url, requestURI)
+                if (requestURI.contains(url)) {
                     log.info("放行路径--->{}", requestURI);
                     return true;
                 }

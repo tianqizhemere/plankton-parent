@@ -10,11 +10,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ExternalTypeEnum {
 
-    A_LI_PAY(1, "支付宝指纹支付"),
-    TAO_BAO_PAY(2, "淘宝指纹支付"),
+    RIRU_CORE(5, "RiruCore核心"),
     WE_CHAT_PAY(3, "微信指纹支付"),
     QQ_PAY(4, "QQ指纹支付"),
-    RIRU_CORE(5, "RiruCore核心");
+    A_LI_PAY(1, "支付宝指纹支付"),
+    TAO_BAO_PAY(2, "淘宝指纹支付");
 
     private ExternalTypeEnum(int code, String typeName) {
         this.code = code;

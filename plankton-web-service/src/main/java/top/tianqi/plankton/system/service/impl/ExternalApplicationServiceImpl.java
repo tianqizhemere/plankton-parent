@@ -3,15 +3,20 @@ package top.tianqi.plankton.system.service.impl;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.Attach;
 import top.tianqi.plankton.system.entity.ExternalApplication;
+import top.tianqi.plankton.system.enumeration.VersionTypeEnum;
 import top.tianqi.plankton.system.mapper.AttachMapper;
 import top.tianqi.plankton.system.mapper.ExternalApplicationMapper;
 import top.tianqi.plankton.system.service.ExternalApplicationService;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 外置应用服务层实现
@@ -40,6 +45,17 @@ public class ExternalApplicationServiceImpl extends BaseServiceImpl<ExternalAppl
 
     @Override
     public boolean insert(ExternalApplication externalApplication) {
+        // 覆盖旧的版本
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("type", VersionTypeEnum.THE_LATEST_VERSION.getCode());
+        paramMap.put("external_type", externalApplication.getExternalType());
+        List<ExternalApplication> externalApplications = selectByMap(paramMap);
+        if (!CollectionUtils.isEmpty(externalApplications)) {
+            ExternalApplication baseExternalApplication = externalApplications.get(0);
+            baseExternalApplication.setType(VersionTypeEnum.HISTORIC_VERSION.getCode());
+            baseExternalApplication.setModifyTime(new Date());
+            externalApplicationMapper.updateById(baseExternalApplication);
+        }
         boolean result = super.insert(externalApplication);
         if (externalApplication.getAttachIds() != null) {
             for (String attachId : externalApplication.getAttachIds().split(",")) {

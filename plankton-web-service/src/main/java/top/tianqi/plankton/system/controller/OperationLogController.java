@@ -23,7 +23,6 @@ public class OperationLogController extends BaseController {
     @Resource(name = "operationLogServiceImpl")
     private OperationLogService operationLogService;
 
-
     /**
      * 加载数据列表
      * @param type 操作类型

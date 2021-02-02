@@ -27,14 +27,14 @@ public class DictionariesController extends BaseController {
     private DictionariesService dictionariesService;
 
     @GetMapping(value = "/findTree")
-    @OperLog(model = "字段管理", desc = "获取字典树形", type = OperationConst.SELECT)
+    @OperLog(model = "字典管理", desc = "获取字典树形", type = OperationConst.SELECT)
     @RequiresPermissions(value = "system:dict:view")
     public Result findTree(){
         List<Dictionaries> page = dictionariesService.findTree();
         return SUCCESS_MESSAGE(page);
     }
 
-    @OperLog(model = "字段管理", desc = "新增字典", type = OperationConst.INSERT)
+    @OperLog(model = "字典管理", desc = "新增字典", type = OperationConst.INSERT)
     @PostMapping(value = "/save")
     @RequiresPermissions(value = "system:dict:save")
     public Result save(@Valid @RequestBody Dictionaries dictionaries, BindingResult result){
@@ -45,7 +45,7 @@ public class DictionariesController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "字段管理", desc = "修改字典", type = OperationConst.UPDATE)
+    @OperLog(model = "字典管理", desc = "修改字典", type = OperationConst.UPDATE)
     @PostMapping(value = "/update")
     @RequiresPermissions(value = "system:dict:update")
     public Result update(@Valid @RequestBody Dictionaries dictionaries, BindingResult result){
@@ -56,7 +56,7 @@ public class DictionariesController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "字段管理", desc = "删除字典", type = OperationConst.DELETE)
+    @OperLog(model = "字典管理", desc = "删除字典", type = OperationConst.DELETE)
     @PostMapping(value = "/delete")
     @RequiresPermissions(value = "system:dict:delete")
     public Result delete(@RequestBody List<Dictionaries> dictionaries) {

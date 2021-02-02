@@ -35,6 +35,7 @@ public class VersionController extends BaseController {
      * @param dictId 数据字典id
      * @return Result 前端提示信息
      */
+    @RequiresPermissions(value = "system:version:view")
     @OperLog(model = "版本管理", desc = "应用版本列表", type = OperationConst.SELECT)
     @GetMapping(value = "/list")
     public Result list(String name, String dictId){
@@ -77,9 +78,9 @@ public class VersionController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
+    @RequiresPermissions(value = "system:version:delete")
     @OperLog(model = "版本管理", desc = "删除应用版本", type = OperationConst.DELETE)
     @PostMapping(value = "/delete")
-    @RequiresPermissions(value = "system:version:delete")
     public Result delete(@RequestBody List<VersionInfo> versionInfos){
         for (VersionInfo versionInfo : versionInfos) {
             versionService.deleteById(versionInfo.getId());

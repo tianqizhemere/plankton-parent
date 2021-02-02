@@ -21,6 +21,7 @@ import top.tianqi.plankton.system.service.OperationLogService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.HashMap;
@@ -90,12 +91,20 @@ public class LogAspect {
             // 请求方法
             operlog.setMethod(methodName);
 
-            // 请求的参数
-            assert request != null;
-            Map<String, String> rtnMap = convertMap(request.getParameterMap());
-            // 将参数所在的数组转换成json
-            String params = JsonUtil.toJsonString(rtnMap);
-
+            // 获取请求参数
+            Object[] args = joinPoint.getArgs();
+            String params = "";
+            String queryString = request.getQueryString();
+            //获取请求参数集合并进行遍历拼接
+            if(args.length>0){
+                if("POST".equals(request.getMethod())){
+                    Object object = args[0];
+                    Map map = getKeyAndValue(object);
+                    params = JsonUtil.toJsonString(map);
+                }else if("GET".equals(request.getMethod())){
+                    params = queryString;
+                }
+            }
             operlog.setRequestParam(params);
             operlog.setResponseParam(JsonUtil.toJsonString(keys)); // 返回结果
             User currentUser = sysLogService.getCurrentUser();
@@ -142,10 +151,20 @@ public class LogAspect {
             String methodName = method.getName();
             methodName = className + "." + methodName;
             // 请求的参数
-            assert request != null;
-            Map<String, String> rtnMap = convertMap(request.getParameterMap());
-            // 将参数所在的数组转换成json
-            String params = JsonUtil.toJsonString(rtnMap);
+            // 获取请求参数
+            Object[] args = joinPoint.getArgs();
+            String params = "";
+            String queryString = request.getQueryString();
+            //获取请求参数集合并进行遍历拼接
+            if(args.length>0){
+                if("POST".equals(request.getMethod())){
+                    Object object = args[0];
+                    Map map = getKeyAndValue(object);
+                    params = JsonUtil.toJsonString(map);
+                }else if("GET".equals(request.getMethod())){
+                    params = queryString;
+                }
+            }
             excepLog.setRequestParam(params); // 请求参数
             excepLog.setMethod(methodName); // 请求方法名
             excepLog.setName(e.getClass().getName()); // 异常名称
@@ -167,20 +186,6 @@ public class LogAspect {
 
     }
 
-
-    /**
-     * 转换request 请求参数
-     *
-     * @param paramMap request获取的参数数组
-     */
-    private Map<String, String> convertMap(Map<String, String[]> paramMap) {
-        Map<String, String> rtnMap = new HashMap<>();
-        for (String key : paramMap.keySet()) {
-            rtnMap.put(key, paramMap.get(key)[0]);
-        }
-        return rtnMap;
-    }
-
     /**
      * 转换异常信息为字符串
      *
@@ -195,4 +200,30 @@ public class LogAspect {
         }
         return exceptionName + ":" + exceptionMessage + "\n\t" + strbuff.toString();
     }
+
+    /**
+     * 获取POST请求参数
+     * @param obj
+     * @return
+     */
+    public static Map<String, Object> getKeyAndValue(Object obj) {
+        Map<String, Object> map = new HashMap<>();
+        // 得到类对象
+        Class userCla = obj.getClass();
+        /* 得到类中的所有属性集合 */
+        Field[] fs = userCla.getDeclaredFields();
+        for (Field field : fs) {
+            field.setAccessible(true); // 设置些属性是可以访问的
+            Object val = new Object();
+            try {
+                val = field.get(obj);
+                // 得到此属性的值
+                map.put(field.getName(), val);// 设置键值
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return map;
+    }
+
 }
