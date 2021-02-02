@@ -23,4 +23,11 @@ public interface VersionMapper extends BaseMapper<VersionInfo> {
      */
     List<VersionInfo> findList(@Param("name") String name, @Param("dictId") String dictId,@Param("page") Page<BaseEntity> page);
 
+    /**
+     * 检查更新
+     * @param checkCode 更新的版本号
+     * @param model 手机型号
+     * @return List<VersionInfo> 是否有更新
+     */
+    List<VersionInfo> checkVersion(@Param("checkCode") String checkCode,@Param("model") String model);
 }

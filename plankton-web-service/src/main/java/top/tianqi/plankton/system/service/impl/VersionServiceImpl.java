@@ -19,6 +19,7 @@ import top.tianqi.plankton.system.service.AttachService;
 import top.tianqi.plankton.system.service.VersionService;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -41,27 +42,57 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     @Override
     public VersionInfo checkVersion(String currentVersion, String model) throws Exception {
         User currentUser = getCurrentUser();
+        // 会员用户才可以更新版本
         if (Objects.equals(currentUser.getUserMode(), Constant.USER_MODE_POWERFUL)) {
-            Map<String, Object> paramMap = new HashMap<>(3);
-            paramMap.put("type", 1);
-            paramMap.put("model", model);
-            List<VersionInfo> versionInfos = versionMapper.selectByMap(paramMap);
-            if (!CollectionUtils.isEmpty(versionInfos)) {
-                VersionInfo versionInfo = versionInfos.get(0);
-                if (currentVersion != null) {
-                    Map<String, Object> resultMap = compareVersion(currentVersion, versionInfo.getVersionCode());
-                    if ((Integer) resultMap.get("result") < 0) {
+            if (currentVersion != null) {
+                BigDecimal versionF = new BigDecimal(currentVersion);
+                // 更新的版本号
+                BigDecimal updateCode = new BigDecimal("0.1");
+                // 验证是否有最新版本
+                BigDecimal code = versionF.add(updateCode);
+
+                // 是否为大版本更新
+                String versionStart = versionF.toString().substring(0, 1);
+                String codeStart = code.toString().substring(0, 1);
+                if (!Objects.equals(codeStart, versionStart)){
+                    return new VersionInfo();
+                }
+
+                List<VersionInfo> list = versionMapper.checkVersion(code.toString(), model);
+                if (!CollectionUtils.isEmpty(list)) {
+                    VersionInfo versionInfo = list.get(0);
+                    if (versionInfo.getDownloadUrl() == null) {
                         List<Attach> fileList = attachService.getFileList(versionInfo.getId(), AttachDataTypeEnum.N9760.getCode());
                         if (!CollectionUtils.isEmpty(fileList)) {
                             Attach attach = fileList.get(0);
                             versionInfo.setDownloadUrl(attach.getPath());
+                            versionMapper.selectById(versionInfo);
                         }
-                        versionInfo.setIsUpdate(Boolean.TRUE);
-                        return versionInfo;
                     }
                     return versionInfo;
                 }
+                return new VersionInfo();
             }
+//            Map<String, Object> paramMap = new HashMap<>(3);
+//            paramMap.put("type", 1);
+//            paramMap.put("model", model);
+//            List<VersionInfo> versionInfos = versionMapper.selectByMap(paramMap);
+//            if (!CollectionUtils.isEmpty(versionInfos)) {
+//                VersionInfo versionInfo = versionInfos.get(0);
+//                if (currentVersion != null) {
+//                    Map<String, Object> resultMap = compareVersion(currentVersion, versionInfo.getVersionCode());
+//                    if ((Integer) resultMap.get("result") < 0) {
+//                        List<Attach> fileList = attachService.getFileList(versionInfo.getId(), AttachDataTypeEnum.N9760.getCode());
+//                        if (!CollectionUtils.isEmpty(fileList)) {
+//                            Attach attach = fileList.get(0);
+//                            versionInfo.setDownloadUrl(attach.getPath());
+//                        }
+//                        versionInfo.setIsUpdate(Boolean.TRUE);
+//                        return versionInfo;
+//                    }
+//                    return versionInfo;
+//                }
+//            }
         }
         return new VersionInfo();
     }
@@ -116,6 +147,8 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                             attach.setRecordId(versionId);
                             attach.setDataType(AttachDataTypeEnum.N9760.getCode());
                             attachDao.insert(attach);
+                            versionInfo.setDownloadUrl(attach.getPath());
+                            versionMapper.selectById(versionInfo);
                         }
                     }
                 }
@@ -198,6 +231,8 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     public static void main(String[] args) throws Exception {
        int i = compareVersion2("1.2", "2.3");
         System.out.println(i);
+
+        System.out.println("Float.parseFloat(\"1.2\") = " + Float.parseFloat("1.2"));
 
         String result = "1.修复自定义BIX按键无效问题\n2.修复最近任务点击失效".replaceAll("\n", System.getProperty("line.separator"));
         System.out.println(result);
