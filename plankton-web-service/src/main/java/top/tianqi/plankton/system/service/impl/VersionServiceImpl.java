@@ -48,16 +48,14 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                 BigDecimal versionF = new BigDecimal(currentVersion);
                 // 更新的版本号
                 BigDecimal updateCode = new BigDecimal("0.1");
-                // 验证是否有最新版本
                 BigDecimal code = versionF.add(updateCode);
-
                 // 是否为大版本更新
                 String versionStart = versionF.toString().substring(0, 1);
                 String codeStart = code.toString().substring(0, 1);
                 if (!Objects.equals(codeStart, versionStart)){
                     return new VersionInfo();
                 }
-
+                // 验证是否有最新版本
                 List<VersionInfo> list = versionMapper.checkVersion(code.toString(), model);
                 if (!CollectionUtils.isEmpty(list)) {
                     VersionInfo versionInfo = list.get(0);
@@ -73,26 +71,6 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                 }
                 return new VersionInfo();
             }
-//            Map<String, Object> paramMap = new HashMap<>(3);
-//            paramMap.put("type", 1);
-//            paramMap.put("model", model);
-//            List<VersionInfo> versionInfos = versionMapper.selectByMap(paramMap);
-//            if (!CollectionUtils.isEmpty(versionInfos)) {
-//                VersionInfo versionInfo = versionInfos.get(0);
-//                if (currentVersion != null) {
-//                    Map<String, Object> resultMap = compareVersion(currentVersion, versionInfo.getVersionCode());
-//                    if ((Integer) resultMap.get("result") < 0) {
-//                        List<Attach> fileList = attachService.getFileList(versionInfo.getId(), AttachDataTypeEnum.N9760.getCode());
-//                        if (!CollectionUtils.isEmpty(fileList)) {
-//                            Attach attach = fileList.get(0);
-//                            versionInfo.setDownloadUrl(attach.getPath());
-//                        }
-//                        versionInfo.setIsUpdate(Boolean.TRUE);
-//                        return versionInfo;
-//                    }
-//                    return versionInfo;
-//                }
-//            }
         }
         return new VersionInfo();
     }
