@@ -138,9 +138,9 @@ export default {
         versionCode: [
           {required: true, message: '请输入版本号', trigger: 'blur'}
         ],
-        model: [
+        /*model: [
           {required: true, message: '请选择设备型号', trigger: 'blur'}
-        ],
+        ],*/
       },
       // 新增编辑界面数据
       dataForm: {

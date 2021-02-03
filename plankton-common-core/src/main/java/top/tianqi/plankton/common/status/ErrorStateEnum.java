@@ -30,7 +30,7 @@ public enum ErrorStateEnum {
     REFRESH_TOKEN_INVALID(1010, "认证过期,请重新登录"),
     // ieml不存在
     IEML_NOT_EXIST(1004, "ieml不存在"),
-    VERSION_CODE_EXIST(1011, "型号对应的版本编号已存在！");
+    VERSION_CODE_EXIST(1011, "输入的版本编号该机型已存在！");
 
     /**
      * 状态码

@@ -77,7 +77,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
 
     @Override
     public VersionInfo getVersionInfo(String version, String model) {
-        Map<String, Object> paramMap = new HashMap<>();
+        Map<String, Object> paramMap = new HashMap<>(2);
         paramMap.put("model", model);
         paramMap.put("version_code", version);
         List<VersionInfo> versionInfos = versionMapper.selectByMap(paramMap);

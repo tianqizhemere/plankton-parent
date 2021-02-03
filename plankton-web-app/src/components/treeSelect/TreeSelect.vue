@@ -353,18 +353,24 @@ export default {
     },
     modelId: {
       handler(newName, oldName) {
-        debugger
         let self = this;
+        debugger
         if (newName) {
           this.$nextTick(() => {
             this.$refs.tree.setCheckedKeys([newName]);
-            if (this.treeData.length > 0) {
-              let data = this.treeData.filter((item) => {
-                return item.id == newName
-              });
+            if (this.treeData[0].children.length > 0) {
+              let data = []
+              this.treeData[0].children.forEach((now, index) =>{
+                data[index] = now
+                data= now.children.filter((item) => {
+                  return item.name == newName
+                })
+              })
               if (data.length > 0) {
+                this.returnDatas = data
                 this.checkedId = data[0].id;
                 this.dataTreeNode = data[0].name
+                console.log(data)
               }
             }
           })

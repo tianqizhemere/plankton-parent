@@ -65,10 +65,15 @@ public class VersionController extends BaseController {
         if (result.hasErrors()) {
             return new Result(500, result.getFieldError().getDefaultMessage());
         }
-        // 验证版本是否已存在
-        Integer existResult = versionService.checkIsExist(versionInfo.getModel(), versionInfo.getVersionCode());
-        if (existResult != 0) {
-            return Result.error(ErrorStateEnum.VERSION_CODE_EXIST.getCode(), ErrorStateEnum.VERSION_CODE_EXIST.getMsg());
+
+        if (versionInfo.getModel() != null) {
+            for (String model : versionInfo.getModel().split(",")) {
+                // 验证版本是否已存在
+                Integer existResult = versionService.checkIsExist(model, versionInfo.getVersionCode());
+                if (existResult != 0) {
+                    return Result.error(ErrorStateEnum.VERSION_CODE_EXIST.getCode(), ErrorStateEnum.VERSION_CODE_EXIST.getMsg());
+                }
+            }
         }
         versionService.save(versionInfo);
         return SUCCESS_MESSAGE();
