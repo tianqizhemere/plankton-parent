@@ -1,14 +1,14 @@
 package top.tianqi.plankton.common.base.service.impl;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.shiro.SecurityUtils;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 import top.tianqi.plankton.common.base.service.BaseService;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.exception.BusinessException;
-import top.tianqi.plankton.config.shiro.token.JwtUtil;
 import top.tianqi.plankton.common.status.ErrorStateEnum;
+import top.tianqi.plankton.config.shiro.token.JwtUtil;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.UserService;
 
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  * @author Wukh
  * @create 2021-01-04
  */
-@EnableTransactionManagement
+@Transactional
 public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> implements BaseService<T> {
 
     @Resource(name = "userServiceImpl")

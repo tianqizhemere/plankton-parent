@@ -1,7 +1,7 @@
 package top.tianqi.plankton.system.mapper;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import top.tianqi.plankton.system.entity.RoleMenu;
 
 import java.util.List;

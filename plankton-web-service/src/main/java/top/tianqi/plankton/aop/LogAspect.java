@@ -117,7 +117,7 @@ public class LogAspect {
             operlog.setUri(request.getRequestURI()); // 请求URI
             operlog.setCreateTime(new Date());
             operlog.setModifyTime(new Date());
-            sysLogService.insert(operlog);
+            sysLogService.save(operlog);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -179,7 +179,7 @@ public class LogAspect {
             excepLog.setIp(SystemUtil.getHostInfo().getAddress()); // 操作员IP
             excepLog.setCreateTime(new Date()); // 发生异常时间
             excepLog.setModifyTime(new Date());
-            exceptionLogService.insert(excepLog);
+            exceptionLogService.save(excepLog);
         } catch (Exception e2) {
             e2.printStackTrace();
         }

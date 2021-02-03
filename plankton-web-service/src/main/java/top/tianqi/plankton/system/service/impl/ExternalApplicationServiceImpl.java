@@ -1,11 +1,11 @@
 package top.tianqi.plankton.system.service.impl;
 
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
-import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.Attach;
 import top.tianqi.plankton.system.entity.ExternalApplication;
 import top.tianqi.plankton.system.enumeration.VersionTypeEnum;
@@ -33,9 +33,12 @@ public class ExternalApplicationServiceImpl extends BaseServiceImpl<ExternalAppl
     private AttachMapper attachMapper;
 
     @Override
-    public PageResult getPage(String name, Page<ExternalApplication> page) {
-        List<ExternalApplication> list = externalApplicationMapper.findPage(name, page);
-        return new PageResult(page.getCurrent(), page.getSize(),  page.getTotal() , page.getPages(), list);
+    public Page<ExternalApplication> getPage(String name, Page<ExternalApplication> page) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if (name != null && name != "") {
+            queryWrapper.like("name", name);
+        }
+        return externalApplicationMapper.selectPage(page, queryWrapper);
     }
 
     @Override
@@ -44,19 +47,19 @@ public class ExternalApplicationServiceImpl extends BaseServiceImpl<ExternalAppl
     }
 
     @Override
-    public boolean insert(ExternalApplication externalApplication) {
+    public boolean save(ExternalApplication externalApplication) {
         // 覆盖旧的版本
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("type", VersionTypeEnum.THE_LATEST_VERSION.getCode());
         paramMap.put("external_type", externalApplication.getExternalType());
-        List<ExternalApplication> externalApplications = selectByMap(paramMap);
+        List<ExternalApplication> externalApplications = externalApplicationMapper.selectByMap(paramMap);
         if (!CollectionUtils.isEmpty(externalApplications)) {
             ExternalApplication baseExternalApplication = externalApplications.get(0);
             baseExternalApplication.setType(VersionTypeEnum.HISTORIC_VERSION.getCode());
             baseExternalApplication.setModifyTime(new Date());
             externalApplicationMapper.updateById(baseExternalApplication);
         }
-        boolean result = super.insert(externalApplication);
+        boolean result = super.save(externalApplication);
         if (externalApplication.getAttachIds() != null) {
             for (String attachId : externalApplication.getAttachIds().split(",")) {
                 Attach attach = attachMapper.selectById(attachId);

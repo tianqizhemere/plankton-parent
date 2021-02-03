@@ -1,14 +1,13 @@
 package top.tianqi.plankton.system.service.impl;
 
-import com.baomidou.mybatisplus.plugins.Page;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import top.tianqi.plankton.base.entity.BaseEntity;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.exception.BusinessException;
-import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.Attach;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.entity.VersionInfo;
@@ -89,9 +88,10 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     }
 
     @Override
-    public PageResult getPage(String name, String dictId, Page<BaseEntity> page) {
+    public Page<VersionInfo>  getPage(String name, String dictId, Page<VersionInfo> page) {
         List<VersionInfo> list = versionMapper.findList(name, dictId, page);
-        return new PageResult(page.getCurrent(), page.getSize(),  page.getTotal() , page.getPages(), list);
+        page.setRecords(list);
+        return page;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     }
 
     @Override
-    public boolean insert(VersionInfo versionInfo) {
+    public boolean save(VersionInfo versionInfo) {
         List<Long> versionIds = new ArrayList<>();
         if (versionInfo.getModel() != null) {
             for (String modelId : versionInfo.getModel().split(",")) {
@@ -118,7 +118,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                 }
                 versionInfo.setModel(modelId.toUpperCase());
                 versionInfo.setType(1);
-                super.insert(versionInfo);
+                super.save(versionInfo);
                 versionIds.add(versionInfo.getId());
             }
         }

@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--表格栏-->
-        <el-table :data="data.content" :highlight-current-row="highlightCurrentRow" @selection-change="selectionChange"
+        <el-table :data="data.records" :highlight-current-row="highlightCurrentRow" @selection-change="selectionChange"
                   @current-change="handleCurrentChange" v-loading="loading" :element-loading-text="$t('action.loading')"
                   :border="border" :stripe="stripe"
                   :show-overflow-tooltip="showOverflowTooltip" :size="size"
@@ -30,7 +30,7 @@
                        :disabled="this.selections.length===0" style="float:left;"
                        v-if="showBatchDelete & showOperation"/>
             <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest"
-                           :current-page="pageRequest.pageNum" :page-size="pageRequest.pageSize" :total="data.totalSize"
+                           :current-page="pageRequest.current" :page-size="pageRequest.size" :total="data.total"
                            style="float:right;">
             </el-pagination>
         </div>
@@ -95,8 +95,8 @@
             return {
                 // 分页信息
                 pageRequest: {
-                    pageNum: 1,
-                    pageSize: 10
+                  current: 1,
+                  size: 10
                 },
                 loading: true,  // 加载标识
                 selections: []  // 列表选中列
@@ -121,8 +121,8 @@
                 this.$emit('handleCurrentChange', {val: val})
             },
             // 换页刷新
-            refreshPageRequest: function (pageNum) {
-                this.pageRequest.pageNum = pageNum
+            refreshPageRequest: function (current) {
+                this.pageRequest.current = current
                 this.findPage()
             },
             // 编辑

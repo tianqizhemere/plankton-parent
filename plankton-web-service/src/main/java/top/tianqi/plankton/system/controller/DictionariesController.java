@@ -41,7 +41,7 @@ public class DictionariesController extends BaseController {
         if (result.hasErrors()){
             return Result.error(result.getFieldError().getDefaultMessage());
         }
-        dictionariesService.insert(dictionaries);
+        dictionariesService.save(dictionaries);
         return SUCCESS_MESSAGE();
     }
 
@@ -60,9 +60,7 @@ public class DictionariesController extends BaseController {
     @PostMapping(value = "/delete")
     @RequiresPermissions(value = "system:dict:delete")
     public Result delete(@RequestBody List<Dictionaries> dictionaries) {
-        for (Dictionaries dictionary : dictionaries) {
-            dictionariesService.deleteById(dictionary);
-        }
+        dictionariesService.removeByIds(dictionaries);
         return SUCCESS_MESSAGE();
     }
 }

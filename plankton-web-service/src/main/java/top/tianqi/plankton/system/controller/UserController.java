@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
@@ -11,7 +12,6 @@ import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.common.util.JedisUtil;
-import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.AuthService;
 import top.tianqi.plankton.system.service.UserService;
@@ -46,7 +46,7 @@ public class UserController extends BaseController {
     @OperLog(model = "用户管理", desc = "查询用户列表", type = OperationConst.SELECT)
     @GetMapping(value = "/list")
     public Result list(String code, String username){
-        PageResult page = userService.getPage(code, username, getPage());
+        Page<User> page = userService.getPage(code, username, getPage());
         return SUCCESS_MESSAGE(page);
     }
 
@@ -62,7 +62,7 @@ public class UserController extends BaseController {
         if (baseUser != null) {
             return Result.error(1007, "code已存在");
         }
-        userService.insert(user);
+        userService.save(user);
         return SUCCESS_MESSAGE();
     }
 
@@ -80,9 +80,7 @@ public class UserController extends BaseController {
     @PostMapping(value = "/delete")
     @RequiresPermissions(value = "system:user:delete")
     public Result delete(@RequestBody List<User> users){
-        for (User user : users) {
-            userService.deleteById(user.getId());
-        }
+        userService.removeByIds(users);
         return SUCCESS_MESSAGE();
     }
 

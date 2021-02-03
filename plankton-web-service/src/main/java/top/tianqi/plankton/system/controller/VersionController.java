@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,6 @@ import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
 import top.tianqi.plankton.common.status.ErrorStateEnum;
-import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.VersionInfo;
 import top.tianqi.plankton.system.service.VersionService;
 
@@ -40,7 +40,7 @@ public class VersionController extends BaseController {
     @OperLog(model = "版本管理", desc = "应用版本列表", type = OperationConst.SELECT)
     @GetMapping(value = "/list")
     public Result list(String name, String dictId){
-        PageResult page = versionService.getPage(name, dictId, getPage());
+        Page<VersionInfo> page = versionService.getPage(name, dictId, getPage());
         return Result.success(page);
     }
 
@@ -70,7 +70,7 @@ public class VersionController extends BaseController {
         if (existResult != 0) {
             return Result.error(ErrorStateEnum.VERSION_CODE_EXIST.getCode(), ErrorStateEnum.VERSION_CODE_EXIST.getMsg());
         }
-        versionService.insert(versionInfo);
+        versionService.save(versionInfo);
         return SUCCESS_MESSAGE();
     }
 
@@ -88,9 +88,7 @@ public class VersionController extends BaseController {
     @OperLog(model = "版本管理", desc = "删除应用版本", type = OperationConst.DELETE)
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<VersionInfo> versionInfos){
-        for (VersionInfo versionInfo : versionInfos) {
-            versionService.deleteById(versionInfo.getId());
-        }
+        versionService.removeByIds(versionInfos);
         return SUCCESS_MESSAGE();
     }
 

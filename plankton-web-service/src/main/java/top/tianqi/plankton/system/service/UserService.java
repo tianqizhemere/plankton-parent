@@ -1,11 +1,9 @@
 package top.tianqi.plankton.system.service;
 
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.tianqi.plankton.common.base.service.BaseService;
-import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.User;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -46,7 +44,7 @@ public interface UserService extends BaseService<User> {
      * @param page
      * @return
      */
-    PageResult getPage(String code, String username, Page<User> page);
+    Page<User> getPage(String code, String username, Page<User> page);
 
     /**
      * 通过用户名获取用户角色集合

@@ -1,21 +1,19 @@
 package top.tianqi.plankton.system.service.impl;
 
-import com.baomidou.mybatisplus.plugins.Page;
-import org.apache.commons.codec.digest.DigestUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
-import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.mapper.UserMapper;
 import top.tianqi.plankton.system.service.AuthService;
 import top.tianqi.plankton.system.service.UserService;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -51,9 +49,13 @@ public class UserServiceImplImpl extends BaseServiceImpl<UserMapper, User> imple
     }
 
     @Override
-    public PageResult getPage(String code, String username, Page<User> page) {
-        List<User> users = userDao.findPage(page, code, username);
-        return new PageResult(page.getCurrent(), page.getSize(),  page.getTotal() , page.getPages(), users);
+    public Page<User> getPage(String code, String username, Page<User> page) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        if (code != null && code != "") {
+            queryWrapper.like(true,"code", code);
+        }
+        page = userDao.selectPage(page, queryWrapper);
+        return page;
     }
 
     @Override
@@ -64,10 +66,5 @@ public class UserServiceImplImpl extends BaseServiceImpl<UserMapper, User> imple
     @Override
     public Set<String> getUserPermissions(Long userId) {
         return authService.getUserAuthListById(userId);
-    }
-
-    public static void main(String[] args) {
-        String s = DigestUtils.md5Hex("123456");
-        System.out.println(s);
     }
 }

@@ -64,7 +64,7 @@ public class LoginController extends BaseController {
             nonmember.setModifyTime(new Date());
             nonmember.setModel(loginUser.getModel());
             nonmember.setCode(loginUser.getCode());
-            nonmemberService.insert(nonmember);
+            nonmemberService.save(nonmember);
             throw new BusinessException("登录失败，用户不存在或错误");
         }
         if (!Objects.equals(loginUser.getModel(), user.getModel())) {

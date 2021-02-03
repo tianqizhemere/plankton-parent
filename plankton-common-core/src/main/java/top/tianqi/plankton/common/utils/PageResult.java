@@ -10,10 +10,10 @@ import java.util.List;
 public class PageResult {
 
     /** 当前页码*/
-    private int pageNum;
+    private Long pageNum;
 
     /**每页数量*/
-    private int pageSize;
+    private Long pageSize;
 
     /**记录总数*/
     private Long totalSize;
@@ -27,7 +27,7 @@ public class PageResult {
     public PageResult() {
     }
 
-    public PageResult(int pageNum, int pageSize, Long totalSize, Long totalPages, List<?> content) {
+    public PageResult(Long pageNum, Long pageSize, Long totalSize, Long totalPages, List<?> content) {
         this.pageNum = pageNum;
         this.pageSize = pageSize;
         this.totalSize = totalSize;
@@ -35,19 +35,19 @@ public class PageResult {
         this.content = content;
     }
 
-    public int getPageNum() {
+    public Long getPageNum() {
         return pageNum;
     }
 
-    public void setPageNum(int pageNum) {
+    public void setPageNum(Long pageNum) {
         this.pageNum = pageNum;
     }
 
-    public int getPageSize() {
+    public Long getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(int pageSize) {
+    public void setPageSize(Long pageSize) {
         this.pageSize = pageSize;
     }
 

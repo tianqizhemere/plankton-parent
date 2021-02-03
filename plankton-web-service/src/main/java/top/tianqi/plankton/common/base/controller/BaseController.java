@@ -1,12 +1,11 @@
 package top.tianqi.plankton.common.base.controller;
 
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import top.tianqi.plankton.base.entity.BaseEntity;
 import top.tianqi.plankton.common.Result;
-import top.tianqi.plankton.common.utils.PageResult;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;

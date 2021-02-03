@@ -1,6 +1,6 @@
 package top.tianqi.plankton.system.service;
 
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.tianqi.plankton.common.base.service.BaseService;
 import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.OperationLog;

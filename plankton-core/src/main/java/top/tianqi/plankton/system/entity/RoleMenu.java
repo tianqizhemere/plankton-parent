@@ -1,6 +1,6 @@
 package top.tianqi.plankton.system.entity;
 
-import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.annotation.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
 
 /**

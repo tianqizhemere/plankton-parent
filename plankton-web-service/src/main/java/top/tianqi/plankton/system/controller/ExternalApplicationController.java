@@ -1,6 +1,7 @@
 package top.tianqi.plankton.system.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +9,6 @@ import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
-import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.ExternalApplication;
 import top.tianqi.plankton.system.enumeration.ExternalTypeEnum;
 import top.tianqi.plankton.system.service.ExternalApplicationService;
@@ -35,7 +35,7 @@ public class ExternalApplicationController extends BaseController {
     @OperLog(model = "外置应用", desc = "分页查询", type = OperationConst.SELECT)
     @GetMapping(value = "/page")
     public Result getPage(String name) {
-        PageResult page = externalApplicationService.getPage(name, getPage());
+        Page<ExternalApplication> page = externalApplicationService.getPage(name, getPage());
         return SUCCESS_MESSAGE(page);
     }
 
@@ -46,7 +46,7 @@ public class ExternalApplicationController extends BaseController {
         if (result.hasErrors()){
             return Result.error(result.getFieldError().getDefaultMessage());
         }
-        externalApplicationService.insert(externalApplication);
+        externalApplicationService.save(externalApplication);
         return SUCCESS_MESSAGE();
     }
 
@@ -65,9 +65,7 @@ public class ExternalApplicationController extends BaseController {
     @OperLog(model = "外置应用", desc = "删除外置应用", type = OperationConst.DELETE)
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<ExternalApplication> externalApplications){
-        for (ExternalApplication externalApplication : externalApplications) {
-            externalApplicationService.deleteById(externalApplication.getId());
-        }
+        externalApplicationService.removeByIds(externalApplications);
         return SUCCESS_MESSAGE();
     }
 

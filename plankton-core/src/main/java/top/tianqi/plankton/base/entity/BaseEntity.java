@@ -1,8 +1,10 @@
 package top.tianqi.plankton.base.entity;
 
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.enums.IdType;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
@@ -13,7 +15,7 @@ import java.util.Date;
  * @author tianQi
  * @create 2021-01-07
  */
-public class BaseEntity implements Serializable {
+public class BaseEntity extends Model<BaseEntity> implements Serializable {
 
     private static final long serialVersionUID = 8287109204790484232L;
 
@@ -22,14 +24,19 @@ public class BaseEntity implements Serializable {
     private Long id;
 
     /** 创建时间 */
-    @TableField("create_time")
+    @TableField(value = "create_time",fill = FieldFill.INSERT)
     @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**修改时间*/
-    @TableField("modify_time")
+    @TableField(value = "modify_time", update = "now()", fill = FieldFill.INSERT_UPDATE)
     @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date modifyTime;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
 
     public BaseEntity(){super();}
 
