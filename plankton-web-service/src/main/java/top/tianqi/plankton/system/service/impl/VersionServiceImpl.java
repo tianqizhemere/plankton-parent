@@ -46,13 +46,14 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
         if (Objects.equals(currentUser.getUserMode(), Constant.USER_MODE_POWERFUL)) {
             if (currentVersion != null) {
                 BigDecimal versionF = new BigDecimal(currentVersion);
-                // 更新的版本号
+                // 更新提升0.1个版本号
                 BigDecimal updateCode = new BigDecimal("0.1");
+                // 更新的版本号
                 BigDecimal code = versionF.add(updateCode);
                 // 是否为大版本更新
                 String versionStart = versionF.toString().substring(0, 1);
                 String codeStart = code.toString().substring(0, 1);
-                if (!Objects.equals(codeStart, versionStart)){
+                if (!Objects.equals(codeStart, versionStart) && code.toString().substring(2).equals("0")){
                     return new VersionInfo();
                 }
                 // 验证是否有最新版本
@@ -210,7 +211,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
        int i = compareVersion2("1.2", "2.3");
         System.out.println(i);
 
-        System.out.println("Float.parseFloat(\"1.2\") = " + Float.parseFloat("1.2"));
+        System.out.println("code = " + "2.0".substring(2));
 
         String result = "1.修复自定义BIX按键无效问题\n2.修复最近任务点击失效".replaceAll("\n", System.getProperty("line.separator"));
         System.out.println(result);
