@@ -1,7 +1,6 @@
 package top.tianqi.plankton.system.entity;
 
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
 
@@ -22,8 +21,7 @@ public class OperationLog extends BaseEntity {
     private String type;
 
     /** 操作描述 */
-    @TableField(value = "operation_desc")
-    private String desc;
+    private String operationDesc;
 
     /** 请求参数 */
     private String requestParam;
@@ -62,12 +60,12 @@ public class OperationLog extends BaseEntity {
         this.type = type;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getOperationDesc() {
+        return operationDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setOperationDesc(String operationDesc) {
+        this.operationDesc = operationDesc;
     }
 
     public String getRequestParam() {

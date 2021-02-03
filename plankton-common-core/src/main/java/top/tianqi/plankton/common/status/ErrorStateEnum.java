@@ -10,13 +10,9 @@ package top.tianqi.plankton.common.status;
 public enum ErrorStateEnum {
 
     REQUEST_SUCCESS(200, "OK"),
-    /**
-     * 未登录
-     */
+    /**未登录*/
     REQUEST_UNAUTHC_EXCEPTION(411, "未登录"),
-    /**
-     * 未授权
-     */
+    /**未授权*/
     REQUEST_UNPERMS_EXCEPTION(412, "未授权"),
     // 用户名不存在
     USERNAME_NOT_EXIST(1004, "用户名不存在"),

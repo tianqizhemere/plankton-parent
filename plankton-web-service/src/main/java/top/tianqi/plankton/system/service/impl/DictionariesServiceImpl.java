@@ -1,11 +1,9 @@
 package top.tianqi.plankton.system.service.impl;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
-import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.Dictionaries;
 import top.tianqi.plankton.system.mapper.DictionariesMapper;
 import top.tianqi.plankton.system.service.DictionariesService;
@@ -23,12 +21,6 @@ public class DictionariesServiceImpl extends BaseServiceImpl<DictionariesMapper,
 
     @Autowired
     private DictionariesMapper dictionariesMapper;
-
-    @Override
-    public PageResult getPage(String name, Page<Dictionaries> page) {
-        List<Dictionaries> list = dictionariesMapper.findPage(name, page);
-        return new PageResult(page.getCurrent(), page.getSize(),  page.getTotal() , page.getPages(), list);
-    }
 
     @Override
     public List<Dictionaries> findTree() {

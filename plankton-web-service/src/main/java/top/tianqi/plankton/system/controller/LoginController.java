@@ -34,9 +34,7 @@ import java.util.Objects;
 @PropertySource("classpath:config.properties")
 public class LoginController extends BaseController {
 
-    /**
-     * RefreshToken过期时间
-     */
+    /** RefreshToken过期时间 */
     @Value("${refreshTokenExpireTime}")
     private String refreshTokenExpireTime;
 
@@ -48,8 +46,8 @@ public class LoginController extends BaseController {
 
     /**
      * 登录
-     * @param loginUser uuid值
-     * @return Result
+     * @param loginUser 登录对象
+     * @return Result 前端提示信息
      */
     @OperLog(model = "登录管理", desc = "登录", type = OperationConst.LOGIN)
     @PostMapping(value = "/login")

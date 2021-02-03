@@ -1,11 +1,12 @@
 package top.tianqi.plankton.system.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.base.controller.BaseController;
-import top.tianqi.plankton.common.utils.PageResult;
+import top.tianqi.plankton.system.entity.OperationLog;
 import top.tianqi.plankton.system.service.OperationLogService;
 
 import javax.annotation.Resource;
@@ -32,7 +33,7 @@ public class OperationLogController extends BaseController {
      */
     @GetMapping(value = "/list")
     public Result list(String type, String name,Date beginTime, Date endTime){
-        PageResult page = operationLogService.getPage(type, name, beginTime, endTime, getPage());
+        Page<OperationLog> page = operationLogService.getPage(type, name, beginTime, endTime, getPage());
         return SUCCESS_MESSAGE(page);
     }
 }

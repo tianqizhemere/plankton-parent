@@ -14,23 +14,6 @@ import java.util.Set;
 public interface UserService extends BaseService<User> {
 
     /**
-     * 用户登录
-     *
-     * @param userName
-     * @param password
-     * @return
-     */
-    Boolean userLogin(String userName, String password);
-
-    /**
-     * 获取所有用户信息
-     *
-     * @param request
-     * @return
-     */
-    Page<User> listUserPage(Page<User> request);
-
-    /**
      * 根据code获取user
      * @param code 用户唯一标识
      * @return
@@ -39,10 +22,10 @@ public interface UserService extends BaseService<User> {
 
     /**
      * 分页查询
-     * @param code
-     * @param username
-     * @param page
-     * @return
+     * @param code 用户唯一标识
+     * @param username username
+     * @param page 分页对象
+     * @return Page<User>
      */
     Page<User> getPage(String code, String username, Page<User> page);
 

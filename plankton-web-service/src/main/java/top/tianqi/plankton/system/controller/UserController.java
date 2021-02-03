@@ -50,7 +50,6 @@ public class UserController extends BaseController {
         return SUCCESS_MESSAGE(page);
     }
 
-
     //@RequiresPermissions("system:user:save")
     @OperLog(model = "用户管理", desc = "新增用户", type = OperationConst.INSERT)
     @PostMapping(value = "/save")

@@ -36,15 +36,15 @@ public class BaseController {
      */
     public <T extends BaseEntity> Page<T> getPage() {
         HttpServletRequest request = getRequest();
-        String pageNo = request.getParameter("pageNum");
-        if (StringUtils.isEmpty(pageNo)) {
-            pageNo = "1";
+        String pageNum = request.getParameter("pageNum");
+        if (StringUtils.isEmpty(pageNum)) {
+            pageNum = "1";
         }
         String pageSize = request.getParameter("pageSize");
         if (StringUtils.isEmpty(pageSize)) {
             pageSize = "10";
         }
-        return new Page<>(Integer.parseInt(pageNo), Integer.parseInt(pageSize));
+        return new Page<>(Integer.parseInt(pageNum), Integer.parseInt(pageSize));
     }
 
     /**
@@ -54,15 +54,15 @@ public class BaseController {
      */
     public <T extends  BaseEntity> Page<T> getPage(T t) {
         HttpServletRequest request = getRequest();
-        String pageNo = request.getParameter("pageNum");
-        if (StringUtils.isEmpty(pageNo)) {
-            pageNo = "1";
+        String pageNum = request.getParameter("pageNum");
+        if (StringUtils.isEmpty(pageNum)) {
+            pageNum = "1";
         }
         String pageSize = request.getParameter("pageSize");
         if (StringUtils.isEmpty(pageSize)) {
             pageSize = "10";
         }
-        return new Page<T>(Integer.parseInt(pageNo), Integer.parseInt(pageSize));
+        return new Page<T>(Integer.parseInt(pageNum), Integer.parseInt(pageSize));
     }
 
 
