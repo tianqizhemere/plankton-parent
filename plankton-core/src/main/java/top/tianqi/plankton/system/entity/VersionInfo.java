@@ -98,7 +98,7 @@ public class VersionInfo extends BaseEntity {
     }
 
     public String getTypeName(){
-        if (this.type == 1){
+        if (this.type != null){
             return VersionTypeEnum.value(this.type);
         }
         return null;
