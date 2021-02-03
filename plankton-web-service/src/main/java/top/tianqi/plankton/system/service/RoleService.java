@@ -2,7 +2,6 @@ package top.tianqi.plankton.system.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.tianqi.plankton.common.base.service.BaseService;
-import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.Role;
 
 /**
@@ -12,5 +11,5 @@ import top.tianqi.plankton.system.entity.Role;
  */
 public interface RoleService extends BaseService<Role> {
 
-    PageResult findPage(String name, Page<Role> page);
+    Page<Role> findPage(String name, Page<Role> page);
 }

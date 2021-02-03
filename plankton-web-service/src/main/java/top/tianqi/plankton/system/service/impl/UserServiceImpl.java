@@ -20,7 +20,7 @@ import java.util.Set;
  * @create 2021-01-04
  */
 @Service(value = "userServiceImpl")
-public class UserServiceImplImpl extends BaseServiceImpl<UserMapper, User> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired
     private UserMapper userMapper;
@@ -37,6 +37,7 @@ public class UserServiceImplImpl extends BaseServiceImpl<UserMapper, User> imple
     public Page<User> getPage(String code, String username, Page<User> page) {
         LambdaUpdateWrapper<User> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.like(StringUtils.isNotBlank(code), User::getCode, code);
+        lambdaUpdateWrapper.orderByDesc(User::getModifyTime);
         return userMapper.selectPage(page, lambdaUpdateWrapper);
     }
 

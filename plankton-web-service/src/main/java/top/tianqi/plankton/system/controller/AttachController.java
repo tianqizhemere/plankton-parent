@@ -57,7 +57,7 @@ public class AttachController extends BaseController {
     @RequestMapping(value = "/getFileList", method = RequestMethod.GET)
     public Result getFileList(Long recordId, Integer dataType) {
         List<Attach> list = attachService.getFileList(recordId, dataType);
-        return Result.success(null);
+        return Result.success(list);
     }
 
 

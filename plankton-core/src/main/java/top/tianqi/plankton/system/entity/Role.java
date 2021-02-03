@@ -20,7 +20,7 @@ public class Role extends BaseEntity {
     private String remark;
 
     /** 启用状态，1：启用，0：未启用 */
-    private Integer enable;
+    private Integer enabled;
 
     public String getName() {
         return name;
@@ -38,11 +38,11 @@ public class Role extends BaseEntity {
         this.remark = remark;
     }
 
-    public Integer getEnable() {
-        return enable;
+    public Integer getEnabled() {
+        return enabled;
     }
 
-    public void setEnable(Integer enable) {
-        this.enable = enable;
+    public void setEnabled(Integer enabled) {
+        this.enabled = enabled;
     }
 }
