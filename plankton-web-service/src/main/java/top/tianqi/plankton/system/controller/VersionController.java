@@ -9,6 +9,7 @@ import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
+import top.tianqi.plankton.common.status.ErrorStateEnum;
 import top.tianqi.plankton.common.utils.PageResult;
 import top.tianqi.plankton.system.entity.VersionInfo;
 import top.tianqi.plankton.system.service.VersionService;
@@ -63,6 +64,11 @@ public class VersionController extends BaseController {
     public Result save(@Valid @RequestBody VersionInfo versionInfo, BindingResult result){
         if (result.hasErrors()) {
             return new Result(500, result.getFieldError().getDefaultMessage());
+        }
+        // 验证版本是否已存在
+        Integer existResult = versionService.checkIsExist(versionInfo.getModel(), versionInfo.getVersionCode());
+        if (existResult != 0) {
+            return Result.error(ErrorStateEnum.VERSION_CODE_EXIST.getCode(), ErrorStateEnum.VERSION_CODE_EXIST.getMsg());
         }
         versionService.insert(versionInfo);
         return SUCCESS_MESSAGE();

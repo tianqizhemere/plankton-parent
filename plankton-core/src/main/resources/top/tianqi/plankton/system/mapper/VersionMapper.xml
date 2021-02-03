@@ -31,4 +31,13 @@
             and vu.model = #{model}
         </if>
     </select>
+    <select id="checkIsExist" resultType="java.lang.Integer">
+        select count(1) from version_upgrade vu where 1=1
+        <if test="checkCode != null and checkCode !=''">
+            and vu.version_code = #{checkCode}
+        </if>
+        <if test="model != null and model !=''">
+            and vu.model = #{model}
+        </if>
+    </select>
 </mapper>

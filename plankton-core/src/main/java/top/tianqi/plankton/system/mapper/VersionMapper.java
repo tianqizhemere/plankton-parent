@@ -30,4 +30,12 @@ public interface VersionMapper extends BaseMapper<VersionInfo> {
      * @return List<VersionInfo> 是否有更新
      */
     List<VersionInfo> checkVersion(@Param("checkCode") String checkCode,@Param("model") String model);
+
+    /**
+     * 校验新增的版本是否已存在
+     * @param model 型号
+     * @param versionCode 版本编号
+     * @return 是否存在 0-不存在，1-已存在
+     */
+    Integer checkIsExist(@Param("model") String model, @Param("versionCode") String versionCode);
 }

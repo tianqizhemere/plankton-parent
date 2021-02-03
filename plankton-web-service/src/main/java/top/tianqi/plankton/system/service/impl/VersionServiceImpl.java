@@ -95,6 +95,11 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     }
 
     @Override
+    public Integer checkIsExist(String model, String versionCode) {
+        return versionMapper.checkIsExist(model, versionCode);
+    }
+
+    @Override
     public boolean insert(VersionInfo versionInfo) {
         List<Long> versionIds = new ArrayList<>();
         if (versionInfo.getModel() != null) {
@@ -105,7 +110,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                 List<VersionInfo> versionInfos = versionMapper.selectByMap(paramMap);
                 if (!CollectionUtils.isEmpty(versionInfos)) {
                     for (VersionInfo info : versionInfos) {
-                        // 之前版本设置为不升级版本
+                        // 之前版本设置为历史版本
                         info.setType(0);
                         info.setModifyTime(new Date());
                         versionMapper.updateById(info);

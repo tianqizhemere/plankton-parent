@@ -4,8 +4,8 @@
         <el-table :data="data.content" :highlight-current-row="highlightCurrentRow" @selection-change="selectionChange"
                   @current-change="handleCurrentChange" v-loading="loading" :element-loading-text="$t('action.loading')"
                   :border="border" :stripe="stripe"
-                  :show-overflow-tooltip="showOverflowTooltip" :max-height="maxHeight" :height="height" :size="size"
-                  :align="align" style="width:100%;">
+                  :show-overflow-tooltip="showOverflowTooltip" :size="size"
+                  :align="align">
             <el-table-column type="selection" width="40" v-if="showBatchDelete & showOperation"></el-table-column>
             <el-table-column v-for="column in columns" header-align="center" align="center"
                              :prop="column.prop" :label="column.label" :width="column.width"
@@ -98,7 +98,7 @@
                     pageNum: 1,
                     pageSize: 10
                 },
-                loading: false,  // 加载标识
+                loading: true,  // 加载标识
                 selections: []  // 列表选中列
             }
         },

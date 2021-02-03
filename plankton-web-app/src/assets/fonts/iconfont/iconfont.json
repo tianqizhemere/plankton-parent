@@ -1,0 +1,142 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "70592625",
+      "name": "home",
+      "font_class": "home",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "70592670",
+      "name": "notice",
+      "font_class": "notice",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "70592701",
+      "name": "objective",
+      "font_class": "objective",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "70592718",
+      "name": "regulation",
+      "font_class": "regulation",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "70592725",
+      "name": "train",
+      "font_class": "train",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "70592733",
+      "name": "site-manage",
+      "font_class": "site-manage",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "70592744",
+      "name": "risk",
+      "font_class": "risk",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "70592874",
+      "name": "danger",
+      "font_class": "danger",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "70592912",
+      "name": "equipment",
+      "font_class": "equipment",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "70592923",
+      "name": "emergency",
+      "font_class": "emergency",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "70592930",
+      "name": "accident",
+      "font_class": "accident",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "70592993",
+      "name": "improve",
+      "font_class": "improve",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "70593000",
+      "name": "sys-manage",
+      "font_class": "sys-manage",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "70593015",
+      "name": "open",
+      "font_class": "open",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "70593021",
+      "name": "fold",
+      "font_class": "fold",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "70593078",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "70593103",
+      "name": "org",
+      "font_class": "org",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "70593118",
+      "name": "news",
+      "font_class": "news",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "70593169",
+      "name": "remind",
+      "font_class": "remind",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    }
+  ]
+}

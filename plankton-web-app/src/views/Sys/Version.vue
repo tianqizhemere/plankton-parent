@@ -45,14 +45,14 @@
       </table-column-filter-dialog>
     </div>
     <!--表格内容栏-->
-    <kt-table :height="750" permsEdit="system:version:update" permsDelete="system:version:delete"
+    <kt-table :height="720" permsEdit="system:version:update" permsDelete="system:version:delete"
               :data="pageResult" :columns="filterColumns"
               @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
     </kt-table>
     <!--新增编辑界面-->
     <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="dialogVisible" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size"
-               label-position="right">
+               label-position="left">
         <el-form-item label="ID" prop="id" v-if="false">
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
@@ -64,13 +64,6 @@
                     auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="设备型号" prop="model">
-          <!--          <popup-tree-input-->
-          <!--              :data="popupTreeData" :props="popupTreeProps"-->
-          <!--              multiple-->
-          <!--              :prop="dataForm.model==null?'顶级菜单':dataForm.model"-->
-          <!--              @node-click="handleNodeClick"-->
-          <!--              :nodeKey="''+dataForm.parentId" :currentChangeHandle="dataFormTreeSelectChange">-->
-          <!--          </popup-tree-input>-->
           <test-code size="medium" :data="popupTreeData" v-model="dataForm.model"
                      multiple
                      clearable
@@ -115,7 +108,6 @@ import KtTable from "@/views/Core/KtTable"
 import KtButton from "@/views/Core/KtButton"
 import TableColumnFilterDialog from "@/views/Core/TableColumnFilterDialog"
 import {format} from "@/utils/datetime"
-import * as version from "../../http/moudules/version";
 import TestCode from "../../components/treeSelect/TreeSelect";
 
 export default {
@@ -204,24 +196,10 @@ export default {
       }
       return [parent]
     },
-    dataFormTreeSelectChange(data, node) {
-      data.forEach(val => {
-        this.dataForm.model += val.name + ",";
-      })
-      console.log(data);
-    },
     // 型号树选中
     handleTreeSelectChange(data, node) {
       this.filters.parentId = data.id
       this.filters.model = data.name
-    },
-    // Cascader 级联选择器选中事件
-    onProvincesChange(item) {
-      let modelName = ""
-      item.forEach(key => {
-        modelName += key[1] + ",";
-      })
-      this.dataForm.modelName = modelName;
     },
     // 获取型号树形数据
     findTreeData() {
@@ -324,6 +302,8 @@ export default {
                     this.$message({message: '操作成功', type: 'success'})
                     this.dialogVisible = false
                     this.$refs['dataForm'].resetFields()
+                  } else if(res.code === 1011){
+                    this.$message({message: '操作失败,' + res.massage, type: 'warning'})
                   } else {
                     this.$message({message: '操作失败, ' + res.massage, type: 'error'})
                   }

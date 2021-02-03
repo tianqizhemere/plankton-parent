@@ -18,6 +18,7 @@ public class VersionInfo extends BaseEntity {
     private static final long serialVersionUID = 3577514419817872789L;
 
     /** 版本编号 */
+    @NotBlank(message = "版本编号不能为空")
     private String versionCode;
 
     /** 下载路径 */

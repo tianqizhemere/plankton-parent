@@ -38,14 +38,14 @@
       </table-column-filter-dialog>
     </div>
     <!--表格内容栏-->
-    <kt-table :height="750" permsEdit="system:externalApplication:update" permsDelete="system:externalApplication:delete"
+    <kt-table :height="720" permsEdit="system:externalApplication:update" permsDelete="system:externalApplication:delete"
               :data="pageResult" :columns="filterColumns"
               @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
     </kt-table>
     <!--新增编辑界面-->
     <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="dialogVisible" :close-on-click-modal="false">
       <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size"
-               label-position="right">
+               label-position="left">
         <el-form-item label="ID" prop="id" v-if="false">
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
