@@ -1,7 +1,8 @@
 package top.tianqi.plankton.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -23,7 +24,7 @@ import java.util.Map;
  * @author Wukh
  * @create 2021-02-01
  */
-@Service(value = "externalApplicationServiceImpl")
+@Service
 public class ExternalApplicationServiceImpl extends BaseServiceImpl<ExternalApplicationMapper, ExternalApplication> implements ExternalApplicationService {
 
     @Autowired
@@ -34,11 +35,9 @@ public class ExternalApplicationServiceImpl extends BaseServiceImpl<ExternalAppl
 
     @Override
     public Page<ExternalApplication> getPage(String name, Page<ExternalApplication> page) {
-        QueryWrapper queryWrapper = new QueryWrapper();
-        if (name != null && name != "") {
-            queryWrapper.like("name", name);
-        }
-        return externalApplicationMapper.selectPage(page, queryWrapper);
+        LambdaQueryWrapper<ExternalApplication> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.like(StringUtils.isNotBlank(name), ExternalApplication::getName, name);
+        return externalApplicationMapper.selectPage(page, lambdaQueryWrapper);
     }
 
     @Override

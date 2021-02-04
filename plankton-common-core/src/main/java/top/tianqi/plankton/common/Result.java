@@ -31,7 +31,7 @@ public class Result extends HashMap<String, Object> {
     /**
      * 是否成功
      */
-    private static final String  IS_SUCCESS = "success";
+    private static final String IS_SUCCESS = "success";
 
     /**
      * 初始化一个新创建的 Result 对象，使其表示一个空消息。

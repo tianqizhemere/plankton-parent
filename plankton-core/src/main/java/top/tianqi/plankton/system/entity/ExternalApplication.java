@@ -105,7 +105,7 @@ public class ExternalApplication extends BaseEntity {
         return null;
     }
 
-    private String getFileType(){
+    public String getFileType(){
         if (this.externalType != null) {
             return ExternalTypeEnum.value(this.externalType);
         }

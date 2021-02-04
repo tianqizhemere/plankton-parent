@@ -54,7 +54,7 @@ public class VersionController extends BaseController {
     @Limit(count = 5, period = 60, limitType = LimitTypeEnum.IP, key = "checkVersion", prefix = "limit")
     @OperLog(model = "版本管理", desc = "检测应用版本", type = OperationConst.SELECT)
     @GetMapping(value = "/checkVersion")
-    public Result checkVersion(String version, String model) throws Exception {
+    public Result checkVersion(String version, String model) {
         VersionInfo versionInfo = versionService.checkVersion(version, model);
         return SUCCESS_MESSAGE(versionInfo);
     }
@@ -63,9 +63,8 @@ public class VersionController extends BaseController {
     @PostMapping(value = "/save")
     public Result save(@Valid @RequestBody VersionInfo versionInfo, BindingResult result){
         if (result.hasErrors()) {
-            return new Result(500, result.getFieldError().getDefaultMessage());
+            return new Result(ErrorStateEnum.MISSING_PARAMETER.getCode(), result.getFieldError().getDefaultMessage());
         }
-
         if (versionInfo.getModel() != null) {
             for (String model : versionInfo.getModel().split(",")) {
                 // 验证版本是否已存在
@@ -83,7 +82,7 @@ public class VersionController extends BaseController {
     @PostMapping(value = "/update")
     public Result update(@Valid @RequestBody VersionInfo versionInfo, BindingResult result){
         if (result.hasErrors()) {
-            return new Result(500, result.getFieldError().getDefaultMessage());
+            return new Result(ErrorStateEnum.MISSING_PARAMETER.getCode(), result.getFieldError().getDefaultMessage());
         }
         versionService.updateById(versionInfo);
         return SUCCESS_MESSAGE();

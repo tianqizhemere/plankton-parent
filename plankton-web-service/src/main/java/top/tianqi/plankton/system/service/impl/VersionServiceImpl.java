@@ -40,7 +40,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     private AttachService attachService;
 
     @Override
-    public VersionInfo checkVersion(String currentVersion, String model) throws Exception {
+    public VersionInfo checkVersion(String currentVersion, String model){
         User currentUser = getCurrentUser();
         // 会员用户才可以更新版本
         if (Objects.equals(currentUser.getUserMode(), Constant.USER_MODE_POWERFUL)) {

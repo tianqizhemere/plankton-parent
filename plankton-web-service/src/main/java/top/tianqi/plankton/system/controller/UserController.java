@@ -11,6 +11,7 @@ import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.exception.BusinessException;
+import top.tianqi.plankton.common.status.ErrorStateEnum;
 import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.AuthService;
@@ -55,7 +56,7 @@ public class UserController extends BaseController {
     @PostMapping(value = "/save")
     public Result save(@Valid @RequestBody User user, BindingResult result){
         if (result.hasErrors()){
-            return Result.error(result.getFieldError().getDefaultMessage());
+            return Result.error(ErrorStateEnum.MISSING_PARAMETER.getCode(),result.getFieldError().getDefaultMessage());
         }
         User baseUser = userService.getUser(user.getCode());
         if (baseUser != null) {
@@ -69,7 +70,7 @@ public class UserController extends BaseController {
     @PostMapping(value = "/update")
     public Result update(@Valid @RequestBody User user, BindingResult result){
         if (result.hasErrors()){
-            return Result.error(result.getFieldError().getDefaultMessage());
+            return Result.error(ErrorStateEnum.MISSING_PARAMETER.getCode(),result.getFieldError().getDefaultMessage());
         }
         userService.updateById(user);
         return SUCCESS_MESSAGE();
