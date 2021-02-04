@@ -52,7 +52,7 @@ public class VersionController extends BaseController {
      */
     //@RequiresPermissions("system:version:check")
     @Limit(count = 5, period = 60, limitType = LimitTypeEnum.IP, key = "checkVersion", prefix = "limit")
-    @OperLog(model = "版本管理", desc = "检测应用版本", type = OperationConst.SELECT)
+    @OperLog(model = "版本管理", desc = "检查是否有更新版本", type = OperationConst.SELECT)
     @GetMapping(value = "/checkVersion")
     public Result checkVersion(String version, String model) {
         VersionInfo versionInfo = versionService.checkVersion(version, model);
@@ -97,12 +97,12 @@ public class VersionController extends BaseController {
     }
 
     /**
-     * 根据手机型号查询最新版本更新信息
+     * 根据手机型号查询获取当前版本信息
      * @param model 手机型号
      * @param version 当前版本
      * @return 前端提示信息
      */
-    @OperLog(model = "版本管理", desc = "查询最新版本信息", type = OperationConst.SELECT)
+    @OperLog(model = "版本管理", desc = "获取当前版本信息", type = OperationConst.SELECT)
     @GetMapping(value = "/info")
     public Result info(String model, String version){
         VersionInfo versionInfo = versionService.getVersionInfo(version, model);
