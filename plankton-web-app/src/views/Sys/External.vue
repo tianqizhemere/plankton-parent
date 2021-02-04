@@ -121,7 +121,7 @@ export default {
       },
       columns: [],
       filterColumns: [],
-      pageRequest: {pageNum: 1, pageSize: 10},
+      pageRequest: {current: 1, size: 10},
       pageResult: {},
 
       // 文件类型选项
@@ -205,8 +205,8 @@ export default {
       }
       this.pageRequest.columnFilters = {username: '', ieml: ''}
       this.$api.external.findPage({
-        'pageNum': this.pageRequest.pageNum,
-        'pageSize': this.pageRequest.pageSize,
+        'pageNum': this.pageRequest.current,
+        'pageSize': this.pageRequest.size,
         'name': this.filters.name
       }).then((res) => {
         this.pageResult = res.data

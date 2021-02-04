@@ -4,7 +4,19 @@
     <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
       <el-form :inline="true" :model="filters" :size="size">
         <el-form-item>
-          <el-input v-model="filters.name" placeholder="code"></el-input>
+          <el-input v-model="filters.name" placeholder="CODE"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.phone" placeholder="手机号码"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.qq" placeholder="QQ"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <model-tree-select :data="popupTreeData"
+                             :defaultProps="defaultProps" multiple
+                             :nodeKey="nodeKey" :checkedKeys="defaultCheckedKeys"
+                             @popoverHide="popoverHide"></model-tree-select>
         </el-form-item>
         <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="system:user:view" type="primary"
@@ -100,9 +112,11 @@ import KtTable from "@/views/Core/KtTable"
 import KtButton from "@/views/Core/KtButton"
 import TableColumnFilterDialog from "@/views/Core/TableColumnFilterDialog"
 import {format} from "@/utils/datetime"
+import ModelTreeSelect from "../../components/ModelTreeSelect/index";
 
 export default {
   components: {
+    ModelTreeSelect,
     PopupTreeInput,
     KtTable,
     KtButton,
@@ -112,11 +126,15 @@ export default {
     return {
       size: 'small',
       filters: {
-        name: ''
+        name: '',
+        phone: '',
+        qq:'',
+        model:'',
+        modelName:'',
       },
       columns: [],
       filterColumns: [],
-      pageRequest: {pageNum: 1, pageSize: 10},
+      pageRequest: {current: 1, size: 10},
       pageResult: {},
 
       operation: false, // true:新增, false:编辑
@@ -154,10 +172,30 @@ export default {
       popupTreeProps: {
         label: 'name',
         children: 'children'
-      }
+      },
+
+      // model-tree-select 属性配置
+      defaultProps: {
+        children: 'children',
+        label: 'name'
+      },
+      nodeKey: 'name',
+      defaultCheckedKeys: []
     }
   },
   methods: {
+    // 多选框选择
+    popoverHide (checkedIds, checkedData) {
+      let modelName = '';
+      if (checkedData) {
+        checkedData.forEach(val => {
+          if (!val.children) {
+            modelName += val.name + ",";
+          }
+        })
+      }
+      this.filters.modelName = modelName;
+    },
     // 获取型号树形数据
     findTreeData: function () {
       this.loading = true
@@ -188,9 +226,12 @@ export default {
       }
       this.pageRequest.columnFilters = {username: '', ieml: ''}
       this.$api.user.findPage({
-        'pageNum': this.pageRequest.pageNum,
-        'pageSize': this.pageRequest.pageSize,
-        'code': this.filters.name
+        'pageNum': this.pageRequest.current,
+        'pageSize': this.pageRequest.size,
+        'code': this.filters.name,
+        'phone': this.filters.phone,
+        'qq': this.filters.qq,
+        'models': this.filters.modelName
       }).then((res) => {
         this.pageResult = res.data
       }).then(data != null ? data.callback : '')

@@ -37,7 +37,7 @@ export const findPage = (params) => {
     })
 }
 
-// 分页查询
+// 文件类型
 export const getOption = () => {
     return axios({
         url: '/system/externalType/list',

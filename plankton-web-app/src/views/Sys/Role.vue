@@ -84,7 +84,7 @@ export default {
 				{prop:"remark", label:"备注", minWidth:120},
 				{prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
 			],
-			pageRequest: { pageNum: 1, pageSize: 10 },
+			pageRequest: { current: 1, size: 10 },
 			pageResult: {},
 
 			operation: false, // true:新增, false:编辑

@@ -64,13 +64,10 @@
                     auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="设备型号" prop="model">
-          <test-code size="medium" :data="popupTreeData" v-model="dataForm.model"
-                     multiple
-                     clearable
-                     checkStrictly
-                     checkClickNode
-                     :modelId="dataForm.model"
-                     @getValue="setTreeMenu" style="width:100%;"></test-code>
+          <model-tree-select :data="popupTreeData"
+                             :defaultProps="defaultProps" multiple
+                             :nodeKey="nodeKey" :checkedKeys="defaultCheckedKeys"
+                             @popoverHide="popoverHide" ></model-tree-select>
         </el-form-item>
         <el-form-item label="升级文件" prop="attachIds">
           <el-upload
@@ -88,7 +85,6 @@
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
             <div class="el-upload__tip" slot="tip">可上传任意文件，且不超过100MB</div>
           </el-upload>
-
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -108,11 +104,11 @@ import KtTable from "@/views/Core/KtTable"
 import KtButton from "@/views/Core/KtButton"
 import TableColumnFilterDialog from "@/views/Core/TableColumnFilterDialog"
 import {format} from "@/utils/datetime"
-import TestCode from "../../components/treeSelect/TreeSelect";
+import ModelTreeSelect from "../../components/ModelTreeSelect/index";
 
 export default {
   components: {
-    TestCode,
+    ModelTreeSelect,
     PopupTreeInput,
     KtTable,
     KtButton,
@@ -128,7 +124,7 @@ export default {
       },
       columns: [],
       filterColumns: [],
-      pageRequest: {pageNum: 1, pageSize: 10},
+      pageRequest: {current: 1, size: 10},
       pageResult: {},
 
       operation: false, // true:新增, false:编辑
@@ -138,9 +134,6 @@ export default {
         versionCode: [
           {required: true, message: '请输入版本号', trigger: 'blur'}
         ],
-        /*model: [
-          {required: true, message: '请选择设备型号', trigger: 'blur'}
-        ],*/
       },
       // 新增编辑界面数据
       dataForm: {
@@ -164,19 +157,27 @@ export default {
         children: 'children'
       },
       headers: {Authorization: sessionStorage.getItem('token')},
+
+      // model-tree-select 属性配置
+      defaultProps: {
+        children: 'children',
+        label: 'name'
+      },
+      nodeKey: 'name',
+      defaultCheckedKeys: []
     }
   },
   methods: {
-    setTreeMenu(key, data) {//获取子组件值
+    popoverHide (checkedIds, checkedData) {
       let modelName = '';
-      if (data) {
-        data.forEach(val => {
+      if (checkedData) {
+        checkedData.forEach(val => {
           if (!val.children) {
             modelName += val.name + ",";
           }
         })
-        this.dataForm.modelName = modelName;
       }
+      this.dataForm.modelName = modelName;
     },
     // 获取型号树形数据
     searchTreeData: function () {
@@ -248,8 +249,8 @@ export default {
       }
       this.pageRequest.columnFilters = {username: '', ieml: ''}
       this.$api.version.findPage({
-        'pageNum': this.pageRequest.pageNum,
-        'pageSize': this.pageRequest.pageSize,
+        'pageNum': this.pageRequest.current,
+        'pageSize': this.pageRequest.size,
         'name': this.filters.name,
         'dictId': this.filters.parentId
       }).then((res) => {
@@ -274,6 +275,7 @@ export default {
         attachIds: '',
         isSuccess: true
       }
+      this.defaultCheckedKeys = []
       this.fileList = []
     },
     // 显示编辑界面
@@ -281,6 +283,9 @@ export default {
       this.dialogVisible = true
       this.operation = false
       params.row.isSuccess = true;
+      debugger
+      this.defaultCheckedKeys = [params.row.model]
+      this.fileList = []
       this.dataForm = Object.assign({}, params.row)
     },
     // 编辑

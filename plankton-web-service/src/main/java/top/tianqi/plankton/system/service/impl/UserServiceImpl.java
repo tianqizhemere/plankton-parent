@@ -34,10 +34,12 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public Page<User> getPage(String code, String username, Page<User> page) {
+    public Page<User> getPage(String code, String phone, String qq, Page<User> page) {
         LambdaUpdateWrapper<User> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.like(StringUtils.isNotBlank(code), User::getCode, code);
-        lambdaUpdateWrapper.orderByDesc(User::getModifyTime);
+        lambdaUpdateWrapper.like(StringUtils.isNotBlank(phone), User::getPhone, phone);
+        lambdaUpdateWrapper.like(StringUtils.isNotBlank(qq), User::getQq, qq);
+        lambdaUpdateWrapper.orderByDesc(User::getCreateTime);
         return userMapper.selectPage(page, lambdaUpdateWrapper);
     }
 

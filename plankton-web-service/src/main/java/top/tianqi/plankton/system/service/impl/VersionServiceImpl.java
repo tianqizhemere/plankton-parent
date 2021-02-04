@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.exception.BusinessException;
@@ -122,7 +123,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                 versionIds.add(versionInfo.getId());
             }
         }
-        if (versionInfo.getAttachIds() != null) {
+        if (!StringUtils.isEmpty(versionInfo.getAttachIds())) {
             for (String attachId : versionInfo.getAttachIds().split(",")) {
                 Attach attach = attachDao.selectById(new Long(attachId));
                 if (attach != null) {
@@ -175,50 +176,5 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
             paramMap.put("result", diff);
         }
         return paramMap;
-    }
-
-    public static int compareVersion2(String version1, String version2) {
-        if (version1.equals(version2)) {
-            return 0;
-        }
-
-        String[] version1Array = version1.split("\\.");
-        String[] version2Array = version2.split("\\.");
-
-        int index = 0;
-        int minLen = Math.min(version1Array.length, version2Array.length);
-        int diff = 0;
-
-        while (index < minLen && (diff = Integer.parseInt(version1Array[index]) - Integer.parseInt(version2Array[index])) == 0) {
-            index ++;
-        }
-
-        if (diff == 0) {
-            for (int i = index; i < version1Array.length; i ++) {
-                if (Integer.parseInt(version1Array[i]) > 0) {
-                    return 1;
-                }
-            }
-
-            for (int i = index; i < version2Array.length; i ++) {
-                if (Integer.parseInt(version2Array[i]) > 0) {
-                    return -1;
-                }
-            }
-
-            return 0;
-        } else {
-            return diff > 0 ? 1 : -1;
-        }
-    }
-
-    public static void main(String[] args) throws Exception {
-       int i = compareVersion2("1.2", "2.3");
-        System.out.println(i);
-
-        System.out.println("code = " + "2.0".substring(2));
-
-        String result = "1.修复自定义BIX按键无效问题\n2.修复最近任务点击失效".replaceAll("\n", System.getProperty("line.separator"));
-        System.out.println(result);
     }
 }

@@ -12,3 +12,11 @@ export const findPage = (params) => {
         params
     })
 }
+
+// 数据操作类型
+export const getOperationType = () => {
+    return axios({
+        url: '/system/operationType/list',
+        method: 'get'
+    })
+}
