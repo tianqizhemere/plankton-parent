@@ -43,10 +43,9 @@ public class Constant {
     public static final Boolean USER_UNFREEZE = Boolean.TRUE;
 
     /**
-     * 是否用户已被冻结 true冻结
+     * 是否用户已被冻结 false冻结
      */
     public static final Boolean USER_FREEZE = Boolean.FALSE;
-
 
     /**
      * redis-OK
@@ -89,12 +88,12 @@ public class Constant {
     public static final String ACCOUNT = "code";
 
     /**
-     * JWT-currentTimeMillis:
+     * JWT-currentTimeMillis: 令牌存入的时间
      */
     public static final String CURRENT_TIME_MILLIS = "currentTimeMillis";
 
     /**
-     * PASSWORD_MAX_LEN
+     * PASSWORD_MAX_LEN 密码最大长度
      */
     public static final Integer PASSWORD_MAX_LEN = 8;
 

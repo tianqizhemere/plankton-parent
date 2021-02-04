@@ -19,15 +19,13 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        log.info("start insert fill ....");
         Date date = new Date();
-        this.strictInsertFill(metaObject, "createTime", Date.class, date); // 起始版本 3.3.0(推荐使用)
-        this.strictInsertFill(metaObject, "modifyTime", Date.class, date); // 起始版本 3.3.0(推荐使用)
+        this.strictInsertFill(metaObject, "createTime", Date.class, date);
+        this.strictInsertFill(metaObject, "modifyTime", Date.class, date);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        log.info("start update fill ....");
-        this.strictInsertFill(metaObject, "modifyTime", Date.class, new Date()); // 起始版本 3.3.0(推荐使用)
+        this.strictInsertFill(metaObject, "modifyTime", Date.class, new Date());
     }
 }
