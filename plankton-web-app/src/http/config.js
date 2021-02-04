@@ -7,7 +7,6 @@ export default {
   baseUrl: baseUrl,
   // 请求头信息
   headers: {
-    // 'Content-Type': 'application/x-www-form-urlencoded'
     'Content-type': 'application/json;charset=UTF-8'
   },
   // 参数
