@@ -68,6 +68,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                             versionMapper.selectById(versionInfo);
                         }
                     }
+                    versionInfo.setIsUpdate(Boolean.TRUE);
                     return versionInfo;
                 }
                 return new VersionInfo();
