@@ -15,9 +15,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import redis.clients.jedis.Jedis;
 import top.tianqi.plankton.common.annotation.aop.Limit;
 import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
-import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.common.util.AddressUtils;
 import top.tianqi.plankton.common.util.JedisUtil;
+import top.tianqi.plankton.system.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
@@ -70,7 +70,9 @@ public class LimitAspect {
         if (result > 0) {
             return point.proceed();
         } else {
-            throw new BusinessException("接口访问超出频率限制");
+            UserVO userVO = new UserVO();
+            userVO.setIsEnable(Boolean.FALSE);
+           return userVO;
         }
     }
 

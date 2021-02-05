@@ -25,7 +25,6 @@ public class UserVO {
     /** 令牌 */
     private String authorization;
 
-
     public Long getId() {
         return id;
     }

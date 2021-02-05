@@ -34,7 +34,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     private VersionMapper versionMapper;
 
     @Autowired
-    private AttachMapper attachDao;
+    private AttachMapper attachMapper;
 
     @Resource(name = "attachServiceImpl")
     private AttachService attachService;
@@ -126,13 +126,13 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
         }
         if (!StringUtils.isEmpty(versionInfo.getAttachIds())) {
             for (String attachId : versionInfo.getAttachIds().split(",")) {
-                Attach attach = attachDao.selectById(new Long(attachId));
+                Attach attach = attachMapper.selectById(new Long(attachId));
                 if (attach != null) {
                     if (!CollectionUtils.isEmpty(versionIds)) {
                         for (Long versionId : versionIds) {
                             attach.setRecordId(versionId);
                             attach.setDataType(AttachDataTypeEnum.N9760.getCode());
-                            attachDao.insert(attach);
+                            attachMapper.insert(attach);
                             versionInfo.setDownloadUrl(attach.getPath());
                             versionMapper.selectById(versionInfo);
                         }
