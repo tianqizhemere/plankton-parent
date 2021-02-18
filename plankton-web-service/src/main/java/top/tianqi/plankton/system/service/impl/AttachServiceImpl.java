@@ -24,7 +24,7 @@ import java.util.*;
  * @author Wukh
  * @create 2021-01-12
  */
-@Service(value = "attachServiceImpl")
+@Service
 public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> implements AttachService {
 
     @Value("${attachUploadBase}")

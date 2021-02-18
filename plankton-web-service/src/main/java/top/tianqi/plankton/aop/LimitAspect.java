@@ -70,6 +70,7 @@ public class LimitAspect {
         if (result > 0) {
             return point.proceed();
         } else {
+            // 用户超过限流次数，暂时禁用当前用户
             UserVO userVO = new UserVO();
             userVO.setIsEnable(Boolean.FALSE);
            return userVO;

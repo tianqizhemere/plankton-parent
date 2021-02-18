@@ -13,5 +13,4 @@ import top.tianqi.plankton.common.base.controller.BaseController;
 @RequestMapping(value = "/system/nonmember")
 public class NonmemberController extends BaseController {
 
-
 }

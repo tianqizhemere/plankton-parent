@@ -20,7 +20,6 @@ import top.tianqi.plankton.system.service.UserService;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -43,16 +42,16 @@ public class UserController extends BaseController {
      * 加载用户列表
      * @return Result 前端提示信息
      */
-    //@RequiresPermissions("system:user:index")
     @OperLog(model = "用户管理", desc = "查询用户列表", type = OperationConst.SELECT)
+    //@RequiresPermissions("system:user:index")
     @GetMapping(value = "/list")
     public Result list(String code, String phone, String qq){
         Page<User> page = userService.getPage(code, phone, qq, getPage());
         return SUCCESS_MESSAGE(page);
     }
 
-    //@RequiresPermissions("system:user:save")
     @OperLog(model = "用户管理", desc = "新增用户", type = OperationConst.INSERT)
+    //@RequiresPermissions("system:user:save")
     @PostMapping(value = "/save")
     public Result save(@Valid @RequestBody User user, BindingResult result){
         if (result.hasErrors()){
@@ -112,8 +111,8 @@ public class UserController extends BaseController {
      * 获取在线用户(查询Redis中的RefreshToken)
      * @return Result 前端提示信息
      */
-    @GetMapping("/online")
     @OperLog(model = "用户管理", desc = "获取在线用户", type = OperationConst.SELECT)
+    @GetMapping(value = "/online")
     public Result online() {
         List<Object> users = new ArrayList<Object>();
         // 查询所有Redis键
@@ -124,8 +123,6 @@ public class UserController extends BaseController {
                 String[] strArray = key.split(":");
                 String code = strArray[strArray.length - 1];
                 User user = userService.getUser(code);
-                // 设置登录时间
-                user.setLoginTime(new Date(Long.parseLong(JedisUtil.getObject(key).toString())));
                 users.add(user);
             }
         }

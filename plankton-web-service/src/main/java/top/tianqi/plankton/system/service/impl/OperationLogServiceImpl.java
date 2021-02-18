@@ -17,7 +17,7 @@ import java.util.Date;
  * @author Wukh
  * @create 2021-01-08
  */
-@Service(value = "operationLogServiceImpl")
+@Service
 public class OperationLogServiceImpl extends BaseServiceImpl<OperationLogMapper, OperationLog> implements OperationLogService {
 
     @Autowired

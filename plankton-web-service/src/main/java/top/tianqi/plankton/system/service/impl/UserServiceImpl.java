@@ -19,7 +19,7 @@ import java.util.Set;
  * @author Wukh
  * @create 2021-01-04
  */
-@Service(value = "userServiceImpl")
+@Service
 public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired

@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.tianqi.plankton.common.Result;
@@ -15,7 +16,7 @@ import top.tianqi.plankton.system.enumeration.ExternalTypeEnum;
 @RequestMapping(value = "/system/externalType")
 public class ExternalTypeController extends BaseController {
 
-    @RequestMapping(value = "/list")
+    @GetMapping(value = "/list")
     public Result list(){
         return SUCCESS_MESSAGE(ExternalTypeEnum.values());
     }

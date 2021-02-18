@@ -88,8 +88,8 @@ public class VersionController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @RequiresPermissions(value = "system:version:delete")
     @OperLog(model = "版本管理", desc = "删除应用版本", type = OperationConst.DELETE)
+    @RequiresPermissions(value = "system:version:delete")
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<VersionInfo> versionInfos){
         versionService.removeByIds(versionInfos);

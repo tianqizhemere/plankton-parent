@@ -27,7 +27,7 @@ import java.util.*;
  * @author Wukh
  * @create 2021-01-08
  */
-@Service(value = "versionServiceImpl")
+@Service
 public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionInfo> implements VersionService {
 
     @Autowired

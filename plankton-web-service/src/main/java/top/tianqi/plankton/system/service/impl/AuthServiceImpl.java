@@ -19,7 +19,7 @@ import java.util.Set;
  * @author Wukh
  * @create 2021-01-04
  */
-@Service(value = "authServiceImpl")
+@Service
 public class AuthServiceImpl extends BaseServiceImpl<AuthMapper, Auth> implements AuthService {
 
     @Autowired

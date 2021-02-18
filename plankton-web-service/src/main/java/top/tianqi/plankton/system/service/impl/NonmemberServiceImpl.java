@@ -12,7 +12,7 @@ import top.tianqi.plankton.system.service.NonmemberService;
  * @author Wukh
  * @create 2021-01-19
  */
-@Service(value = "nonmemberServiceImpl")
+@Service
 public class NonmemberServiceImpl extends BaseServiceImpl<NonmemberMapper, Nonmember> implements NonmemberService {
 
     @Autowired

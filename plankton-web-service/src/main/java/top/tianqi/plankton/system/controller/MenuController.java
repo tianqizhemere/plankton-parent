@@ -4,7 +4,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.tianqi.plankton.common.Result;
+import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
+import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.system.entity.Menu;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.MenuService;
@@ -29,6 +31,7 @@ public class MenuController extends BaseController {
      * @param username 当前登录用户
      * @return Result 前端提示信息
      */
+    @OperLog(model = "菜单管理", desc = "树形菜单", type = OperationConst.SELECT)
     @GetMapping(value = "/getNavTree")
     public Result getNavTree(String username){
         if (username == null) {

@@ -31,16 +31,16 @@ public class ExternalApplicationController extends BaseController {
     @Resource(name = "externalApplicationServiceImpl")
     private ExternalApplicationService externalApplicationService;
 
-    @RequiresPermissions(value = "system:externalApplication:view")
     @OperLog(model = "外置应用", desc = "分页查询", type = OperationConst.SELECT)
+    @RequiresPermissions(value = "system:externalApplication:view")
     @GetMapping(value = "/page")
     public Result getPage(String name) {
         Page<ExternalApplication> page = externalApplicationService.getPage(name, getPage());
         return SUCCESS_MESSAGE(page);
     }
 
-    @RequiresPermissions(value = "system:externalApplication:save")
     @OperLog(model = "外置应用", desc = "新增外置应用", type = OperationConst.INSERT)
+    @RequiresPermissions(value = "system:externalApplication:save")
     @PostMapping(value = "/save")
     public Result save(@Valid @RequestBody ExternalApplication externalApplication, BindingResult result){
         if (result.hasErrors()){
@@ -50,8 +50,8 @@ public class ExternalApplicationController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @RequiresPermissions(value = "system:externalApplication:update")
     @OperLog(model = "外置应用", desc = "修改外置应用", type = OperationConst.UPDATE)
+    @RequiresPermissions(value = "system:externalApplication:update")
     @PostMapping(value = "/update")
     public Result update(@Valid @RequestBody ExternalApplication externalApplication, BindingResult result){
         if (result.hasErrors()){
@@ -61,8 +61,8 @@ public class ExternalApplicationController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @RequiresPermissions(value = "system:externalApplication:delete")
     @OperLog(model = "外置应用", desc = "删除外置应用", type = OperationConst.DELETE)
+    @RequiresPermissions(value = "system:externalApplication:delete")
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<ExternalApplication> externalApplications){
         externalApplicationService.removeByIds(externalApplications);

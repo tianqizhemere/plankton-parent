@@ -16,7 +16,7 @@ import java.util.List;
  * @author Wukh
  * @create 2021-01-24
  */
-@Service(value = "dictionariesServiceImpl")
+@Service
 public class DictionariesServiceImpl extends BaseServiceImpl<DictionariesMapper, Dictionaries> implements DictionariesService {
 
     @Autowired

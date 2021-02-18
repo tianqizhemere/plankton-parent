@@ -15,7 +15,7 @@ import top.tianqi.plankton.system.service.RoleService;
  * @author Wukh
  * @create 2021-01-24
  */
-@Service(value = "roleServiceImpl")
+@Service
 public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implements RoleService {
 
     @Autowired

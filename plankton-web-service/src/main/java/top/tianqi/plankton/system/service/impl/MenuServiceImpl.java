@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @author Wukh
  * @create 2021-01-23
  */
-@Service(value = "menuServiceImpl")
+@Service
 public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implements MenuService {
 
     @Autowired

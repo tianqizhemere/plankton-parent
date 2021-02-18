@@ -87,7 +87,7 @@ public class LoginController extends BaseController {
     }
 
     @OperLog(model = "登录管理", desc = "退出", type = OperationConst.LOGIN)
-    @GetMapping("/logout")
+    @GetMapping(value = "/logout")
     public Result logout() {
         return SUCCESS_MESSAGE("登出成功");
     }
