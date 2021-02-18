@@ -1,6 +1,5 @@
 package top.tianqi.plankton.aop;
 
-import cn.hutool.system.SystemUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -99,7 +98,7 @@ public class LogAspect {
             if(args.length>0){
                 if("POST".equals(request.getMethod())){
                     Object object = args[0];
-                    Map map = getKeyAndValue(object);
+                    Map<String, Object> map = getKeyAndValue(object);
                     params = JsonUtil.toJsonString(map);
                 }else if("GET".equals(request.getMethod())){
                     params = queryString;
@@ -135,7 +134,6 @@ public class LogAspect {
         // 获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         // 从获取RequestAttributes中获取HttpServletRequest的信息
-        assert requestAttributes != null;
         HttpServletRequest request = (HttpServletRequest) requestAttributes
                 .resolveReference(RequestAttributes.REFERENCE_REQUEST);
 
@@ -155,11 +153,11 @@ public class LogAspect {
             Object[] args = joinPoint.getArgs();
             String params = "";
             String queryString = request.getQueryString();
-            //获取请求参数集合并进行遍历拼接
+            // 获取请求参数集合并进行遍历拼接
             if(args.length>0){
                 if("POST".equals(request.getMethod())){
                     Object object = args[0];
-                    Map map = getKeyAndValue(object);
+                    Map<String, Object> map = getKeyAndValue(object);
                     params = JsonUtil.toJsonString(map);
                 }else if("GET".equals(request.getMethod())){
                     params = queryString;
@@ -167,8 +165,10 @@ public class LogAspect {
             }
             excepLog.setRequestParam(params); // 请求参数
             excepLog.setMethod(methodName); // 请求方法名
-            excepLog.setName(e.getClass().getName()); // 异常名称
-            excepLog.setMethod(stackTraceToString(e.getClass().getName(), e.getMessage(), e.getStackTrace())); // 异常信息
+            // 异常名称
+            excepLog.setName(e.getClass().getName());
+            // 异常信息
+            excepLog.setMessage(stackTraceToString(e.getClass().getName(), e.getMessage(), e.getStackTrace()));
             User currentUser = sysLogService.getCurrentUser();
             if (currentUser == null) {
                 currentUser = new User();
@@ -176,7 +176,7 @@ public class LogAspect {
             excepLog.setUserId(currentUser.getId()); // 操作员ID
             excepLog.setCode(currentUser.getCode()); // 操作员名称
             excepLog.setUri(request.getRequestURI()); // 操作URI
-            excepLog.setIp(SystemUtil.getHostInfo().getAddress()); // 操作员IP
+            excepLog.setIp(AddressUtils.getRemoteIp(request)); // 请求IP
             excepLog.setCreateTime(new Date()); // 发生异常时间
             excepLog.setModifyTime(new Date());
             exceptionLogService.save(excepLog);

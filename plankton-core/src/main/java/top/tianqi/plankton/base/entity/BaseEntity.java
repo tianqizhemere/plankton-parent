@@ -27,7 +27,7 @@ public class BaseEntity implements Serializable {
     @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
-    /**修改时间*/
+    /** 修改时间 */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date modifyTime;
