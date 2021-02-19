@@ -1,6 +1,7 @@
 package top.tianqi.plankton.system.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,11 +9,11 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.common.constant.Constant;
-import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.system.entity.Attach;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.entity.VersionInfo;
 import top.tianqi.plankton.system.enumeration.AttachDataTypeEnum;
+import top.tianqi.plankton.system.enumeration.VersionTypeEnum;
 import top.tianqi.plankton.system.mapper.AttachMapper;
 import top.tianqi.plankton.system.mapper.VersionMapper;
 import top.tianqi.plankton.system.service.AttachService;
@@ -61,11 +62,11 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                 if (!CollectionUtils.isEmpty(list)) {
                     VersionInfo versionInfo = list.get(0);
                     if (versionInfo.getDownloadUrl() == null) {
-                        List<Attach> fileList = attachService.getFileList(versionInfo.getId(), AttachDataTypeEnum.N9760.getCode());
+                        List<Attach> fileList = attachService.getFileList(versionInfo.getId(), AttachDataTypeEnum.MODEL_APPLICATION.getCode());
                         if (!CollectionUtils.isEmpty(fileList)) {
                             Attach attach = fileList.get(0);
                             versionInfo.setDownloadUrl(attach.getPath());
-                            versionMapper.selectById(versionInfo);
+                            versionMapper.updateById(versionInfo);
                         }
                     }
                     versionInfo.setIsUpdate(Boolean.TRUE);
@@ -90,40 +91,43 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     }
 
     @Override
-    public Page<VersionInfo>  getPage(String name, String dictId, Page<VersionInfo> page) {
-        List<VersionInfo> list = versionMapper.findList(name, dictId, page);
-        page.setRecords(list);
-        return page;
+    public Page<VersionInfo>  getPage(String name, List<String> modelNames, Page<VersionInfo> page) {
+        LambdaQueryWrapper<VersionInfo> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.like(!StringUtils.isEmpty(name), VersionInfo::getModel, name);
+        lambdaQueryWrapper.in(VersionInfo::getModel, modelNames);
+        return versionMapper.selectPage(page, lambdaQueryWrapper);
     }
 
     @Override
     public Integer checkIsExist(String model, String versionCode) {
-        return versionMapper.checkIsExist(model, versionCode);
+        LambdaQueryWrapper<VersionInfo> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(!StringUtils.isEmpty(model), VersionInfo::getModel, model);
+        lambdaQueryWrapper.eq(!StringUtils.isEmpty(versionCode), VersionInfo::getVersionCode, versionCode);
+        return versionMapper.selectCount(lambdaQueryWrapper);
     }
 
     @Override
     public boolean save(VersionInfo versionInfo) {
+        // 更新型号主键id
         List<Long> versionIds = new ArrayList<>();
         if (versionInfo.getModel() != null) {
-            for (String modelId : versionInfo.getModel().split(",")) {
-                Map<String, Object> paramMap = new HashMap<>();
-                paramMap.put("model", modelId);
-                paramMap.put("type", 1);
-                List<VersionInfo> versionInfos = versionMapper.selectByMap(paramMap);
-                if (!CollectionUtils.isEmpty(versionInfos)) {
-                    for (VersionInfo info : versionInfos) {
-                        // 之前版本设置为历史版本
-                        info.setType(0);
-                        info.setModifyTime(new Date());
-                        versionMapper.updateById(info);
-                    }
+            for (String model : versionInfo.getModel().split(",")) {
+                LambdaQueryWrapper<VersionInfo> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+                lambdaQueryWrapper.eq(VersionInfo::getModel, model);
+                lambdaQueryWrapper.eq(VersionInfo::getType, VersionTypeEnum.THE_LATEST_VERSION.getCode());
+                VersionInfo baseVersionInfo = versionMapper.selectOne(lambdaQueryWrapper);
+                if (baseVersionInfo != null) {
+                    // 之前版本设置为历史版本
+                    baseVersionInfo.setType(VersionTypeEnum.HISTORIC_VERSION.getCode());
+                    versionMapper.updateById(baseVersionInfo);
                 }
-                versionInfo.setModel(modelId.toUpperCase());
-                versionInfo.setType(1);
+                versionInfo.setModel(model.toUpperCase());
+                versionInfo.setType(VersionTypeEnum.THE_LATEST_VERSION.getCode());
                 super.save(versionInfo);
                 versionIds.add(versionInfo.getId());
             }
         }
+        // 关联附件
         if (!StringUtils.isEmpty(versionInfo.getAttachIds())) {
             for (String attachId : versionInfo.getAttachIds().split(",")) {
                 Attach attach = attachMapper.selectById(new Long(attachId));
@@ -131,7 +135,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                     if (!CollectionUtils.isEmpty(versionIds)) {
                         for (Long versionId : versionIds) {
                             attach.setRecordId(versionId);
-                            attach.setDataType(AttachDataTypeEnum.N9760.getCode());
+                            attach.setDataType(AttachDataTypeEnum.MODEL_APPLICATION.getCode());
                             attachMapper.insert(attach);
                             versionInfo.setDownloadUrl(attach.getPath());
                             versionMapper.selectById(versionInfo);
@@ -141,41 +145,5 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
             }
         }
         return true;
-    }
-
-    /**
-     * 对比字符串版本号的大小，返回1则clientVersion大于baseVersion，返回-1则clientVersion小于baseVersion，返回0则clientVersion等于baseVersion
-     * @param clientVersion 客户端版本
-     * @param baseVersion 数据库版本
-     */
-    private static Map<String, Object> compareVersion(String clientVersion, String baseVersion) throws Exception {
-        Map<String, Object> paramMap = new HashMap<>();
-
-        if (clientVersion == null || baseVersion == null) {
-            throw new BusinessException("compareVersion error:illegal params.");
-        }
-        String[] clientVersionArray = clientVersion.split("\\.");//注意此处为正则匹配，不能用.；
-        String[] baseVersionArray2 = baseVersion.split("\\.");
-        int idx = 0;
-        int minLength = Math.min(clientVersionArray.length, baseVersionArray2.length);//取最小长度值
-        int diff = 0;
-        while (idx < minLength
-                && (diff = clientVersionArray[idx].length() - baseVersionArray2[idx].length()) == 0//先比较长度
-                && (diff = clientVersionArray[idx].compareTo(baseVersionArray2[idx])) == 0) {//再比较字符
-            ++idx;
-        }
-        //如果已经分出大小，则直接返回，如果未分出大小，则再比较位数，有子版本的为大；
-        if (diff != 0){
-            // 大版本更新
-            // 数据表是否为大版本更新
-            paramMap.put("bigVersionFlag", true);
-            paramMap.put("result", diff);
-        } else {
-            diff = clientVersionArray.length - baseVersionArray2.length;
-            // 小版本更新
-            paramMap.put("bigVersionFlag", false);
-            paramMap.put("result", diff);
-        }
-        return paramMap;
     }
 }

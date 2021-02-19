@@ -4,7 +4,7 @@ package top.tianqi.plankton.system.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
-import top.tianqi.plankton.system.entity.Dictionaries;
+import top.tianqi.plankton.system.entity.Dictionary;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @author Wukh
  * @create 2021-01-24
  */
-public interface DictionariesMapper extends BaseMapper<Dictionaries> {
+public interface DictionariesMapper extends BaseMapper<Dictionary> {
 
     /**
      * 分页查询数据字典
@@ -21,5 +21,5 @@ public interface DictionariesMapper extends BaseMapper<Dictionaries> {
      * @param page 分页对象
      * @return List<Dictionaries> 数据列表
      */
-    List<Dictionaries> findPage(@Param("name") String name, @Param("page") Page<Dictionaries> page);
+    List<Dictionary> findPage(@Param("name") String name, @Param("page") Page<Dictionary> page);
 }

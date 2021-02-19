@@ -24,7 +24,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
     @Override
     public Page<Role> findPage(String name, Page<Role> page) {
         LambdaQueryWrapper<Role> roleWrapper = new LambdaQueryWrapper<>();
-        roleWrapper.like(StringUtils.isNotBlank(name),Role::getName, name);
+        roleWrapper.like(StringUtils.isNotBlank(name), Role::getName, name);
         return roleMapper.selectPage(page, roleWrapper);
     }
 }

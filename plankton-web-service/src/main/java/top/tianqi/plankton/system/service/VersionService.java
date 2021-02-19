@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.tianqi.plankton.common.base.service.BaseService;
 import top.tianqi.plankton.system.entity.VersionInfo;
 
+import java.util.List;
+
 /**
  * 版本检测服务层接口
  * @author Wukh
@@ -33,12 +35,12 @@ public interface VersionService extends BaseService<VersionInfo> {
     /**
      * 加载数据列表
      *
-     * @param dictId 数据字典id
+     * @param modelNames 字典名称列表
      * @param name 版本
      * @param page 页码
      * @return PageResult page对象
      */
-    Page<VersionInfo> getPage(String name, String dictId, Page<VersionInfo> page);
+    Page<VersionInfo> getPage(String name, List<String> modelNames, Page<VersionInfo> page);
 
     /**
      * 校验新增的版本是否已存在

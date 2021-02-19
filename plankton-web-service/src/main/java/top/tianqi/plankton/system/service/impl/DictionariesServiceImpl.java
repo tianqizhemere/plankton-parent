@@ -1,10 +1,11 @@
 package top.tianqi.plankton.system.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
-import top.tianqi.plankton.system.entity.Dictionaries;
+import top.tianqi.plankton.system.entity.Dictionary;
 import top.tianqi.plankton.system.mapper.DictionariesMapper;
 import top.tianqi.plankton.system.service.DictionariesService;
 
@@ -17,16 +18,16 @@ import java.util.List;
  * @create 2021-01-24
  */
 @Service
-public class DictionariesServiceImpl extends BaseServiceImpl<DictionariesMapper, Dictionaries> implements DictionariesService {
+public class DictionariesServiceImpl extends BaseServiceImpl<DictionariesMapper, Dictionary> implements DictionariesService {
 
     @Autowired
     private DictionariesMapper dictionariesMapper;
 
     @Override
-    public List<Dictionaries> findTree() {
-        List<Dictionaries> tempDictionaries = new ArrayList<>();
-        List<Dictionaries> dictionaries = dictionariesMapper.selectList(null);
-        for (Dictionaries dictionary : dictionaries) {
+    public List<Dictionary> findTree() {
+        List<Dictionary> tempDictionaries = new ArrayList<>();
+        List<Dictionary> dictionaries = dictionariesMapper.selectList(null);
+        for (Dictionary dictionary : dictionaries) {
             if (dictionary.getParentId() == null || dictionary.getParentId() == 0) {
                 dictionary.setLevel(0);
                 tempDictionaries.add(dictionary);
@@ -36,16 +37,31 @@ public class DictionariesServiceImpl extends BaseServiceImpl<DictionariesMapper,
         return tempDictionaries;
     }
 
+    @Override
+    public List<String> findNameById(String dictId) {
+        if (dictId == null) {
+            return null;
+        }
+        List<String> names = new ArrayList<>();;
+        LambdaQueryWrapper<Dictionary> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.or().eq(Dictionary::getParentId, dictId).or().eq(Dictionary::getId, dictId);
+        List<Dictionary> dictionaries = dictionariesMapper.selectList(lambdaQueryWrapper);
+        for (Dictionary dictionary : dictionaries) {
+            names.add(dictionary.getName());
+        }
+        return names;
+    }
+
 
     /**
      * 寻找子节点对象
      * @param parentDictionaries 父节点列表
      * @param childrens 数据列表
      */
-    private void findChildren(List<Dictionaries> parentDictionaries, List<Dictionaries> childrens) {
-        for (Dictionaries parent : parentDictionaries) {
-            List<Dictionaries> children = new ArrayList<>();
-            for (Dictionaries childrenDictionaries : childrens) {
+    private void findChildren(List<Dictionary> parentDictionaries, List<Dictionary> childrens) {
+        for (Dictionary parent : parentDictionaries) {
+            List<Dictionary> children = new ArrayList<>();
+            for (Dictionary childrenDictionaries : childrens) {
                 if (parent.getId() != null && parent.getId().equals(childrenDictionaries.getParentId())) {
                     childrenDictionaries.setParentName(parent.getName());
                     childrenDictionaries.setLevel(parent.getLevel() + 1);

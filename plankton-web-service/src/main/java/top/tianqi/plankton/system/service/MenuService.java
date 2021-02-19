@@ -18,12 +18,4 @@ public interface MenuService extends BaseService<Menu> {
      * @return List<Menu> 菜单列表
      */
     List<Menu> findNavTree(String username);
-
-    /**
-     * 根据菜单名称查询数据列表
-     * @param menuType 菜单类型
-     * @param name 菜单名称
-     * @return
-     */
-    List<Menu> findMenuTree(int menuType, String name);
 }

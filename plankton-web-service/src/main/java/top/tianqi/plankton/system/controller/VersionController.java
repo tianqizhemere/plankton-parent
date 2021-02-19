@@ -12,6 +12,7 @@ import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
 import top.tianqi.plankton.common.status.ErrorStateEnum;
 import top.tianqi.plankton.system.entity.VersionInfo;
+import top.tianqi.plankton.system.service.DictionariesService;
 import top.tianqi.plankton.system.service.VersionService;
 
 import javax.annotation.Resource;
@@ -30,6 +31,9 @@ public class VersionController extends BaseController {
     @Resource(name = "versionServiceImpl")
     private VersionService versionService;
 
+    @Resource(name = "dictionariesServiceImpl")
+    private DictionariesService dictionariesService;
+
     /**
      * 加载数据列表
      * @param name 版本编号
@@ -40,7 +44,8 @@ public class VersionController extends BaseController {
     @OperLog(model = "版本管理", desc = "应用版本列表", type = OperationConst.SELECT)
     @GetMapping(value = "/list")
     public Result list(String name, String dictId){
-        Page<VersionInfo> page = versionService.getPage(name, dictId, getPage());
+        List<String> modelNames = dictionariesService.findNameById(dictId);
+        Page<VersionInfo> page = versionService.getPage(name, modelNames, getPage());
         return Result.success(page);
     }
 

@@ -1,16 +1,16 @@
 package top.tianqi.plankton.system.enumeration;
 
 /**
- *
+ * 附件上传文件类型
  * @author Wukh
  * @create 2021-01-12
  */
 public enum AttachDataTypeEnum {
 
-    N9760(1, "N9760"),
+    MODEL_APPLICATION(1, "机型更新"),
     EXTERNAL_APPLICATION(2, "外置应用");
 
-    private AttachDataTypeEnum(int code, String typeName) {
+    AttachDataTypeEnum(int code, String typeName) {
         this.code = code;
         this.typeName = typeName;
     }
@@ -30,9 +30,9 @@ public enum AttachDataTypeEnum {
     }
 
     /**
-     * 根据编码获取名称
-     * @param typeName
-     * @return
+     * 根据类型获取编码
+     * @param typeName 类型名称
+     * @return code 编码
      */
     public static Integer value(String typeName) {
         for (AttachDataTypeEnum t : AttachDataTypeEnum.values()) {

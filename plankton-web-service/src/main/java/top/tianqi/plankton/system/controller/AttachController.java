@@ -26,15 +26,6 @@ public class AttachController extends BaseController {
     @Resource(name = "attachServiceImpl")
     private AttachService attachService;
 
-    @PostMapping(value = "/uploadImage")
-    public Result uploadImage(HttpServletRequest request){
-        Integer dataType = Integer.valueOf(request.getParameter("dataType"));
-        MultipartHttpServletRequest Murequest = (MultipartHttpServletRequest)request;
-        Map<String, MultipartFile> files = Murequest.getFileMap();//得到文件map对象
-        List<Attach> list = attachService.uploadImage(files.values(), dataType);
-        return Result.success(list);
-    }
-
     @PostMapping(value = "/uploadFile")
     public Result uploadFile(HttpServletRequest request){
         Integer dataType = Integer.valueOf(request.getParameter("dataType"));
@@ -55,7 +46,6 @@ public class AttachController extends BaseController {
         List<Attach> list = attachService.getFileList(recordId, dataType);
         return Result.success(list);
     }
-
 
     /**
      * 删除文件

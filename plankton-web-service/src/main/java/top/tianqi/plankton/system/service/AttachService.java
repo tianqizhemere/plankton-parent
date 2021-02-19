@@ -23,9 +23,6 @@ public interface AttachService extends BaseService<Attach> {
      */
     List<Attach> uploadFile(Collection<MultipartFile> values, Integer dataType);
 
-
-    List<Attach> uploadImage(Collection<MultipartFile> values, Integer dataType);
-
     /**
      * 删除文件
      * @param recordId 记录ID
@@ -33,5 +30,11 @@ public interface AttachService extends BaseService<Attach> {
      */
     void delete(BigInteger recordId, Integer dataType);
 
+    /**
+     * 根据关联id和文件类型获取文件列表
+     * @param recordId 数据关联id
+     * @param dataType 文件类型
+     * @return List<Attach> 文件列表
+     */
     List<Attach> getFileList(Long recordId, Integer dataType);
 }

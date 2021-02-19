@@ -15,7 +15,7 @@ import java.util.List;
  * @create 2021-01-24
  */
 @TableName("dictionaries")
-public class Dictionaries extends BaseEntity {
+public class Dictionary extends BaseEntity {
     private static final long serialVersionUID = -5201090437613680914L;
 
     /** 数据值 */
@@ -44,7 +44,7 @@ public class Dictionaries extends BaseEntity {
 
     /** 子节点 */
     @TableField(exist = false)
-    private List<Dictionaries> children;
+    private List<Dictionary> children;
 
     public String getName() {
         return name;
@@ -94,11 +94,11 @@ public class Dictionaries extends BaseEntity {
         this.level = level;
     }
 
-    public List<Dictionaries> getChildren() {
+    public List<Dictionary> getChildren() {
         return children;
     }
 
-    public void setChildren(List<Dictionaries> children) {
+    public void setChildren(List<Dictionary> children) {
         this.children = children;
     }
 }

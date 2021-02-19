@@ -106,12 +106,4 @@ public class JwtUtil {
             throw new BusinessException("JWTToken加密出现UnsupportedEncodingException异常:" + e.getMessage());
         }
     }
-
-    public static void main(String[] args) {
-        String sign = sign("9527", System.currentTimeMillis() + "");
-        System.out.println("verify(sign) = " + verify(sign));
-        String claim = getClaim(sign, Constant.ACCOUNT);
-        System.out.println(claim);
-    }
-
 }

@@ -1,6 +1,7 @@
 package top.tianqi.plankton.system.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,20 +34,17 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> imp
     @Value("${attachPlugin}")
     private String attachPlugin;
 
-    @Value("${imageUploadPath}")
-    private String imageUploadPath;
-
     @Value("${fileUploadPath}")
     private String fileUploadPath;
 
     @Autowired
-    private AttachMapper attachDao;
+    private AttachMapper attachMapper;
 
     @Resource(name = "taskExecutor")
     private TaskExecutor taskExecutor;
 
     @Resource
-    private Map<String, StoragePlugin> storagePluginMap = new HashMap<String, StoragePlugin>();
+    private Map<String, StoragePlugin> storagePluginMap = new HashMap<>();
 
     @Override
     public List<Attach> uploadFile(Collection<MultipartFile> files, Integer dataType) {
@@ -73,8 +71,6 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> imp
                         multipartFile.transferTo(tempFile);
                         addTask(sourcePath, tempFile, multipartFile.getContentType());
                         Attach attach = new Attach();
-                        attach.setCreateTime(new Date());
-                        attach.setModifyTime(new Date());
                         attach.setDataType(dataType);
                         attach.setExt(FilenameUtils.getExtension(multipartFile.getOriginalFilename()));
                         attach.setFileName(multipartFile.getName());
@@ -82,8 +78,7 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> imp
                         attach.setMime("image");
                         attach.setPath(returnSourcePath);
                         attach.setOriginalName(multipartFile.getOriginalFilename());
-                        attachDao.insert(attach);
-                        //attach.setId(id);
+                        attachMapper.insert(attach);
                         list.add(attach);
                     }
                 } catch (Exception e) {
@@ -120,18 +115,15 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> imp
     }
 
     @Override
-    public List<Attach> uploadImage(Collection<MultipartFile> values, Integer dataType) {
-
-        return null;
-    }
-
-    @Override
     public void delete(BigInteger recordId, Integer dataType) {
 
     }
 
     @Override
     public List<Attach> getFileList(Long recordId, Integer dataType) {
-        return attachDao.findList(recordId, String.valueOf(dataType));
+        LambdaQueryWrapper<Attach> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(recordId != null, Attach::getRecordId, recordId);
+        lambdaQueryWrapper.eq(dataType != null, Attach::getDataType, dataType);
+        return attachMapper.selectList(lambdaQueryWrapper);
     }
 }

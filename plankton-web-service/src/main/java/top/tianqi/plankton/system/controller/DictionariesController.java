@@ -7,7 +7,7 @@ import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
-import top.tianqi.plankton.system.entity.Dictionaries;
+import top.tianqi.plankton.system.entity.Dictionary;
 import top.tianqi.plankton.system.service.DictionariesService;
 
 import javax.annotation.Resource;
@@ -30,14 +30,14 @@ public class DictionariesController extends BaseController {
     @RequiresPermissions(value = "system:dict:view")
     @GetMapping(value = "/findTree")
     public Result findTree(){
-        List<Dictionaries> page = dictionariesService.findTree();
+        List<Dictionary> page = dictionariesService.findTree();
         return SUCCESS_MESSAGE(page);
     }
 
     @OperLog(model = "字典管理", desc = "新增字典", type = OperationConst.INSERT)
     @RequiresPermissions(value = "system:dict:save")
     @PostMapping(value = "/save")
-    public Result save(@Valid @RequestBody Dictionaries dictionaries, BindingResult result){
+    public Result save(@Valid @RequestBody Dictionary dictionaries, BindingResult result){
         if (result.hasErrors()){
             return Result.error(result.getFieldError().getDefaultMessage());
         }
@@ -48,7 +48,7 @@ public class DictionariesController extends BaseController {
     @OperLog(model = "字典管理", desc = "修改字典", type = OperationConst.UPDATE)
     @RequiresPermissions(value = "system:dict:update")
     @PostMapping(value = "/update")
-    public Result update(@Valid @RequestBody Dictionaries dictionaries, BindingResult result){
+    public Result update(@Valid @RequestBody Dictionary dictionaries, BindingResult result){
         if (result.hasErrors()){
             return Result.error(result.getFieldError().getDefaultMessage());
         }
@@ -59,7 +59,7 @@ public class DictionariesController extends BaseController {
     @OperLog(model = "字典管理", desc = "删除字典", type = OperationConst.DELETE)
     @RequiresPermissions(value = "system:dict:delete")
     @PostMapping(value = "/delete")
-    public Result delete(@RequestBody List<Dictionaries> dictionaries) {
+    public Result delete(@RequestBody List<Dictionary> dictionaries) {
         dictionariesService.removeByIds(dictionaries);
         return SUCCESS_MESSAGE();
     }

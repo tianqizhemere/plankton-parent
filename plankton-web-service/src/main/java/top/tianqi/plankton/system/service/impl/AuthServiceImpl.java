@@ -23,11 +23,11 @@ import java.util.Set;
 public class AuthServiceImpl extends BaseServiceImpl<AuthMapper, Auth> implements AuthService {
 
     @Autowired
-    private AuthMapper authDao;
+    private AuthMapper authMapper;
 
     @Override
     public Set<String> getUserAuthListById(Long userId) {
-        List<Auth> list = authDao.findListByUserId(userId);
+        List<Auth> list = authMapper.findListByUserId(userId);
         Set<String> auths = new HashSet<>();
         for (Auth auth : list) {
             auths.add(auth.getCode());

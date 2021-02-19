@@ -1,7 +1,7 @@
 package top.tianqi.plankton.system.service;
 
 import top.tianqi.plankton.common.base.service.BaseService;
-import top.tianqi.plankton.system.entity.Dictionaries;
+import top.tianqi.plankton.system.entity.Dictionary;
 
 import java.util.List;
 
@@ -10,12 +10,18 @@ import java.util.List;
  * @author Wukh
  * @create 2021-01-24
  */
-public interface DictionariesService extends BaseService<Dictionaries> {
+public interface DictionariesService extends BaseService<Dictionary> {
 
     /**
      * 获取树形结构数字字典
      * @return List<Dictionaries>
      */
-    List<Dictionaries> findTree();
+    List<Dictionary> findTree();
 
+    /**
+     * 根据字典id查询名称列表
+     * @param dictId 字典唯一标识
+     * @return List<String> 名称列表
+     */
+    List<String> findNameById(String dictId);
 }
