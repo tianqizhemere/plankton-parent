@@ -16,8 +16,8 @@ public interface ExternalApplicationService extends BaseService<ExternalApplicat
 
     /**
      * 根据code值获取最新文件信息
-     * @param code code值
+     * @param type 文件类型
      * @return ExternalApplication
      */
-    ExternalApplication findByCode(Integer code);
+    ExternalApplication findByCode(Integer type);
 }

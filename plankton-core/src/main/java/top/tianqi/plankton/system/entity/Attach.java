@@ -37,7 +37,7 @@ public class Attach extends BaseEntity {
     /** 文件路径 */
     private String path;
 
-    /** 标识关联记的录号 */
+    /** 标识关联记录号 */
     private Long recordId;
 
     public Integer getDataType() {

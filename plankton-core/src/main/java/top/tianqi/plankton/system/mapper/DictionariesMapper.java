@@ -17,9 +17,9 @@ public interface DictionariesMapper extends BaseMapper<Dictionaries> {
 
     /**
      * 分页查询数据字典
-     * @param name
-     * @param page
-     * @return
+     * @param name 字典名称
+     * @param page 分页对象
+     * @return List<Dictionaries> 数据列表
      */
     List<Dictionaries> findPage(@Param("name") String name, @Param("page") Page<Dictionaries> page);
 }

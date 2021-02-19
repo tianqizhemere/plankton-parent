@@ -12,33 +12,27 @@ import java.util.List;
  * @author Wukh
  * @create 2021-01-23
  */
-@TableName(value = "menu")
+@TableName("menu")
 public class Menu extends BaseEntity {
 
     private static final long serialVersionUID = 2081900168971018113L;
 
     /** 访问路径 */
-    @TableField
     private String url;
 
     /** 模块名称 */
-    @TableField
     private String name;
 
     /** icon图标 */
-    @TableField
     private String icon;
 
     /** 组件 */
-    @TableField
     private String component;
 
     /** 父节点id */
-    @TableField(value = "parent_id")
     private Long parentId;
 
     /** 授权(多个用逗号分隔，如：sys:user:add,sys:user:edit) */
-    @TableField
     private String perms;
 
     /** '类型   0：目录   1：菜单   2：按钮 */

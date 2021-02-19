@@ -13,5 +13,11 @@ import java.util.List;
  */
 public interface AttachMapper extends BaseMapper<Attach> {
 
+    /**
+     * 获取文件列表
+     * @param recordId 标识关联记录号
+     * @param dataType 文件数据类型
+     * @return List<Attach> 文件列表
+     */
     List<Attach> findList(@Param("recordId") Long recordId,@Param("dataType") String dataType);
 }

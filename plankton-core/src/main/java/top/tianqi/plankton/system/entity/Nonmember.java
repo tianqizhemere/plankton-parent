@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
  * @author Wukh
  * @create 2021-01-19
  */
-@TableName(value = "nonmember")
+@TableName("nonmember")
 public class Nonmember extends BaseEntity {
     private static final long serialVersionUID = -4009251666832670319L;
 

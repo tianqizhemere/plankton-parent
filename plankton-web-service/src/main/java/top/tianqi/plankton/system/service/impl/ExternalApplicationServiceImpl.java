@@ -41,13 +41,17 @@ public class ExternalApplicationServiceImpl extends BaseServiceImpl<ExternalAppl
     }
 
     @Override
-    public ExternalApplication findByCode(Integer code) {
-        return externalApplicationMapper.findByCode(code);
+    public ExternalApplication findByCode(Integer type) {
+        if (type == null) return null;
+        LambdaQueryWrapper<ExternalApplication> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(ExternalApplication::getExternalType, type);
+        lambdaQueryWrapper.eq(ExternalApplication::getType, VersionTypeEnum.THE_LATEST_VERSION.getCode());
+        return externalApplicationMapper.selectOne(lambdaQueryWrapper);
     }
 
     @Override
     public boolean save(ExternalApplication externalApplication) {
-        // 覆盖旧的版本
+        // 覆盖最新的版本
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("type", VersionTypeEnum.THE_LATEST_VERSION.getCode());
         paramMap.put("external_type", externalApplication.getExternalType());

@@ -1,7 +1,6 @@
 package top.tianqi.plankton.system.entity;
 
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import top.tianqi.plankton.base.entity.BaseEntity;
@@ -27,23 +26,18 @@ public class User extends BaseEntity {
     private String model;
 
     /** 用户状态，normal 普通用户 powerful专业 */
-    @TableField(value = "user_mode")
     private String userMode;
 
     /** 版本编号 */
-    @TableField(value = "version_code")
     private String versionCode;
 
     /** 下载次数 */
-    @TableField(value = "upload_counter")
     private Integer uploadCounter = 2;
 
     /** 是否被禁用 0:禁用，1：未禁用*/
-    @TableField(value = "is_enable")
     private Boolean isEnable = true;
 
     /** 用户最后登录时间 */
-    @TableField(value = "login_time")
     @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date loginTime;
 

@@ -3,7 +3,7 @@ package top.tianqi.plankton.common.constant;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 常量类
+ * 系统常量类
  * @author Wukh
  * @create 2021-01-10
  */

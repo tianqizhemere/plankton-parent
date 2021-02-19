@@ -14,7 +14,7 @@ import java.util.List;
  * @author Wukh
  * @create 2021-01-24
  */
-@TableName(value = "dictionaries")
+@TableName("dictionaries")
 public class Dictionaries extends BaseEntity {
     private static final long serialVersionUID = -5201090437613680914L;
 

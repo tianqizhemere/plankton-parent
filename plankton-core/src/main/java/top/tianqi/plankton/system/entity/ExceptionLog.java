@@ -9,7 +9,7 @@ import top.tianqi.plankton.base.entity.BaseEntity;
  * @author Wukh
  * @create 2021-01-08
  */
-@TableName(value = "exception_log")
+@TableName("exception_log")
 public class ExceptionLog extends BaseEntity {
 
     private static final long serialVersionUID = 2657837317103914160L;
