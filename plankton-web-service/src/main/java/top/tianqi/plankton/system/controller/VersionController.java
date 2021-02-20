@@ -18,6 +18,7 @@ import top.tianqi.plankton.system.service.VersionService;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 版本controller
@@ -97,7 +98,8 @@ public class VersionController extends BaseController {
     @RequiresPermissions(value = "system:version:delete")
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<VersionInfo> versionInfos){
-        versionService.removeByIds(versionInfos);
+        List<Long> ids = versionInfos.stream().map(VersionInfo::getId).collect(Collectors.toList());
+        versionService.removeByIds(ids);
         return SUCCESS_MESSAGE();
     }
 

@@ -38,7 +38,7 @@ CREATE TABLE exception_log (
     id int(11) NOT NULL AUTO_INCREMENT,
     create_time datetime NOT NULL COMMENT '请求时间',
     modify_time datetime NOT NULL,
-    message varchar(50) DEFAULT NULL COMMENT '异常信息',
+    message text DEFAULT NULL COMMENT '异常信息',
     name varchar(50) DEFAULT NULL COMMENT '异常名称',
     request_param varchar(500) DEFAULT NULL COMMENT '请求参数',
     user_id int(11) DEFAULT NULL COMMENT '用户id',
@@ -91,18 +91,6 @@ CREATE TABLE nonmember (
   modify_time datetime NOT NULL,
   code varchar(50) DEFAULT NULL COMMENT 'UUID',
   model varchar(50) NOT NULL COMMENT '设备型号',
-  PRIMARY KEY (id) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-
--- 版本
-DROP TABLE IF EXISTS version_upgrade_item;
-CREATE TABLE version_upgrade_item (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  create_time datetime NOT NULL,
-  modify_time datetime NOT NULL,
-  version_info_id int(11) NOT NULL COMMENT '版本明细id',
-  version_code varchar(50) NOT NULL COMMENT '版本编号',
-  model varchar(50) NOT NULL COMMENT '版本编号',
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 

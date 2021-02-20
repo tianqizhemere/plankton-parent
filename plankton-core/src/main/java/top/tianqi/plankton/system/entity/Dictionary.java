@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -23,16 +22,12 @@ public class Dictionary extends BaseEntity {
     private String name;
 
     /** 上级字典ID，一级字典为0 */
-    @TableField(value = "parent_id")
-    @NotNull(message = "父节点id不能为空")
     private Long parentId;
 
     /** 排序 */
-    @TableField(value = "order_num")
     private Integer orderNum;
 
     /** 删除状态（0，正常，1已删除） */
-    @TableField(value = "del_flag")
     private Integer delFlag;
 
     /** 父节点名称 */

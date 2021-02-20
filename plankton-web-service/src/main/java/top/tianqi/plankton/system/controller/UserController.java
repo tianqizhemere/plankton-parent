@@ -1,6 +1,7 @@
 package top.tianqi.plankton.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
@@ -20,8 +21,10 @@ import top.tianqi.plankton.system.service.UserService;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 用户controller
@@ -40,13 +43,21 @@ public class UserController extends BaseController {
 
     /**
      * 加载用户列表
+     * @param code 移动设备号
+     * @param phone 手机号码
+     * @param qq QQ
+     * @param models 设备型号
      * @return Result 前端提示信息
      */
     @OperLog(model = "用户管理", desc = "查询用户列表", type = OperationConst.SELECT)
-    //@RequiresPermissions("system:user:index")
+    @RequiresPermissions("system:user:index")
     @GetMapping(value = "/list")
-    public Result list(String code, String phone, String qq){
-        Page<User> page = userService.getPage(code, phone, qq, getPage());
+    public Result list(String code, String phone, String qq, String models){
+        List<String> modelList = new ArrayList<>();
+        if (StringUtils.isNotBlank(models)) {
+            modelList = Arrays.asList(models.split(","));
+        }
+        Page<User> page = userService.getPage(code, phone, qq, modelList,getPage());
         return SUCCESS_MESSAGE(page);
     }
 
@@ -79,7 +90,8 @@ public class UserController extends BaseController {
     @PostMapping(value = "/delete")
     @RequiresPermissions(value = "system:user:delete")
     public Result delete(@RequestBody List<User> users){
-        userService.removeByIds(users);
+        List<Long> ids = users.stream().map(User::getId).collect(Collectors.toList());
+        userService.removeByIds(ids);
         return SUCCESS_MESSAGE();
     }
 

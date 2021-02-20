@@ -46,6 +46,7 @@ public class ExternalApplicationServiceImpl extends BaseServiceImpl<ExternalAppl
         LambdaQueryWrapper<ExternalApplication> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(ExternalApplication::getExternalType, type);
         lambdaQueryWrapper.eq(ExternalApplication::getType, VersionTypeEnum.THE_LATEST_VERSION.getCode());
+        lambdaQueryWrapper.orderByDesc(ExternalApplication::getCreateTime);
         return externalApplicationMapper.selectOne(lambdaQueryWrapper);
     }
 

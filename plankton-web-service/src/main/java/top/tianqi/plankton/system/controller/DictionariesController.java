@@ -13,6 +13,7 @@ import top.tianqi.plankton.system.service.DictionariesService;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 字典controller
@@ -56,11 +57,17 @@ public class DictionariesController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
+    /**
+     * 删除字典
+     * @param dictionaries 字典集合
+     * @return Result
+     */
     @OperLog(model = "字典管理", desc = "删除字典", type = OperationConst.DELETE)
     @RequiresPermissions(value = "system:dict:delete")
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<Dictionary> dictionaries) {
-        dictionariesService.removeByIds(dictionaries);
+        List<Long> ids = dictionaries.stream().map(Dictionary::getId).collect(Collectors.toList());
+        dictionariesService.removeByIds(ids);
         return SUCCESS_MESSAGE();
     }
 }

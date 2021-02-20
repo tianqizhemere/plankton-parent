@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.tianqi.plankton.common.base.service.BaseService;
 import top.tianqi.plankton.system.entity.User;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -24,10 +25,12 @@ public interface UserService extends BaseService<User> {
      * 分页查询
      * @param code 用户唯一标识
      * @param phone 手机号码
+     * @param qq QQ
+     * @param models 设备型号
      * @param page 分页对象
-     * @return Page<User>
+     * @return Page<User> 用户分页对象
      */
-    Page<User> getPage(String code, String phone, String qq, Page<User> page);
+    Page<User> getPage(String code, String phone, String qq, List<String> modelList, Page<User> page);
 
     /**
      * 通过用户名获取用户角色集合

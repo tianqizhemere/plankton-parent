@@ -2,6 +2,7 @@ package top.tianqi.plankton.system.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
@@ -11,6 +12,7 @@ import top.tianqi.plankton.system.service.DictionariesService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 字典服务层实现
@@ -39,17 +41,13 @@ public class DictionariesServiceImpl extends BaseServiceImpl<DictionariesMapper,
 
     @Override
     public List<String> findNameById(String dictId) {
-        if (dictId == null) {
+        if (!StringUtils.isNotBlank(dictId)) {
             return null;
         }
-        List<String> names = new ArrayList<>();;
         LambdaQueryWrapper<Dictionary> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.or().eq(Dictionary::getParentId, dictId).or().eq(Dictionary::getId, dictId);
+        lambdaQueryWrapper.or().eq(StringUtils.isNotBlank(dictId), Dictionary::getParentId, dictId).or().eq(StringUtils.isNotBlank(dictId), Dictionary::getId, dictId);
         List<Dictionary> dictionaries = dictionariesMapper.selectList(lambdaQueryWrapper);
-        for (Dictionary dictionary : dictionaries) {
-            names.add(dictionary.getName());
-        }
-        return names;
+        return dictionaries.stream().map(Dictionary::getName).collect(Collectors.toList());
     }
 
 

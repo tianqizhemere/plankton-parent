@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 外置应用controller
@@ -65,7 +66,8 @@ public class ExternalApplicationController extends BaseController {
     @RequiresPermissions(value = "system:externalApplication:delete")
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<ExternalApplication> externalApplications){
-        externalApplicationService.removeByIds(externalApplications);
+        List<Long> ids = externalApplications.stream().map(ExternalApplication::getId).collect(Collectors.toList());
+        externalApplicationService.removeByIds(ids);
         return SUCCESS_MESSAGE();
     }
 

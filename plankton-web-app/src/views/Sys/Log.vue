@@ -49,7 +49,7 @@ export default {
         {prop: "requestParam", label: "请求参数", minWidth: 220},
         /*{prop:"responseParam", label:"响应参数", minWidth:220},*/
         {prop: "ip", label: "IP", minWidth: 120},
-        {prop: "versionDesc", label: "操作描述", minWidth: 80},
+        {prop: "operationDesc", label: "操作描述", minWidth: 80},
         {prop: "code", label: "请求人code", minWidth: 100},
         {prop: "createTime", label: "创建时间", minWidth: 120, formatter: this.dateFormat}
       ],

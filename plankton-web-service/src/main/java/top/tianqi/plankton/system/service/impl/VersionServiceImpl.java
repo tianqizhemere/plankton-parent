@@ -91,10 +91,11 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     }
 
     @Override
-    public Page<VersionInfo>  getPage(String name, List<String> modelNames, Page<VersionInfo> page) {
+    public Page<VersionInfo> getPage(String name, List<String> modelNames, Page<VersionInfo> page) {
         LambdaQueryWrapper<VersionInfo> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.like(!StringUtils.isEmpty(name), VersionInfo::getModel, name);
-        lambdaQueryWrapper.in(VersionInfo::getModel, modelNames);
+        lambdaQueryWrapper.in(!CollectionUtils.isEmpty(modelNames), VersionInfo::getModel, modelNames);
+        lambdaQueryWrapper.orderByDesc(VersionInfo::getCreateTime);
         return versionMapper.selectPage(page, lambdaQueryWrapper);
     }
 
