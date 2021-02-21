@@ -1,52 +1,52 @@
 -- version_upgrade 版本升级信息表
 drop table if exists version_upgrade;
 CREATE TABLE version_upgrade (
-    id int(11) NOT NULL AUTO_INCREMENT,
-    create_time datetime NOT NULL,
-    modify_time datetime NOT NULL,
-    version_code varchar(10) DEFAULT NULL COMMENT '版本标识 1.2',
-    type int(11)  DEFAULT NULL COMMENT '是否升级 1升级，0不升级，2强制升级',
-    download_url varchar(255) DEFAULT NULL COMMENT '下载路径',
-    version_desc varchar(255) DEFAULT NULL COMMENT '升级提示',
-    model varchar(255) DEFAULT NULL COMMENT '手机型号',
-    status int(11) DEFAULT NULL COMMENT '0-停用，1-启用',
-    PRIMARY KEY (`id`)
+  id int(11) NOT NULL AUTO_INCREMENT,
+  create_time datetime NOT NULL,
+  modify_time datetime NOT NULL,
+  version_code varchar(10) DEFAULT NULL COMMENT '版本标识 1.2',
+  type int(11)  DEFAULT NULL COMMENT '是否升级 1升级，0不升级，2强制升级',
+  download_url varchar(255) DEFAULT NULL COMMENT '下载路径',
+  version_desc varchar(255) DEFAULT NULL COMMENT '升级提示',
+  model varchar(255) DEFAULT NULL COMMENT '手机型号',
+  status int(11) DEFAULT NULL COMMENT '0-停用，1-启用',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- 操作日志
 drop table if exists operation_log;
 CREATE TABLE operation_log (
-    id int(11) NOT NULL AUTO_INCREMENT,
-    create_time datetime NOT NULL COMMENT '请求时间',
-    modify_time datetime NOT NULL,
-    model varchar(50) DEFAULT NULL COMMENT '功能模块',
-    type varchar(50) DEFAULT NULL COMMENT '操作类型',
-    operation_desc varchar(50) DEFAULT NULL COMMENT '操作描述',
-    request_param text DEFAULT NULL COMMENT '请求参数',
-    response_param text DEFAULT NULL COMMENT '响应参数',
-    user_id int(11) DEFAULT NULL COMMENT '用户id',
-    code varchar(50)  DEFAULT NULL COMMENT '用户code',
-    ip varchar(50)  DEFAULT NULL COMMENT '请求ip',
-    uri varchar(50) DEFAULT NULL COMMENT 'uri',
-    method varchar(200) DEFAULT NULL COMMENT '操作方法',
-    PRIMARY KEY (`id`)
+  id int(11) NOT NULL AUTO_INCREMENT,
+  create_time datetime NOT NULL COMMENT '请求时间',
+  modify_time datetime NOT NULL,
+  model varchar(50) DEFAULT NULL COMMENT '功能模块',
+  type varchar(50) DEFAULT NULL COMMENT '操作类型',
+  operation_desc varchar(50) DEFAULT NULL COMMENT '操作描述',
+  request_param text DEFAULT NULL COMMENT '请求参数',
+  response_param text DEFAULT NULL COMMENT '响应参数',
+  user_id int(11) DEFAULT NULL COMMENT '用户id',
+  code varchar(50)  DEFAULT NULL COMMENT '用户code',
+  ip varchar(50)  DEFAULT NULL COMMENT '请求ip',
+  uri varchar(50) DEFAULT NULL COMMENT 'uri',
+  method varchar(200) DEFAULT NULL COMMENT '操作方法',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- 操作异常日志
 drop table if exists exception_log;
 CREATE TABLE exception_log (
-    id int(11) NOT NULL AUTO_INCREMENT,
-    create_time datetime NOT NULL COMMENT '请求时间',
-    modify_time datetime NOT NULL,
-    message text DEFAULT NULL COMMENT '异常信息',
-    name varchar(50) DEFAULT NULL COMMENT '异常名称',
-    request_param varchar(500) DEFAULT NULL COMMENT '请求参数',
-    user_id int(11) DEFAULT NULL COMMENT '用户id',
-    code varchar(50)  DEFAULT NULL COMMENT '用户code',
-    ip varchar(50)  DEFAULT NULL COMMENT '请求ip',
-    uri varchar(50) DEFAULT NULL COMMENT 'uri',
-    method text DEFAULT NULL COMMENT '操作方法',
-    PRIMARY KEY (`id`)
+  id int(11) NOT NULL AUTO_INCREMENT,
+  create_time datetime NOT NULL COMMENT '请求时间',
+  modify_time datetime NOT NULL,
+  message text DEFAULT NULL COMMENT '异常信息',
+  name varchar(50) DEFAULT NULL COMMENT '异常名称',
+  request_param varchar(500) DEFAULT NULL COMMENT '请求参数',
+  user_id int(11) DEFAULT NULL COMMENT '用户id',
+  code varchar(50)  DEFAULT NULL COMMENT '用户code',
+  ip varchar(50)  DEFAULT NULL COMMENT '请求ip',
+  uri varchar(50) DEFAULT NULL COMMENT 'uri',
+  method text DEFAULT NULL COMMENT '操作方法',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- 附件
@@ -194,3 +194,29 @@ CREATE TABLE external_application (
   type int(1) DEFAULT '0' comment '是否升级 1-升级，0-不升级',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='外置应用表';
+
+-- 通知表
+DROP TABLE IF EXISTS notice;
+CREATE TABLE notice (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  create_time datetime NOT NULL,
+  modify_time datetime NOT NULL,
+  title varchar(50) DEFAULT NULL COMMENT '标题',
+  content varchar(200) DEFAULT NULL COMMENT '内容',
+  send_count int(11) DEFAULT NULL COMMENT '发送数量',
+  read_count int(11) DEFAULT NULL COMMENT '已读数量',
+  type int(11) DEFAULT NULL COMMENT '已读数量',
+  PRIMARY KEY (id) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- 用户-通知中间表
+DROP TABLE IF EXISTS user_notice;
+CREATE TABLE user_notice (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  create_time datetime NOT NULL,
+  modify_time datetime NOT NULL,
+  notice_id int(11) DEFAULT NULL COMMENT '通知id',
+  user_id int(11) DEFAULT NULL COMMENT '用户id',
+  is_read int(11) DEFAULT NULL COMMENT '是否读取, 0-未读，1-已读',
+  PRIMARY KEY (id) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;

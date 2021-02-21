@@ -43,6 +43,10 @@ public class VersionInfo extends BaseEntity {
     @TableField(exist = false)
     private String attachIds;
 
+    /** 是否为大版本更新 */
+    @TableField(exist = false)
+    private Boolean maxVersion = Boolean.FALSE;
+
     public String getVersionCode() {
         return versionCode;
     }
@@ -97,6 +101,14 @@ public class VersionInfo extends BaseEntity {
 
     public void setAttachIds(String attachIds) {
         this.attachIds = attachIds;
+    }
+
+    public Boolean getMaxVersion() {
+        return maxVersion;
+    }
+
+    public void setMaxVersion(Boolean maxVersion) {
+        this.maxVersion = maxVersion;
     }
 
     public String getTypeName(){

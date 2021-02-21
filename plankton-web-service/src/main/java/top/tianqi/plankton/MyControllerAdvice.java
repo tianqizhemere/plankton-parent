@@ -25,8 +25,8 @@ public class MyControllerAdvice {
 
     /**
      * 全局异常捕捉处理
-     * @param ex
-     * @return
+     * @param ex Exception
+     * @return Result
      */
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
@@ -37,8 +37,8 @@ public class MyControllerAdvice {
 
     /**
      * 拦截捕捉业务异常 BusinessException.class
-     * @param ex
-     * @return
+     * @param ex BusinessException
+     * @return Result
      */
     @ResponseBody
     @ExceptionHandler(value = BusinessException.class)
@@ -49,8 +49,8 @@ public class MyControllerAdvice {
 
     /**
      * 捕捉所有Shiro异常
-     * @param e
-     * @return
+     * @param e ShiroException
+     * @return Result
      */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(ShiroException.class)
@@ -61,8 +61,8 @@ public class MyControllerAdvice {
     /**
      * 单独捕捉Shiro(UnauthenticatedException)异常
      * 该异常为以游客身份访问有权限管控的请求无法对匿名主体进行授权，而授权失败所抛出的异常
-     * @param e
-     * @return
+     * @param e UnauthenticatedException
+     * @return Result
      */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthenticatedException.class)
@@ -72,7 +72,7 @@ public class MyControllerAdvice {
 
     /**
      * 捕捉UnauthorizedException自定义异常
-     * @return
+     * @return Result
      */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthorizedException.class)
