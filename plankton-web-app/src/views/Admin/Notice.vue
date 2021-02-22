@@ -4,10 +4,11 @@
     <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
       <el-form :inline="true" :model="filters" :size="size">
         <el-form-item>
-          <el-input v-model="filters.name" placeholder="应用名称"></el-input>
+          <el-input v-model="filters.title" placeholder="标题"></el-input>
         </el-form-item>
         <el-form-item>
-          <kt-button icon="fa fa-search" :label="$t('action.search')" perms="system:externalApplication:view" type="primary"
+          <kt-button icon="fa fa-search" :label="$t('action.search')" perms="system:externalApplication:view"
+                     type="primary"
                      @click="findPage(null)"/>
         </el-form-item>
         <el-form-item>
@@ -38,7 +39,8 @@
       </table-column-filter-dialog>
     </div>
     <!--表格内容栏-->
-    <kt-table :height="720" permsEdit="system:externalApplication:update" permsDelete="system:externalApplication:delete"
+    <kt-table :height="720" permsEdit="system:externalApplication:update"
+              permsDelete="system:externalApplication:delete"
               :data="pageResult" :columns="filterColumns"
               @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
     </kt-table>
@@ -49,38 +51,12 @@
         <el-form-item label="ID" prop="id" v-if="false">
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="应用名称" prop="name">
-          <el-input placeholder="请输入应用名称" v-model="dataForm.name" auto-complete="off"></el-input>
+        <el-form-item label="标题" prop="title">
+          <el-input placeholder="请输入应用名称" v-model="dataForm.title" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="版本编号" prop="versionCode">
-          <el-input placeholder="请输入版本编号" v-model="dataForm.versionCode" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="应用描述" prop="versionDesc">
-          <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="dataForm.versionDesc"
+        <el-form-item label="内容" prop="versionDesc">
+          <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="dataForm.content"
                     auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="文件类型" prop="externalType">
-          <el-select placeholder="请选择" v-model="dataForm.externalType" filterable clearable style="width: 100%;">
-            <el-option :label="item.typeName" v-for="item in options" :key="item.code" :value="item.code">{{ item.typeName }}</el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="升级文件" prop="attachIds">
-          <el-upload
-              class="upload-demo"
-              ref="uploadMutiple"
-              drag
-              action="/api/system/attach/uploadFile"
-              :on-success="uploadSuccess"
-              :on-change="handleChange"
-              :headers="headers"
-              :data="{ dataType: 2 }"
-              :file-list="fileList"
-              multiple>
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-            <div class="el-upload__tip" slot="tip">可上传任意文件，且不超过100MB</div>
-          </el-upload>
-
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -101,7 +77,7 @@ import KtButton from "@/views/Core/KtButton"
 import TableColumnFilterDialog from "@/views/Core/TableColumnFilterDialog"
 import {format} from "@/utils/datetime"
 import TestCode from "../../components/treeSelect/TreeSelect";
-import * as external from "../../http/moudules/external";
+import * as external from "../../http/moudules/notice";
 
 export default {
   components: {
@@ -115,105 +91,46 @@ export default {
     return {
       size: 'small',
       filters: {
-        name: '',
-        model: '',
-        parentId: ''
+        title: '',
       },
       columns: [],
       filterColumns: [],
       pageRequest: {current: 1, size: 10},
       pageResult: {},
 
-      // 文件类型选项
-      options:[],
-
       operation: false, // true:新增, false:编辑
       dialogVisible: false, // 新增编辑界面是否显示
       editLoading: false,
       dataFormRules: {
-        versionCode: [
-          {required: true, message: '请输入版本号', trigger: 'blur'}
+        title: [
+          {required: true, message: '请输入标题名称', trigger: 'blur'}
         ],
-        name: [
-          {required: true, message: '请输入应用名称', trigger: 'blur'}
-        ],
-        externalType:[
-          {required: true, message: '请选择文件类型', trigger: 'blur'}
-        ]
       },
       // 新增编辑界面数据
       dataForm: {
         id: 0,
-        name:'',
-        versionCode: '',
-        versionDesc: '',
-        attachIds: '',
-        externalType:'',
-        parentId: '',
-        isSuccess: false
+        title: '',
+        content: '',
       },
-      // 文件列表
-      fileList: [],
-      logo: '',
-      // 机型树形数据
-      tableTreeDdata: [],
-      popupTreeData: [],
-      popupTreeProps: {
-        label: 'name',
-        children: 'children'
-      },
-      headers: {Authorization: sessionStorage.getItem('token')},
     }
   },
   methods: {
-    // 获取文件列表
-    handleChange(file, fileList) {
-      this.fileList = fileList;
-    },
-    uploadSuccess(response, file, fileList) {
-      var attachIds = "";
-      response.data.map((val) => {
-        fileList.map((obj) => {
-          if (val.orginalName == obj.name) {
-            obj.url = val.path
-          }
-        })
-      })
-      fileList.map((obj) => {
-        if (obj.id) {
-          attachIds = attachIds + obj.id + ","
-        } else {
-          attachIds = attachIds + obj.response.data[0].id + ','
-        }
-      })
-      this.dataForm.attachIds = attachIds;
-    },
-    fileChange(file) {
-      /**
-       * 1. 清除文件对象
-       * 2. 取出上传文件的对象,在其它地方也可以使用
-       * 3. 重新手动赋值filstList,免得自定义上传成功了,而fileList并没有动态改变,这样每次都是上传一个对象
-       * */
-      this.$refs.upload.clearFiles()
-      this.logo = file.raw
-      this.fileList = [{name: file.name, url: file.url}]
-    },
     // 获取分页数据
     findPage(data) {
       if (data !== null) {
         this.pageRequest = data.pageRequest
       }
-      this.$api.external.findPage({
+      this.$api.notice.findPage({
         'pageNum': this.pageRequest.current,
         'pageSize': this.pageRequest.size,
-        'name': this.filters.name
+        'title': this.filters.title
       }).then((res) => {
         this.pageResult = res.data
       }).then(data != null ? data.callback : '')
     },
     // 批量删除
     handleDelete: function (data) {
-      this.$api.external.batchDelete(data.params).then(data != null ? data.callback : '')
+      this.$api.notice.batchDelete(data.params).then(data != null ? data.callback : '')
     },
     // 显示新增界面
     handleAdd: function () {
@@ -221,13 +138,8 @@ export default {
       this.operation = true
       this.dataForm = {
         id: 0,
-        versionCode: '',
-        name: '',
-        versionDesc: '',
-        parentId: '',
-        attachIds: '',
-        externalType:'',
-        isSuccess: true
+        title: '',
+        content: ''
       }
       this.fileList = []
     },
@@ -243,40 +155,36 @@ export default {
       this.$refs.dataForm.validate((valid) => {
         if (valid) {
           this.$confirm('确认提交吗？', '提示', {}).then(() => {
-            if (this.dataForm.isSuccess) {
-              this.editLoading = true
-              if (this.dataForm.modelName) {
-                this.dataForm.model = this.dataForm.modelName;
-              }
-              let params = Object.assign({}, this.dataForm)
-              params.enable = params.isEnable;
-              if (val === 'save') {
-                this.$api.external.save(params).then((res) => {
-                  this.editLoading = false
-                  if (res.code == 200) {
-                    this.$message({message: '操作成功', type: 'success'})
-                    this.dialogVisible = false
-                    this.$refs['dataForm'].resetFields()
-                  } else {
-                    this.$message({message: '操作失败, ' + res.massage, type: 'error'})
-                  }
-                  this.findPage(null)
-                })
-              } else {
-                this.$api.external.edit(params).then((res) => {
-                  this.editLoading = false
-                  if (res.code == 200) {
-                    this.$message({message: '操作成功', type: 'success'})
-                    this.dialogVisible = false
-                    this.$refs['dataForm'].resetFields()
-                  } else {
-                    this.$message({message: '操作失败, ' + res.massage, type: 'error'})
-                  }
-                  this.findPage(null)
-                })
-              }
+            this.editLoading = true
+            if (this.dataForm.modelName) {
+              this.dataForm.model = this.dataForm.modelName;
+            }
+            let params = Object.assign({}, this.dataForm)
+            params.enable = params.isEnable;
+            if (val === 'save') {
+              this.$api.notice.save(params).then((res) => {
+                this.editLoading = false
+                if (res.code == 200) {
+                  this.$message({message: '操作成功', type: 'success'})
+                  this.dialogVisible = false
+                  this.$refs['dataForm'].resetFields()
+                } else {
+                  this.$message({message: '操作失败, ' + res.massage, type: 'error'})
+                }
+                this.findPage(null)
+              })
             } else {
-              this.$message({message: '文件上传中! ', type: 'warning'})
+              this.$api.notice.edit(params).then((res) => {
+                this.editLoading = false
+                if (res.code == 200) {
+                  this.$message({message: '操作成功', type: 'success'})
+                  this.dialogVisible = false
+                  this.$refs['dataForm'].resetFields()
+                } else {
+                  this.$message({message: '操作失败, ' + res.massage, type: 'error'})
+                }
+                this.findPage(null)
+              })
             }
           })
         }
@@ -299,25 +207,17 @@ export default {
     initColumns: function () {
       this.columns = [
         {prop: "id", label: "ID", minWidth: 50},
-        {prop: "name", label: "应用名称", minWidth: 120},
-        {prop: "versionCode", label: "版本编号", minWidth: 120},
-        {prop: "versionDesc", label: "应用描述", minWidth: 100},
-        {prop: "downloadUrl", label: "下载路径", minWidth: 120},
-        {prop: "fileType", label: "文件类型", minWidth: 100},
-        {prop: "typeName", label: "状态", minWidth: 70},
+        {prop: "title", label: "标题", minWidth: 120},
+        {prop: "content", label: "内容", minWidth: 120},
+        {prop: "sendCount", label: "发送数量", minWidth: 100},
+        {prop: "readCount", label: "读取数量", minWidth: 100},
         {prop: "createTime", label: "创建时间", minWidth: 80, formatter: this.dateFormat}
       ]
       this.filterColumns = JSON.parse(JSON.stringify(this.columns));
-    },
-    getOption(){
-      this.$api.external.getOption().then(res => {
-        this.options = res.data;
-      })
     }
   },
   mounted() {
     this.initColumns();
-    this.getOption();
   }
 }
 </script>

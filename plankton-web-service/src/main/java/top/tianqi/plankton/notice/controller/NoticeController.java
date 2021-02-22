@@ -1,6 +1,6 @@
 package top.tianqi.plankton.notice.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +32,7 @@ public class NoticeController extends BaseController {
     @RequiresPermissions(value = "system:notice:view")
     @GetMapping(value = "/page")
     public Result getPage(String title) {
-        Page<Notice> page = noticeService.getPage(title, getPage());
+        IPage<Notice> page = noticeService.getPage(title, getPage());
         return SUCCESS_MESSAGE(page);
     }
 

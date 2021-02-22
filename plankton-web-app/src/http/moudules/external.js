@@ -36,11 +36,3 @@ export const findPage = (params) => {
         params
     })
 }
-
-// 文件类型
-export const getOption = () => {
-    return axios({
-        url: '/system/externalType/list',
-        method: 'get'
-    })
-}

@@ -11,6 +11,7 @@ import * as sys from './moudules/jvm'
 import * as admin from './moudules/wechatAppAdmin'
 import * as version from './moudules/version'
 import * as external from './moudules/external'
+import * as notice from './moudules/notice'
 
 
 // 默认全部导出
@@ -24,5 +25,6 @@ export default {
     sys,
     admin,
     version,
-    external
+    external,
+    notice
 }
