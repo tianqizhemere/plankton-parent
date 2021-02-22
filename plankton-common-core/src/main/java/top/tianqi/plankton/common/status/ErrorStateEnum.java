@@ -30,6 +30,7 @@ public enum ErrorStateEnum {
     REFRESH_TOKEN_INVALID(1010, "认证过期,请重新登录"),
     /** CODE不存在 */
     CODE_NOT_EXIST(1004, "CODE不存在"),
+    /** 机型版本号已存在 */
     VERSION_CODE_EXIST(1011, "输入的版本编号该机型已存在！");
 
     /** 状态码 */
