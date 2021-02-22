@@ -30,6 +30,10 @@ insert into auth values('22', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系�
 insert into auth values('23', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-外置应用-新增', 'system:externalApplication:save', '/system/external');
 insert into auth values('24', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-外置应用-修改', 'system:externalApplication:update', '/system/external');
 insert into auth values('25', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-外置应用-删除', 'system:externalApplication:delete', '/system/external');
+insert into auth values('26', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-通知管理-视图', 'system:notice:view', '/notice/notice');
+insert into auth values('27', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-通知管理-新增', 'system:notice:save', '/notice/notice');
+insert into auth values('28', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-通知管理-修改', 'system:notice:update', '/notice/notice');
+insert into auth values('29', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-通知管理-删除', 'system:notice:delete', '/notice/notice');
 
 -- 角色和菜单权限
 insert into role_menu values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
@@ -43,6 +47,7 @@ insert into role_menu values('8', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1,
 insert into role_menu values('9', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 9);
 insert into role_menu values('10', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 10);
 insert into role_menu values('11', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 11);
+insert into role_menu values('12', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 12);
 
 -- 角色权限
 insert into role_auth values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
@@ -70,6 +75,10 @@ insert into role_auth values('22', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1
 insert into role_auth values('23', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 23);
 insert into role_auth values('24', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 24);
 insert into role_auth values('25', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 25);
+insert into role_auth values('26', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 26);
+insert into role_auth values('27', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 27);
+insert into role_auth values('28', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 28);
+insert into role_auth values('29', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 29);
 
 insert into user_role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
 
@@ -79,12 +88,12 @@ INSERT INTO menu VALUES (2, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'syste
 INSERT INTO menu VALUES (3, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:user:index', '/sys', '系统管理', 0, 'el-icon-s-tools', 'AdminIndex', 0);
 INSERT INTO menu VALUES (5, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:user', '/admin', '系统配置', 0, 'el-icon-s-tools', 'AdminIndex', 0);
 INSERT INTO menu VALUES (6, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:user', '/sys/user', '用户信息', 1, 'kt-icon-qunzu', 'user/UserProfile', 3);
-INSERT INTO menu VALUES (7, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:user', '/sys/role', '角色配置', 1, 'kt-icon-weixiufuwu_o', 'user/Role', 3);
-INSERT INTO menu VALUES (8, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:user', '/sys/log', '系统日志', 1, 'kt-icon-lishijilu', 'content/BookManagement', 3);
-INSERT INTO menu VALUES (9, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:user', '/sys/dict', '字典管理', 1, 'kt-icon-shuzhuangtu', 'content/BannerManagement', 3);
-INSERT INTO menu VALUES (10, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:user', '/sys/version', '版本管理', 1, 'kt-icon-yunshangchuan', 'content/ArticleManagement', 3);
+INSERT INTO menu VALUES (7, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:role', '/sys/role', '角色配置', 1, 'kt-icon-weixiufuwu_o', 'user/Role', 3);
+INSERT INTO menu VALUES (8, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:log', '/sys/log', '系统日志', 1, 'kt-icon-lishijilu', 'content/BookManagement', 3);
+INSERT INTO menu VALUES (9, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:dict', '/sys/dict', '字典管理', 1, 'kt-icon-shuzhuangtu', 'content/BannerManagement', 3);
+INSERT INTO menu VALUES (10, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:version', '/sys/version', '版本管理', 1, 'kt-icon-yunshangchuan', 'content/ArticleManagement', 3);
 INSERT INTO menu VALUES (11, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:user', '/sys/external', '外置应用', 1, 'kt-icon-weixiufuwu', 'content/ArticleManagement', 3);
-
+INSERT INTO menu VALUES (12, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:user', '/admin/notice', '通知管理', 1, 'kt-icon-weixiufuwu', 'content/ArticleManagement', 5);
 
 
 -- 数字字典
@@ -112,11 +121,3 @@ INSERT INTO dictionaries VALUES (24, '2021-01-30 12:17:05', '2021-01-30 12:17:05
 INSERT INTO dictionaries VALUES (25, '2021-01-30 12:17:16', '2021-01-30 12:17:16', 'N9860', 7, 0, 0, 'model');
 INSERT INTO dictionaries VALUES (26, '2021-01-30 12:17:29', '2021-01-30 12:17:29', 'G998N', 8, 0, 0, 'model');
 INSERT INTO dictionaries VALUES (27, '2021-01-30 12:17:41', '2021-01-30 12:17:41', 'G9980', 8, 0, 0, 'model');
-INSERT INTO dictionaries VALUES (28, '2021-01-30 12:17:41', '2021-01-30 12:17:41', '文件类型', 0, 0, 0, 'external');
-INSERT INTO dictionaries VALUES (29, '2021-02-01 15:47:26', '2021-02-01 15:47:26', '支付宝指纹支付', 28, 1, 0, 'external');
-INSERT INTO dictionaries VALUES (30, '2021-02-01 15:47:41', '2021-02-01 15:47:41', '淘宝指纹支付', 28, 1, 0, 'external');
-INSERT INTO dictionaries VALUES (31, '2021-02-01 15:48:01', '2021-02-01 15:48:01', '微信指纹支付', 28, 1, 0, 'external');
-INSERT INTO dictionaries VALUES (32, '2021-02-01 15:48:13', '2021-02-01 15:48:13', 'QQ指纹支付', 28, 0, 0, 'external');
-INSERT INTO dictionaries VALUES (33, '2021-02-01 15:48:40', '2021-02-01 15:48:40', 'RiruCore核心', 28, 1, 0, 'external');
-
-

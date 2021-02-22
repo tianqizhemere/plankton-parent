@@ -9,12 +9,12 @@ import org.springframework.util.CollectionUtils;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.Attach;
 import top.tianqi.plankton.system.entity.ExternalApplication;
+import top.tianqi.plankton.system.enumeration.AttachDataTypeEnum;
 import top.tianqi.plankton.system.enumeration.VersionTypeEnum;
 import top.tianqi.plankton.system.mapper.AttachMapper;
 import top.tianqi.plankton.system.mapper.ExternalApplicationMapper;
 import top.tianqi.plankton.system.service.ExternalApplicationService;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,11 +60,10 @@ public class ExternalApplicationServiceImpl extends BaseServiceImpl<ExternalAppl
         if (!CollectionUtils.isEmpty(externalApplications)) {
             ExternalApplication baseExternalApplication = externalApplications.get(0);
             baseExternalApplication.setType(VersionTypeEnum.HISTORIC_VERSION.getCode());
-            baseExternalApplication.setModifyTime(new Date());
             externalApplicationMapper.updateById(baseExternalApplication);
         }
         boolean result = super.save(externalApplication);
-        if (externalApplication.getAttachIds() != null) {
+        if (StringUtils.isNotBlank(externalApplication.getAttachIds())) {
             for (String attachId : externalApplication.getAttachIds().split(",")) {
                 Attach attach = attachMapper.selectById(attachId);
                 if (attach != null) {
@@ -76,5 +75,25 @@ public class ExternalApplicationServiceImpl extends BaseServiceImpl<ExternalAppl
             }
         }
         return result;
+    }
+
+    @Override
+    public boolean updateById(ExternalApplication externalApplication) {
+        if (StringUtils.isNotBlank(externalApplication.getAttachIds())) {
+            LambdaQueryWrapper<Attach> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(Attach::getRecordId, externalApplication.getId());
+            lambdaQueryWrapper.eq(Attach::getDataType, AttachDataTypeEnum.EXTERNAL_APPLICATION.getCode());
+            attachMapper.delete(lambdaQueryWrapper);
+
+            for (String attachId : externalApplication.getAttachIds().split(",")) {
+                Attach attach = attachMapper.selectById(attachId);
+                if (attach != null) {
+                    attach.setRecordId(externalApplication.getId());
+                    attachMapper.updateById(attach);
+                    externalApplication.setDownloadUrl(attach.getPath());
+                }
+            }
+        }
+        return super.updateById(externalApplication);
     }
 }

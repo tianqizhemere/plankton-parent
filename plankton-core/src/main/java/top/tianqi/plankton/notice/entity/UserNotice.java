@@ -11,6 +11,8 @@ import top.tianqi.plankton.base.entity.BaseEntity;
 @TableName("user_notice")
 public class UserNotice extends BaseEntity {
 
+    private static final long serialVersionUID = -1267679914564481888L;
+
     /** 通知id */
     private Long noticeId;
 
