@@ -22,6 +22,8 @@ import top.tianqi.plankton.system.service.UserService;
 import top.tianqi.plankton.system.vo.UserVO;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.Objects;
 
@@ -58,8 +60,6 @@ public class LoginController extends BaseController {
         User user = userService.getUser(loginUser.getCode());
         if (user == null) {
             Nonmember nonmember = new Nonmember();
-            nonmember.setCreateTime(new Date());
-            nonmember.setModifyTime(new Date());
             nonmember.setModel(loginUser.getModel());
             nonmember.setCode(loginUser.getCode());
             nonmemberService.save(nonmember);
@@ -88,7 +88,12 @@ public class LoginController extends BaseController {
 
     @OperLog(model = "登录管理", desc = "退出", type = OperationConst.LOGIN)
     @GetMapping(value = "/logout")
-    public Result logout() {
+    public Result logout(HttpServletRequest request, HttpServletResponse response) {
+        String token = request.getHeader("Authorization");
+        String code = JwtUtil.getClaim(token, Constant.ACCOUNT);
+        // 清除redis
+        JedisUtil.delKey(Constant.PREFIX_SHIRO_REFRESH_TOKEN  + code);
+        response.setHeader("Authorization", null);
         return SUCCESS_MESSAGE("登出成功");
     }
 }

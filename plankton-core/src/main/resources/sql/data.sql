@@ -3,7 +3,9 @@ insert into version_upgrade values(1, '2020-1-8 20:20:21', '2020-1-8 20:20:21', 
 
 -- 初始化用户
 insert into user values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 'superAdmin', 'rts123!@#', '1.0', 2, 'powerful', 1, 1, '15575731038', '823507949');
+-- 初始化角色
 insert into role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '超级用户', '超级管理员', '1');
+
 -- 系统权限
 insert into auth values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理', 'system:version:index', '/system/version');
 insert into auth values('2', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-用户管理', 'system:user:index', '/system/user');
@@ -81,6 +83,7 @@ insert into role_auth values('27', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1
 insert into role_auth values('28', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 28);
 insert into role_auth values('29', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 29);
 
+-- 用户角色中间表
 insert into user_role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
 
 -- 初始化菜单
@@ -93,17 +96,16 @@ INSERT INTO menu VALUES (7, '2021-01-13 16:24:24', '2021-01-13 16:24:24', '/sys/
 INSERT INTO menu VALUES (8, '2021-01-13 16:24:24', '2021-01-13 16:24:24', '/sys/log', '系统日志', 1, 'kt-icon-lishijilu', 'content/BookManagement', 3);
 INSERT INTO menu VALUES (9, '2021-01-13 16:24:24', '2021-01-13 16:24:24', '/sys/dict', '字典管理', 1, 'kt-icon-shuzhuangtu', 'content/BannerManagement', 3);
 INSERT INTO menu VALUES (10, '2021-01-13 16:24:24', '2021-01-13 16:24:24', '/sys/version', '版本管理', 1, 'kt-icon-yunshangchuan', 'content/ArticleManagement', 3);
-INSERT INTO menu VALUES (11, '2021-01-13 16:24:24', '2021-01-13 16:24:24', '/sys/external', '外置应用', 1, 'kt-icon-weixiufuwu', 'content/ArticleManagement', 3);
+INSERT INTO menu VALUES (11, '2021-01-13 16:24:24', '2021-01-13 16:24:24', '/sys/external', '外置应用', 1, 'kt-icon-daibanrenwu', 'content/ArticleManagement', 3);
 INSERT INTO menu VALUES (12, '2021-01-13 16:24:24', '2021-01-13 16:24:24', '/admin/notice', '通知管理', 1, 'kt-icon-weixiufuwu', 'content/ArticleManagement', 5);
-INSERT INTO menu VALUES (13, '2021-01-13 16:24:24', '2021-01-13 16:24:24', '/sys/exceptionLog', '异常日志', 1, 'kt-icon-weixiufuwu', 'content/ArticleManagement', 3);
-
+INSERT INTO menu VALUES (13, '2021-01-13 16:24:24', '2021-01-13 16:24:24', '/sys/exceptionLog', '异常日志', 1, 'kt-icon-tongzhizhongxin', 'content/ArticleManagement', 3);
 
 -- 数字字典
 INSERT INTO dictionaries VALUES (4, '2021-01-24 00:01:01', '2021-01-24 00:01:01', 'Galaxy S10', 0, 0, 0);
 INSERT INTO dictionaries VALUES (5, '2021-01-24 00:01:01', '2021-01-24 00:01:01', 'Galaxy Note10', 0, 0, 0);
 INSERT INTO dictionaries VALUES (6, '2021-01-24 00:01:01', '2021-01-24 00:01:01', 'Galaxy S20', 0, 0, 0);
 INSERT INTO dictionaries VALUES (7, '2021-01-24 00:01:01', '2021-01-24 00:01:01', 'Galaxy Note20', 0, 0, 0);
-INSERT INTO dictionaries VALUES (8, '2021-01-24 00:01:01', '2021-01-24 00:01:01', 'Galaxy S21U', 0, 0, 0);
+INSERT INTO dictionaries VALUES (8, '2021-01-24 00:01:01', '2021-01-24 00:01:01', 'Galaxy S21', 0, 0, 0);
 INSERT INTO dictionaries VALUES (9, '2021-01-28 14:03:34', '2021-01-28 14:03:34', 'G973N', 4, 1, 0);
 INSERT INTO dictionaries VALUES (10, '2021-01-30 12:13:58', '2021-01-30 12:13:58', 'G973F', 4, 1, 0);
 INSERT INTO dictionaries VALUES (11, '2021-01-30 12:14:11', '2021-02-01 17:11:11', 'G975N', 4, 0, 0);
