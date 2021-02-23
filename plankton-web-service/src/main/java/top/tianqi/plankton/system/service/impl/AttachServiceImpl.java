@@ -75,7 +75,7 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> imp
                         attach.setExt(FilenameUtils.getExtension(multipartFile.getOriginalFilename()));
                         attach.setFileName(multipartFile.getName());
                         attach.setFileSize(multipartFile.getSize());
-                        attach.setMime("image");
+                        attach.setMime("application/zip");
                         attach.setPath(returnSourcePath);
                         attach.setOriginalName(multipartFile.getOriginalFilename());
                         attachMapper.insert(attach);
@@ -97,15 +97,13 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> imp
      */
     private void addTask(final String sourcePath, final File tempFile, final String contentType) {
         try {
-            taskExecutor.execute(new Runnable() {
-                public void run() {
-                    StoragePlugin storagePlugin = storagePluginMap.get(attachPlugin);
-                    if (storagePlugin != null) {
-                        try {
-                            storagePlugin.upload(sourcePath, tempFile, contentType);
-                        } finally {
-                            FileUtils.deleteQuietly(tempFile);
-                        }
+            taskExecutor.execute(() -> {
+                StoragePlugin storagePlugin = storagePluginMap.get(attachPlugin);
+                if (storagePlugin != null) {
+                    try {
+                        storagePlugin.upload(sourcePath, tempFile, contentType);
+                    } finally {
+                        FileUtils.deleteQuietly(tempFile);
                     }
                 }
             });
@@ -116,13 +114,20 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> imp
 
     @Override
     public void delete(BigInteger recordId, Integer dataType) {
-
+        if (recordId == null) return;
+        LambdaQueryWrapper<Attach> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Attach::getDataType, dataType);
+        lambdaQueryWrapper.eq(Attach::getRecordId, recordId);
+        attachMapper.delete(lambdaQueryWrapper);
     }
 
     @Override
     public List<Attach> getFileList(Long recordId, Integer dataType) {
+        if (recordId == null) {
+            return null;
+        }
         LambdaQueryWrapper<Attach> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(recordId != null, Attach::getRecordId, recordId);
+        lambdaQueryWrapper.eq(Attach::getRecordId, recordId);
         lambdaQueryWrapper.eq(dataType != null, Attach::getDataType, dataType);
         return attachMapper.selectList(lambdaQueryWrapper);
     }

@@ -12,6 +12,7 @@ import * as admin from './moudules/wechatAppAdmin'
 import * as version from './moudules/version'
 import * as external from './moudules/external'
 import * as notice from './moudules/notice'
+import * as exceptionLog from './moudules/exceptionLog'
 
 
 // 默认全部导出
@@ -26,5 +27,6 @@ export default {
     admin,
     version,
     external,
-    notice
+    notice,
+    exceptionLog
 }

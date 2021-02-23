@@ -53,7 +53,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                 // 更新提升0.1个版本号
                 BigDecimal promoteVersion = new BigDecimal("0.1");
                 promoteVersion = clientVersion.add(promoteVersion);
-                // 验证是否有最新版本
+                // 检测是否有最新版本
                 QueryWrapper<VersionInfo> checkVersionWrapper = new QueryWrapper<>();
                 checkVersionWrapper.lambda().eq(VersionInfo::getVersionCode, promoteVersion).eq(VersionInfo::getModel, model);
                 List<VersionInfo> list = versionMapper.checkVersion(checkVersionWrapper);
@@ -86,10 +86,9 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
 
     @Override
     public VersionInfo getVersionInfo(String version, String model) {
-        Map<String, Object> paramMap = new HashMap<>(2);
-        paramMap.put("model", model);
-        paramMap.put("version_code", version);
-        List<VersionInfo> versionInfos = versionMapper.selectByMap(paramMap);
+        LambdaQueryWrapper<VersionInfo> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(VersionInfo::getModel, model).eq(VersionInfo::getVersionCode, version);
+        List<VersionInfo> versionInfos = versionMapper.selectList(lambdaQueryWrapper);
         if (!CollectionUtils.isEmpty(versionInfos)) {
             return versionInfos.get(0);
         }
@@ -115,7 +114,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
 
     @Override
     public boolean save(VersionInfo versionInfo) {
-        // 更新型号主键id
+        // 版本型号主键id
         List<Long> versionIds = new ArrayList<>();
         if (versionInfo.getModel() != null) {
             for (String model : versionInfo.getModel().split(",")) {

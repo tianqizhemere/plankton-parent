@@ -52,7 +52,7 @@
           <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="标题" prop="title">
-          <el-input placeholder="请输入应用名称" v-model="dataForm.title" auto-complete="off"></el-input>
+          <el-input placeholder="请输入标题" v-model="dataForm.title" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="内容" prop="versionDesc">
           <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="dataForm.content"
@@ -164,7 +164,7 @@ export default {
             if (val === 'save') {
               this.$api.notice.save(params).then((res) => {
                 this.editLoading = false
-                if (res.code == 200) {
+                if (res.code === 200) {
                   this.$message({message: '操作成功', type: 'success'})
                   this.dialogVisible = false
                   this.$refs['dataForm'].resetFields()
@@ -176,7 +176,7 @@ export default {
             } else {
               this.$api.notice.edit(params).then((res) => {
                 this.editLoading = false
-                if (res.code == 200) {
+                if (res.code === 200) {
                   this.$message({message: '操作成功', type: 'success'})
                   this.dialogVisible = false
                   this.$refs['dataForm'].resetFields()

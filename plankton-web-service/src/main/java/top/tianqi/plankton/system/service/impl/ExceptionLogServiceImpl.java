@@ -1,5 +1,7 @@
 package top.tianqi.plankton.system.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.ExceptionLog;
@@ -13,4 +15,12 @@ import top.tianqi.plankton.system.service.ExceptionLogService;
  */
 @Service
 public class ExceptionLogServiceImpl extends BaseServiceImpl<ExceptionLogMapper, ExceptionLog> implements ExceptionLogService {
+
+    @Autowired
+    private ExceptionLogMapper exceptionLogMapper;
+
+    @Override
+    public Page<ExceptionLog> findPage(Page<ExceptionLog> page) {
+        return exceptionLogMapper.selectPage(page, null);
+    }
 }

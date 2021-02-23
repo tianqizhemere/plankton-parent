@@ -48,6 +48,7 @@ insert into role_menu values('9', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1,
 insert into role_menu values('10', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 10);
 insert into role_menu values('11', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 11);
 insert into role_menu values('12', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 12);
+insert into role_menu values('13', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 13);
 
 -- 角色权限
 insert into role_auth values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
@@ -93,7 +94,8 @@ INSERT INTO menu VALUES (8, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'syste
 INSERT INTO menu VALUES (9, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:dict', '/sys/dict', '字典管理', 1, 'kt-icon-shuzhuangtu', 'content/BannerManagement', 3);
 INSERT INTO menu VALUES (10, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:version', '/sys/version', '版本管理', 1, 'kt-icon-yunshangchuan', 'content/ArticleManagement', 3);
 INSERT INTO menu VALUES (11, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:user', '/sys/external', '外置应用', 1, 'kt-icon-weixiufuwu', 'content/ArticleManagement', 3);
-INSERT INTO menu VALUES (12, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:user', '/admin/notice', '通知管理', 1, 'kt-icon-weixiufuwu', 'content/ArticleManagement', 5);
+INSERT INTO menu VALUES (12, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'notice:notice', '/admin/notice', '通知管理', 1, 'kt-icon-weixiufuwu', 'content/ArticleManagement', 5);
+INSERT INTO menu VALUES (13, '2021-01-13 16:24:24', '2021-01-13 16:24:24', 'system:exceptionLog', '/sys/exceptionLog', '异常日志', 1, 'kt-icon-weixiufuwu', 'content/ArticleManagement', 3);
 
 
 -- 数字字典

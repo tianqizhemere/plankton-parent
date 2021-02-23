@@ -32,12 +32,12 @@ public class VersionInfo extends BaseEntity {
     @NotBlank(message = "手机型号不能为空")
     private String model;
 
+    /** 是否升级 1升级，0不升级'*/
+    private Integer type = 1;
+
     /** 是否有更新 0:无更新，1：有更新*/
     @TableField(exist = false)
     private Boolean isUpdate = Boolean.FALSE;
-
-    /** 是否升级 1升级，0不升级'*/
-    private Integer type = 1;
 
     /** 附件id */
     @TableField(exist = false)
