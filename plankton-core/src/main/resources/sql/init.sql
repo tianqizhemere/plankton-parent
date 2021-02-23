@@ -147,7 +147,6 @@ CREATE TABLE menu (
   create_time datetime NOT NULL,
   modify_time datetime NOT NULL,
   url varchar(64) DEFAULT NULL COMMENT '访问路径',
-  perms varchar(500) DEFAULT NULL COMMENT '授权(多个用逗号分隔，如：sys:user:add,sys:user:edit)',
   name varchar(64) DEFAULT NULL COMMENT '模块名称',
   type int(11) DEFAULT NULL COMMENT '类型   0：目录   1：菜单   2：按钮',
   icon_cls varchar(64) DEFAULT NULL COMMENT 'icon图标',
