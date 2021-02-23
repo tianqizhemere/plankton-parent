@@ -37,6 +37,7 @@ public class ExternalApplicationServiceImpl extends BaseServiceImpl<ExternalAppl
     public Page<ExternalApplication> getPage(String name, Page<ExternalApplication> page) {
         LambdaQueryWrapper<ExternalApplication> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.like(StringUtils.isNotBlank(name), ExternalApplication::getName, name);
+        lambdaQueryWrapper.orderByDesc(ExternalApplication::getModifyTime);
         return externalApplicationMapper.selectPage(page, lambdaQueryWrapper);
     }
 
