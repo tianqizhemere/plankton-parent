@@ -2,6 +2,7 @@ package top.tianqi.plankton.notice.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
+import top.tianqi.plankton.system.enumeration.VersionTypeEnum;
 
 /**
  * 通知
@@ -66,5 +67,12 @@ public class Notice extends BaseEntity {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getTypeName(){
+        if (this.type != null) {
+            return VersionTypeEnum.value(this.type);
+        }
+        return null;
     }
 }

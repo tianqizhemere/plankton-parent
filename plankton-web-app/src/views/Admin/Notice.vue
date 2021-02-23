@@ -211,6 +211,7 @@ export default {
         {prop: "content", label: "内容", minWidth: 120},
         {prop: "sendCount", label: "发送数量", minWidth: 100},
         {prop: "readCount", label: "读取数量", minWidth: 100},
+        {prop: "typeName", label: "通知状态", minWidth: 80},
         {prop: "createTime", label: "创建时间", minWidth: 80, formatter: this.dateFormat}
       ]
       this.filterColumns = JSON.parse(JSON.stringify(this.columns));

@@ -320,13 +320,13 @@ export default {
       this.columns = [
         {prop: "id", label: "ID", minWidth: 50},
         {prop: "code", label: "CODE", minWidth: 120},
-        {prop: "model", label: "设备型号", minWidth: 100},
-        {prop: "userMode", label: "用户状态", minWidth: 100},
+        {prop: "model", label: "设备型号", minWidth: 90},
+        /*{prop: "userMode", label: "用户状态", minWidth: 100},*/
         {prop: "enableStatus", label: "状态", minWidth: 70},
-        {prop: "source", label: "用户来源", minWidth: 70},
-        {prop: "phone", label: "手机号码", minWidth: 70},
-        {prop: "qq", label: "QQ", minWidth: 70},
-        {prop: "loginTime", label: "登录时间", minWidth: 110, formatter: this.dateFormat},
+        {prop: "source", label: "用户来源", minWidth: 75},
+        {prop: "phone", label: "手机号码", minWidth: 85},
+        {prop: "qq", label: "QQ", minWidth: 85},
+        {prop: "loginTime", label: "最后登录时间", minWidth: 110, formatter: this.dateFormat},
         {prop: "createTime", label: "创建时间", minWidth: 110, formatter: this.dateFormat}
       ]
       this.filterColumns = JSON.parse(JSON.stringify(this.columns));
