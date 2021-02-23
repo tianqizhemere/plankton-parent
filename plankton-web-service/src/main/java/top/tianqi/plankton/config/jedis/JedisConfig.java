@@ -23,9 +23,7 @@ import redis.clients.jedis.JedisPoolConfig;
 @ConfigurationProperties(prefix = "redis")
 public class JedisConfig {
 
-    /**
-     * logger
-     */
+    /** logger */
     private static final Logger logger = LoggerFactory.getLogger(JedisConfig.class);
 
     private String host;

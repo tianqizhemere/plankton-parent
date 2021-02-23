@@ -1,6 +1,7 @@
 package top.tianqi.plankton.system.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import top.tianqi.plankton.base.entity.BaseEntity;
@@ -49,6 +50,10 @@ public class User extends BaseEntity {
 
     /** QQ */
     private String qq;
+
+    /** 令牌 */
+    @TableField(exist = false)
+    private String authorization;
 
     public String getCode() {
         return code;
@@ -136,6 +141,14 @@ public class User extends BaseEntity {
 
     public void setQq(String qq) {
         this.qq = qq;
+    }
+
+    public String getAuthorization() {
+        return authorization;
+    }
+
+    public void setAuthorization(String authorization) {
+        this.authorization = authorization;
     }
 
     public String getEnableStatus(){
