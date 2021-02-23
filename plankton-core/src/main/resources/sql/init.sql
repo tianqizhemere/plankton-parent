@@ -205,7 +205,7 @@ CREATE TABLE notice (
   content varchar(200) DEFAULT NULL COMMENT '内容',
   send_count int(11) DEFAULT NULL COMMENT '发送数量',
   read_count int(11) DEFAULT NULL COMMENT '已读数量',
-  type int(11) DEFAULT NULL COMMENT '已读数量',
+  type int(11) DEFAULT NULL COMMENT '是否为最新，0-旧通知，1-最新通知',
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 

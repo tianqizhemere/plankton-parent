@@ -355,6 +355,7 @@ export default {
         {prop: "model", label: "设备型号", minWidth: 120},
         {prop: "versionDesc", label: "升级信息", minWidth: 100},
         {prop: "typeName", label: "状态", minWidth: 70},
+        {prop: "downloadUrl", label:"下载路径", minWidth: 120},
         {prop: "createTime", label: "创建时间", minWidth: 120, formatter: this.dateFormat}
       ]
       this.filterColumns = JSON.parse(JSON.stringify(this.columns));

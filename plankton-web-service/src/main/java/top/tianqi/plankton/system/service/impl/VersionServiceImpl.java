@@ -22,6 +22,7 @@ import top.tianqi.plankton.system.service.VersionService;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 版本检测服务层实现
@@ -146,5 +147,27 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
             }
         }
         return true;
+    }
+
+    @Override
+    public boolean updateById(VersionInfo versionInfo) {
+        if (!StringUtils.isEmpty(versionInfo.getAttachIds())) {
+            // 先清除之前关联的附件
+            List<Attach> fileList = attachMapper.findList(versionInfo.getId(), String.valueOf(AttachDataTypeEnum.MODEL_APPLICATION.getCode()));
+            if (!CollectionUtils.isEmpty(fileList)) {
+                List<Long> attachIds = fileList.stream().map(Attach::getId).collect(Collectors.toList());
+                attachMapper.deleteBatchIds(attachIds);
+            }
+            for (String attachId : versionInfo.getAttachIds().split(",")) {
+                Attach attach = attachMapper.selectById(new Long(attachId));
+                if (attach != null) {
+                    attach.setRecordId(versionInfo.getId());
+                    attach.setDataType(AttachDataTypeEnum.MODEL_APPLICATION.getCode());
+                    attachMapper.insert(attach);
+                    versionInfo.setDownloadUrl(attach.getPath());
+                }
+            }
+        }
+        return super.updateById(versionInfo);
     }
 }

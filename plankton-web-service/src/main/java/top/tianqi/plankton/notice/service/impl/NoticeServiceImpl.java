@@ -48,7 +48,7 @@ public class NoticeServiceImpl extends BaseServiceImpl<NoticeMapper, Notice> imp
         if (!CollectionUtils.isEmpty(notices)) {
             Notice notice = notices.get(0);
             notice.setReadCount(notice.getReadCount() + 1);
-
+            noticeMapper.updateById(notice);
             LambdaQueryWrapper<UserNotice> lambdaQueryWrapper = new LambdaQueryWrapper<>();
             lambdaQueryWrapper.eq(UserNotice::getNoticeId, notice.getId());
             lambdaQueryWrapper.eq(UserNotice::getUserId, userId);
@@ -94,7 +94,7 @@ public class NoticeServiceImpl extends BaseServiceImpl<NoticeMapper, Notice> imp
         }
         notice.setSendCount(users.size());
         notice.setReadCount(0);
-        noticeMapper.selectById(notice);
+        noticeMapper.updateById(notice);
         return result;
     }
 }

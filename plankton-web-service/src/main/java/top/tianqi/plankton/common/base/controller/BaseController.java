@@ -65,8 +65,6 @@ public class BaseController {
         return new Page<T>(Integer.parseInt(pageNum), Integer.parseInt(pageSize));
     }
 
-
-
     /**
      * 成功信息
      * @param data 返回对象
