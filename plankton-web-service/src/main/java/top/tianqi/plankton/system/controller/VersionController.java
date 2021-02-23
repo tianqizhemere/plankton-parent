@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindingResult;
@@ -74,7 +75,10 @@ public class VersionController extends BaseController {
         if (versionInfo.getModel() != null) {
             for (String model : versionInfo.getModel().split(",")) {
                 // 验证版本是否已存在
-                Integer existResult = versionService.checkIsExist(model, versionInfo.getVersionCode());
+                QueryWrapper<VersionInfo> queryWrapper = new QueryWrapper<>();
+                queryWrapper.lambda().eq(VersionInfo::getModel, model);
+                queryWrapper.lambda().eq(VersionInfo::getVersionCode, versionInfo.getVersionCode());
+                int existResult = versionService.count(queryWrapper);
                 if (existResult != 0) {
                     return Result.error(ErrorStateEnum.VERSION_CODE_EXIST.getCode(), ErrorStateEnum.VERSION_CODE_EXIST.getMsg());
                 }

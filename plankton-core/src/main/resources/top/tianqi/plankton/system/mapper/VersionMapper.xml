@@ -6,38 +6,14 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
         <result column="version_code" jdbcType="VARCHAR" property="versionCode" />
-        <result column="download_url" jdbcType="VARCHAR" property="model" />
+        <result column="download_url" jdbcType="VARCHAR" property="downloadUrl" />
         <result column="version_desc" jdbcType="VARCHAR" property="versionDesc" />
         <result column="model" jdbcType="INTEGER" property="model" />
         <result column="type" jdbcType="VARCHAR" property="type" />
     </resultMap>
 
-    <select id="findList" resultMap="BaseResultMap">
-        select vu.* from version_upgrade vu where 1=1
-        <if test="name != null and name != ''">
-            and vu.version_code like '%${name}%'
-        </if>
-        <if test="dictId != null and dictId != ''">
-            and vu.model in (select name from dictionaries d where d.id = #{dictId} or d.parent_id = #{dictId})
-        </if>
-        order by vu.create_time desc
-    </select>
     <select id="checkVersion" resultMap="BaseResultMap">
-         select vu.* from version_upgrade vu where 1=1
-         <if test="checkCode != null and checkCode !=''">
-             and vu.version_code = #{checkCode}
-         </if>
-        <if test="model != null and model !=''">
-            and vu.model = #{model}
-        </if>
-    </select>
-    <select id="checkIsExist" resultType="java.lang.Integer">
-        select count(1) from version_upgrade vu where 1=1
-        <if test="versionCode != null and versionCode !=''">
-            and vu.version_code = #{versionCode}
-        </if>
-        <if test="model != null and model !=''">
-            and vu.model = #{model}
-        </if>
+         select * from version_upgrade
+         ${ew.customSqlSegment}
     </select>
 </mapper>

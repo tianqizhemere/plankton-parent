@@ -2,6 +2,7 @@ package top.tianqi.plankton.system.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,21 +48,25 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
         // 会员用户才可以更新版本
         if (Objects.equals(currentUser.getUserMode(), Constant.USER_MODE_POWERFUL)) {
             if (currentVersion != null) {
-                BigDecimal versionF = new BigDecimal(currentVersion);
+                // 客户端版本号
+                BigDecimal clientVersion = new BigDecimal(currentVersion);
                 // 更新提升0.1个版本号
-                BigDecimal updateCode = new BigDecimal("0.1");
-                // 更新的版本号
-                BigDecimal code = versionF.add(updateCode);
-                // 是否为大版本更新
-                String versionStart = versionF.toString().substring(0, 1);
-                String codeStart = code.toString().substring(0, 1);
-                if (!Objects.equals(codeStart, versionStart) && code.toString().substring(2).equals("0")){
-                    return new VersionInfo();
-                }
+                BigDecimal promoteVersion = new BigDecimal("0.1");
+                promoteVersion = clientVersion.add(promoteVersion);
                 // 验证是否有最新版本
-                List<VersionInfo> list = versionMapper.checkVersion(code.toString(), model);
+                QueryWrapper<VersionInfo> checkVersionWrapper = new QueryWrapper<>();
+                checkVersionWrapper.lambda().eq(VersionInfo::getVersionCode, promoteVersion).eq(VersionInfo::getModel, model);
+                List<VersionInfo> list = versionMapper.checkVersion(checkVersionWrapper);
                 if (!CollectionUtils.isEmpty(list)) {
                     VersionInfo versionInfo = list.get(0);
+                    // 检测是否为大版本更新, 获取客户端版本号和数据库版本号的第一位型号进行对比
+                    String clientVersionStart = clientVersion.toString().substring(0, 1);
+                    String updateCodeStart = promoteVersion.toString().substring(0, 1);
+                    if (!Objects.equals(updateCodeStart, clientVersionStart) && promoteVersion.toString().substring(2).equals("0")){
+                        versionInfo.setMaxVersion(Boolean.TRUE);
+                        versionInfo.setIsUpdate(Boolean.TRUE);
+                        return versionInfo;
+                    }
                     if (versionInfo.getDownloadUrl() == null) {
                         List<Attach> fileList = attachService.getFileList(versionInfo.getId(), AttachDataTypeEnum.MODEL_APPLICATION.getCode());
                         if (!CollectionUtils.isEmpty(fileList)) {
