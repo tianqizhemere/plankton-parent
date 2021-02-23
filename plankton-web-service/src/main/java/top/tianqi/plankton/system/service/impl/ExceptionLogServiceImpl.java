@@ -24,6 +24,6 @@ public class ExceptionLogServiceImpl extends BaseServiceImpl<ExceptionLogMapper,
     public Page<ExceptionLog> findPage(Page<ExceptionLog> page) {
         QueryWrapper<ExceptionLog> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().orderByDesc(ExceptionLog::getCreateTime);
-        return exceptionLogMapper.selectPage(page, null);
+        return exceptionLogMapper.selectPage(page, queryWrapper);
     }
 }

@@ -114,7 +114,6 @@ CREATE TABLE auth (
   modify_time datetime NOT NULL,
   name varchar(50) NOT NULL COMMENT '权限名称',
   code varchar(50) NOT NULL COMMENT '权限值',
-  url varchar (50) DEFAULT NULL COMMENT '资源路径',
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 

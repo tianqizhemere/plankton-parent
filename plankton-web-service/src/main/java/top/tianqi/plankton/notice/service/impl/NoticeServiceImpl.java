@@ -66,6 +66,7 @@ public class NoticeServiceImpl extends BaseServiceImpl<NoticeMapper, Notice> imp
     public IPage<Notice> getPage(String title, Page<Notice> page) {
         LambdaQueryWrapper<Notice> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.like(StringUtils.isNotBlank(title), Notice::getTitle, title);
+        lambdaQueryWrapper.orderByDesc(Notice::getModifyTime);
         return noticeMapper.selectPage(page, lambdaQueryWrapper);
     }
 

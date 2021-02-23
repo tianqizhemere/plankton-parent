@@ -10,6 +10,7 @@
             <el-table-column v-for="column in columns" header-align="center" align="center"
                              :prop="column.prop" :label="column.label" :width="column.width"
                              :min-width="column.minWidth"
+                             :show-overflow-tooltip="column.showOverflowTooltip"
                              :fixed="column.fixed" :key="column.prop" :type="column.type" :formatter="column.formatter"
                              :sortable="column.sortable==null?true:column.sortable">
             </el-table-column>
@@ -169,6 +170,6 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="css">
+.el-tooltip__popper{font-size: 14px; max-width:50% } /*设置显示隐藏部分内容，按50%显示*/
 </style>

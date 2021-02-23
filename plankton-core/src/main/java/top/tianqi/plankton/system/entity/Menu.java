@@ -32,9 +32,6 @@ public class Menu extends BaseEntity {
     /** 父节点id */
     private Long parentId;
 
-    /** 授权(多个用逗号分隔，如：sys:user:add,sys:user:edit) */
-    private String perms;
-
     /** '类型   0：目录   1：菜单   2：按钮 */
     private Integer type;
 
@@ -89,14 +86,6 @@ public class Menu extends BaseEntity {
 
     public void setChildren(List<Menu> children) {
         this.children = children;
-    }
-
-    public String getPerms() {
-        return perms;
-    }
-
-    public void setPerms(String perms) {
-        this.perms = perms;
     }
 
     public Integer getType() {

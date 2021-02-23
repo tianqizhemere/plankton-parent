@@ -63,6 +63,10 @@
           <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="dataForm.versionDesc"
                     auto-complete="off"></el-input>
         </el-form-item>
+        <el-form-item label="下载路径" prop="downloadUrl">
+          <el-input type="textarea" :rows="2" placeholder="发布大版本更新时填写！" v-model="dataForm.downloadUrl"
+                    auto-complete="off"></el-input>
+        </el-form-item>
         <el-form-item label="设备型号" prop="model">
           <model-tree-select :data="popupTreeData"
                              :defaultProps="defaultProps" multiple
@@ -144,6 +148,7 @@ export default {
         attachIds: '',
         modelName: '',
         parentId: '',
+        downloadUrl:'',
         isSuccess: false
       },
       // 文件列表
@@ -273,6 +278,7 @@ export default {
         versionDesc: '',
         parentId: '',
         attachIds: '',
+        downloadUrl:'',
         isSuccess: true
       }
       this.defaultCheckedKeys = []

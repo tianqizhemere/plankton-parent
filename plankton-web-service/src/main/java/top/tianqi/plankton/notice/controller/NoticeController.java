@@ -29,7 +29,7 @@ public class NoticeController extends BaseController {
     private NoticeService noticeService;
 
     @OperLog(model = "通知管理", desc = "删除通知", type = OperationConst.SELECT)
-    @RequiresPermissions(value = "system:notice:view")
+    @RequiresPermissions(value = "notice:notice:view")
     @GetMapping(value = "/page")
     public Result getPage(String title) {
         IPage<Notice> page = noticeService.getPage(title, getPage());
@@ -37,7 +37,7 @@ public class NoticeController extends BaseController {
     }
 
     @OperLog(model = "通知管理", desc = "删除通知", type = OperationConst.INSERT)
-    @RequiresPermissions(value = "system:notice:save")
+    @RequiresPermissions(value = "notice:notice:save")
     @PostMapping(value = "/save")
     public Result save(@Valid @RequestBody Notice notice, BindingResult result){
         if (result.hasErrors()){
@@ -48,7 +48,7 @@ public class NoticeController extends BaseController {
     }
 
     @OperLog(model = "通知管理", desc = "删除通知", type = OperationConst.UPDATE)
-    @RequiresPermissions(value = "system:notice:update")
+    @RequiresPermissions(value = "notice:notice:update")
     @PostMapping(value = "/update")
     public Result update(@Valid @RequestBody Notice notice, BindingResult result){
         if (result.hasErrors()){
@@ -59,7 +59,7 @@ public class NoticeController extends BaseController {
     }
 
     @OperLog(model = "通知管理", desc = "删除通知", type = OperationConst.DELETE)
-    @RequiresPermissions(value = "system:notice:delete")
+    @RequiresPermissions(value = "notice:notice:delete")
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<Notice> notices){
         List<Long> ids = notices.stream().map(Notice::getId).collect(Collectors.toList());

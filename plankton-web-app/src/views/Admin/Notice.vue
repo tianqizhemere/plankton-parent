@@ -7,12 +7,12 @@
           <el-input v-model="filters.title" placeholder="标题"></el-input>
         </el-form-item>
         <el-form-item>
-          <kt-button icon="fa fa-search" :label="$t('action.search')" perms="system:externalApplication:view"
+          <kt-button icon="fa fa-search" :label="$t('action.search')" perms="notice:notice:view"
                      type="primary"
                      @click="findPage(null)"/>
         </el-form-item>
         <el-form-item>
-          <kt-button icon="fa fa-plus" :label="$t('action.add')" perms="system:externalApplication:save" type="primary"
+          <kt-button icon="fa fa-plus" :label="$t('action.add')" perms="notice:notice:save" type="primary"
                      @click="handleAdd"/>
         </el-form-item>
       </el-form>
@@ -39,8 +39,8 @@
       </table-column-filter-dialog>
     </div>
     <!--表格内容栏-->
-    <kt-table :height="720" permsEdit="system:externalApplication:update"
-              permsDelete="system:externalApplication:delete"
+    <kt-table :height="720" permsEdit="notice:notice:update"
+              permsDelete="notice:notice:delete"
               :data="pageResult" :columns="filterColumns"
               @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
     </kt-table>
@@ -211,8 +211,8 @@ export default {
         {prop: "content", label: "内容", minWidth: 120},
         {prop: "sendCount", label: "发送数量", minWidth: 100},
         {prop: "readCount", label: "读取数量", minWidth: 100},
-        {prop: "typeName", label: "通知状态", minWidth: 80},
-        {prop: "createTime", label: "创建时间", minWidth: 80, formatter: this.dateFormat}
+        {prop: "typeName", label: "通知状态", minWidth: 90},
+        {prop: "createTime", label: "发送时间", minWidth: 90, formatter: this.dateFormat}
       ]
       this.filterColumns = JSON.parse(JSON.stringify(this.columns));
     }
