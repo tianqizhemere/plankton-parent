@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
@@ -68,6 +69,8 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implement
      * @return List<Menu> 子菜单列表
      */
     public List<Menu> getAllByParentId(Long parentId) {
-        return menuMapper.findAllByParentId(parentId);
+        LambdaQueryWrapper<Menu> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Menu::getParentId, parentId);
+        return menuMapper.selectList(lambdaQueryWrapper);
     }
 }

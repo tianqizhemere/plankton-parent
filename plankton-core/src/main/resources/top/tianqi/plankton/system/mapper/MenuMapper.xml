@@ -12,11 +12,4 @@
         <result column="component" jdbcType="VARCHAR" property="component" />
         <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
     </resultMap>
-
-    <select id="findAllByParentId" resultMap="BaseResultMap">
-        select * from menu m where 1=1
-        <if test="parentId != null">
-            and m.parent_id = #{parentId}
-        </if>
-    </select>
 </mapper>

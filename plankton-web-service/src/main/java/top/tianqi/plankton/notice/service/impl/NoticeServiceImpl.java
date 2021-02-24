@@ -15,6 +15,7 @@ import top.tianqi.plankton.notice.mapper.NoticeMapper;
 import top.tianqi.plankton.notice.mapper.UserNoticeMapper;
 import top.tianqi.plankton.notice.service.NoticeService;
 import top.tianqi.plankton.system.entity.User;
+import top.tianqi.plankton.system.enumeration.VersionTypeEnum;
 import top.tianqi.plankton.system.mapper.UserMapper;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class NoticeServiceImpl extends BaseServiceImpl<NoticeMapper, Notice> imp
         Long userId = currentUser.getId();
         QueryWrapper<Notice> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("un.user_id", userId);
-        queryWrapper.eq("n.type", 1);
+        queryWrapper.eq("n.type", VersionTypeEnum.THE_LATEST_VERSION.getCode());
         queryWrapper.eq("un.is_read", 0);
         List<Notice> notices = noticeMapper.findUserNotice(queryWrapper);
         if (!CollectionUtils.isEmpty(notices)) {

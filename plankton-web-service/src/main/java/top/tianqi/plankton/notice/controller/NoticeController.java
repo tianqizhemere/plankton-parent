@@ -67,7 +67,7 @@ public class NoticeController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "通知管理", desc = "获取用户通知", type = OperationConst.DELETE)
+    @OperLog(model = "通知管理", desc = "获取用户通知", type = OperationConst.SELECT)
     @GetMapping(value = "/get")
     public Result getUserNotice(String model, String version){
         Notice notice = noticeService.getUserNotice(model, version);
