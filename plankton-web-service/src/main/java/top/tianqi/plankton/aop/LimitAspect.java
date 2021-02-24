@@ -17,7 +17,6 @@ import top.tianqi.plankton.common.annotation.aop.Limit;
 import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
 import top.tianqi.plankton.common.util.AddressUtils;
 import top.tianqi.plankton.common.util.JedisUtil;
-import top.tianqi.plankton.system.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;

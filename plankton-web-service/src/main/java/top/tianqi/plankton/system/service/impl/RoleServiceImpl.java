@@ -25,6 +25,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
     public Page<Role> findPage(String name, Page<Role> page) {
         LambdaQueryWrapper<Role> roleWrapper = new LambdaQueryWrapper<>();
         roleWrapper.like(StringUtils.isNotBlank(name), Role::getName, name);
+        roleWrapper.orderByDesc(Role::getCreateTime);
         return roleMapper.selectPage(page, roleWrapper);
     }
 }

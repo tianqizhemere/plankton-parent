@@ -1,6 +1,7 @@
 package top.tianqi.plankton.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
@@ -10,10 +11,11 @@ import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.entity.UserRole;
 import top.tianqi.plankton.system.mapper.MenuMapper;
 import top.tianqi.plankton.system.mapper.RoleMenuMapper;
-import top.tianqi.plankton.system.mapper.UserMapper;
 import top.tianqi.plankton.system.mapper.UserRoleMapper;
 import top.tianqi.plankton.system.service.MenuService;
+import top.tianqi.plankton.system.service.UserService;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,8 +30,8 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implement
     @Autowired
     private MenuMapper menuMapper;
 
-    @Autowired
-    private UserMapper userMapper;
+    @Resource(name = "userServiceImpl")
+    private UserService userService;
 
     @Autowired
     private UserRoleMapper userRoleMapper;
@@ -39,12 +41,17 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implement
 
     @Override
     public List<Menu> findNavTree(String username) {
-        User user = userMapper.findUser(username);
+        User user = userService.getUser(username);
+
+        QueryWrapper<UserRole> userRoleQueryWrapper = new QueryWrapper<>();
+        userRoleQueryWrapper.eq("ur.user_id", user.getId());
         // 查询用户角色id
-        List<Long> roleIds = userRoleMapper.findListByUserId(user.getId())
+        List<Long> roleIds = userRoleMapper.findListByUserId(userRoleQueryWrapper)
                 .stream().map(UserRole::getRoleId).collect(Collectors.toList());
         // 查询角色对应的菜单id
-        List<Long> menusIds = roleMenuMapper.findListByRoleIds(roleIds)
+        QueryWrapper<RoleMenu> roleMenuQueryWrapper = new QueryWrapper<>();
+        roleMenuQueryWrapper.in("rm.role_id", roleIds);
+        List<Long> menusIds = roleMenuMapper.findListByRoleIds(roleMenuQueryWrapper)
                 .stream().map(RoleMenu::getMenuId).collect(Collectors.toList());
         List<Menu> menus = menuMapper.selectBatchIds(menusIds);
         handleMenus(menus);

@@ -1,25 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="top.tianqi.plankton.system.mapper.ExternalApplicationMapper">
-    <resultMap id="BaseResultMap" type="top.tianqi.plankton.system.entity.ExternalApplication">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
-        <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="version_code" jdbcType="VARCHAR" property="versionCode" />
-        <result column="version_desc" jdbcType="INTEGER" property="versionDesc" />
-        <result column="download_url" jdbcType="INTEGER" property="downloadUrl" />
-        <result column="type" jdbcType="INTEGER" property="type" />
-        <result column="external_type" jdbcType="INTEGER" property="externalType" />
-    </resultMap>
-    <select id="findPage" resultMap="BaseResultMap">
-        select ea.* from external_application ea where 1=1
-        <if test="name != null and name != ''">
-            ea.name like '%${name}%'
-        </if>
-        order by ea.create_time desc
-    </select>
-    <select id="findByCode" resultMap="BaseResultMap">
-        select ea.* from external_application ea where ea.type = 1 and ea.external_type = #{code}
-    </select>
 </mapper>

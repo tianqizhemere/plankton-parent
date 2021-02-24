@@ -19,9 +19,6 @@ public class Auth extends BaseEntity  {
     /** 权限值 */
     private String code;
 
-    /** 资源路径 */
-    private String url;
-
     public String getName() {
         return name;
     }
@@ -36,13 +33,5 @@ public class Auth extends BaseEntity  {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }

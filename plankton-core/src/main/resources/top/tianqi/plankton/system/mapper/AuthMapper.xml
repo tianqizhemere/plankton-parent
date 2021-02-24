@@ -5,10 +5,6 @@
         select a.* from auth a
         left join role_auth ra on ra.auth_id = a.id
         left join user_role ur on ur.role_id = ra.role_id
-        <where>
-            <if test="userId != null">
-                ur.user_id = #{userId}
-            </if>
-        </where>
+        ${ew.customSqlSegment}
     </select>
 </mapper>

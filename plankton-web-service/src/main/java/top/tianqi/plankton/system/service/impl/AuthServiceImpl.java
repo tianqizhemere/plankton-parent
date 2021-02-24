@@ -1,6 +1,7 @@
 package top.tianqi.plankton.system.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,9 @@ public class AuthServiceImpl extends BaseServiceImpl<AuthMapper, Auth> implement
 
     @Override
     public Set<String> getUserAuthListById(Long userId) {
-        List<Auth> list = authMapper.findListByUserId(userId);
+        QueryWrapper<Auth> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("ur.user_id", userId);
+        List<Auth> list = authMapper.findListByUserId(queryWrapper);
         Set<String> auths = new HashSet<>();
         for (Auth auth : list) {
             auths.add(auth.getCode());
