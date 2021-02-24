@@ -51,7 +51,7 @@ public class LoginController extends BaseController {
      * @param loginUser 登录对象
      * @return Result 前端提示信息
      */
-    @Limit(count = 3, period = 60, limitType = LimitTypeEnum.IP, key = "checkVersion", prefix = "limit")
+    @Limit(count = 3, period = 30, limitType = LimitTypeEnum.IP, key = "checkVersion", prefix = "limit")
     @OperLog(model = "登录管理", desc = "登录", type = OperationConst.LOGIN)
     @PostMapping(value = "/login")
     public Result login(@RequestBody User loginUser)  {
