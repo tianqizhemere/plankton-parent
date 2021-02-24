@@ -62,7 +62,7 @@ public class BaseController {
         if (StringUtils.isEmpty(pageSize)) {
             pageSize = "10";
         }
-        return new Page<T>(Integer.parseInt(pageNum), Integer.parseInt(pageSize));
+        return new Page<>(Integer.parseInt(pageNum), Integer.parseInt(pageSize));
     }
 
     /**

@@ -35,7 +35,7 @@ import java.util.Map;
 public class LogAspect {
 
     @Resource(name = "operationLogServiceImpl")
-    private OperationLogService sysLogService;
+    private OperationLogService operationLogService;
 
     @Resource(name = "exceptionLogServiceImpl")
     private ExceptionLogService exceptionLogService;
@@ -105,7 +105,7 @@ public class LogAspect {
             }
             operationLog.setRequestParam(params);
             operationLog.setResponseParam(JsonUtil.toJsonString(keys)); // 返回结果
-            User currentUser = sysLogService.getCurrentUser();
+            User currentUser = operationLogService.getCurrentUser();
             if (currentUser == null) {
                 currentUser = new User();
             }
@@ -113,7 +113,7 @@ public class LogAspect {
             operationLog.setCode(currentUser.getCode());
             operationLog.setIp(AddressUtils.getRemoteIp(request)); // 请求IP
             operationLog.setUri(request.getRequestURI()); // 请求URI
-            sysLogService.save(operationLog);
+            operationLogService.save(operationLog);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -166,7 +166,7 @@ public class LogAspect {
             exceptionLog.setName(e.getClass().getName());
             // 异常信息
             exceptionLog.setMessage(stackTraceToString(e.getClass().getName(), e.getMessage(), e.getStackTrace()));
-            User currentUser = sysLogService.getCurrentUser();
+            User currentUser = operationLogService.getCurrentUser();
             if (currentUser == null) {
                 currentUser = new User();
             }
