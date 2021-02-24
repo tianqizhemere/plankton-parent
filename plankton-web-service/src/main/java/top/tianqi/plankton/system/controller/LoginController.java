@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import top.tianqi.plankton.common.Result;
+import top.tianqi.plankton.common.annotation.aop.Limit;
 import top.tianqi.plankton.common.annotation.aop.OperLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
+import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
 import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.config.shiro.token.JwtUtil;
@@ -49,6 +51,7 @@ public class LoginController extends BaseController {
      * @param loginUser 登录对象
      * @return Result 前端提示信息
      */
+    @Limit(count = 3, period = 60, limitType = LimitTypeEnum.IP, key = "checkVersion", prefix = "limit")
     @OperLog(model = "登录管理", desc = "登录", type = OperationConst.LOGIN)
     @PostMapping(value = "/login")
     public Result login(@RequestBody User loginUser)  {
