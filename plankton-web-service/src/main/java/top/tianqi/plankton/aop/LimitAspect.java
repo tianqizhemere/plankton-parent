@@ -17,6 +17,7 @@ import top.tianqi.plankton.common.annotation.aop.Limit;
 import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
 import top.tianqi.plankton.common.util.AddressUtils;
 import top.tianqi.plankton.common.util.JedisUtil;
+import top.tianqi.plankton.system.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
@@ -70,9 +71,9 @@ public class LimitAspect {
             return point.proceed();
         } else {
             // 用户超过限流次数，暂时禁用当前用户
-            UserVO userVO = new UserVO();
-            userVO.setIsEnable(Boolean.FALSE);
-           return userVO;
+            User user = new User();
+            user.setIsEnable(Boolean.FALSE);
+           return user;
         }
     }
 
