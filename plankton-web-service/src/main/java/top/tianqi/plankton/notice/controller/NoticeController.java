@@ -28,7 +28,7 @@ public class NoticeController extends BaseController {
     @Resource(name = "noticeServiceImpl")
     private NoticeService noticeService;
 
-    @OperLog(model = "通知管理", desc = "删除通知", type = OperationConst.SELECT)
+    @OperLog(model = "通知管理", desc = "分页查询", type = OperationConst.SELECT)
     @RequiresPermissions(value = "notice:notice:view")
     @GetMapping(value = "/page")
     public Result getPage(String title) {
@@ -36,7 +36,7 @@ public class NoticeController extends BaseController {
         return SUCCESS_MESSAGE(page);
     }
 
-    @OperLog(model = "通知管理", desc = "删除通知", type = OperationConst.INSERT)
+    @OperLog(model = "通知管理", desc = "新增通知", type = OperationConst.INSERT)
     @RequiresPermissions(value = "notice:notice:save")
     @PostMapping(value = "/save")
     public Result save(@Valid @RequestBody Notice notice, BindingResult result){
@@ -47,7 +47,7 @@ public class NoticeController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "通知管理", desc = "删除通知", type = OperationConst.UPDATE)
+    @OperLog(model = "通知管理", desc = "修改通知", type = OperationConst.UPDATE)
     @RequiresPermissions(value = "notice:notice:update")
     @PostMapping(value = "/update")
     public Result update(@Valid @RequestBody Notice notice, BindingResult result){

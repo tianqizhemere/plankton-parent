@@ -2,12 +2,10 @@ package top.tianqi.plankton.system.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.system.entity.Auth;
-import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.mapper.AuthMapper;
 import top.tianqi.plankton.system.service.AuthService;
 
@@ -36,20 +34,5 @@ public class AuthServiceImpl extends BaseServiceImpl<AuthMapper, Auth> implement
             auths.add(auth.getCode());
         }
         return auths;
-    }
-
-    @Override
-    public Boolean userLogin(String userName, String password) {
-        return null;
-    }
-
-    @Override
-    public User getCurrentUser() {
-        return null;
-    }
-
-    @Override
-    public Page<User> listUserPage(Page<User> request) {
-        return null;
     }
 }

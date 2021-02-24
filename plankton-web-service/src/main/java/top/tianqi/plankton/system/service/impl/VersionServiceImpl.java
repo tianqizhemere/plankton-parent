@@ -56,7 +56,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
                 // 检测是否有最新版本
                 QueryWrapper<VersionInfo> checkVersionWrapper = new QueryWrapper<>();
                 checkVersionWrapper.lambda().eq(VersionInfo::getVersionCode, promoteVersion).eq(VersionInfo::getModel, model);
-                List<VersionInfo> list = versionMapper.checkVersion(checkVersionWrapper);
+                List<VersionInfo> list = versionMapper.selectList(checkVersionWrapper);
                 if (!CollectionUtils.isEmpty(list)) {
                     VersionInfo versionInfo = list.get(0);
                     // 检测是否为大版本更新, 获取客户端版本号和数据库版本号的第一位型号进行对比

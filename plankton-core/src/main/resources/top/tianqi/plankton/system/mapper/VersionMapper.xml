@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="top.tianqi.plankton.system.mapper.VersionMapper">
-    <resultMap id="BaseResultMap" type="top.tianqi.plankton.system.entity.VersionInfo">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
-        <result column="version_code" jdbcType="VARCHAR" property="versionCode" />
-        <result column="download_url" jdbcType="VARCHAR" property="downloadUrl" />
-        <result column="version_desc" jdbcType="VARCHAR" property="versionDesc" />
-        <result column="model" jdbcType="INTEGER" property="model" />
-        <result column="type" jdbcType="VARCHAR" property="type" />
-    </resultMap>
-
-    <select id="checkVersion" resultMap="BaseResultMap">
-         select * from version_upgrade
-         ${ew.customSqlSegment}
-    </select>
 </mapper>

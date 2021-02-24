@@ -15,9 +15,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import redis.clients.jedis.Jedis;
 import top.tianqi.plankton.common.annotation.aop.Limit;
 import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
+import top.tianqi.plankton.common.exception.LimitException;
 import top.tianqi.plankton.common.util.AddressUtils;
 import top.tianqi.plankton.common.util.JedisUtil;
-import top.tianqi.plankton.system.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
@@ -49,9 +49,9 @@ public class LimitAspect {
         String key;
         String ip = AddressUtils.getRemoteIp(request);
         // 限流时间
-        Integer limitPeriod = limitAnnotation.period();
+        int limitPeriod = limitAnnotation.period();
         // 限流次数
-        Integer limitCount = limitAnnotation.count();
+        int limitCount = limitAnnotation.count();
         switch (limitType) {
             case IP:
                 key = ip;
@@ -65,15 +65,12 @@ public class LimitAspect {
         ImmutableList<String> keys = ImmutableList.of(StringUtils.join(limitAnnotation.prefix() + "_", key, ip));
         String luaScript = buildLuaScript();
         Jedis jedis = JedisUtil.getJedis();
-        Long result = (Long) jedis.evalsha(jedis.scriptLoad(luaScript), keys, Arrays.asList(limitPeriod.toString(), limitCount.toString()));
+        Long result = (Long) jedis.evalsha(jedis.scriptLoad(luaScript), keys, Arrays.asList(Integer.toString(limitPeriod), Integer.toString(limitCount)));
         log.info("限流结果---->{}", result);
         if (result > 0) {
             return point.proceed();
         } else {
-            // 用户超过限流次数，暂时禁用当前用户
-            User user = new User();
-            user.setIsEnable(Boolean.FALSE);
-           return user;
+            throw new LimitException("访问过于频繁!");
         }
     }
 

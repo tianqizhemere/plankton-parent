@@ -44,14 +44,15 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implement
         User user = userService.getUser(username);
 
         QueryWrapper<UserRole> userRoleQueryWrapper = new QueryWrapper<>();
-        userRoleQueryWrapper.eq("ur.user_id", user.getId());
+        userRoleQueryWrapper.lambda().eq(UserRole::getUserId, user.getId());
         // 查询用户角色id
-        List<Long> roleIds = userRoleMapper.findListByUserId(userRoleQueryWrapper)
+        List<Long> roleIds = userRoleMapper.selectList(userRoleQueryWrapper)
                 .stream().map(UserRole::getRoleId).collect(Collectors.toList());
         // 查询角色对应的菜单id
         QueryWrapper<RoleMenu> roleMenuQueryWrapper = new QueryWrapper<>();
-        roleMenuQueryWrapper.in("rm.role_id", roleIds);
-        List<Long> menusIds = roleMenuMapper.findListByRoleIds(roleMenuQueryWrapper)
+        roleMenuQueryWrapper.lambda().in(RoleMenu::getRoleId, roleIds);
+
+        List<Long> menusIds = roleMenuMapper.selectList(roleMenuQueryWrapper)
                 .stream().map(RoleMenu::getMenuId).collect(Collectors.toList());
         List<Menu> menus = menuMapper.selectBatchIds(menusIds);
         handleMenus(menus);

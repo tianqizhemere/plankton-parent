@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.exception.BusinessException;
+import top.tianqi.plankton.common.exception.LimitException;
 import top.tianqi.plankton.common.exception.UnauthorizedException;
+import top.tianqi.plankton.system.entity.User;
 
 /**
  * 全局异常统一处理
@@ -45,6 +47,21 @@ public class MyControllerAdvice {
     public Result myErrorHandler(BusinessException ex) {
         logger.error("业务异常", ex);
         return Result.error(ex.getErrorCode(), ex.getMessage());
+    }
+
+    /**
+     * 拦截捕捉接口限流异常 LimitException.class
+     * @param ex LimitException
+     * @return Result
+     */
+    @ResponseBody
+    @ExceptionHandler(value = LimitException.class)
+    public Result limitErrorHandler(LimitException ex) {
+        logger.error("接口限流异常", ex);
+        // 用户超过限流次数，暂时禁用当前用户
+        User user = new User();
+        user.setIsEnable(Boolean.FALSE);
+        return Result.error(ex.getMessage(), user);
     }
 
     /**
