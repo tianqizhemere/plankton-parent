@@ -22,7 +22,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +49,7 @@ public class LogAspect {
      * 设置操作异常切入点记录异常日志 扫描所有controller包下操作
      */
      @Pointcut("execution(* top.tianqi.plankton.*.controller..*.*(..))")
-     public void operaExceptionLogPoinCut() {
+     public void operaExceptionLogPointCut() {
      }
 
     /**
@@ -69,7 +68,7 @@ public class LogAspect {
         HttpServletRequest request = (HttpServletRequest) requestAttributes
                 .resolveReference(RequestAttributes.REFERENCE_REQUEST);
 
-        OperationLog operlog = new OperationLog();
+        OperationLog operationLog = new OperationLog();
         try {
             // 从切面织入点处通过反射机制获取织入点处的方法
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -78,9 +77,9 @@ public class LogAspect {
             // 获取操作
             OperLog opLog = method.getAnnotation(OperLog.class);
             if (opLog != null) {
-                operlog.setModel(opLog.model()); // 操作模块
-                operlog.setType(opLog.type()); // 操作类型
-                operlog.setOperationDesc(opLog.desc()); // 操作描述
+                operationLog.setModel(opLog.model()); // 操作模块
+                operationLog.setType(opLog.type()); // 操作类型
+                operationLog.setOperationDesc(opLog.desc()); // 操作描述
             }
             // 获取请求的类名
             String className = joinPoint.getTarget().getClass().getName();
@@ -88,7 +87,7 @@ public class LogAspect {
             String methodName = method.getName();
             methodName = className + "." + methodName;
             // 请求方法
-            operlog.setMethod(methodName);
+            operationLog.setMethod(methodName);
 
             // 获取请求参数
             Object[] args = joinPoint.getArgs();
@@ -104,19 +103,17 @@ public class LogAspect {
                     params = queryString;
                 }
             }
-            operlog.setRequestParam(params);
-            operlog.setResponseParam(JsonUtil.toJsonString(keys)); // 返回结果
+            operationLog.setRequestParam(params);
+            operationLog.setResponseParam(JsonUtil.toJsonString(keys)); // 返回结果
             User currentUser = sysLogService.getCurrentUser();
             if (currentUser == null) {
                 currentUser = new User();
             }
-            operlog.setUserId(currentUser.getId());
-            operlog.setCode(currentUser.getCode());
-            operlog.setIp(AddressUtils.getRemoteIp(request)); // 请求IP
-            operlog.setUri(request.getRequestURI()); // 请求URI
-            operlog.setCreateTime(new Date());
-            operlog.setModifyTime(new Date());
-            sysLogService.save(operlog);
+            operationLog.setUserId(currentUser.getId());
+            operationLog.setCode(currentUser.getCode());
+            operationLog.setIp(AddressUtils.getRemoteIp(request)); // 请求IP
+            operationLog.setUri(request.getRequestURI()); // 请求URI
+            sysLogService.save(operationLog);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,7 +126,7 @@ public class LogAspect {
      * @param joinPoint 切入点
      * @param e         异常信息
      */
-    @AfterThrowing(pointcut = "operaExceptionLogPoinCut()", throwing = "e")
+    @AfterThrowing(pointcut = "operaExceptionLogPointCut()", throwing = "e")
     public void saveExceptionLog(JoinPoint joinPoint, Throwable e) {
         // 获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
@@ -137,7 +134,7 @@ public class LogAspect {
         HttpServletRequest request = (HttpServletRequest) requestAttributes
                 .resolveReference(RequestAttributes.REFERENCE_REQUEST);
 
-        ExceptionLog excepLog = new ExceptionLog();
+        ExceptionLog exceptionLog = new ExceptionLog();
         try {
             // 从切面织入点处通过反射机制获取织入点处的方法
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -163,23 +160,21 @@ public class LogAspect {
                     params = queryString;
                 }
             }
-            excepLog.setRequestParam(params); // 请求参数
-            excepLog.setMethod(methodName); // 请求方法名
+            exceptionLog.setRequestParam(params); // 请求参数
+            exceptionLog.setMethod(methodName); // 请求方法名
             // 异常名称
-            excepLog.setName(e.getClass().getName());
+            exceptionLog.setName(e.getClass().getName());
             // 异常信息
-            excepLog.setMessage(stackTraceToString(e.getClass().getName(), e.getMessage(), e.getStackTrace()));
+            exceptionLog.setMessage(stackTraceToString(e.getClass().getName(), e.getMessage(), e.getStackTrace()));
             User currentUser = sysLogService.getCurrentUser();
             if (currentUser == null) {
                 currentUser = new User();
             }
-            excepLog.setUserId(currentUser.getId()); // 操作员ID
-            excepLog.setCode(currentUser.getCode()); // 操作员名称
-            excepLog.setUri(request.getRequestURI()); // 操作URI
-            excepLog.setIp(AddressUtils.getRemoteIp(request)); // 请求IP
-            excepLog.setCreateTime(new Date()); // 发生异常时间
-            excepLog.setModifyTime(new Date());
-            exceptionLogService.save(excepLog);
+            exceptionLog.setUserId(currentUser.getId()); // 操作员ID
+            exceptionLog.setCode(currentUser.getCode()); // 操作员名称
+            exceptionLog.setUri(request.getRequestURI()); // 操作URI
+            exceptionLog.setIp(AddressUtils.getRemoteIp(request)); // 请求IP
+            exceptionLogService.save(exceptionLog);
         } catch (Exception e2) {
             e2.printStackTrace();
         }
