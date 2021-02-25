@@ -32,7 +32,6 @@ public class ExternalApplicationController extends BaseController {
     @Resource(name = "externalApplicationServiceImpl")
     private ExternalApplicationService externalApplicationService;
 
-    @OperLog(model = "外置应用", desc = "分页查询", type = OperationConst.SELECT)
     @RequiresPermissions(value = "system:externalApplication:view")
     @GetMapping(value = "/page")
     public Result getPage(String name) {

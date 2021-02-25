@@ -27,7 +27,6 @@ public class DictionariesController extends BaseController {
     @Resource(name = "dictionariesServiceImpl")
     private DictionariesService dictionariesService;
 
-    @OperLog(model = "字典管理", desc = "获取树形字典", type = OperationConst.SELECT)
     @RequiresPermissions(value = "system:dict:view")
     @GetMapping(value = "/findTree")
     public Result findTree(){

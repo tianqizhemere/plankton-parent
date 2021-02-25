@@ -49,7 +49,6 @@ public class UserController extends BaseController {
      * @param models 设备型号
      * @return Result 前端提示信息
      */
-    @OperLog(model = "用户管理", desc = "查询用户列表", type = OperationConst.SELECT)
     @RequiresPermissions("system:user:index")
     @GetMapping(value = "/list")
     public Result list(String code, String phone, String qq, String models){
@@ -123,7 +122,6 @@ public class UserController extends BaseController {
      * 获取在线用户(查询Redis中的RefreshToken)
      * @return Result 前端提示信息
      */
-    @OperLog(model = "用户管理", desc = "获取在线用户", type = OperationConst.SELECT)
     @GetMapping(value = "/online")
     public Result online() {
         List<Object> users = new ArrayList<Object>();

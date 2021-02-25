@@ -43,7 +43,6 @@ public class VersionController extends BaseController {
      * @return Result 前端提示信息
      */
     @RequiresPermissions(value = "system:version:view")
-    @OperLog(model = "版本管理", desc = "应用版本列表", type = OperationConst.SELECT)
     @GetMapping(value = "/list")
     public Result list(String name, String dictId){
         List<String> modelNames = dictionariesService.findNameById(dictId);

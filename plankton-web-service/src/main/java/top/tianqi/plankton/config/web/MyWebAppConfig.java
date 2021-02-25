@@ -1,4 +1,4 @@
-package top.tianqi.plankton;
+package top.tianqi.plankton.config.web;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
