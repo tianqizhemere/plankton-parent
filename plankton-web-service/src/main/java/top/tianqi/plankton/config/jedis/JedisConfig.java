@@ -47,7 +47,7 @@ public class JedisConfig {
     private int maxWait;
 
     /** 最大连接数 */
-    @Value("${redis.pool.max-wait}")
+    @Value("${redis.pool.max-total}")
     private int maxTotal;
 
     /** 连接池中的最大空闲连接 */
