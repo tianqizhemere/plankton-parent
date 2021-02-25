@@ -33,8 +33,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
     private static final Logger log = LoggerFactory.getLogger(JwtFilter.class);
 
     /** 排除拦截的请求 */
-    @Value("${excludedPages}")
-    private String excludedPages;
+    @Value("${jwt.anonymous.urls}")
+    private String anonymousStr;
 
     /**
      * 执行登录认证(判断用户是否想要登入)
@@ -68,6 +68,16 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
+        // 获取当前请求类型
+        String httpMethod = httpServletRequest.getMethod();
+        // 获取当前请求URI
+        String requestURI = httpServletRequest.getRequestURI();
+        for (String anonymous : anonymousStr.split(",")) {
+            if (requestURI.contains(anonymous)) {
+                return true;
+            }
+        }
         if (isLoginAttempt(request, response)) {
             try {
                 executeLogin(request, response);
@@ -96,25 +106,9 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
             }
         } else {
             // 没有携带Token
-            HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
-            // 获取当前请求类型
-            String httpMethod = httpServletRequest.getMethod();
-            // 获取当前请求URI
-            String requestURI = httpServletRequest.getRequestURI();
             log.info("当前请求 {} Authorization属性(Token)为空 请求类型 {}", requestURI, httpMethod);
-            // mustLoginFlag = true 开启任何请求必须登录才可访问
-            final Boolean mustLoginFlag = true;
-            for (String url : excludedPages.split(",")) {
-                // 是否为放行路径 Objects.equals(url, requestURI)
-                if (requestURI.contains(url)) {
-                    log.info("放行路径--->{}", requestURI);
-                    return true;
-                }
-            }
-            if (mustLoginFlag) {
-                this.response401(response, "请先登录");
-                return false;
-            }
+            this.response401(response, "请先登录");
+            return false;
         }
         return true;
     }
