@@ -28,8 +28,6 @@ public class NoticeController extends BaseController {
     @Resource(name = "noticeServiceImpl")
     private NoticeService noticeService;
 
-    @OperLog(model = "通知管理", desc = "分页查询", type = OperationConst.SELECT)
-    @RequiresPermissions(value = "notice:notice:view")
     @GetMapping(value = "/page")
     public Result getPage(String title) {
         IPage<Notice> page = noticeService.getPage(title, getPage());

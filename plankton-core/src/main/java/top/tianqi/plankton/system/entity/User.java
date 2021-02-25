@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import top.tianqi.plankton.base.entity.BaseEntity;
+import top.tianqi.plankton.system.enumeration.EnableStatusEnum;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -111,14 +112,6 @@ public class User extends BaseEntity {
         this.source = source;
     }
 
-    public Boolean getEnable() {
-        return isEnable;
-    }
-
-    public void setEnable(Boolean isEnable) {
-        this.isEnable = isEnable;
-    }
-
     public Date getLoginTime() {
         return loginTime;
     }
@@ -152,9 +145,6 @@ public class User extends BaseEntity {
     }
 
     public String getEnableStatus(){
-        if (this.isEnable) {
-            return "启用";
-        }
-        return "禁用";
+        return EnableStatusEnum.value(this.isEnable);
     }
 }
