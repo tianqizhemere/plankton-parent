@@ -47,7 +47,7 @@
               <span class="tit">登陆时间</span>{{ dateFormat(personalInfo.loginTime) }}
             </p>
             <p>
-              <span class="tit">邮箱</span>{{ personalInfo.email }}
+              <span class="tit">手机号码</span>{{ personalInfo.phone }}
             </p>
           </div>
         </div>
@@ -148,7 +148,7 @@ export default {
         id: 0,
         code: '',
         createTime: '2021-1-1 12:59:59',
-        email: 'wukh@safewaychina.com',
+        phone: '15575731038',
         isEnable: 1,
         loginTime : '2021-1-1 12:59:59'
       }

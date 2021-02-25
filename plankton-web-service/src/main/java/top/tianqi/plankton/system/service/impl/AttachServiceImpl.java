@@ -48,7 +48,7 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> imp
 
     @Override
     public List<Attach> uploadFile(Collection<MultipartFile> files, Integer dataType) {
-        List<Attach> list = new ArrayList<Attach>();
+        List<Attach> list = new ArrayList<>();
         for (MultipartFile multipartFile : files) {
             if (multipartFile != null && !multipartFile.isEmpty()) {
                 try {
@@ -123,9 +123,7 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> imp
 
     @Override
     public List<Attach> getFileList(Long recordId, Integer dataType) {
-        if (recordId == null) {
-            return null;
-        }
+        if (recordId == null) return null;
         LambdaQueryWrapper<Attach> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(Attach::getRecordId, recordId);
         lambdaQueryWrapper.eq(dataType != null, Attach::getDataType, dataType);
