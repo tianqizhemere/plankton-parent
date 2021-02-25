@@ -23,6 +23,13 @@ public class BusinessException extends RuntimeException {
 
     /**
      * 构造一个基本异常.
+     */
+    public BusinessException(){
+        super();
+    }
+
+    /**
+     * 构造一个基本异常.
      *
      * @param message 描述信息
      */

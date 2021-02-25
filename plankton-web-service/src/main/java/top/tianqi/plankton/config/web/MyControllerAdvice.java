@@ -13,6 +13,7 @@ import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.common.exception.LimitException;
 import top.tianqi.plankton.common.exception.UnauthorizedException;
+import top.tianqi.plankton.common.status.ErrorStateEnum;
 import top.tianqi.plankton.system.entity.User;
 
 /**
@@ -34,7 +35,7 @@ public class MyControllerAdvice {
     @ExceptionHandler(value = Exception.class)
     public Result errorHandler(Exception ex) {
         logger.error("未知异常！原因是:",ex);
-        return Result.error(-1, "未知错误");
+        return Result.error(ErrorStateEnum.SYSTEM_ERROR);
     }
 
     /**
@@ -57,11 +58,10 @@ public class MyControllerAdvice {
     @ResponseBody
     @ExceptionHandler(value = LimitException.class)
     public Result limitErrorHandler(LimitException ex) {
-        logger.error("接口限流异常", ex);
         // 用户超过限流次数，暂时禁用当前用户
         User user = new User();
         user.setIsEnable(Boolean.FALSE);
-        return Result.error(ex.getMessage(), user);
+        return Result.error(ErrorStateEnum.VISIT_FREQUENTLY, user);
     }
 
     /**

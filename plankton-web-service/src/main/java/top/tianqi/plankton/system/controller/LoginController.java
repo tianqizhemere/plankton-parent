@@ -14,6 +14,7 @@ import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
 import top.tianqi.plankton.common.exception.BusinessException;
+import top.tianqi.plankton.common.status.ErrorStateEnum;
 import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.config.shiro.token.JwtUtil;
 import top.tianqi.plankton.system.entity.Nonmember;
@@ -64,7 +65,7 @@ public class LoginController extends BaseController {
             nonmember.setModel(loginUser.getModel());
             nonmember.setCode(loginUser.getCode());
             nonmemberService.save(nonmember);
-            throw new BusinessException("登录失败，用户不存在或错误");
+            throw new BusinessException(ErrorStateEnum.CODE_NOT_EXIST);
         }
         if (!Objects.equals(loginUser.getModel(), user.getModel())) {
             throw new BusinessException("设备型号不一致");
@@ -93,6 +94,6 @@ public class LoginController extends BaseController {
         // 清除redis
         JedisUtil.delKey(Constant.PREFIX_SHIRO_REFRESH_TOKEN  + code);
         response.setHeader("Authorization", null);
-        return SUCCESS_MESSAGE("登出成功");
+        return Result.success(ErrorStateEnum.REQUEST_SUCCESS);
     }
 }

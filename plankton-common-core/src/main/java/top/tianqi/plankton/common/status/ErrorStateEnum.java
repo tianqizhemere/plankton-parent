@@ -9,11 +9,16 @@ package top.tianqi.plankton.common.status;
  */
 public enum ErrorStateEnum {
 
+    /** 系统错误 */
+    SYSTEM_ERROR(-1, "未知错误"),
+    /** 请求成功 */
     REQUEST_SUCCESS(200, "OK"),
     /** 未登录 */
     REQUEST_UNAUTHC_EXCEPTION(411, "未登录"),
     /** 未授权 */
     REQUEST_UNPERMS_EXCEPTION(412, "未授权"),
+    /** CODE不存在 */
+    CODE_NOT_EXIST(1004, "CODE不存在"),
     /** 用户名不存在 */
     USERNAME_NOT_EXIST(1004, "用户名不存在"),
     /** 密码不正确 */
@@ -28,10 +33,11 @@ public enum ErrorStateEnum {
     REQUEST_LIMIT(1009, "请求频繁,请稍后重试"),
     /** refreshToken无效 */
     REFRESH_TOKEN_INVALID(1010, "认证过期,请重新登录"),
-    /** CODE不存在 */
-    CODE_NOT_EXIST(1004, "CODE不存在"),
     /** 机型版本号已存在 */
-    VERSION_CODE_EXIST(1011, "输入的版本编号该机型已存在！");
+    VERSION_CODE_EXIST(1011, "输入的版本编号该机型已存在！"),
+    /** 接口访问过于频繁 */
+    VISIT_FREQUENTLY(1012, "访问过于频繁!");
+
 
     /** 状态码 */
     private final Integer code;

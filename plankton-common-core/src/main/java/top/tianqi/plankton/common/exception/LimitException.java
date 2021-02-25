@@ -22,13 +22,19 @@ public class LimitException extends RuntimeException {
     /**
      * 构造一个基本异常.
      *
+     */
+    public LimitException(){
+        super();
+    }
+
+    /**
+     * 构造一个基本异常.
+     *
      * @param message 描述信息
      */
     public LimitException(String message) {
         super(message);
     }
-
-
 
     /**
      * 构造一个基本异常.

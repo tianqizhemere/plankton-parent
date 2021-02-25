@@ -70,7 +70,7 @@ public class LimitAspect {
         if (result > 0) {
             return point.proceed();
         } else {
-            throw new LimitException("访问过于频繁!");
+            throw new LimitException();
         }
     }
 
