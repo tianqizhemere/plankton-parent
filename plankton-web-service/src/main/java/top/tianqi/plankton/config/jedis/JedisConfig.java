@@ -26,26 +26,35 @@ public class JedisConfig {
     /** logger */
     private static final Logger logger = LoggerFactory.getLogger(JedisConfig.class);
 
+    /** 连接地址 */
     private String host;
 
+    /** 连接端口 */
     private int port;
 
+    /** redis连接密码 */
     private String password;
 
+    /** 连接超时时间（毫秒） */
     private int timeout;
 
+    /** 连接池最大连接数 */
     @Value("${redis.pool.max-active}")
     private int maxActive;
 
+    /** 连接池最大阻塞等待时间 */
     @Value("${redis.pool.max-wait}")
     private int maxWait;
 
+    /** 最大连接数 */
     @Value("${redis.pool.max-wait}")
     private int maxTotal;
 
+    /** 连接池中的最大空闲连接 */
     @Value("${redis.pool.max-idle}")
     private int maxIdle;
 
+    /** 连接池中的最小空闲连接 */
     @Value("${redis.pool.min-idle}")
     private int minIdle;
 
