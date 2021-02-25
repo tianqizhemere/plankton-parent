@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="top.tianqi.plankton.system.mapper.ExceptionLogMapper">
     <select id="findPage" resultType="top.tianqi.plankton.system.entity.ExceptionLog">
-        SELECT name, request_param, user_id, code, method, uri, ip FROM exception_log
+        SELECT id, name, request_param, user_id, code, method, uri, ip FROM exception_log
         ${ew.customSqlSegment}
     </select>
 </mapper>

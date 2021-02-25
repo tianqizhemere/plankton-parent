@@ -55,7 +55,7 @@ public class JwtUtil {
      */
     public static boolean verify(String token) {
         try {
-            // ieml加JWT私钥解密
+            // code加JWT私钥解密
             String secret = getClaim(token, Constant.ACCOUNT) + Base64ConvertUtil.decode(encryptJWTKey);
             Algorithm algorithm = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algorithm).build();
@@ -68,7 +68,7 @@ public class JwtUtil {
     }
 
     /**
-     * 获取imel(设备识别码)
+     * 获取code(设备识别码)
      * 获取token中的信息无需secret解密也能获得
      * @param token 秘钥
      * @return
@@ -85,19 +85,19 @@ public class JwtUtil {
 
     /**
      * 生成签名
-     * @param ieml 设备识别号
+     * @param code 设备识别号
      * @return 返回加密的Token
      */
-    public static String sign(String ieml, String currentTimeMillis)  {
+    public static String sign(String code, String currentTimeMillis)  {
         try {
-            // ieml加JWT私钥加密
-            String secret = ieml + Base64ConvertUtil.decode(encryptJWTKey);
+            // code加JWT私钥加密
+            String secret = code + Base64ConvertUtil.decode(encryptJWTKey);
             // 此处过期时间是以毫秒为单位，所以乘以1000
             Date date = new Date(System.currentTimeMillis() + Long.parseLong(accessTokenExpireTime) * 1000);
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            // 附带ieml信息
+            // 附带code信息
             return JWT.create()
-                    .withClaim(Constant.ACCOUNT, ieml)
+                    .withClaim(Constant.ACCOUNT, code)
                     .withClaim("currentTimeMillis", currentTimeMillis)
                     .withExpiresAt(date)
                     .sign(algorithm);
