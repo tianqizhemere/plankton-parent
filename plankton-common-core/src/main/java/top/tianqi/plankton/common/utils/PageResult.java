@@ -4,6 +4,9 @@ import java.util.List;
 
 /**
  * 分页对象
+ *
+ * <p>使用mybatis-plus框架提供的分页对象</p>
+ *
  * @author Wukh
  * @create 2021-01-24
  */

@@ -65,7 +65,7 @@ public class JsonUtil {
      * json转集合
      * @param jsons 多个json对象
      * @param c 转换类型
-     * @return
+     * @return T
      */
     public static <T> List<T> listJsonToListObject(List<String> jsons, Class<T> c) {
         if (jsons == null)
@@ -83,7 +83,7 @@ public class JsonUtil {
      * json转普通对象
      * @param json json字符串
      * @param c 转换对象
-     * @return
+     * @return T
      */
     public static <T> T jsonToObject(String json, Class<T> c) {
         if (!StringUtils.isEmpty(json))
@@ -103,7 +103,7 @@ public class JsonUtil {
      * jsonToObject(json, new TypeReference<DelayTask<Order>>() {});
      * @param json json字符串
      * @param tr 类型泛型
-     * @return
+     * @return T
      */
     @SuppressWarnings("unchecked")
     public static <T> T jsonToObject(String json, TypeReference<T> tr) {
@@ -112,10 +112,10 @@ public class JsonUtil {
 
         T t = null;
         try {
-            t = (T) mapper.readValue(json, tr);
+            t = mapper.readValue(json, tr);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return (T) t;
+        return t;
     }
 }

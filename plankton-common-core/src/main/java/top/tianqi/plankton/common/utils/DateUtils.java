@@ -375,13 +375,4 @@ public class DateUtils {
         calendar.setTime(date);
         return calendar.getTimeInMillis() / 1000;
     }
-
-    public static void main(String[] args) {
-        try {
-            Date date = addDay(new Date(), -3);
-            System.out.println(dateFormat(date));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

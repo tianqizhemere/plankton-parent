@@ -25,7 +25,7 @@
         <shiro.version>1.5.3</shiro.version>
         <mybatis.version>2.1.2</mybatis.version>
         <jackson.version>2.9.2</jackson.version>
-        <mybatis.plus.version>3.4.2</mybatis.plus.version>
+        <mybatis.plus.version>3.4.0</mybatis.plus.version>
         <shiro.redis>2.8.24</shiro.redis>
         <druid.version>1.1.10</druid.version>
     </properties>
@@ -51,24 +51,19 @@
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis.version}</version>
             </dependency>
+            <!-- MyBatis Plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
+
             <!-- shiro -->
             <dependency>
                 <groupId>org.apache.shiro</groupId>
                 <artifactId>shiro-spring</artifactId>
                 <version>${shiro.version}</version>
             </dependency>
-            <!-- MyBatis Plus -->
-            <!--<dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus</artifactId>
-                <version>${mybatis.plus.version}</version>
-            </dependency>-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>3.4.0</version>
-            </dependency>
-
             <!-- shiro-redis插件 -->
             <dependency>
                 <groupId>org.crazycake</groupId>
@@ -111,7 +106,6 @@
                 <artifactId>im4java</artifactId>
                 <version>1.4.0</version>
             </dependency>
-
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
@@ -127,6 +121,8 @@
                 <artifactId>bcprov-jdk15on</artifactId>
                 <version>1.51</version>
             </dependency>
+
+            <!-- easyPoi -->
             <dependency>
                 <groupId>org.jeecg</groupId>
                 <artifactId>easypoi-base</artifactId>

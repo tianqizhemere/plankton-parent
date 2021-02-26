@@ -24,7 +24,7 @@ public class Result extends HashMap<String, Object> {
     private static final String DATA_TAG = "data";
 
     /** 是否成功 */
-    private static final String IS_SUCCESS = "success";
+    private static final String SUCCESS_TAG = "success";
 
     /**
      * 初始化一个新创建的 Result 对象，使其表示一个空消息。
@@ -41,7 +41,7 @@ public class Result extends HashMap<String, Object> {
     public Result(int code, String msg) {
         super.put(CODE_TAG, code);
         super.put(MSG_TAG, msg);
-        super.put(IS_SUCCESS, Boolean.TRUE);
+        super.put(SUCCESS_TAG, Boolean.TRUE);
     }
 
     /**
@@ -55,7 +55,7 @@ public class Result extends HashMap<String, Object> {
         super.put(CODE_TAG, code);
         super.put(MSG_TAG, msg);
         super.put(DATA_TAG, data);
-        super.put(IS_SUCCESS, Boolean.TRUE);
+        super.put(SUCCESS_TAG, Boolean.TRUE);
     }
 
     /**
@@ -70,7 +70,7 @@ public class Result extends HashMap<String, Object> {
         super.put(CODE_TAG, code);
         super.put(MSG_TAG, msg);
         super.put(DATA_TAG, data);
-        super.put(IS_SUCCESS, isSuccess);
+        super.put(SUCCESS_TAG, isSuccess);
     }
 
     /**
