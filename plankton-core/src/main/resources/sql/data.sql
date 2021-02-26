@@ -8,9 +8,9 @@ insert into role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '超级
 
 -- 系统权限
 insert into auth values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理', 'system:version:index');
-insert into auth values('2', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-用户管理', 'system:user:index');
-insert into auth values('3', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-菜单管理', 'system:menu:index');
-insert into auth values('4', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-角色管理', 'system:role:index');
+insert into auth values('2', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-菜单管理', 'system:menu:index');
+insert into auth values('3', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-角色管理', 'system:role:index');
+insert into auth values('4', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-用户管理', 'system:user:index');
 insert into auth values('5', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-用户管理-视图', 'system:user:view');
 insert into auth values('6', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-用户管理-新增', 'system:user:save');
 insert into auth values('7', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-用户管理-修改', 'system:user:update');
@@ -25,17 +25,20 @@ insert into auth values('15', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系�
 insert into auth values('16', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-新增', 'system:version:save');
 insert into auth values('17', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-修改', 'system:version:update');
 insert into auth values('18', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-版本管理-删除', 'system:version:delete');
-insert into auth values('19', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-日志管理', 'system:log:index');
-insert into auth values('20', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-日志管理-视图', 'system:log:view');
+insert into auth values('19', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统日志-系统日志', 'system:log:index');
+insert into auth values('20', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统日志-系统日志-视图', 'system:log:view');
 insert into auth values('21', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-外置应用', 'system:externalApplication:index');
 insert into auth values('22', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-外置应用-视图', 'system:externalApplication:view');
 insert into auth values('23', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-外置应用-新增', 'system:externalApplication:save');
 insert into auth values('24', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-外置应用-修改', 'system:externalApplication:update');
 insert into auth values('25', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-外置应用-删除', 'system:externalApplication:delete');
-insert into auth values('26', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-通知管理-视图', 'notice:notice:view');
-insert into auth values('27', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-通知管理-新增', 'notice:notice:save');
-insert into auth values('28', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-通知管理-修改', 'notice:notice:update');
-insert into auth values('29', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-通知管理-删除', 'notice:notice:delete');
+insert into auth values('26', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统配置-通知管理', 'notice:notice:index');
+insert into auth values('27', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统配置-通知管理-视图', 'notice:notice:view');
+insert into auth values('28', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统配置-通知管理-新增', 'notice:notice:save');
+insert into auth values('29', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统配置-通知管理-修改', 'notice:notice:update');
+insert into auth values('30', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统配置-通知管理-删除', 'notice:notice:delete');
+insert into auth values('31', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统日志-异常日志', 'system:exceptionLog:index');
+insert into auth values('32', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统日志-异常日志-视图', 'system:exceptionLog:view');
 
 -- 角色和菜单权限
 insert into role_menu values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
@@ -83,6 +86,9 @@ insert into role_auth values('26', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1
 insert into role_auth values('27', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 27);
 insert into role_auth values('28', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 28);
 insert into role_auth values('29', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 29);
+insert into role_auth values('30', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 30);
+insert into role_auth values('31', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 31);
+insert into role_auth values('32', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 32);
 
 -- 用户角色中间表
 insert into user_role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
