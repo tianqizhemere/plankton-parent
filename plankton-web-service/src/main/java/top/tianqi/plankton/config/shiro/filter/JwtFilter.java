@@ -71,6 +71,11 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
         HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
         // 获取当前请求类型
         String httpMethod = httpServletRequest.getMethod();
+        // 检查请求是否包含有appName.
+        String appName = httpServletRequest.getHeader("appName");
+        if (appName != null && "TFingerprint".equals(appName)) {
+            return true;
+        }
         // 获取当前请求URI
         String requestURI = httpServletRequest.getRequestURI();
         for (String anonymous : anonymousStr.split(",")) {
