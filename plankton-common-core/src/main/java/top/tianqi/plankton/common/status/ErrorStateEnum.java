@@ -17,8 +17,6 @@ public enum ErrorStateEnum {
     REQUEST_UNAUTHC_EXCEPTION(411, "未登录"),
     /** 未授权 */
     REQUEST_UNPERMS_EXCEPTION(412, "未授权"),
-    /** CODE不存在 */
-    CODE_NOT_EXIST(1004, "CODE不存在"),
     /** 用户名不存在 */
     USERNAME_NOT_EXIST(1004, "用户名不存在"),
     /** 密码不正确 */

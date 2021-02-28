@@ -52,7 +52,7 @@ public class LoginController extends BaseController {
      * @param loginUser 登录对象
      * @return Result 前端提示信息
      */
-    @Limit(count = 3, period = 30, limitType = LimitTypeEnum.IP, key = "login", prefix = "limit")
+    @Limit(count = 3, period = 300, limitType = LimitTypeEnum.IP, key = "login", prefix = "limit")
     @OperLog(model = "登录管理", desc = "登录", type = OperationConst.LOGIN)
     @PostMapping(value = "/login")
     public Result login(@RequestBody User loginUser)  {
@@ -65,7 +65,7 @@ public class LoginController extends BaseController {
             nonmember.setModel(loginUser.getModel());
             nonmember.setCode(loginUser.getCode());
             nonmemberService.save(nonmember);
-            throw new BusinessException(ErrorStateEnum.CODE_NOT_EXIST);
+            throw new BusinessException(ErrorStateEnum.USERNAME_NOT_EXIST);
         }
         if (!Objects.equals(loginUser.getModel(), user.getModel())) {
             throw new BusinessException("设备型号不一致");
