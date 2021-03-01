@@ -22,6 +22,7 @@ import top.tianqi.plankton.system.service.AttachService;
 import top.tianqi.plankton.system.service.VersionService;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -46,22 +47,52 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     @Override
     public VersionInfo checkVersion(String currentVersion, String model){
         User currentUser = getCurrentUser();
+        // 会员用户才可以更新版本
         if (Objects.equals(currentUser.getUserMode(), Constant.USER_MODE_POWERFUL)) {
             if (currentVersion != null) {
-                // 检测是否有最新版本
+                // 获取服务器最新版本
+                QueryWrapper<VersionInfo> newVersionWrapper = new QueryWrapper<>();
+                newVersionWrapper.lambda().eq(VersionInfo::getType, 1).eq(VersionInfo::getModel, model);
+                List<VersionInfo> versionInfos = versionMapper.selectList(newVersionWrapper);
+                if (!CollectionUtils.isEmpty(versionInfos)) {
+                    // 最新版本
+                    VersionInfo newVersionInfo = versionInfos.get(0);
+                    // 数据库最大版本号
+                    String newStartVersion = newVersionInfo.getVersionCode().substring(0, 1);
+                    // 客户端最大版本号
+                    String startVersion = currentVersion.substring(0, 1);
+                    BigDecimal newStartVersionNum = new BigDecimal(newStartVersion);
+                    BigDecimal startVersionNum = new BigDecimal(startVersion);
+                    if(newStartVersionNum.compareTo(startVersionNum) == 1){
+                        // 返回最新版本
+                        newStartVersionNum = newStartVersionNum.add(new BigDecimal("0.0"));
+                        newVersionWrapper = new QueryWrapper<>();
+                        newVersionWrapper.lambda().eq(VersionInfo::getVersionCode, newStartVersionNum).eq(VersionInfo::getModel, model);
+                        versionInfos = versionMapper.selectList(newVersionWrapper);
+                        if (!CollectionUtils.isEmpty(versionInfos)) {
+                            // 最新版本
+                            VersionInfo baseVersion = versionInfos.get(0);
+                            baseVersion.setMaxVersion(Boolean.TRUE);
+                            baseVersion.setIsUpdate(Boolean.TRUE);
+                            return baseVersion;
+                        }
+                    }
+                }
+                //客户端版本号
+                BigDecimal clientVersion = new BigDecimal(currentVersion );
+                // 更新提升0.1个大版本号
+                BigDecimal promoteVersion = new BigDecimal("0.1");
+                promoteVersion = clientVersion.add(promoteVersion);
+                // 检测是否有小版本更新
                 QueryWrapper<VersionInfo> checkVersionWrapper = new QueryWrapper<>();
-                checkVersionWrapper.lambda().eq(VersionInfo::getType, VersionTypeEnum.THE_LATEST_VERSION.getCode())
-                        .eq(VersionInfo::getModel, model);
+                checkVersionWrapper.lambda().eq(VersionInfo::getVersionCode, promoteVersion).eq(VersionInfo::getModel, model);
                 List<VersionInfo> list = versionMapper.selectList(checkVersionWrapper);
                 if (!CollectionUtils.isEmpty(list)) {
-                    // 客户端版本与服务器版本进行对比
                     VersionInfo versionInfo = list.get(0);
-                    if (compareVersion(currentVersion, versionInfo.getVersionCode()) >= 0) {
-                        // 客户端已经是最新版本
-                        return new VersionInfo();
-                    }
-                    // 检测是否为大版本更新, 大版本都已 .0结尾
-                    if (versionInfo.getVersionCode().contains(".0")){
+                    // 检测是否为大版本更新, 获取客户端版本号和数据库版本号的第一位型号进行对比
+                    String clientVersionStart = clientVersion.toString().substring(0, 1);
+                    String updateCodeStart = promoteVersion.toString().substring(0, 1);
+                    if (!Objects.equals(updateCodeStart, clientVersionStart) && promoteVersion.toString().substring(2).equals("0")){
                         versionInfo.setMaxVersion(Boolean.TRUE);
                         versionInfo.setIsUpdate(Boolean.TRUE);
                         return versionInfo;
@@ -162,7 +193,7 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
         if (clientVersion == null || baseVersion == null) {
             throw new BusinessException("compareVersion error:illegal params.");
         }
-        String[] clientVersionArray = clientVersion.split("\\.");//注意此处为正则匹配，不能用.；
+        String[] clientVersionArray = clientVersion.split("\\.");
         String[] baseVersionArray2 = baseVersion.split("\\.");
         int idx = 0;
         int minLength = Math.min(clientVersionArray.length, baseVersionArray2.length);//取最小长度值
@@ -177,11 +208,15 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
         return diff;
     }
 
-    public static void main(String[] args) throws Exception {
-        int i = compareVersion("1.2", "2.1");
-        System.out.println(i);
-
-        String result = "1.修复自定义BIX按键无效问题\n2.修复最近任务点击失效".replaceAll("\n", System.getProperty("line.separator"));
-        System.out.println(result);
+    public static void main(String[] args) {
+        String currentVersion = "1.2";
+        // 获取最大版本号
+        String startVersion = currentVersion.substring(0, 1);
+        // 转换客户端最大版本号
+        BigDecimal clientVersion = new BigDecimal(startVersion);
+        // 更新提升1个大版本号
+        BigDecimal promoteVersion = new BigDecimal("0.0");
+        clientVersion = clientVersion.add(promoteVersion);
+        System.out.println(clientVersion);
     }
 }
