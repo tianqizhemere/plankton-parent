@@ -1,7 +1,10 @@
 package top.tianqi.plankton.common.utils;
 
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -131,6 +134,34 @@ public class DateUtils {
         return new Timestamp(calendar.getTimeInMillis());
     }
 
+    /**
+     * 获取指定日期所在月的第一天
+     */
+    public static Date getFirstDayOfMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取指定日期所在月的最后一天
+     */
+    public static Date getLastDayOfMonth(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        return calendar.getTime();
+    }
 
     /**
      * 获取本周的开始时间
@@ -340,12 +371,72 @@ public class DateUtils {
      * @return Date类型信息
      * @throws Exception 抛出异常
      */
-    public static Date StringToDate(String str) throws Exception {
+    public static Date stringToDate(String str) throws ParseException {
         if (str == null) {
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_TIME);
         return formatter.parse(str);
+    }
+
+    /**
+     * 时间字符串根据格式化字符串和解析点位置生成对应的时间。
+     *
+     * @param dateString
+     *            时间字符串
+     *
+     * @param pattern
+     *            格式化字符串
+     * @return 所对应的时间
+     */
+    public static Date stringToDate(String dateString, String pattern) {
+        if (StringUtils.isEmpty(dateString)) {
+            return null;
+        }
+
+        if(StringUtils.isEmpty(pattern)){
+            pattern = DATE_TIME;
+        }
+
+
+        try {
+            SimpleDateFormat formater = new SimpleDateFormat(pattern);
+            return formater.parse(dateString);
+        }catch(IllegalArgumentException iae){
+            SimpleDateFormat formater = new SimpleDateFormat(DATE_TIME);
+            try {
+                return formater.parse(dateString);
+            } catch (ParseException e) {
+                return null;
+            }
+        } catch (ParseException pe) {
+            return null;
+        }
+
+    }
+
+    /**
+     * 返回指定时间点增加(减少)一段时间后的时间. 返回新对象,源日期对象(<code>date</code>)不变.
+     *
+     * @param date
+     *          源时间,不能为<code>null</code>.
+     * @param calendarField
+     *          增加(减少)的日历项.
+     * @param amount
+     *          数量,正数为加,负数为减.
+     * @return 日历项增加(减少)指定数目后的日期对象.
+     *
+     * @throws IllegalArgumentException
+     *           如果源日期对象(<code>date</code>)为<code>null</code>.
+     */
+    private static Date add(Date date, int calendarField, int amount) {
+        if (date == null) {
+            throw new IllegalArgumentException("日期对象不允许为null!");
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(calendarField, amount);
+        return c.getTime();
     }
 
     /**
@@ -362,6 +453,38 @@ public class DateUtils {
         calendar.setTime(date);
         calendar.add(Calendar.DATE, day);
         return calendar.getTime();
+    }
+
+    /**
+     * 返回指定时间点 <code>amount</code> 年后(前)的时间. 返回新对象,源日期对象(<code>date</code>)不变.
+     *
+     * @param date
+     *          源时间,不能为<code>null</code>.
+     * @param amount
+     *          年数,正数为加,负数为减.
+     * @return 增加(减少)指定年数后的日期对象.
+     *
+     * @throws IllegalArgumentException
+     *           如果源日期对象(<code>date</code>)为<code>null</code>.
+     */
+    public static java.util.Date addYears(java.util.Date date, int amount) {
+        return add(date, Calendar.YEAR, amount);
+    }
+
+    /**
+     * 返回指定时间点 <code>amount</code> 月后(前)的时间. 返回新对象,源日期对象(<code>date</code>)不变.
+     *
+     * @param date
+     *          源时间,不能为<code>null</code>.
+     * @param amount
+     *          月数,正数为加,负数为减.
+     * @return 增加(减少)指定月数后的日期对象.
+     *
+     * @throws IllegalArgumentException
+     *           如果源日期对象(<code>date</code>)为<code>null</code>.
+     */
+    public static java.util.Date addMonths(java.util.Date date, int amount) {
+        return add(date, Calendar.MONTH, amount);
     }
 
     /**
