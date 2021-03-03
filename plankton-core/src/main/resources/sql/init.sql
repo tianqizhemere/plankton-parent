@@ -81,6 +81,7 @@ CREATE TABLE user (
   is_enable int(2) DEFAULT 1 comment '0:禁用, 1；启用',
   source int(2) DEFAULT NULL comment '用户来源 0 或1',
   PRIMARY KEY (id) USING BTREE
+  UNIQUE KEY code (code) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- 非会员表

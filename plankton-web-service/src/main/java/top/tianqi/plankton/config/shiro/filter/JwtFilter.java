@@ -51,27 +51,26 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
      * 执行登录
      */
     @Override
-    protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
+    protected boolean executeLogin(ServletRequest request, ServletResponse response) {
         JwtToken token = new JwtToken(this.getAuthzHeader(request));
         this.getSubject(request, response).login(token);
         return true;
     }
 
     @Override
-    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        this.sendChallenge(request, response);
-        return false;
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
+        return this.sendChallenge(request, response);
     }
 
     /**
-     *
+     * 验证是否登录
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
         // 获取当前请求类型
         String httpMethod = httpServletRequest.getMethod();
-        // 检查请求是否包含有appName.
+        // 检查请求头是否包含有appName
         String appName = httpServletRequest.getHeader("appName");
         if (appName != null && "TFingerprint".equals(appName)) {
             return true;

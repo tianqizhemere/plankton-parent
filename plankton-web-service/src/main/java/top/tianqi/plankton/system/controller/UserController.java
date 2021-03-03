@@ -61,7 +61,6 @@ public class UserController extends BaseController {
     }
 
     @OperLog(model = "用户管理", desc = "新增用户", type = OperationConst.INSERT)
-    //@RequiresPermissions("system:user:save")
     @PostMapping(value = "/save")
     public Result save(@Valid @RequestBody User user, BindingResult result){
         if (result.hasErrors()){
@@ -86,8 +85,8 @@ public class UserController extends BaseController {
     }
 
     @OperLog(model = "用户管理", desc = "删除用户", type = OperationConst.DELETE)
-    @PostMapping(value = "/delete")
     @RequiresPermissions(value = "system:user:delete")
+    @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<User> users){
         List<Long> ids = users.stream().map(User::getId).collect(Collectors.toList());
         userService.removeByIds(ids);
@@ -122,6 +121,7 @@ public class UserController extends BaseController {
      * 获取在线用户(查询Redis中的RefreshToken)
      * @return Result 前端提示信息
      */
+    @RequiresPermissions("system:user:index")
     @GetMapping(value = "/online")
     public Result online() {
         List<Object> users = new ArrayList<Object>();
