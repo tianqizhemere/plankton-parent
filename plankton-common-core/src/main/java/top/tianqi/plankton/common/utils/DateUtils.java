@@ -43,10 +43,9 @@ public class DateUtils {
      */
     public static final String DATE_TIME_WITHOUT_SECONDS = "yyyy-MM-dd HH:mm";
 
-
     /**
      * 获取当天开始时间
-     *
+     * 例如:2020-06-28 00:00:00
      * @return
      */
     public static Date getDayBegin() {
@@ -60,7 +59,7 @@ public class DateUtils {
 
     /**
      * 获取当天结束时间
-     *
+     * 例如:2020-06-28 23:59:59
      * @return
      */
     public static Date getDayEnd() {
@@ -71,10 +70,9 @@ public class DateUtils {
         return cal.getTime();
     }
 
-
     /**
      * 获取明天开始时间
-     *
+     * 例如:2020-06-29 00:00:00
      * @return
      */
     public static Date getBeginDayOfTomorrow() {
@@ -86,7 +84,7 @@ public class DateUtils {
 
     /**
      * 获取明天结束时间
-     *
+     * 例如:2020-06-29 23:59:59
      * @return
      */
     public static Date getEndDayOfTomorrow() {
@@ -95,7 +93,6 @@ public class DateUtils {
         cal.add(Calendar.DAY_OF_MONTH, 1);//当天月份天数加1
         return cal.getTime();
     }
-
 
     /**
      * 获取某个日期的开始时间
@@ -114,7 +111,6 @@ public class DateUtils {
         calendar.set(Calendar.MILLISECOND, 0);
         return new Timestamp(calendar.getTimeInMillis());
     }
-
 
     /**
      * 获取某个日期的结束时间
@@ -151,7 +147,6 @@ public class DateUtils {
      * 获取指定日期所在月的最后一天
      */
     public static Date getLastDayOfMonth(Date date) {
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.MONTH, 1);
@@ -184,7 +179,6 @@ public class DateUtils {
         return getDayStartTime(cal.getTime());
     }
 
-
     /**
      * 获取本周的结束时间
      *
@@ -198,7 +192,6 @@ public class DateUtils {
         return getDayEndTime(weekEndSta);
     }
 
-
     /**
      * 获取今年是哪一年
      *
@@ -210,7 +203,6 @@ public class DateUtils {
         gc.setTime(date);
         return Integer.valueOf(gc.get(1));
     }
-
 
     /**
      * 获取本月是哪一月
@@ -224,7 +216,6 @@ public class DateUtils {
         return gc.get(2) + 1;
     }
 
-
     /**
      * 获取本月的开始时间
      *
@@ -235,7 +226,6 @@ public class DateUtils {
         calendar.set(getNowYear(), getNowMonth() - 1, 1);
         return getDayStartTime(calendar.getTime());
     }
-
 
     /**
      * 获取本月的结束时间
@@ -250,7 +240,6 @@ public class DateUtils {
         return getDayEndTime(calendar.getTime());
     }
 
-
     /**
      * 获取上月的开始时间
      *
@@ -261,7 +250,6 @@ public class DateUtils {
         calendar.set(getNowYear(), getNowMonth() - 2, 1);
         return getDayStartTime(calendar.getTime());
     }
-
 
     /**
      * 获取上月的结束时间
@@ -275,7 +263,6 @@ public class DateUtils {
         calendar.set(getNowYear(), getNowMonth() - 2, day);
         return getDayEndTime(calendar.getTime());
     }
-
 
     /**
      * 获取本年的开始时间
@@ -339,7 +326,7 @@ public class DateUtils {
      *
      * @param date   日期对象
      * @param format 指定转化格式, DateUtils.DATE
-     * @return
+     * @return str 字符串时间
      */
     public static String dateFormat(Date date, String format) {
         if (date != null && format != null) {
@@ -369,7 +356,7 @@ public class DateUtils {
      *
      * @param str 字符串时间
      * @return Date类型信息
-     * @throws Exception 抛出异常
+     * @throws ParseException 解析异常
      */
     public static Date stringToDate(String str) throws ParseException {
         if (str == null) {
@@ -393,12 +380,9 @@ public class DateUtils {
         if (StringUtils.isEmpty(dateString)) {
             return null;
         }
-
         if(StringUtils.isEmpty(pattern)){
             pattern = DATE_TIME;
         }
-
-
         try {
             SimpleDateFormat formater = new SimpleDateFormat(pattern);
             return formater.parse(dateString);
@@ -446,7 +430,7 @@ public class DateUtils {
      *
      * @param date 时间
      * @param day  天数
-     * @return
+     * @return 运算后的日期对象
      */
     public static Date addDay(Date date, int day) {
         Calendar calendar = new GregorianCalendar();
@@ -490,8 +474,8 @@ public class DateUtils {
     /**
      * 将时间转换成秒
      *
-     * @param date
-     * @return
+     * @param date 转换的时间
+     * @return 秒
      */
     public static Long getSecond(Date date) {
         Calendar calendar = Calendar.getInstance();
