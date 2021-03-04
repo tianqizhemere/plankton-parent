@@ -86,7 +86,7 @@ public class LoginController extends BaseController {
         return Result.success("登录成功(Login Success.)", user);
     }
 
-    @OperLog(model = "登录管理", desc = "退出", type = OperationConst.LOGIN)
+    @OperLog(model = "登录管理", desc = "退出登录", type = OperationConst.LOG_OUT)
     @GetMapping(value = "/logout")
     public Result logout(HttpServletRequest request, HttpServletResponse response) {
         String token = request.getHeader("Authorization");

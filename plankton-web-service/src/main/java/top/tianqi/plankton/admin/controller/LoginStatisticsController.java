@@ -25,7 +25,7 @@ public class LoginStatisticsController extends BaseController {
     private LoginStatisticsService loginStatisticsService;
 
     /**
-     * 统计每日的总登录次数
+     * 统计每月的总登录次数
      * @return Result 前端提示信息
      */
     @GetMapping(value = "/statisticsLogin")

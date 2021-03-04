@@ -12,4 +12,5 @@ public class OperationConst {
     public static final String DELETE = "删除";
     public static final String SELECT = "查询";
     public static final String LOGIN = "登录";
+    public static final String LOG_OUT = "退出登录";
 }
