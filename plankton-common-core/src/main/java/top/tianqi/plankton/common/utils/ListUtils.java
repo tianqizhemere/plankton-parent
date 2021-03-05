@@ -36,6 +36,7 @@ public class ListUtils {
     public static <K, V> Map<K, List<V>> groupBy(List<V> list, GroupBy<K, V> groupBy) {
         return groupBy((Collection<V>) list, groupBy);
     }
+
     /**
      * list 集合分组
      *
@@ -47,9 +48,7 @@ public class ListUtils {
      */
     public static <K, V> Map<K, List<V>> groupBy(Collection<V> list, GroupBy<K, V> groupBy) {
         Map<K, List<V>> resultMap = new LinkedHashMap<K, List<V>>();
-
         for (V e : list) {
-
             K k = groupBy.groupBy(e);
             if (resultMap.containsKey(k)) {
                 resultMap.get(k).add(e);
@@ -61,6 +60,7 @@ public class ListUtils {
         }
         return resultMap;
     }
+
     /**
      * List分组
      *

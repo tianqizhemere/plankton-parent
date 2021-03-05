@@ -7,6 +7,8 @@ package top.tianqi.plankton.common.exception;
  */
 public class UnauthorizedException extends RuntimeException {
 
+    private static final long serialVersionUID = -2233508689423018641L;
+
     public UnauthorizedException(String msg){
         super(msg);
     }

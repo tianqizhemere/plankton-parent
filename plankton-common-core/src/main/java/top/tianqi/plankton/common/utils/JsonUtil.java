@@ -27,21 +27,20 @@ public class JsonUtil {
 
     /**
      * 对象转json
-     * @param o 目标对象
+     * @param obj 目标对象
      * @return json
      */
-    public static String toJsonString(Object o) {
-        if (o == null)
+    public static String toJsonString(Object obj) {
+        if (obj == null) {
             return null;
-
-        String s = null;
-
+        }
+        String jsonStr = null;
         try {
-            s = mapper.writeValueAsString(o);
+            jsonStr = mapper.writeValueAsString(obj);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return s;
+        return jsonStr;
     }
 
     /**
@@ -57,7 +56,6 @@ public class JsonUtil {
         for (T t : objects) {
             lists.add(toJsonString(t));
         }
-
         return lists;
     }
 
@@ -68,14 +66,13 @@ public class JsonUtil {
      * @return T
      */
     public static <T> List<T> listJsonToListObject(List<String> jsons, Class<T> c) {
-        if (jsons == null)
+        if (jsons == null) {
             return null;
-
+        }
         List<T> ts = new ArrayList<T>();
         for (String j : jsons) {
             ts.add(jsonToObject(j, c));
         }
-
         return ts;
     }
 
@@ -86,9 +83,9 @@ public class JsonUtil {
      * @return T
      */
     public static <T> T jsonToObject(String json, Class<T> c) {
-        if (!StringUtils.isEmpty(json))
+        if (!StringUtils.isEmpty(json)) {
             return null;
-
+        }
         T t = null;
         try {
             t = mapper.readValue(json, c);
@@ -107,9 +104,9 @@ public class JsonUtil {
      */
     @SuppressWarnings("unchecked")
     public static <T> T jsonToObject(String json, TypeReference<T> tr) {
-        if (!StringUtils.isEmpty(json))
+        if (!StringUtils.isEmpty(json)) {
             return null;
-
+        }
         T t = null;
         try {
             t = mapper.readValue(json, tr);
