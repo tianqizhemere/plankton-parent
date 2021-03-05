@@ -13,4 +13,12 @@ public class OperationConst {
     public static final String SELECT = "查询";
     public static final String LOGIN = "登录";
     public static final String LOG_OUT = "退出登录";
+
+    /** 登录模块 */
+    public static final String MODEL_LOGIN = "登录模块";
+    /** 通知模块 */
+    public static final String MODEL_NOTICE = "通知模块";
+    /** 字典模块 */
+    public static final String MODEL_DICTIONARY = "字典模块";
+
 }

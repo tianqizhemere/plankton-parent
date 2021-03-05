@@ -16,6 +16,7 @@ import java.util.Set;
  */
 @Component
 public class JedisUtil {
+
     /**
      * 静态注入JedisPool连接池
      * 本来是正常注入JedisUtil，可以在Controller和Service层使用，但是重写Shiro的CustomCache无法注入JedisUtil
@@ -31,7 +32,6 @@ public class JedisUtil {
 
     /**
      * 获取Jedis实例
-     * @param
      * @return redis.clients.jedis.Jedis
      */
     public static synchronized Jedis getJedis() {
@@ -78,8 +78,8 @@ public class JedisUtil {
 
     /**
      * 设置redis键值-object
-     * @param key
-     * @param value
+     * @param key 键
+     * @param value 值
      * @return java.lang.String
      */
     public static String setObject(String key, Object value) {
@@ -91,18 +91,18 @@ public class JedisUtil {
     }
 
     /**
-     * 设置redis键值-object-expiretime
-     * @param key
-     * @param value
-     * @param expiretime
+     * 设置redis键值-object-expireTime
+     * @param key 键
+     * @param value 值
+     * @param expireTime 到期时间
      * @return java.lang.String
      */
-    public static String setObject(String key, Object value, int expiretime) {
+    public static String setObject(String key, Object value, int expireTime) {
         String result;
         try (Jedis jedis = jedisPool.getResource()) {
             result = jedis.set(key.getBytes(), SerializableUtil.serializable(value));
             if (Constant.OK.equals(result)) {
-                jedis.expire(key.getBytes(), expiretime);
+                jedis.expire(key.getBytes(), expireTime);
             }
             return result;
         } catch (Exception e) {
@@ -112,7 +112,7 @@ public class JedisUtil {
 
     /**
      * 获取redis键值-Json
-     * @param key
+     * @param key 键
      * @return java.lang.Object
      */
     public static String getJson(String key) {
@@ -125,8 +125,8 @@ public class JedisUtil {
 
     /**
      * 设置redis键值-Json
-     * @param key
-     * @param value
+     * @param key 键
+     * @param value 值
      * @return java.lang.String
      */
     public static String setJson(String key, String value) {
@@ -138,18 +138,18 @@ public class JedisUtil {
     }
 
     /**
-     * 设置redis键值-Json-expiretime
-     * @param key
-     * @param value
-     * @param expiretime
+     * 设置redis键值-Json-expireTime
+     * @param key 键
+     * @param value 值
+     * @param expireTime 到期时间
      * @return java.lang.String
      */
-    public static String setJson(String key, String value, int expiretime) {
+    public static String setJson(String key, String value, int expireTime) {
         String result;
         try (Jedis jedis = jedisPool.getResource()) {
             result = jedis.set(key, value);
             if (Constant.OK.equals(result)) {
-                jedis.expire(key, expiretime);
+                jedis.expire(key, expireTime);
             }
             return result;
         } catch (Exception e) {

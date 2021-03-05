@@ -61,9 +61,7 @@ public class LoginController extends BaseController {
         }
         User user = userService.getUser(loginUser.getCode());
         if (user == null) {
-            Nonmember nonmember = new Nonmember();
-            nonmember.setModel(loginUser.getModel());
-            nonmember.setCode(loginUser.getCode());
+            Nonmember nonmember = new Nonmember(loginUser.getModel(), loginUser.getCode());
             nonmemberService.save(nonmember);
             throw new BusinessException(ErrorStateEnum.USERNAME_NOT_EXIST);
         }
