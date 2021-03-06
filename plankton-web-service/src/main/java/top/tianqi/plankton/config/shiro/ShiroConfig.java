@@ -49,10 +49,6 @@ public class ShiroConfig {
 
         // 设置过滤链
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>(16);
-        filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/logout", "anon");
-        filterChainDefinitionMap.put("/system/user/save", "anon");
-        filterChainDefinitionMap.put("/system/version/save", "anon");
         filterChainDefinitionMap.put("/**", "jwt");
         factory.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return factory;

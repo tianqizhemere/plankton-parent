@@ -3,7 +3,6 @@ package top.tianqi.plankton.notice.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,7 +63,7 @@ public class NoticeServiceImpl extends BaseServiceImpl<NoticeMapper, Notice> imp
     }
 
     @Override
-    public IPage<Notice> getPage(String title, Page<Notice> page) {
+    public IPage<Notice> getPage(String title, IPage<Notice> page) {
         LambdaQueryWrapper<Notice> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.like(StringUtils.isNotBlank(title), Notice::getTitle, title);
         lambdaQueryWrapper.orderByDesc(Notice::getModifyTime);

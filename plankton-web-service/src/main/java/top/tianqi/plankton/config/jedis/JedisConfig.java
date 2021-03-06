@@ -67,6 +67,7 @@ public class JedisConfig {
             jedisPoolConfig.setMaxTotal(maxActive);
             jedisPoolConfig.setMinIdle(minIdle);
             jedisPoolConfig.setMaxTotal(maxTotal);
+            jedisPoolConfig.setTestOnBorrow(true);
             // 密码为空设置为null
             if (StringUtils.isBlank(password)) {
                 password = null;

@@ -1,7 +1,6 @@
 package top.tianqi.plankton.notice.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.tianqi.plankton.common.base.service.BaseService;
 import top.tianqi.plankton.notice.entity.Notice;
 
@@ -26,5 +25,5 @@ public interface NoticeService extends BaseService<Notice> {
      * @param page 分页对象
      * @return Page<Notice>
      */
-    IPage<Notice> getPage(String title, Page<Notice> page);
+    IPage<Notice> getPage(String title, IPage<Notice> page);
 }
