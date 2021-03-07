@@ -39,6 +39,7 @@ CREATE TABLE exception_log (
   create_time datetime NOT NULL COMMENT '请求时间',
   modify_time datetime NOT NULL,
   message text DEFAULT NULL COMMENT '异常信息',
+  error_message varchar(200) DEFAULT NULL COMMENT '异常信息',
   name varchar(50) DEFAULT NULL COMMENT '异常名称',
   request_param varchar(500) DEFAULT NULL COMMENT '请求参数',
   user_id int(11) DEFAULT NULL COMMENT '用户id',

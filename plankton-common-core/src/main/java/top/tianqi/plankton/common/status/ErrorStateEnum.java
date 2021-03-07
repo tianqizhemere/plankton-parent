@@ -18,7 +18,7 @@ public enum ErrorStateEnum {
     /** 未授权 */
     REQUEST_UNPERMS_EXCEPTION(412, "未授权"),
     /** 用户名不存在 */
-    USERNAME_NOT_EXIST(1004, "用户名不存在"),
+    USERNAME_NOT_EXIST(1004, "用户不存在"),
     /** 密码不正确 */
     PASSWORD_ERROR(1005, "密码不正确"),
     /** 没有相关权限 */

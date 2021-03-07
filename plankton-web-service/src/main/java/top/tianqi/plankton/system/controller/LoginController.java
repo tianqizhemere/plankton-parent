@@ -87,10 +87,10 @@ public class LoginController extends BaseController {
     @OperLog(model = "登录管理", desc = "退出登录", type = OperationConst.LOG_OUT)
     @GetMapping(value = "/logout")
     public Result logout(HttpServletRequest request, HttpServletResponse response) {
-        String token = request.getHeader("Authorization");
-        String code = JwtUtil.getClaim(token, Constant.ACCOUNT);
-        // 清除redis
-        JedisUtil.delKey(Constant.PREFIX_SHIRO_REFRESH_TOKEN  + code);
+//        String token = request.getHeader("Authorization");
+//        String code = JwtUtil.getClaim(token, Constant.ACCOUNT);
+//        // 清除redis
+//        JedisUtil.delKey(Constant.PREFIX_SHIRO_REFRESH_TOKEN  + code);
         response.setHeader("Authorization", null);
         return Result.success(ErrorStateEnum.REQUEST_SUCCESS);
     }

@@ -166,6 +166,8 @@ public class LogAspect {
             exceptionLog.setName(e.getClass().getName());
             // 异常信息
             exceptionLog.setMessage(stackTraceToString(e.getClass().getName(), e.getMessage(), e.getStackTrace()));
+            // 异常提示信息
+            exceptionLog.setErrorMessage(e.getMessage());
             User currentUser = operationLogService.getCurrentUser();
             if (currentUser == null) {
                 currentUser = new User();

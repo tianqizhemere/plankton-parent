@@ -17,6 +17,9 @@ public class ExceptionLog extends BaseEntity {
     /** 异常信息 */
     private String message;
 
+    /** 错误信息 */
+    private String errorMessage;
+
     /** 异常名称 */
     private String name;
 
@@ -100,5 +103,13 @@ public class ExceptionLog extends BaseEntity {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }
