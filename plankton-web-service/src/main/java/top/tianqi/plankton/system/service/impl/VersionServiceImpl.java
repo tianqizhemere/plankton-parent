@@ -207,16 +207,4 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
         diff = (diff != 0) ? diff : clientVersionArray.length - baseVersionArray2.length;
         return diff;
     }
-
-    public static void main(String[] args) {
-        String currentVersion = "1.2";
-        // 获取最大版本号
-        String startVersion = currentVersion.substring(0, 1);
-        // 转换客户端最大版本号
-        BigDecimal clientVersion = new BigDecimal(startVersion);
-        // 更新提升1个大版本号
-        BigDecimal promoteVersion = new BigDecimal("0.0");
-        clientVersion = clientVersion.add(promoteVersion);
-        System.out.println(clientVersion);
-    }
 }
