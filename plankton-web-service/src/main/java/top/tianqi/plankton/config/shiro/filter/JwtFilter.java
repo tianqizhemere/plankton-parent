@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.constant.Constant;
+import top.tianqi.plankton.common.util.AddressUtils;
 import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.common.utils.PropertiesUtil;
 import top.tianqi.plankton.config.shiro.token.JwtToken;
@@ -70,9 +71,11 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
         HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
         // 获取当前请求类型
         String httpMethod = httpServletRequest.getMethod();
-        // 检查请求头是否包含有appName
+        String remoteIp = AddressUtils.getRemoteIp(httpServletRequest);// 请求IP
+        // 检查请求头是否包含有 appName
         String appName = httpServletRequest.getHeader("appName");
         if (appName != null && "TFingerprint".equals(appName)) {
+            log.info("外置应用请求头 {} 请求ip {}", appName, remoteIp);
             return true;
         }
         // 获取当前请求URI
@@ -110,7 +113,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
             }
         } else {
             // 没有携带Token
-            log.info("当前请求 {} Authorization属性(Token)为空 请求类型 {}", requestURI, httpMethod);
+            log.info("当前请求 {} Authorization属性(Token)为空 请求类型 {} 请求IP {}", requestURI, httpMethod, remoteIp);
             this.response401(response, "请先登录");
             return false;
         }
