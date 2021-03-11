@@ -40,6 +40,7 @@ public class NoticeServiceImpl extends BaseServiceImpl<NoticeMapper, Notice> imp
     public Notice getUserNotice(String model, String version) {
         User currentUser = getCurrentUser();
         Long userId = currentUser.getId();
+        // 获取最新用户未读的通知信息
         QueryWrapper<Notice> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("un.user_id", userId);
         queryWrapper.eq("n.type", VersionTypeEnum.THE_LATEST_VERSION.getCode());
