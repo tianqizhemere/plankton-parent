@@ -6,7 +6,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
-import top.tianqi.plankton.common.annotation.aop.OperLog;
+import top.tianqi.plankton.common.annotation.aop.OperateLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.status.ErrorStateEnum;
@@ -56,14 +56,20 @@ public class VersionController extends BaseController {
      */
     //@RequiresPermissions("system:version:check")
 //    @Limit(count = 5, period = 60, limitType = LimitTypeEnum.IP, key = "checkVersion", prefix = "limit")
-    @OperLog(model = "版本管理", desc = "检查是否有更新版本", type = OperationConst.SELECT)
+    @OperateLog(model = OperationConst.VERSION_MODEL, desc = "检查是否有更新版本", type = OperationConst.SELECT)
     @GetMapping(value = "/checkVersion")
     public Result checkVersion(String version, String model) {
         VersionInfo versionInfo = versionService.checkVersion(version, model);
         return SUCCESS_MESSAGE(versionInfo);
     }
 
-    @OperLog(model = "版本管理", desc = "新增应用版本", type = OperationConst.INSERT)
+    /**
+     * 新增版本
+     * @param versionInfo 版本对象
+     * @param result 后台验证对象
+     * @return Result 前端提示信息
+     */
+    @OperateLog(model = OperationConst.VERSION_MODEL, desc = "新增应用版本", type = OperationConst.INSERT)
     @PostMapping(value = "/save")
     public Result save(@Valid @RequestBody VersionInfo versionInfo, BindingResult result){
         if (result.hasErrors()) {
@@ -85,7 +91,13 @@ public class VersionController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "版本管理", desc = "修改应用版本", type = OperationConst.UPDATE)
+    /**
+     * 修改版本
+     * @param versionInfo 版本对象
+     * @param result 后台验证对象
+     * @return Result 前端提示信息
+     */
+    @OperateLog(model = OperationConst.VERSION_MODEL, desc = "修改应用版本", type = OperationConst.UPDATE)
     @PostMapping(value = "/update")
     public Result update(@Valid @RequestBody VersionInfo versionInfo, BindingResult result){
         if (result.hasErrors()) {
@@ -95,7 +107,12 @@ public class VersionController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "版本管理", desc = "删除应用版本", type = OperationConst.DELETE)
+    /**
+     * 删除应用版本
+     * @param versionInfos 版本对象集合
+     * @return Result 前端提示信息
+     */
+    @OperateLog(model = OperationConst.VERSION_MODEL, desc = "删除应用版本", type = OperationConst.DELETE)
     @RequiresPermissions(value = "system:version:delete")
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<VersionInfo> versionInfos){
@@ -105,12 +122,12 @@ public class VersionController extends BaseController {
     }
 
     /**
-     * 根据手机型号查询获取当前版本信息
+     * 根据手机型号和型号获取当前版本更新信息
      * @param model 手机型号
      * @param version 当前版本
-     * @return 前端提示信息
+     * @return Result 前端提示信息
      */
-    @OperLog(model = "版本管理", desc = "获取当前版本信息", type = OperationConst.SELECT)
+    @OperateLog(model = OperationConst.VERSION_MODEL, desc = "获取当前版本信息", type = OperationConst.SELECT)
     @GetMapping(value = "/info")
     public Result info(String model, String version){
         VersionInfo versionInfo = versionService.getVersionInfo(version, model);

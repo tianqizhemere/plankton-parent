@@ -5,7 +5,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
-import top.tianqi.plankton.common.annotation.aop.OperLog;
+import top.tianqi.plankton.common.annotation.aop.OperateLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.notice.entity.Notice;
@@ -34,7 +34,7 @@ public class NoticeController extends BaseController {
         return SUCCESS_MESSAGE(page);
     }
 
-    @OperLog(model = "通知管理", desc = "新增通知", type = OperationConst.INSERT)
+    @OperateLog(model = OperationConst.NOTICE_MODEL, desc = "新增通知", type = OperationConst.INSERT)
     @RequiresPermissions(value = "notice:notice:save")
     @PostMapping(value = "/save")
     public Result save(@Valid @RequestBody Notice notice, BindingResult result){
@@ -45,7 +45,7 @@ public class NoticeController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "通知管理", desc = "修改通知", type = OperationConst.UPDATE)
+    @OperateLog(model = OperationConst.NOTICE_MODEL, desc = "修改通知", type = OperationConst.UPDATE)
     @RequiresPermissions(value = "notice:notice:update")
     @PostMapping(value = "/update")
     public Result update(@Valid @RequestBody Notice notice, BindingResult result){
@@ -56,7 +56,7 @@ public class NoticeController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "通知管理", desc = "删除通知", type = OperationConst.DELETE)
+    @OperateLog(model = OperationConst.NOTICE_MODEL, desc = "删除通知", type = OperationConst.DELETE)
     @RequiresPermissions(value = "notice:notice:delete")
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<Notice> notices){
@@ -65,7 +65,7 @@ public class NoticeController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "通知管理", desc = "获取用户通知", type = OperationConst.SELECT)
+    @OperateLog(model = "通知管理", desc = "获取用户通知", type = OperationConst.SELECT)
     @GetMapping(value = "/get")
     public Result getUserNotice(String model, String version){
         Notice notice = noticeService.getUserNotice(model, version);

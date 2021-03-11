@@ -71,15 +71,16 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
         HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
         // 获取当前请求类型
         String httpMethod = httpServletRequest.getMethod();
-        String remoteIp = AddressUtils.getRemoteIp(httpServletRequest);// 请求IP
-        // 检查请求头是否包含有 appName
-        String appName = httpServletRequest.getHeader("appName");
-        if (appName != null && "TFingerprint".equals(appName)) {
-            log.info("外置应用请求头 {} 请求ip {}", appName, remoteIp);
-            return true;
-        }
+        // 请求IP
+        String remoteIp = AddressUtils.getRemoteIp(httpServletRequest);
         // 获取当前请求URI
         String requestURI = httpServletRequest.getRequestURI();
+        // 检查请求头是否包含有 appName
+        String appName = httpServletRequest.getHeader("appName");
+        if ("TFingerprint".equals(appName)) {
+            log.info("外置应用请求头 {} 请求路径 {} 请求ip {}", appName, remoteIp, requestURI);
+            return true;
+        }
         for (String anonymous : anonymousStr.split(",")) {
             if (requestURI.contains(anonymous)) {
                 return true;
@@ -113,7 +114,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
             }
         } else {
             // 没有携带Token
-            log.info("当前请求 {} Authorization属性(Token)为空 请求类型 {} 请求IP {}", requestURI, httpMethod, remoteIp);
+            String userIP = AddressUtils.getUserIP(httpServletRequest);
+            log.info("当前请求 {} Authorization属性(Token)为空 请求类型 {} 外网请求IP {} 实际IP {} ", requestURI, httpMethod, remoteIp, userIP);
             this.response401(response, "请先登录");
             return false;
         }

@@ -4,7 +4,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
-import top.tianqi.plankton.common.annotation.aop.OperLog;
+import top.tianqi.plankton.common.annotation.aop.OperateLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.system.entity.Dictionary;
@@ -27,6 +27,10 @@ public class DictionariesController extends BaseController {
     @Resource(name = "dictionariesServiceImpl")
     private DictionariesService dictionariesService;
 
+    /**
+     * 获取树形字典
+     * @return Result 前端提示信息
+     */
     @RequiresPermissions(value = "system:dict:view")
     @GetMapping(value = "/findTree")
     public Result findTree(){
@@ -34,7 +38,13 @@ public class DictionariesController extends BaseController {
         return SUCCESS_MESSAGE(page);
     }
 
-    @OperLog(model = "字典管理", desc = "新增字典", type = OperationConst.INSERT)
+    /**
+     * 新增字典
+     * @param dictionaries 字典对象
+     * @param result 后台验证对象
+     * @return Result 前端提示信息
+     */
+    @OperateLog(model = OperationConst.DICTIONARY_MODEL, desc = "新增字典", type = OperationConst.INSERT)
     @RequiresPermissions(value = "system:dict:save")
     @PostMapping(value = "/save")
     public Result save(@Valid @RequestBody Dictionary dictionaries, BindingResult result){
@@ -45,7 +55,13 @@ public class DictionariesController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "字典管理", desc = "修改字典", type = OperationConst.UPDATE)
+    /**
+     * 修改字典
+     * @param dictionaries 字典对象
+     * @param result 后台验证对象
+     * @return Result 前端提示信息
+     */
+    @OperateLog(model = OperationConst.DICTIONARY_MODEL, desc = "修改字典", type = OperationConst.UPDATE)
     @RequiresPermissions(value = "system:dict:update")
     @PostMapping(value = "/update")
     public Result update(@Valid @RequestBody Dictionary dictionaries, BindingResult result){
@@ -61,7 +77,7 @@ public class DictionariesController extends BaseController {
      * @param dictionaries 字典集合
      * @return Result
      */
-    @OperLog(model = "字典管理", desc = "删除字典", type = OperationConst.DELETE)
+    @OperateLog(model = OperationConst.DICTIONARY_MODEL, desc = "删除字典", type = OperationConst.DELETE)
     @RequiresPermissions(value = "system:dict:delete")
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<Dictionary> dictionaries) {

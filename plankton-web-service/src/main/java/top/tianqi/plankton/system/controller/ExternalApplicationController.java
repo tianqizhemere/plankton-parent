@@ -6,7 +6,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
-import top.tianqi.plankton.common.annotation.aop.OperLog;
+import top.tianqi.plankton.common.annotation.aop.OperateLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.system.entity.ExternalApplication;
@@ -39,7 +39,7 @@ public class ExternalApplicationController extends BaseController {
         return SUCCESS_MESSAGE(page);
     }
 
-    @OperLog(model = "外置应用", desc = "新增外置应用", type = OperationConst.INSERT)
+    @OperateLog(model = OperationConst.EXTERNAL_MODEL, desc = "新增外置应用", type = OperationConst.INSERT)
     @RequiresPermissions(value = "system:externalApplication:save")
     @PostMapping(value = "/save")
     public Result save(@Valid @RequestBody ExternalApplication externalApplication, BindingResult result){
@@ -50,7 +50,7 @@ public class ExternalApplicationController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "外置应用", desc = "修改外置应用", type = OperationConst.UPDATE)
+    @OperateLog(model = OperationConst.EXTERNAL_MODEL, desc = "修改外置应用", type = OperationConst.UPDATE)
     @RequiresPermissions(value = "system:externalApplication:update")
     @PostMapping(value = "/update")
     public Result update(@Valid @RequestBody ExternalApplication externalApplication, BindingResult result){
@@ -61,7 +61,7 @@ public class ExternalApplicationController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "外置应用", desc = "删除外置应用", type = OperationConst.DELETE)
+    @OperateLog(model = OperationConst.EXTERNAL_MODEL, desc = "删除外置应用", type = OperationConst.DELETE)
     @RequiresPermissions(value = "system:externalApplication:delete")
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<ExternalApplication> externalApplications){
@@ -70,7 +70,7 @@ public class ExternalApplicationController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "外置应用", desc = "获取外置应用文件信息", type = OperationConst.SELECT)
+    @OperateLog(model = OperationConst.EXTERNAL_MODEL, desc = "获取外置应用文件信息", type = OperationConst.SELECT)
     @GetMapping(value = "/fileList")
     public Result fileList(){
         List<ExternalFileVO> list = new ArrayList<>();

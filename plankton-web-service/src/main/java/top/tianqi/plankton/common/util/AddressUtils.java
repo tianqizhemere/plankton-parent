@@ -35,14 +35,12 @@ public class AddressUtils {
         if (ip == null) {
             ip = request.getRemoteAddr();
         }
-
         //过滤反向代理的ip
         String[] stemps = ip.split(",");
         if (stemps != null && stemps.length >= 1) {
             //得到第一个IP，即客户端真实IP
             ip = stemps[0];
         }
-
         ip = ip.trim();
         if (ip.length() > 23) {
             ip = ip.substring(0, 23);
@@ -58,30 +56,34 @@ public class AddressUtils {
      * @return
      */
     public static String getUserIP(HttpServletRequest request) {
-
-        // 优先取X-Real-IP
-        String ip = request.getHeader("X-Real-IP");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("x-forwarded-for");
+        String ip = null;
+        //X-Forwarded-For：Squid 服务代理
+        String ipAddresses = request.getHeader("X-Forwarded-For");
+        String unknown = "unknown";
+        if (ipAddresses == null || ipAddresses.length() == 0 || unknown.equalsIgnoreCase(ipAddresses)) {
+            // Proxy-Client-IP：apache 服务代理
+            ipAddresses = request.getHeader("Proxy-Client-IP");
         }
-
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ipAddresses == null || ipAddresses.length() == 0 || unknown.equalsIgnoreCase(ipAddresses)) {
+            //WL-Proxy-Client-IP：weblogic 服务代理
+            ipAddresses = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ipAddresses == null || ipAddresses.length() == 0 || unknown.equalsIgnoreCase(ipAddresses)) {
+            //HTTP_CLIENT_IP：有些代理服务器
+            ipAddresses = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ipAddresses == null || ipAddresses.length() == 0 || unknown.equalsIgnoreCase(ipAddresses)) {
+            //X-Real-IP：nginx服务代理
+            ipAddresses = request.getHeader("X-Real-IP");
+        }
+        //有些网络通过多层代理，那么获取到的ip就会有多个，一般都是通过逗号（,）分割开来，并且第一个ip为客户端的真实IP
+        if (ipAddresses != null && ipAddresses.length() != 0) {
+            ip = ipAddresses.split(",")[0];
+        }
+        //还是不能获取到，最后再通过request.getRemoteAddr();获取
+        if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ipAddresses)) {
             ip = request.getRemoteAddr();
-            if ("0:0:0:0:0:0:0:1".equals(ip)) {
-                ip = ERROR_IP;
-            }
         }
-
-        if ("unknown".equalsIgnoreCase(ip)) {
-            ip = ERROR_IP;
-            return ip;
-        }
-
-        int pos = ip.indexOf(',');
-        if (pos >= 0) {
-            ip = ip.substring(0, pos);
-        }
-
         return ip;
     }
 

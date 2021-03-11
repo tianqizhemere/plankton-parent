@@ -23,9 +23,14 @@ public class ExceptionLogController extends BaseController {
     @Resource(name = "exceptionLogServiceImpl")
     private ExceptionLogService exceptionLogService;
 
+    /**
+     * 加载数据列表
+     * @param name 异常信息
+     * @return Result 前端提示信息
+     */
     @GetMapping(value = "/page")
-    public Result findPage(){
-        Page<ExceptionLog> page = exceptionLogService.findPage(getPage());
+    public Result findPage(String name){
+        Page<ExceptionLog> page = exceptionLogService.findPage(name, getPage());
         return SUCCESS_MESSAGE(page);
     }
 }

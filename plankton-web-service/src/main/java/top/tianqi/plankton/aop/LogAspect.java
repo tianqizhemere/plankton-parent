@@ -9,7 +9,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
-import top.tianqi.plankton.common.annotation.aop.OperLog;
+import top.tianqi.plankton.common.annotation.aop.OperateLog;
 import top.tianqi.plankton.common.util.AddressUtils;
 import top.tianqi.plankton.common.utils.JsonUtil;
 import top.tianqi.plankton.system.entity.ExceptionLog;
@@ -41,7 +41,7 @@ public class LogAspect {
     private ExceptionLogService exceptionLogService;
 
     /** 设置操作日志切入点 记录操作日志 */
-    @Pointcut("@annotation(top.tianqi.plankton.common.annotation.aop.OperLog)")
+    @Pointcut("@annotation(top.tianqi.plankton.common.annotation.aop.OperateLog)")
     public void logPointCut(){
     }
 
@@ -75,7 +75,7 @@ public class LogAspect {
             // 获取切入点所在的方法
             Method method = signature.getMethod();
             // 获取操作
-            OperLog opLog = method.getAnnotation(OperLog.class);
+            OperateLog opLog = method.getAnnotation(OperateLog.class);
             if (opLog != null) {
                 operationLog.setModel(opLog.model()); // 操作模块
                 operationLog.setType(opLog.type()); // 操作类型

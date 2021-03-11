@@ -2,6 +2,7 @@ package top.tianqi.plankton.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
@@ -21,8 +22,9 @@ public class ExceptionLogServiceImpl extends BaseServiceImpl<ExceptionLogMapper,
     private ExceptionLogMapper exceptionLogMapper;
 
     @Override
-    public Page<ExceptionLog> findPage(Page<ExceptionLog> page) {
+    public Page<ExceptionLog> findPage(String name, Page<ExceptionLog> page) {
         QueryWrapper<ExceptionLog> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().like(StringUtils.isNotBlank(name), ExceptionLog::getErrorMessage, name);
         queryWrapper.lambda().orderByDesc(ExceptionLog::getCreateTime);
         return exceptionLogMapper.findPage(page, queryWrapper);
     }

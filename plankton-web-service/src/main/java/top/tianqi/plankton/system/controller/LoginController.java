@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import top.tianqi.plankton.common.Result;
-import top.tianqi.plankton.common.annotation.aop.OperLog;
+import top.tianqi.plankton.common.annotation.aop.OperateLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
@@ -51,7 +51,7 @@ public class LoginController extends BaseController {
      * @return Result 前端提示信息
      */
 //    @Limit(count = 300, period = 300, limitType = LimitTypeEnum.IP, key = "login", prefix = "limit")
-    @OperLog(model = "登录管理", desc = "登录", type = OperationConst.LOGIN)
+    @OperateLog(model = OperationConst.LOGIN_MODEL, desc = "登录", type = OperationConst.LOGIN)
     @PostMapping(value = "/login")
     public Result login(@RequestBody User loginUser)  {
         if (loginUser == null) {
@@ -82,7 +82,7 @@ public class LoginController extends BaseController {
         return Result.success("登录成功(Login Success.)", user);
     }
 
-    @OperLog(model = "登录管理", desc = "退出登录", type = OperationConst.LOG_OUT)
+    @OperateLog(model = OperationConst.LOGIN_MODEL, desc = "退出登录", type = OperationConst.LOG_OUT)
     @GetMapping(value = "/logout")
     public Result logout(HttpServletRequest request, HttpServletResponse response) {
 //        String token = request.getHeader("Authorization");

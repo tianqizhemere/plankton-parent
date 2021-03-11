@@ -13,8 +13,9 @@ public interface ExceptionLogService extends BaseService<ExceptionLog> {
 
     /**
      * 加载数据列表
+     * @param name 异常信息
      * @param page 分页对象
      * @return Page<ExceptionLog>
      */
-    Page<ExceptionLog> findPage(Page<ExceptionLog> page);
+    Page<ExceptionLog> findPage(String name, Page<ExceptionLog> page);
 }

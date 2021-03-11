@@ -12,13 +12,18 @@ public class OperationConst {
     public static final String DELETE = "删除";
     public static final String SELECT = "查询";
     public static final String LOGIN = "登录";
-    public static final String LOG_OUT = "退出登录";
+    public static final String LOG_OUT = "登出";
 
     /** 登录模块 */
-    public static final String MODEL_LOGIN = "登录模块";
+    public static final String LOGIN_MODEL = "登录管理";
     /** 通知模块 */
-    public static final String MODEL_NOTICE = "通知模块";
+    public static final String NOTICE_MODEL = "通知管理";
     /** 字典模块 */
-    public static final String MODEL_DICTIONARY = "字典模块";
-
+    public static final String DICTIONARY_MODEL = "字典管理";
+    /** 外置应用模块 */
+    public static final String EXTERNAL_MODEL = "外置应用";
+    /** 用户模块 */
+    public static final String USER_MODEL = "用户管理";
+    /** 版本模块 */
+    public static final String VERSION_MODEL = "版本管理";
 }

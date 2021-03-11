@@ -4,6 +4,9 @@
     <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
       <el-form :inline="true" :model="filters" :size="size">
         <el-form-item>
+          <el-form-item>
+            <el-input v-model="filters.name" placeholder="异常信息"></el-input>
+          </el-form-item>
         </el-form-item>
         <el-form-item>
           <kt-button icon="fa fa-search" :label="$t('action.search')" perms="system:log:view" type="primary"
@@ -33,17 +36,14 @@ export default {
     return {
       size: 'small',
       filters: {
-        name: '',
-        type:''
+        name: ''
       },
       columns: [
         {prop: "id", label: "ID", minWidth: 60},
         {prop: "name", label: "异常名称", minWidth: 100},
         {prop: "requestParam", label: "请求参数", minWidth: 120},
-        /*{prop: "message", label: "异常信息", minWidth: 140, showOverflowTooltip:true},*/
         {prop: "errorMessage", label: "异常信息", minWidth: 140, showOverflowTooltip:true},
         {prop: "method", label: "操作方法", minWidth: 120, showOverflowTooltip:true},
-        /*{prop:"responseParam", label:"响应参数", minWidth:220},*/
         {prop: "uri", label: "URI", minWidth: 100},
         {prop: "code", label: "请求人code", minWidth: 100},
         {prop: "ip", label: "IP", minWidth: 100},

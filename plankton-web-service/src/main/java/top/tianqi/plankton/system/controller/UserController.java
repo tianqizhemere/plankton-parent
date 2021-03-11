@@ -7,7 +7,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
-import top.tianqi.plankton.common.annotation.aop.OperLog;
+import top.tianqi.plankton.common.annotation.aop.OperateLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
@@ -60,7 +60,7 @@ public class UserController extends BaseController {
         return SUCCESS_MESSAGE(page);
     }
 
-    @OperLog(model = "用户管理", desc = "新增用户", type = OperationConst.INSERT)
+    @OperateLog(model = OperationConst.USER_MODEL, desc = "新增用户", type = OperationConst.INSERT)
     @PostMapping(value = "/save")
     public Result save(@Valid @RequestBody User user, BindingResult result){
         if (result.hasErrors()){
@@ -74,7 +74,7 @@ public class UserController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "用户管理", desc = "修改用户", type = OperationConst.UPDATE)
+    @OperateLog(model = OperationConst.USER_MODEL, desc = "修改用户", type = OperationConst.UPDATE)
     @PostMapping(value = "/update")
     public Result update(@Valid @RequestBody User user, BindingResult result){
         if (result.hasErrors()){
@@ -84,7 +84,7 @@ public class UserController extends BaseController {
         return SUCCESS_MESSAGE();
     }
 
-    @OperLog(model = "用户管理", desc = "删除用户", type = OperationConst.DELETE)
+    @OperateLog(model = OperationConst.USER_MODEL, desc = "删除用户", type = OperationConst.DELETE)
     @RequiresPermissions(value = "system:user:delete")
     @PostMapping(value = "/delete")
     public Result delete(@RequestBody List<User> users){
@@ -98,7 +98,7 @@ public class UserController extends BaseController {
      * @param username 用户名(code)
      * @return Result 前端提示信息
      */
-    @OperLog(model = "用户管理", desc = "获取用户信息", type = OperationConst.SELECT)
+    @OperateLog(model = OperationConst.USER_MODEL, desc = "获取用户信息", type = OperationConst.SELECT)
     @GetMapping(value = "/findByName")
     public Result findByName(@RequestParam String username){
         User user = userService.getUser(username);
