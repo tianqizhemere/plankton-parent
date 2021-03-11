@@ -55,7 +55,7 @@ public class LoginController extends BaseController {
     @PostMapping(value = "/login")
     public Result login(@RequestBody User loginUser)  {
         if (loginUser == null) {
-            throw new BusinessException("登录参数不能为空");
+            throw new BusinessException(ErrorStateEnum.MISSING_PARAMETER);
         }
         User user = userService.getUser(loginUser.getCode());
         if (user == null) {

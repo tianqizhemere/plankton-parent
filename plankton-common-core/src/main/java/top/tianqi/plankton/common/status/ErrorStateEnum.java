@@ -34,7 +34,9 @@ public enum ErrorStateEnum {
     /** 机型版本号已存在 */
     VERSION_CODE_EXIST(1011, "输入的版本编号该机型已存在！"),
     /** 接口访问过于频繁 */
-    VISIT_FREQUENTLY(1012, "访问过于频繁!");
+    VISIT_FREQUENTLY(1012, "访问过于频繁!"),
+    /** 账号已存在 */
+    ACCOUNT_EXIST(1013, "该账号已存在");
 
 
     /** 状态码 */

@@ -64,7 +64,7 @@ public class UserController extends BaseController {
     @PostMapping(value = "/save")
     public Result save(@Valid @RequestBody User user, BindingResult result){
         if (result.hasErrors()){
-            return Result.error(ErrorStateEnum.MISSING_PARAMETER.getCode(),result.getFieldError().getDefaultMessage());
+            return Result.error(ErrorStateEnum.MISSING_PARAMETER.getCode(), result.getFieldError().getDefaultMessage());
         }
         User baseUser = userService.getUser(user.getCode());
         if (baseUser != null) {

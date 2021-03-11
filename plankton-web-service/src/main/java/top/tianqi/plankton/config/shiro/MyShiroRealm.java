@@ -63,7 +63,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
         User user = userService.getUser(code);
         if (user == null) {
-            throw new AuthenticationException("UUID:"+code+"不存在") ;
+            throw new AuthenticationException("UUID:" + code + "不存在") ;
         }
         if (Constant.USER_FREEZE.equals(user.getIsEnable())){
             throw new AuthenticationException("账号已被禁用,请联系管理员!");
