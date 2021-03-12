@@ -33,7 +33,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
             String code = JwtUtil.getClaim(token, Constant.ACCOUNT);
             User user = userService.getUser(code);
             if (user == null) {
-                throw new BusinessException(ErrorStateEnum.REQUEST_UNAUTHC_EXCEPTION);
+                throw new BusinessException(ErrorStateEnum.TOKEN_INVALID);
             }
             return user;
         }

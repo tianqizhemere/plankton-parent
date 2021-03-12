@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import top.tianqi.plankton.admin.mapper.LoginStatisticsMapper;
 import top.tianqi.plankton.admin.service.LoginStatisticsService;
 import top.tianqi.plankton.admin.vo.LoginStatisticsVO;
 import top.tianqi.plankton.common.base.service.impl.BaseServiceImpl;
@@ -23,10 +22,7 @@ import java.util.*;
  * @create 2021-03-03
  */
 @Service
-public class LoginStatisticsServiceImpl extends BaseServiceImpl<LoginStatisticsMapper, LoginStatisticsVO> implements LoginStatisticsService {
-
-    @Autowired
-    private LoginStatisticsMapper loginStatisticsMapper;
+public class LoginStatisticsServiceImpl extends BaseServiceImpl<OperationLogMapper, OperationLog> implements LoginStatisticsService {
 
     @Autowired
     private OperationLogMapper operationLogMapper;

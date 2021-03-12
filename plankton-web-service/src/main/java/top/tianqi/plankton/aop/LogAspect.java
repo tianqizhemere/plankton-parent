@@ -88,7 +88,6 @@ public class LogAspect {
             methodName = className + "." + methodName;
             // 请求方法
             operationLog.setMethod(methodName);
-
             // 获取请求参数
             Object[] args = joinPoint.getArgs();
             String params = "";
@@ -190,7 +189,7 @@ public class LogAspect {
      * @param exceptionMessage 异常信息
      * @param elements         堆栈信息
      */
-    private String stackTraceToString(String exceptionName, String exceptionMessage, StackTraceElement[] elements) {
+    protected String stackTraceToString(String exceptionName, String exceptionMessage, StackTraceElement[] elements) {
         StringBuffer strbuff = new StringBuffer();
         for (StackTraceElement stet : elements) {
             strbuff.append(stet + "\n");
@@ -203,7 +202,7 @@ public class LogAspect {
      * @param obj
      * @return
      */
-    public static Map<String, Object> getKeyAndValue(Object obj) {
+    protected static Map<String, Object> getKeyAndValue(Object obj) {
         Map<String, Object> map = new HashMap<>();
         // 得到类对象
         Class userCla = obj.getClass();
@@ -211,7 +210,7 @@ public class LogAspect {
         Field[] fs = userCla.getDeclaredFields();
         for (Field field : fs) {
             field.setAccessible(true); // 设置些属性是可以访问的
-            Object val = new Object();
+            Object val;
             try {
                 val = field.get(obj);
                 // 得到此属性的值
