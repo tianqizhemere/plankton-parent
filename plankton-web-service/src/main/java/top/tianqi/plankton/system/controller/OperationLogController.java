@@ -18,7 +18,7 @@ import java.util.Date;
  * @create 2021-01-24
  */
 @RestController
-@RequestMapping(value = "/system/operationLog")
+@RequestMapping("/system/operationLog")
 public class OperationLogController extends BaseController {
 
     @Resource(name = "operationLogServiceImpl")
@@ -31,7 +31,7 @@ public class OperationLogController extends BaseController {
      * @param endTime 操作时间止
      * @return Result 前端提示信息
      */
-    @GetMapping(value = "/list")
+    @GetMapping("list")
     public Result list(String type, String name,Date beginTime, Date endTime){
         Page<OperationLog> page = operationLogService.getPage(type, name, beginTime, endTime, getPage());
         return SUCCESS_MESSAGE(page);

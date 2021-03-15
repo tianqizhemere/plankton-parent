@@ -26,14 +26,14 @@ import java.util.stream.Collectors;
  * @create 2021-02-01
  */
 @RestController
-@RequestMapping(value = "/system/externalApplication")
+@RequestMapping("/system/externalApplication")
 public class ExternalApplicationController extends BaseController {
 
     @Resource(name = "externalApplicationServiceImpl")
     private ExternalApplicationService externalApplicationService;
 
     @RequiresPermissions(value = "system:externalApplication:view")
-    @GetMapping(value = "/page")
+    @GetMapping("page")
     public Result getPage(String name) {
         Page<ExternalApplication> page = externalApplicationService.getPage(name, getPage());
         return SUCCESS_MESSAGE(page);
@@ -41,7 +41,7 @@ public class ExternalApplicationController extends BaseController {
 
     @OperateLog(model = OperationConst.EXTERNAL_MODEL, desc = "新增外置应用", type = OperationConst.INSERT)
     @RequiresPermissions(value = "system:externalApplication:save")
-    @PostMapping(value = "/save")
+    @PostMapping("save")
     public Result save(@Valid @RequestBody ExternalApplication externalApplication, BindingResult result){
         if (result.hasErrors()){
             return Result.error(result.getFieldError().getDefaultMessage());
@@ -52,7 +52,7 @@ public class ExternalApplicationController extends BaseController {
 
     @OperateLog(model = OperationConst.EXTERNAL_MODEL, desc = "修改外置应用", type = OperationConst.UPDATE)
     @RequiresPermissions(value = "system:externalApplication:update")
-    @PostMapping(value = "/update")
+    @PostMapping("update")
     public Result update(@Valid @RequestBody ExternalApplication externalApplication, BindingResult result){
         if (result.hasErrors()){
             return Result.error(result.getFieldError().getDefaultMessage());
@@ -63,7 +63,7 @@ public class ExternalApplicationController extends BaseController {
 
     @OperateLog(model = OperationConst.EXTERNAL_MODEL, desc = "删除外置应用", type = OperationConst.DELETE)
     @RequiresPermissions(value = "system:externalApplication:delete")
-    @PostMapping(value = "/delete")
+    @PostMapping("delete")
     public Result delete(@RequestBody List<ExternalApplication> externalApplications){
         List<Long> ids = externalApplications.stream().map(ExternalApplication::getId).collect(Collectors.toList());
         externalApplicationService.removeByIds(ids);
@@ -71,7 +71,7 @@ public class ExternalApplicationController extends BaseController {
     }
 
     @OperateLog(model = OperationConst.EXTERNAL_MODEL, desc = "获取外置应用文件信息", type = OperationConst.SELECT)
-    @GetMapping(value = "/fileList")
+    @GetMapping("fileList")
     public Result fileList(){
         List<ExternalFileVO> list = new ArrayList<>();
         for (ExternalTypeEnum externalType : ExternalTypeEnum.values()) {

@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * @create 2021-01-24
  */
 @RestController
-@RequestMapping(value = "/system/role")
+@RequestMapping("/system/role")
 public class RoleController extends BaseController {
 
     @Resource(name = "roleServiceImpl")
@@ -28,7 +28,7 @@ public class RoleController extends BaseController {
      * @param name 角色名称
      * @return Result 前端提示信息
      */
-    @GetMapping(value = "/findPage")
+    @GetMapping("findPage")
     public Result findPage(String name){
         Page<Role> page = roleService.findPage(name, getPage());
         return SUCCESS_MESSAGE(page);

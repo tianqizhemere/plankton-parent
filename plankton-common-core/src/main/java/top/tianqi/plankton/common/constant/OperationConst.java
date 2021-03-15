@@ -7,12 +7,16 @@ package top.tianqi.plankton.common.constant;
  */
 public class OperationConst {
 
+    /*--------------------------- 数据操作类型 -----------------------------**/
+
     public static final String INSERT = "新增";
     public static final String UPDATE = "修改";
     public static final String DELETE = "删除";
     public static final String SELECT = "查询";
     public static final String LOGIN = "登录";
     public static final String LOG_OUT = "登出";
+
+    /*--------------------------- 模块名称 --------------------------------**/
 
     /** 登录模块 */
     public static final String LOGIN_MODEL = "登录管理";
@@ -26,4 +30,12 @@ public class OperationConst {
     public static final String USER_MODEL = "用户管理";
     /** 版本模块 */
     public static final String VERSION_MODEL = "版本管理";
+    /** Redis信息模块 */
+    public static final String REDIS_INFO_MODEL = "Redis信息";
+    /** 菜单模块 */
+    public static final String MENU_MODEL = "菜单模块";
+    /** 角色模块 */
+    public static final String ROLE_MODEL = "角色模块";
+    /** 权限模块 */
+    public static final String AUTH_MODEL = "权限模块";
 }

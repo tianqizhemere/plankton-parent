@@ -18,7 +18,7 @@ import java.util.List;
  * @create 2021-01-23
  */
 @RestController
-@RequestMapping(value = "/system/menu")
+@RequestMapping("/system/menu")
 public class MenuController extends BaseController {
 
     @Resource(name = "menuServiceImpl")
@@ -29,7 +29,7 @@ public class MenuController extends BaseController {
      * @param username 当前登录用户
      * @return Result 前端提示信息
      */
-    @GetMapping(value = "/getNavTree")
+    @GetMapping("getNavTree")
     public Result getNavTree(String username){
         if (username == null) {
             User currentUser = menuService.getCurrentUser();

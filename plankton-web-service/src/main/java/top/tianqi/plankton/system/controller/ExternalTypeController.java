@@ -13,10 +13,10 @@ import top.tianqi.plankton.system.enumeration.ExternalTypeEnum;
  * @create 2021-02-01
  */
 @RestController
-@RequestMapping(value = "/system/externalType")
+@RequestMapping("/system/externalType")
 public class ExternalTypeController extends BaseController {
 
-    @GetMapping(value = "/list")
+    @GetMapping("list")
     public Result list(){
         return SUCCESS_MESSAGE(ExternalTypeEnum.values());
     }

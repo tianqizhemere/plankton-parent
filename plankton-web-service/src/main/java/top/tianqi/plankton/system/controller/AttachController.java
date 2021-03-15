@@ -26,7 +26,7 @@ public class AttachController extends BaseController {
     @Resource(name = "attachServiceImpl")
     private AttachService attachService;
 
-    @PostMapping(value = "/uploadFile")
+    @PostMapping("uploadFile")
     public Result uploadFile(HttpServletRequest request){
         Integer dataType = Integer.valueOf(request.getParameter("dataType"));
         MultipartHttpServletRequest Murequest = (MultipartHttpServletRequest)request;
@@ -41,7 +41,7 @@ public class AttachController extends BaseController {
      * @param dataType 数据标识来源
      * @return List<AttachVO> 附件列表
      */
-    @GetMapping(value = "/getFileList")
+    @GetMapping("getFileList")
     public Result getFileList(Long recordId, Integer dataType) {
         List<Attach> list = attachService.getFileList(recordId, dataType);
         return Result.success(list);
@@ -53,7 +53,7 @@ public class AttachController extends BaseController {
      * @param dataType 数据标识来源
      * @return Message 前端提示信息
      */
-    @PostMapping(value = "/delete")
+    @PostMapping("delete")
     public Result delete(BigInteger recordId, Integer dataType) {
         attachService.delete(recordId, dataType);
         return SUCCESS_MESSAGE();

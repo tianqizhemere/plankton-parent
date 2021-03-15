@@ -13,10 +13,10 @@ import top.tianqi.plankton.system.enumeration.OperationTypeEnum;
  * @create 2021-02-04
  */
 @RestController
-@RequestMapping(value = "/system/operationType")
+@RequestMapping("/system/operationType")
 public class OperationTypeController extends BaseController {
 
-    @GetMapping(value = "/list")
+    @GetMapping("list")
     public Result list(){
         return SUCCESS_MESSAGE(OperationTypeEnum.values());
     }

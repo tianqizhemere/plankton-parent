@@ -18,7 +18,7 @@ import java.util.List;
  * @create 2021-03-03
  */
 @RestController
-@RequestMapping(value = "/admin/loginStatistics")
+@RequestMapping("/admin/loginStatistics")
 public class LoginStatisticsController extends BaseController {
 
     @Resource(name = "loginStatisticsServiceImpl")
@@ -28,7 +28,7 @@ public class LoginStatisticsController extends BaseController {
      * 统计每月的总登录次数
      * @return Result 前端提示信息
      */
-    @GetMapping(value = "/statisticsLogin")
+    @GetMapping("statisticsLogin")
     public Result statisticsLogin() throws ParseException {
         List<LoginStatisticsVO> list = loginStatisticsService.statisticsLogin();
         return SUCCESS_MESSAGE(list);

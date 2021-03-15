@@ -6,12 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.common.exception.LimitException;
+import top.tianqi.plankton.common.exception.RedisConnectException;
 import top.tianqi.plankton.common.exception.UnauthorizedException;
 import top.tianqi.plankton.common.status.ErrorStateEnum;
 import top.tianqi.plankton.system.entity.User;
@@ -31,7 +31,6 @@ public class MyControllerAdvice {
      * @param ex Exception
      * @return Result 前端提示信息
      */
-    @ResponseBody
     @ExceptionHandler(value = Exception.class)
     public Result errorHandler(Exception ex) {
         logger.error("未知异常！原因是:",ex);
@@ -43,7 +42,6 @@ public class MyControllerAdvice {
      * @param ex BusinessException
      * @return Result 前端提示信息
      */
-    @ResponseBody
     @ExceptionHandler(value = BusinessException.class)
     public Result myErrorHandler(BusinessException ex) {
         logger.error("业务异常", ex);
@@ -55,7 +53,6 @@ public class MyControllerAdvice {
      * @param ex LimitException
      * @return Result 前端提示信息
      */
-    @ResponseBody
     @ExceptionHandler(value = LimitException.class)
     public Result limitErrorHandler(LimitException ex) {
         // 用户超过限流次数，暂时禁用当前用户
@@ -95,5 +92,14 @@ public class MyControllerAdvice {
     @ExceptionHandler(UnauthorizedException.class)
     public Result handle401(UnauthorizedException e) {
         return Result.error(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):" + e.getMessage());
+    }
+
+    /**
+     * 捕捉RedisConnectException redis连接异常
+     * @return Result 前端提示信息
+     */
+    @ExceptionHandler(RedisConnectException.class)
+    public Result redisConnectError(RedisConnectException e){
+        return Result.error(ErrorStateEnum.REDIS_CONNECT_ERROR);
     }
 }

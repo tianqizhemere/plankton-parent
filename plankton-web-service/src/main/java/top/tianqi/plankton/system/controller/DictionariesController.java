@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @create 2021-01-24
  */
 @RestController
-@RequestMapping(value = "/system/dictionaries")
+@RequestMapping("/system/dictionaries")
 public class DictionariesController extends BaseController {
 
     @Resource(name = "dictionariesServiceImpl")
@@ -32,7 +32,7 @@ public class DictionariesController extends BaseController {
      * @return Result 前端提示信息
      */
     @RequiresPermissions(value = "system:dict:view")
-    @GetMapping(value = "/findTree")
+    @GetMapping("findTree")
     public Result findTree(){
         List<Dictionary> page = dictionariesService.findTree();
         return SUCCESS_MESSAGE(page);
@@ -46,7 +46,7 @@ public class DictionariesController extends BaseController {
      */
     @OperateLog(model = OperationConst.DICTIONARY_MODEL, desc = "新增字典", type = OperationConst.INSERT)
     @RequiresPermissions(value = "system:dict:save")
-    @PostMapping(value = "/save")
+    @PostMapping("save")
     public Result save(@Valid @RequestBody Dictionary dictionaries, BindingResult result){
         if (result.hasErrors()){
             return Result.error(result.getFieldError().getDefaultMessage());
@@ -63,7 +63,7 @@ public class DictionariesController extends BaseController {
      */
     @OperateLog(model = OperationConst.DICTIONARY_MODEL, desc = "修改字典", type = OperationConst.UPDATE)
     @RequiresPermissions(value = "system:dict:update")
-    @PostMapping(value = "/update")
+    @PostMapping("update")
     public Result update(@Valid @RequestBody Dictionary dictionaries, BindingResult result){
         if (result.hasErrors()){
             return Result.error(result.getFieldError().getDefaultMessage());
@@ -79,7 +79,7 @@ public class DictionariesController extends BaseController {
      */
     @OperateLog(model = OperationConst.DICTIONARY_MODEL, desc = "删除字典", type = OperationConst.DELETE)
     @RequiresPermissions(value = "system:dict:delete")
-    @PostMapping(value = "/delete")
+    @PostMapping("delete")
     public Result delete(@RequestBody List<Dictionary> dictionaries) {
         List<Long> ids = dictionaries.stream().map(Dictionary::getId).collect(Collectors.toList());
         dictionariesService.removeByIds(ids);

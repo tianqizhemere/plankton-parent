@@ -52,7 +52,7 @@ public class LoginController extends BaseController {
      */
 //    @Limit(count = 300, period = 300, limitType = LimitTypeEnum.IP, key = "login", prefix = "limit")
     @OperateLog(model = OperationConst.LOGIN_MODEL, desc = "登录", type = OperationConst.LOGIN)
-    @PostMapping(value = "/login")
+    @PostMapping("login")
     public Result login(@RequestBody User loginUser)  {
         if (loginUser == null) {
             throw new BusinessException(ErrorStateEnum.MISSING_PARAMETER);
@@ -83,7 +83,7 @@ public class LoginController extends BaseController {
     }
 
     @OperateLog(model = OperationConst.LOGIN_MODEL, desc = "退出登录", type = OperationConst.LOG_OUT)
-    @GetMapping(value = "/logout")
+    @GetMapping("logout")
     public Result logout(HttpServletRequest request, HttpServletResponse response) {
 //        String token = request.getHeader("Authorization");
 //        String code = JwtUtil.getClaim(token, Constant.ACCOUNT);

@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  * @create 2021-01-07
  */
 @RestController
-@RequestMapping(value = "/system/user")
+@RequestMapping("/system/user")
 public class UserController extends BaseController {
 
     @Resource(name = "userServiceImpl")
@@ -50,7 +50,7 @@ public class UserController extends BaseController {
      * @return Result 前端提示信息
      */
     @RequiresPermissions("system:user:index")
-    @GetMapping(value = "/list")
+    @GetMapping("list")
     public Result list(String code, String phone, String qq, String models){
         List<String> modelList = new ArrayList<>();
         if (StringUtils.isNotBlank(models)) {
@@ -61,7 +61,7 @@ public class UserController extends BaseController {
     }
 
     @OperateLog(model = OperationConst.USER_MODEL, desc = "新增用户", type = OperationConst.INSERT)
-    @PostMapping(value = "/save")
+    @PostMapping("save")
     public Result save(@Valid @RequestBody User user, BindingResult result){
         if (result.hasErrors()){
             return Result.error(ErrorStateEnum.MISSING_PARAMETER.getCode(), result.getFieldError().getDefaultMessage());
@@ -75,7 +75,7 @@ public class UserController extends BaseController {
     }
 
     @OperateLog(model = OperationConst.USER_MODEL, desc = "修改用户", type = OperationConst.UPDATE)
-    @PostMapping(value = "/update")
+    @PostMapping("update")
     public Result update(@Valid @RequestBody User user, BindingResult result){
         if (result.hasErrors()){
             return Result.error(ErrorStateEnum.MISSING_PARAMETER.getCode(),result.getFieldError().getDefaultMessage());
@@ -86,7 +86,7 @@ public class UserController extends BaseController {
 
     @OperateLog(model = OperationConst.USER_MODEL, desc = "删除用户", type = OperationConst.DELETE)
     @RequiresPermissions(value = "system:user:delete")
-    @PostMapping(value = "/delete")
+    @PostMapping("delete")
     public Result delete(@RequestBody List<User> users){
         List<Long> ids = users.stream().map(User::getId).collect(Collectors.toList());
         userService.removeByIds(ids);
@@ -99,7 +99,7 @@ public class UserController extends BaseController {
      * @return Result 前端提示信息
      */
     @OperateLog(model = OperationConst.USER_MODEL, desc = "获取用户信息", type = OperationConst.SELECT)
-    @GetMapping(value = "/findByName")
+    @GetMapping("findByName")
     public Result findByName(@RequestParam String username){
         User user = userService.getUser(username);
         return SUCCESS_MESSAGE(user);
@@ -110,7 +110,7 @@ public class UserController extends BaseController {
      * @param username 用户名(code)
      * @return Result 前端提示信息
      */
-    @GetMapping(value = "/findPermissions")
+    @GetMapping("findPermissions")
     public Result findPermissions(String username){
         User user = userService.getUser(username);
         Set<String> permissions = authService.getUserAuthListById(user.getId());
@@ -119,14 +119,20 @@ public class UserController extends BaseController {
 
     /**
      * 获取在线用户(查询Redis中的RefreshToken)
+     * @param username 用户名
      * @return Result 前端提示信息
      */
     @RequiresPermissions("system:user:index")
-    @GetMapping(value = "/online")
-    public Result online() {
-        List<Object> users = new ArrayList<Object>();
-        // 查询所有Redis键
-        Set<String> keys = JedisUtil.keysS(Constant.PREFIX_SHIRO_REFRESH_TOKEN + "*");
+    @GetMapping("online")
+    public Result online(String username) {
+        List<User> users = new ArrayList<>();
+        Set<String> keys;
+        if (StringUtils.isNotBlank(username)) {
+            keys = JedisUtil.keysS(Constant.PREFIX_SHIRO_REFRESH_TOKEN + username);
+        } else {
+            // 查询所有Redis键
+            keys = JedisUtil.keysS(Constant.PREFIX_SHIRO_REFRESH_TOKEN + "*");
+        }
         for (String key : keys) {
             if (JedisUtil.exists(key)) {
                 // 根据:分割key，获取最后一个字符(帐号)
@@ -140,5 +146,18 @@ public class UserController extends BaseController {
             throw new BusinessException("查询失败(Query Failure)");
         }
         return Result.success(users);
+    }
+
+    /**
+     * 踢出用户
+     * @param user 踢出的用户对象
+     * @return Result 前端提示信息
+     */
+    @PostMapping("kickOut")
+    public Result kickOut(User user){
+        if (user != null) {
+            JedisUtil.delKey(Constant.PREFIX_SHIRO_REFRESH_TOKEN + user.getCode());
+        }
+        return SUCCESS_MESSAGE();
     }
 }

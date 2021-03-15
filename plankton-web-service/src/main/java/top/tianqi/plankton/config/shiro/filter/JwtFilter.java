@@ -78,7 +78,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
         // 检查请求头是否包含有 appName
         String appName = httpServletRequest.getHeader("appName");
         if ("TFingerprint".equals(appName)) {
-            log.info("外置应用请求头 {} 请求路径 {} 请求ip {}", appName, remoteIp, requestURI);
+            log.info("外置应用请求头 {} 请求路径 {} 请求ip {}", appName, requestURI, remoteIp);
             return true;
         }
         for (String anonymous : anonymousStr.split(",")) {

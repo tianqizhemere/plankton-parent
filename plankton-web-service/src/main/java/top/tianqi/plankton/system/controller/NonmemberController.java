@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  * @create 2021-01-19
  */
 @RestController
-@RequestMapping(value = "/system/nonmember")
+@RequestMapping("/system/nonmember")
 public class NonmemberController extends BaseController {
 
     @Resource(name = "nonmemberServiceImpl")
@@ -25,7 +25,7 @@ public class NonmemberController extends BaseController {
      * 加载数据列表
      * @return Result 前端提示信息
      */
-    @GetMapping(value = "/page")
+    @GetMapping("page")
     public Result findPage(){
         return SUCCESS_MESSAGE();
     }
