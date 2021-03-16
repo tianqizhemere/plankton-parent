@@ -33,7 +33,7 @@ import java.util.Objects;
 @Component
 public class LimitAspect {
 
-    private static Logger log = LoggerFactory.getLogger(LimitAspect.class);
+    private static final Logger log = LoggerFactory.getLogger(LimitAspect.class);
 
     @Pointcut("@annotation(top.tianqi.plankton.common.annotation.aop.Limit)")
     public void pointcut() { }

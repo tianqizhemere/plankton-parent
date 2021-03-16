@@ -7,7 +7,7 @@
           <el-input v-model="filters.code" placeholder="CODE"></el-input>
         </el-form-item>
         <el-form-item>
-          <kt-button icon="fa fa-search" :label="$t('action.search')" perms="system:user:view" type="primary"
+          <kt-button icon="fa fa-search" :label="$t('action.search')" perms="monitor:online:view" type="primary"
                      @click="findPage(null)"/>
         </el-form-item>
       </el-form>
@@ -34,7 +34,7 @@
       </table-column-filter-dialog>
     </div>
     <!--表格内容栏-->
-    <kt-table permsEdit="system:user:update" permsDelete="system:user:delete"
+    <kt-table permsEdit="system:user:update" permsDelete="monitor:online:delete"
               :data="pageResult" :columns="filterColumns"
               @findPage="findPage" @handleDelete="handleDelete">
     </kt-table>

@@ -27,15 +27,22 @@ public class RedisInfo {
         map.put("uptime_in_days", "自 Redis 服务器启动以来，经过的天数");
         map.put("lru_clock", " 以分钟为单位进行自增的时钟，用于 LRU 管理");
         map.put("connected_clients", "已连接客户端的数量（不包括通过从属服务器连接的客户端）");
+        map.put("client_recent_max_input_buffer", "当前连接的客户端当中，最大输入缓存");
+        map.put("client_recent_max_output_buffer", "当前连接的客户端当中，最长的输出列表");
         map.put("client_longest_output_list", "当前连接的客户端当中，最长的输出列表");
         map.put("client_longest_input_buf", "当前连接的客户端当中，最大输入缓存");
         map.put("blocked_clients", "正在等待阻塞命令（BLPOP、BRPOP、BRPOPLPUSH）的客户端的数量");
         map.put("used_memory", "由 Redis 分配器分配的内存总量，以字节（byte）为单位");
         map.put("used_memory_human", "以人类可读的格式返回 Redis 分配的内存总量");
-        map.put("used_memory_rss", "从操作系统的角度，返回 Redis 已分配的内存总量（俗称常驻集大小）。这个值和 top 、 ps 等命令的输出一致");
+        map.put("used_memory_rss", "从操作系统的角度，返回 Redis 已分配的内存总量（常驻集大小）");
         map.put("used_memory_peak", " Redis 的内存消耗峰值(以字节为单位)");
+        map.put("allocator_allocated", "分配器分配的内存");
+        map.put("allocator_active", "分配器活跃的内存");
+        map.put("allocator_resident", "分配器常驻的内存");
         map.put("used_memory_peak_human", "以人类可读的格式返回 Redis 的内存消耗峰值");
         map.put("used_memory_lua", "Lua 引擎所使用的内存大小（以字节为单位）");
+        map.put("used_memory_scripts", "Lua脚本使用的字节数");
+        map.put("number_of_cached_scripts", "内存中已加载的Lua脚本数量");
         map.put("mem_fragmentation_ratio", "sed_memory_rss 和 used_memory 之间的比率");
         map.put("mem_allocator", "在编译时指定的， Redis 所使用的内存分配器。可以是 libc 、 jemalloc 或者 tcmalloc");
 
@@ -54,6 +61,30 @@ public class RedisInfo {
         map.put("maxmemory", "最大内存限制，0表示无限制");
         map.put("maxmemory_human", "以人类可读的方式返回最大限制内存");
         map.put("maxmemory_policy", "超过内存限制后的处理策略");
+        map.put("allocator_frag_ratio", "分配器的碎片率");
+        map.put("allocator_frag_bytes", "分配器的碎片大小");
+        map.put("allocator_rss_ratio", "分配器常驻内存比例");
+        map.put("rss_overhead_bytes", "分配器的常驻内存大小");
+        map.put("mem_fragmentation_bytes", "内存碎片大小");
+        map.put("mem_not_counted_for_evict", "被驱逐的内存");
+        map.put("mem_replication_backlog", "redis复制积压缓冲区内存");
+        map.put("mem_clients_slaves", "Redis节点客户端消耗内存");
+        map.put("mem_clients_normal", "Redis所有常规客户端消耗内存");
+        map.put("mem_aof_buffer", "AOF使用内存");
+        map.put("active_defrag_running", "活动碎片整理是否处于活动状态(0没有,1正在运行)");
+        map.put("lazyfree_pending_objects", "0-不存在延迟释放的挂起对象");
+        map.put("migrate_cached_sockets", "是否已经缓存了到该地址的连接");
+        map.put("slave_expires_tracked_keys", "从实例到期key数量");
+        map.put("active_defrag_hits", "主动碎片整理命中次数");
+        map.put("active_defrag_misses", "主动碎片整理未命中次数");
+        map.put("active_defrag_key_hits", "主动碎片整理key命中次数");
+        map.put("active_defrag_key_misses", "主动碎片整理key未命中次数");
+        map.put("master_replid", "主实例启动随机字符串");
+        map.put("master_replid2", "主实例启动随机字符串2");
+        map.put("second_repl_offset", "主从同步偏移量2,此值如果和上面的offset相同说明主从一致没延迟");
+        map.put("expired_time_cap_reached_count", "过期计数");
+        map.put("expired_stale_perc", "过期的比率");
+        map.put("aof_last_cow_size", "过期的比率");
         map.put("loading", "服务器是否正在载入持久化文件");
         map.put("rdb_changes_since_last_save", "离最近一次成功生成rdb文件，写入命令的个数，即有多少个写入命令没有持久化");
         map.put("rdb_bgsave_in_progress", "服务器是否正在创建rdb文件");
@@ -105,6 +136,11 @@ public class RedisInfo {
         map.put("used_cpu_user_children", "将后台进程在用户态所占用的CPU时求和累计起来");
         map.put("cluster_enabled", "实例是否启用集群模式");
         map.put("db0", "db0的key的数量,以及带有生存期的key的数,平均存活时间");
+        map.put("used_memory_overhead", "服务器为管理其内部数据结构而分配的所有开销的字节总和");
+        map.put("used_memory_startup", "Redis在启动时消耗的初始内存量");
+        map.put("used_memory_dataset", "数据占用内存的大小");
+        map.put("used_memory_dataset_perc", "数据占用内存的大小百分比");
+
 
     }
 

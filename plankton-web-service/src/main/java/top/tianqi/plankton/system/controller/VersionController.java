@@ -6,9 +6,11 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
+import top.tianqi.plankton.common.annotation.aop.Limit;
 import top.tianqi.plankton.common.annotation.aop.OperateLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.OperationConst;
+import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
 import top.tianqi.plankton.common.status.ErrorStateEnum;
 import top.tianqi.plankton.system.entity.VersionInfo;
 import top.tianqi.plankton.system.service.DictionariesService;
@@ -55,7 +57,7 @@ public class VersionController extends BaseController {
      * @return Result 前端提示信息
      */
     //@RequiresPermissions("system:version:check")
-//    @Limit(count = 5, period = 60, limitType = LimitTypeEnum.IP, key = "checkVersion", prefix = "limit")
+    @Limit(count = 5, period = 60, limitType = LimitTypeEnum.IP, key = "checkVersion", prefix = "version_limit")
     @OperateLog(model = OperationConst.VERSION_MODEL, desc = "检查是否有更新版本", type = OperationConst.SELECT)
     @GetMapping("checkVersion")
     public Result checkVersion(String version, String model) {
@@ -70,6 +72,7 @@ public class VersionController extends BaseController {
      * @return Result 前端提示信息
      */
     @OperateLog(model = OperationConst.VERSION_MODEL, desc = "新增应用版本", type = OperationConst.INSERT)
+    @RequiresPermissions("system:version:save")
     @PostMapping("save")
     public Result save(@Valid @RequestBody VersionInfo versionInfo, BindingResult result){
         if (result.hasErrors()) {
@@ -98,6 +101,7 @@ public class VersionController extends BaseController {
      * @return Result 前端提示信息
      */
     @OperateLog(model = OperationConst.VERSION_MODEL, desc = "修改应用版本", type = OperationConst.UPDATE)
+    @RequiresPermissions("system:version:update")
     @PostMapping("update")
     public Result update(@Valid @RequestBody VersionInfo versionInfo, BindingResult result){
         if (result.hasErrors()) {

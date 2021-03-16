@@ -16,7 +16,6 @@ import top.tianqi.plankton.common.status.ErrorStateEnum;
 import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.AuthService;
-import top.tianqi.plankton.system.service.OperationLogService;
 import top.tianqi.plankton.system.service.UserService;
 
 import javax.annotation.Resource;
@@ -41,9 +40,6 @@ public class UserController extends BaseController {
 
     @Resource(name = "authServiceImpl")
     private AuthService authService;
-
-    @Resource(name = "operationLogServiceImpl")
-    private OperationLogService operationLogService;
 
     /**
      * 加载用户列表
@@ -126,7 +122,7 @@ public class UserController extends BaseController {
      * @param username 用户名
      * @return Result 前端提示信息
      */
-    @RequiresPermissions("system:user:index")
+    @RequiresPermissions("monitor:online:view")
     @GetMapping("online")
     public Result online(String username) {
         List<User> users = new ArrayList<>();
@@ -159,6 +155,7 @@ public class UserController extends BaseController {
      * @param users 踢出的用户列表
      * @return Result 前端提示信息
      */
+    @RequiresPermissions("monitor:online:kickOut")
     @PostMapping("kickOut")
     public Result kickOut(@RequestBody List<User> users){
         if (!CollectionUtils.isEmpty(users)) {

@@ -58,6 +58,7 @@ public class MyControllerAdvice {
         // 用户超过限流次数，暂时禁用当前用户
         User user = new User();
         user.setIsEnable(Boolean.FALSE);
+        logger.error("访问过于频繁----> 触发限流");
         return Result.error(ErrorStateEnum.VISIT_FREQUENTLY, user);
     }
 
