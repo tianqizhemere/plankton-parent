@@ -81,6 +81,11 @@ CREATE TABLE user (
   user_mode varchar(50) NOT NULL COMMENT '用户状态，normal 普通用户 powerful专业',
   is_enable int(2) DEFAULT 1 comment '0:禁用, 1；启用',
   source int(2) DEFAULT NULL comment '用户来源 0 或1',
+  phone varchar(25) DEFAULT NULL comment '手机号码',
+  qq varchar(15) DEFAULT NULL comment 'QQ',
+  login_time datetime DEFAULT NULL comment '登录时间',
+  ip varchar(15) DEFAULT NULL comment '登录ip',
+  address varchar(15) DEFAULT NULL comment '登录地址',
   PRIMARY KEY (id) USING BTREE
   UNIQUE KEY code (code) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;

@@ -22,4 +22,11 @@ public interface OperationLogService extends BaseService<OperationLog> {
      * @return PageResult 前端提示信息
      */
     Page<OperationLog>  getPage(String type, String name, Date beginTime, Date endTime, Page<OperationLog> page);
+
+    /**
+     * 根据code查询用户最新的登录日志
+     * @param code 用户登录账号
+     * @return OperationLog
+     */
+    OperationLog findIpByCode(String code, Page<OperationLog> page);
 }

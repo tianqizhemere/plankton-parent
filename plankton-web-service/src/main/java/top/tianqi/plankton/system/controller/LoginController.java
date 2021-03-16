@@ -13,6 +13,7 @@ import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.common.status.ErrorStateEnum;
+import top.tianqi.plankton.common.util.AddressUtils;
 import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.config.shiro.token.JwtUtil;
 import top.tianqi.plankton.system.entity.Nonmember;
@@ -53,7 +54,7 @@ public class LoginController extends BaseController {
 //    @Limit(count = 300, period = 300, limitType = LimitTypeEnum.IP, key = "login", prefix = "limit")
     @OperateLog(model = OperationConst.LOGIN_MODEL, desc = "登录", type = OperationConst.LOGIN)
     @PostMapping("login")
-    public Result login(@RequestBody User loginUser)  {
+    public Result login(@RequestBody User loginUser, HttpServletRequest request)  {
         if (loginUser == null) {
             throw new BusinessException(ErrorStateEnum.MISSING_PARAMETER);
         }
@@ -66,11 +67,11 @@ public class LoginController extends BaseController {
         if (!Objects.equals(loginUser.getModel(), user.getModel())) {
             throw new BusinessException("设备型号不一致");
         }
-        /* // 获取当前用户主体
+         // 获取当前用户主体
         // 清除可能存在的Shiro权限信息缓存
         if (JedisUtil.exists(Constant.PREFIX_SHIRO_CACHE + user.getCode())) {
             JedisUtil.delKey(Constant.PREFIX_SHIRO_CACHE + user.getCode());
-        }*/
+        }
         // 设置RefreshToken，时间戳为当前时间戳，覆盖已有的RefreshToken
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
         JedisUtil.setObject(Constant.PREFIX_SHIRO_REFRESH_TOKEN + user.getCode(), currentTimeMillis, Integer.parseInt(refreshTokenExpireTime));
@@ -78,6 +79,8 @@ public class LoginController extends BaseController {
         String token = JwtUtil.sign(user.getCode(), currentTimeMillis);
         user.setAuthorization(token);
         user.setLoginTime(new Date());
+        user.setIp(AddressUtils.getRemoteIp(request));
+        user.setAddress(AddressUtils.getIpCity(user.getIp()));
         userService.updateById(user);
         return Result.success("登录成功(Login Success.)", user);
     }
@@ -85,11 +88,6 @@ public class LoginController extends BaseController {
     @OperateLog(model = OperationConst.LOGIN_MODEL, desc = "退出登录", type = OperationConst.LOG_OUT)
     @GetMapping("logout")
     public Result logout(HttpServletRequest request, HttpServletResponse response) {
-//        String token = request.getHeader("Authorization");
-//        String code = JwtUtil.getClaim(token, Constant.ACCOUNT);
-//        // 清除redis
-//        JedisUtil.delKey(Constant.PREFIX_SHIRO_REFRESH_TOKEN  + code);
-        response.setHeader("Authorization", null);
         return Result.success(ErrorStateEnum.REQUEST_SUCCESS);
     }
 }

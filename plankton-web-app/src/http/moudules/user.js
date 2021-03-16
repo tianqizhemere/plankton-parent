@@ -12,6 +12,7 @@ export const save = (data) => {
         data
     })
 }
+
 // 修改
 export const edit = (data) => {
     return axios({
@@ -20,6 +21,8 @@ export const edit = (data) => {
         data
     })
 }
+
+// 根据用户名查询用户信息
 export const findByName = (params) => {
     return axios({
         url: '/system/user/findByName',
@@ -27,6 +30,7 @@ export const findByName = (params) => {
         params
     })
 }
+
 // 删除
 export const batchDelete = (data) => {
     return axios({
@@ -35,6 +39,7 @@ export const batchDelete = (data) => {
         data
     })
 }
+
 // 分页查询
 export const findPage = (params) => {
     return axios({
@@ -43,11 +48,30 @@ export const findPage = (params) => {
         params
     })
 }
+
 // 查找用户的菜单权限标识集合
 export const findPermissions = (params) => {
     return axios({
         url: '/system/user/findPermissions',
         method: 'get',
         params
+    })
+}
+
+// 获取在线用户
+export const online = (params) => {
+    return axios({
+        url: '/system/user/online',
+        method: 'get',
+        params
+    })
+}
+
+// 踢出用户
+export const kickOut = (data) => {
+    return axios({
+        url: '/system/user/kickOut',
+        method: 'post',
+        data
     })
 }

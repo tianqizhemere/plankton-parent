@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -11,11 +12,11 @@ import top.tianqi.plankton.common.annotation.aop.OperateLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
-import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.common.status.ErrorStateEnum;
 import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.AuthService;
+import top.tianqi.plankton.system.service.OperationLogService;
 import top.tianqi.plankton.system.service.UserService;
 
 import javax.annotation.Resource;
@@ -40,6 +41,9 @@ public class UserController extends BaseController {
 
     @Resource(name = "authServiceImpl")
     private AuthService authService;
+
+    @Resource(name = "operationLogServiceImpl")
+    private OperationLogService operationLogService;
 
     /**
      * 加载用户列表
@@ -139,24 +143,29 @@ public class UserController extends BaseController {
                 String[] strArray = key.split(":");
                 String code = strArray[strArray.length - 1];
                 User user = userService.getUser(code);
-                users.add(user);
+                if (user != null) {
+                    users.add(user);
+                }
             }
         }
-        if (CollectionUtils.isEmpty(users)) {
-            throw new BusinessException("查询失败(Query Failure)");
-        }
-        return Result.success(users);
+        IPage<User> page = new Page<>(1L, 999999999);
+        page.setRecords(users);
+        page.setTotal(users.size());
+        return Result.success(page);
     }
 
     /**
      * 踢出用户
-     * @param user 踢出的用户对象
+     * @param users 踢出的用户列表
      * @return Result 前端提示信息
      */
     @PostMapping("kickOut")
-    public Result kickOut(User user){
-        if (user != null) {
-            JedisUtil.delKey(Constant.PREFIX_SHIRO_REFRESH_TOKEN + user.getCode());
+    public Result kickOut(@RequestBody List<User> users){
+        if (!CollectionUtils.isEmpty(users)) {
+            for (User user : users) {
+                user = userService.getById(user.getId());
+                JedisUtil.delKey(Constant.PREFIX_SHIRO_REFRESH_TOKEN + user.getCode());
+            }
         }
         return SUCCESS_MESSAGE();
     }

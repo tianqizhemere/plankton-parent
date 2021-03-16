@@ -1,8 +1,8 @@
 {
-  "name": "permission-app",
+  "name": "plankton-web-app",
   "version": "1.0.0",
-  "description": "权限管理系统前端",
-  "author": "goufn",
+  "description": "plankton后台管理系统",
+  "author": "Wukh",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",

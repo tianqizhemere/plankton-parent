@@ -52,6 +52,12 @@ public class User extends BaseEntity {
     /** QQ */
     private String qq;
 
+    /** 登录ip */
+    private String ip;
+
+    /** 登录城市 */
+    private String address;
+
     /** 令牌 */
     @TableField(exist = false)
     private String authorization;
@@ -146,5 +152,21 @@ public class User extends BaseEntity {
 
     public String getEnableStatus(){
         return EnableStatusEnum.value(this.isEnable);
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

@@ -13,6 +13,7 @@ import * as version from './moudules/version'
 import * as external from './moudules/external'
 import * as notice from './moudules/notice'
 import * as exceptionLog from './moudules/exceptionLog'
+import * as redisInfo from './moudules/redisInfo'
 
 
 // 默认全部导出
@@ -28,5 +29,6 @@ export default {
     version,
     external,
     notice,
-    exceptionLog
+    exceptionLog,
+    redisInfo
 }

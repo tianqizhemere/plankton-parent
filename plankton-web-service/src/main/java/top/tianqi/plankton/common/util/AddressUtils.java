@@ -1,10 +1,19 @@
 package top.tianqi.plankton.common.util;
 
 import org.apache.commons.lang3.StringUtils;
+import org.lionsoul.ip2region.DataBlock;
+import org.lionsoul.ip2region.DbConfig;
+import org.lionsoul.ip2region.DbSearcher;
+import org.lionsoul.ip2region.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.regex.Matcher;
@@ -130,6 +139,81 @@ public class AddressUtils {
         return ip;
     }
 
+    /**
+     * 根据ip获取地址
+     * @param ip
+     * @return
+     */
+    public static String getIpCity(String ip) {
+        //db，读取resources目录下的ip2region.db
+        String dbPath = AddressUtils.class.getResource("/ip2region.db").getPath();
+        File file = new File(dbPath);
+        if (!file.exists()) {
+            log.debug("Error: Invalid ip2region.db file");
+            return null;
+        }
+        //查询算法
+        //B-tree
+        int algorithm = DbSearcher.BTREE_ALGORITHM;
+        //DbSearcher.BINARY_ALGORITHM //Binary
+        //DbSearcher.MEMORY_ALGORITYM //Memory
+        try {
+            DbConfig config = new DbConfig();
+            DbSearcher searcher = new DbSearcher(config, dbPath);
+            //define the method
+            Method method = null;
+            switch (algorithm) {
+                case DbSearcher.BTREE_ALGORITHM:
+                    method = searcher.getClass().getMethod("btreeSearch", String.class);
+                    break;
+                case DbSearcher.BINARY_ALGORITHM:
+                    method = searcher.getClass().getMethod("binarySearch", String.class);
+                    break;
+                case DbSearcher.MEMORY_ALGORITYM:
+                    method = searcher.getClass().getMethod("memorySearch", String.class);
+                    break;
+            }
+            DataBlock dataBlock;
+            if (!Util.isIpAddress(ip)) {
+                log.debug("Error: Invalid ip address");
+                return null;
+            }
+            dataBlock = (DataBlock) method.invoke(searcher, ip);
+            //（格式：国家|大区|省份|城市|运营商)
+            String cityIpString = dataBlock.getRegion();
+            StringBuilder addressBuild = new StringBuilder("");
+            String[] splitIpString = cityIpString.split("\\|");
+            if (splitIpString != null && splitIpString.length > 0) {
+                addressBuild.append(splitIpString[2] + "-");
+                addressBuild.append(splitIpString[3] + "-");
+                addressBuild.append(splitIpString[4]);
+            }
+            searcher.close();
+            return addressBuild.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 读取jar包中的资源文件
+     *
+     * @param fileName 文件名
+     * @return 文件内容
+     * @throws IOException 读取错误
+     */
+    private String readJarFile(String fileName) throws IOException {
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(fileName)));
+        StringBuilder buffer = new StringBuilder();
+        String line;
+        while ((line = in.readLine()) != null) {
+            buffer.append(line);
+        }
+        return buffer.toString();
+    }
+
     public static String getServerIP() {
         InetAddress inet;
         try {
@@ -140,5 +224,12 @@ public class AddressUtils {
             e.printStackTrace();
         }
         return "127.0.0.1";
+    }
+
+    public static void main(String[] args) {
+//        String ip = "119.123.226.17";
+        String ip = "124.71.97.40";
+        String address = getIpCity(ip);
+        System.out.println(address);
     }
 }
