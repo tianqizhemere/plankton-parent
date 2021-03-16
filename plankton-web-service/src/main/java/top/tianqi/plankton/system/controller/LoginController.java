@@ -26,6 +26,7 @@ import top.tianqi.plankton.system.service.UserService;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
 
@@ -56,7 +57,7 @@ public class LoginController extends BaseController {
     @Limit(count = 300, period = 300, limitType = LimitTypeEnum.IP, key = "login", prefix = "login_limit")
     @OperateLog(model = OperationConst.LOGIN_MODEL, desc = "登录", type = OperationConst.LOGIN)
     @PostMapping("login")
-    public Result login(@RequestBody User loginUser, HttpServletRequest request)  {
+    public Result login(@RequestBody User loginUser, HttpServletRequest request) throws IOException {
         if (loginUser == null) {
             throw new BusinessException(ErrorStateEnum.MISSING_PARAMETER);
         }

@@ -1,5 +1,6 @@
 package top.tianqi.plankton.common.util;
 
+import cn.hutool.core.io.IoUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.lionsoul.ip2region.DataBlock;
 import org.lionsoul.ip2region.DbConfig;
@@ -7,11 +8,12 @@ import org.lionsoul.ip2region.DbSearcher;
 import org.lionsoul.ip2region.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -144,51 +146,30 @@ public class AddressUtils {
      * @param ip
      * @return
      */
-    public static String getIpCity(String ip) {
-        //db，读取resources目录下的ip2region.db
-        String dbPath = AddressUtils.class.getResource("/ip2region.db").getPath();
-        File file = new File(dbPath);
-        if (!file.exists()) {
-            log.debug("Error: Invalid ip2region.db file");
+    public static String getIpCity(String ip) throws IOException {
+        if (!Util.isIpAddress(ip)) {
+            log.error("Error: Invalid ip address");
             return null;
         }
-        //查询算法
-        //B-tree
-        int algorithm = DbSearcher.BTREE_ALGORITHM;
-        //DbSearcher.BINARY_ALGORITHM //Binary
-        //DbSearcher.MEMORY_ALGORITYM //Memory
+        //db，读取resources目录下的ip2region.db
+        ClassPathResource resource = new ClassPathResource("/ip2region.db");
+        InputStream inputStream = resource.getInputStream();
         try {
+            byte[] dbBinStr = IoUtil.readBytes(inputStream);
             DbConfig config = new DbConfig();
-            DbSearcher searcher = new DbSearcher(config, dbPath);
-            //define the method
-            Method method = null;
-            switch (algorithm) {
-                case DbSearcher.BTREE_ALGORITHM:
-                    method = searcher.getClass().getMethod("btreeSearch", String.class);
-                    break;
-                case DbSearcher.BINARY_ALGORITHM:
-                    method = searcher.getClass().getMethod("binarySearch", String.class);
-                    break;
-                case DbSearcher.MEMORY_ALGORITYM:
-                    method = searcher.getClass().getMethod("memorySearch", String.class);
-                    break;
-            }
-            DataBlock dataBlock;
-            if (!Util.isIpAddress(ip)) {
-                log.debug("Error: Invalid ip address");
-                return null;
-            }
-            dataBlock = (DataBlock) method.invoke(searcher, ip);
+            DbSearcher searcher = new DbSearcher(config, dbBinStr);
+            // 查询算法memory，采用二进制方式初始化DBSearcher需要使用MEMORY_ALGORITYM，
+            //否则会抛出null。
+            Method method = searcher.getClass().getMethod("memorySearch", String.class);
             //（格式：国家|大区|省份|城市|运营商)
-            String cityIpString = dataBlock.getRegion();
+            String cityIpString = ((DataBlock) method.invoke(searcher, ip)).getRegion();
             StringBuilder addressBuild = new StringBuilder("");
-            String[] splitIpString = cityIpString.split("\\|");
-            if (splitIpString != null && splitIpString.length > 0) {
-                addressBuild.append(splitIpString[2] + "-");
-                addressBuild.append(splitIpString[3] + "-");
-                addressBuild.append(splitIpString[4]);
+            String[] splitIpArr = cityIpString.split("\\|");
+            if (splitIpArr.length > 0) {
+                addressBuild.append(splitIpArr[2]).append("-");
+                addressBuild.append(splitIpArr[3]).append("-");
+                addressBuild.append(splitIpArr[4]);
             }
-            searcher.close();
             return addressBuild.toString();
         } catch (Exception e) {
             e.printStackTrace();
@@ -226,7 +207,7 @@ public class AddressUtils {
         return "127.0.0.1";
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 //        String ip = "119.123.226.17";
         String ip = "124.71.97.40";
         String address = getIpCity(ip);

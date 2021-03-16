@@ -20,6 +20,7 @@ import top.tianqi.plankton.system.service.UserService;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -124,7 +125,7 @@ public class UserController extends BaseController {
      */
     @RequiresPermissions("monitor:online:view")
     @GetMapping("online")
-    public Result online(String username) {
+    public Result online(String username) throws IOException {
         List<User> users = new ArrayList<>();
         Set<String> keys;
         if (StringUtils.isNotBlank(username)) {

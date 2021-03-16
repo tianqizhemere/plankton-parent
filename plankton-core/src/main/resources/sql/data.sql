@@ -1,8 +1,6 @@
--- 版本信息
-insert into version_upgrade values(1, '2020-1-8 20:20:21', '2020-1-8 20:20:21', 'v1.0', '0', 'http://ip:8080/upload/file/aaaa.apk', '1.基于官方最新OneUI3.0\n2.更清晰、更简洁','G9880',1)
-
 -- 初始化用户
-insert into user values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 'superAdmin', 'rts123!@#', '1.0', 2, 'powerful', 1, 1, '15575731038', '823507949');
+insert into user values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 'superAdmin', 'rts123!@#', '1.0', 2, 'powerful', 1, 1, '15575731038', '823507949', '2021-1-13 12:59:59', '127.0.0.1', '广东省深圳市南山区');
+
 -- 初始化角色
 insert into role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '超级用户', '超级管理员', '1');
 
@@ -41,6 +39,14 @@ insert into auth values('31', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系�
 insert into auth values('32', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统日志-异常日志-视图', 'system:exceptionLog:view');
 insert into auth values('33', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统监控-在线用户-视图', 'monitor:online:view');
 insert into auth values('34', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统监控-在线用户-踢出', 'monitor:online:kickOut');
+insert into auth values('35', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-菜单管理-视图', 'system:menu:view');
+insert into auth values('36', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-菜单管理-新增', 'system:menu:save');
+insert into auth values('37', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-菜单管理-修改', 'system:menu:update');
+insert into auth values('38', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-菜单管理-删除', 'system:menu:delete');
+insert into auth values('39', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-角色管理-视图', 'system:role:view');
+insert into auth values('40', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-角色管理-新增', 'system:role:save');
+insert into auth values('41', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-角色管理-修改', 'system:role:update');
+insert into auth values('42', '2021-1-13 16:24:24', '2021-1-13 16:24:24', '系统管理-角色管理-删除', 'system:role:delete');
 
 -- 角色和菜单权限
 insert into role_menu values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
@@ -96,6 +102,14 @@ insert into role_auth values('31', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1
 insert into role_auth values('32', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 32);
 insert into role_auth values('33', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 33);
 insert into role_auth values('34', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 34);
+insert into role_auth values('35', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 35);
+insert into role_auth values('36', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 36);
+insert into role_auth values('37', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 37);
+insert into role_auth values('38', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 38);
+insert into role_auth values('39', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 39);
+insert into role_auth values('40', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 40);
+insert into role_auth values('41', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 41);
+insert into role_auth values('42', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 42);
 
 -- 用户角色中间表
 insert into user_role values('1', '2021-1-13 16:24:24', '2021-1-13 16:24:24', 1, 1);
@@ -123,10 +137,10 @@ INSERT INTO dictionaries VALUES (4, '2021-01-24 00:01:01', '2021-01-24 00:01:01'
 INSERT INTO dictionaries VALUES (5, '2021-01-24 00:01:01', '2021-01-24 00:01:01', 'Galaxy Note10', 0, 0, 0);
 INSERT INTO dictionaries VALUES (6, '2021-01-24 00:01:01', '2021-01-24 00:01:01', 'Galaxy S20', 0, 0, 0);
 INSERT INTO dictionaries VALUES (7, '2021-01-24 00:01:01', '2021-01-24 00:01:01', 'Galaxy Note20', 0, 0, 0);
-INSERT INTO dictionaries VALUES (8, '2021-01-24 00:01:01', '2021-01-24 00:01:01', 'Galaxy S21', 0, 0, 0);
+INSERT INTO dictionaries VALUES (8, '2021-01-24 00:01:01', '2021-01-24 00:01:01', 'Galaxy S21U', 0, 0, 0);
 INSERT INTO dictionaries VALUES (9, '2021-01-28 14:03:34', '2021-01-28 14:03:34', 'G973N', 4, 1, 0);
 INSERT INTO dictionaries VALUES (10, '2021-01-30 12:13:58', '2021-01-30 12:13:58', 'G973F', 4, 1, 0);
-INSERT INTO dictionaries VALUES (11, '2021-01-30 12:14:11', '2021-02-01 17:11:11', 'G975N', 4, 0, 0);
+INSERT INTO dictionaries VALUES (11, '2021-01-30 12:14:11', '2021-01-30 12:14:11', 'G975N', 4, 0, 0);
 INSERT INTO dictionaries VALUES (12, '2021-01-30 12:14:20', '2021-01-30 12:14:20', 'G975F', 4, 0, 0);
 INSERT INTO dictionaries VALUES (13, '2021-01-30 12:14:48', '2021-01-30 12:14:48', 'G977N', 4, 0, 0);
 INSERT INTO dictionaries VALUES (14, '2021-01-30 12:15:11', '2021-01-30 12:15:11', 'G977B', 4, 0, 0);
@@ -138,8 +152,11 @@ INSERT INTO dictionaries VALUES (19, '2021-01-30 12:16:15', '2021-01-30 12:16:15
 INSERT INTO dictionaries VALUES (20, '2021-01-30 12:16:25', '2021-01-30 12:16:25', 'G986N', 6, 0, 0);
 INSERT INTO dictionaries VALUES (21, '2021-01-30 12:16:36', '2021-01-30 14:49:45', 'G9860', 6, 0, 0);
 INSERT INTO dictionaries VALUES (22, '2021-01-30 12:16:44', '2021-01-30 12:16:44', 'G988N', 6, 0, 0);
-INSERT INTO dictionaries VALUES (23, '2021-01-30 12:16:52', '2021-01-30 19:46:20', 'G9880', 6, 0, 0);
+INSERT INTO dictionaries VALUES (23, '2021-01-30 12:16:52', '2021-01-30 16:30:47', 'G9880', 6, 0, 0);
 INSERT INTO dictionaries VALUES (24, '2021-01-30 12:17:05', '2021-01-30 12:17:05', 'N986N', 7, 0, 0);
 INSERT INTO dictionaries VALUES (25, '2021-01-30 12:17:16', '2021-01-30 12:17:16', 'N9860', 7, 0, 0);
 INSERT INTO dictionaries VALUES (26, '2021-01-30 12:17:29', '2021-01-30 12:17:29', 'G998N', 8, 0, 0);
 INSERT INTO dictionaries VALUES (27, '2021-01-30 12:17:41', '2021-01-30 12:17:41', 'G9980', 8, 0, 0);
+INSERT INTO dictionaries VALUES (28, '2021-02-19 21:06:55', '2021-02-19 21:06:55', 'G996N', 8, 0, 0);
+INSERT INTO dictionaries VALUES (29, '2021-02-23 20:22:52', '2021-02-23 20:22:52', 'Galaxy Fold2', 0, 0, 0);
+INSERT INTO dictionaries VALUES (30, '2021-02-23 20:23:14', '2021-02-23 20:23:14', 'F916N', 29, 0, 0);
