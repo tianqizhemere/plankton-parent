@@ -1,5 +1,6 @@
 package top.tianqi.plankton.system.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.tianqi.plankton.common.base.service.BaseService;
 import top.tianqi.plankton.system.entity.User;
@@ -47,4 +48,12 @@ public interface UserService extends BaseService<User> {
      * @return 权限集合
      */
     Set<String> getUserPermissions(Long userId);
+
+    /**
+     * 根据code列表查询用户
+     * @param codes code列表
+     * @param page 分页对象
+     * @return IPage<User>
+     */
+    IPage<User> selectByCodes(List<String> codes, Page<User> page);
 }

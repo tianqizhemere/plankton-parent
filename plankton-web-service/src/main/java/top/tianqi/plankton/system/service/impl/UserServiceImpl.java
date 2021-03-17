@@ -1,7 +1,7 @@
 package top.tianqi.plankton.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +40,13 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 
     @Override
     public Page<User> getPage(String code, String phone, String qq, List<String> modelList, Page<User> page) {
-        LambdaUpdateWrapper<User> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        lambdaUpdateWrapper.like(StringUtils.isNotBlank(code), User::getCode, code);
-        lambdaUpdateWrapper.like(StringUtils.isNotBlank(phone), User::getPhone, phone);
-        lambdaUpdateWrapper.like(StringUtils.isNotBlank(qq), User::getQq, qq);
-        lambdaUpdateWrapper.in(!CollectionUtils.isEmpty(modelList), User::getModel, modelList);
-        lambdaUpdateWrapper.orderByDesc(User::getCreateTime);
-        return userMapper.selectPage(page, lambdaUpdateWrapper);
+        LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.like(StringUtils.isNotBlank(code), User::getCode, code);
+        lambdaQueryWrapper.like(StringUtils.isNotBlank(phone), User::getPhone, phone);
+        lambdaQueryWrapper.like(StringUtils.isNotBlank(qq), User::getQq, qq);
+        lambdaQueryWrapper.in(!CollectionUtils.isEmpty(modelList), User::getModel, modelList);
+        lambdaQueryWrapper.orderByDesc(User::getCreateTime);
+        return userMapper.selectPage(page, lambdaQueryWrapper);
     }
 
     @Override
@@ -57,5 +57,16 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     @Override
     public Set<String> getUserPermissions(Long userId) {
         return authService.getUserAuthListById(userId);
+    }
+
+    @Override
+    public IPage<User> selectByCodes(List<String> codes, Page<User> page) {
+        if (CollectionUtils.isEmpty(codes)) {
+            return page;
+        }
+        LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(User::getCode, codes);
+        lambdaQueryWrapper.orderByDesc(User::getCreateTime);
+        return userMapper.selectPage(page, lambdaQueryWrapper);
     }
 }

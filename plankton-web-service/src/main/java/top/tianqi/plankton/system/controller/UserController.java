@@ -126,7 +126,7 @@ public class UserController extends BaseController {
     @RequiresPermissions("monitor:online:view")
     @GetMapping("online")
     public Result online(String username) throws IOException {
-        List<User> users = new ArrayList<>();
+        List<String> codes = new ArrayList<>();
         Set<String> keys;
         if (StringUtils.isNotBlank(username)) {
             keys = JedisUtil.keysS(Constant.PREFIX_SHIRO_REFRESH_TOKEN + username);
@@ -139,15 +139,10 @@ public class UserController extends BaseController {
                 // 根据:分割key，获取最后一个字符(帐号)
                 String[] strArray = key.split(":");
                 String code = strArray[strArray.length - 1];
-                User user = userService.getUser(code);
-                if (user != null) {
-                    users.add(user);
-                }
+                codes.add(code);
             }
         }
-        IPage<User> page = new Page<>(1L, 999999999);
-        page.setRecords(users);
-        page.setTotal(users.size());
+        IPage<User> page = userService.selectByCodes(codes, getPage());
         return Result.success(page);
     }
 
