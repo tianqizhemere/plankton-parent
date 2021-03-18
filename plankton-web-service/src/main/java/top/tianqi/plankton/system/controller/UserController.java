@@ -13,6 +13,7 @@ import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.status.ErrorStateEnum;
+import top.tianqi.plankton.common.util.AddressUtils;
 import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.AuthService;
@@ -143,6 +144,16 @@ public class UserController extends BaseController {
             }
         }
         IPage<User> page = userService.selectByCodes(codes, getPage());
+        if (!CollectionUtils.isEmpty(page.getRecords())) {
+            for (User user : page.getRecords()) {
+                if (user.getIp() != null) {
+                    if (user.getAddress() == null) {
+                        user.setAddress(AddressUtils.getIpCity(user.getIp()));
+                        userService.updateById(user);
+                    }
+                }
+            }
+        }
         return Result.success(page);
     }
 

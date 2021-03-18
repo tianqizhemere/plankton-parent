@@ -21,7 +21,6 @@ public class JedisUtil {
      * 静态注入JedisPool连接池
      * 本来是正常注入JedisUtil，可以在Controller和Service层使用，但是重写Shiro的CustomCache无法注入JedisUtil
      * 现在改为静态注入JedisPool连接池，JedisUtil直接调用静态方法即可
-     * https://blog.csdn.net/W_Z_W_888/article/details/79979103
      */
     private static JedisPool jedisPool;
 
@@ -65,7 +64,7 @@ public class JedisUtil {
      * @return java.lang.Object
      */
     public static Object getObject(String key) {
-        try (Jedis jedis = jedisPool.getResource()) {
+        try(Jedis jedis = jedisPool.getResource();) {
             byte[] bytes = jedis.get(key.getBytes());
             if (bytes != null && bytes.length > 0) {
                 return SerializableUtil.unserializable(bytes);
@@ -130,7 +129,7 @@ public class JedisUtil {
      * @return java.lang.String
      */
     public static String setJson(String key, String value) {
-        try (Jedis jedis = jedisPool.getResource()) {
+        try(Jedis jedis = jedisPool.getResource()) {
             return jedis.set(key, value);
         } catch (Exception e) {
             throw new BusinessException("设置Redis键值setJson方法异常:key=" + key + " value=" + value + " cause=" + e.getMessage());

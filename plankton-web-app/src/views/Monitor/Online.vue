@@ -70,7 +70,7 @@ export default {
       },
       columns: [],
       filterColumns: [],
-      pageRequest: {current: 1, size: 999999999},
+      pageRequest: {current: 1, size: 10},
       pageResult: {},
       roles: [],
       nodeKey: 'name',
@@ -84,6 +84,8 @@ export default {
         this.pageRequest = data.pageRequest
       }
       this.$api.user.online({
+        'pageNum': this.pageRequest.current,
+        'pageSize': this.pageRequest.size,
         'username': this.filters.code,
       }).then((res) => {
         this.pageResult = res.data

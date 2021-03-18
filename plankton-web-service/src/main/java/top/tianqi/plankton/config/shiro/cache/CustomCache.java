@@ -2,6 +2,7 @@ package top.tianqi.plankton.config.shiro.cache;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
+import redis.clients.jedis.Jedis;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.config.shiro.token.JwtUtil;
 import top.tianqi.plankton.common.util.JedisUtil;
@@ -66,7 +67,9 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public void clear() throws CacheException {
-        Objects.requireNonNull(JedisUtil.getJedis()).flushDB();
+        Jedis jedis = JedisUtil.getJedis();
+        Objects.requireNonNull(jedis).flushDB();
+        jedis.close();
     }
 
     /**
@@ -74,7 +77,9 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public int size() {
-        Long size = Objects.requireNonNull(JedisUtil.getJedis()).dbSize();
+        Jedis jedis = JedisUtil.getJedis();
+        Long size = Objects.requireNonNull(jedis).dbSize();
+        jedis.close();
         return size.intValue();
     }
 
@@ -83,11 +88,13 @@ public class CustomCache<K,V> implements Cache<K,V> {
      */
     @Override
     public Set keys() {
-        Set<byte[]> keys = Objects.requireNonNull(JedisUtil.getJedis()).keys("*".getBytes());
+        Jedis jedis = JedisUtil.getJedis();
+        Set<byte[]> keys = Objects.requireNonNull(jedis).keys("*".getBytes());
         Set<Object> set = new HashSet<Object>();
         for (byte[] bs : keys) {
             set.add(SerializableUtil.unserializable(bs));
         }
+        jedis.close();
         return set;
     }
 

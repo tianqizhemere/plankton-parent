@@ -66,6 +66,7 @@ public class LimitAspect {
         String luaScript = buildLuaScript();
         Jedis jedis = JedisUtil.getJedis();
         Long result = (Long) jedis.evalsha(jedis.scriptLoad(luaScript), keys, Arrays.asList(Integer.toString(limitPeriod), Integer.toString(limitCount)));
+        jedis.close();
         log.info("限流结果---->{}", result);
         if (result > 0) {
             return point.proceed();

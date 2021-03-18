@@ -57,7 +57,7 @@ export default {
       this.loading = true
       let userInfo = {code:this.loginForm.account, model:this.loginForm.password}
       this.$api.login.login(userInfo).then((res) => {
-          if(res.code != 200) {
+          if(res.code !== 200) {
             this.$message({
               message: '用户或密码错误',
               type: 'error'

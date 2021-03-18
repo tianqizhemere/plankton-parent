@@ -33,6 +33,9 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
 
     private static final Logger log = LoggerFactory.getLogger(JwtFilter.class);
 
+    /** app应用名称 */
+    private static final String APPLICATION_NAME = "TFingerprint";
+
     /** 排除拦截的请求 */
     @Value("${jwt.anonymous.urls}")
     private String anonymousStr;
@@ -77,7 +80,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
         String requestURI = httpServletRequest.getRequestURI();
         // 检查请求头是否包含有 appName
         String appName = httpServletRequest.getHeader("appName");
-        if ("TFingerprint".equals(appName)) {
+        if (JwtFilter.APPLICATION_NAME.equals(appName)) {
             log.info("外置应用请求头 {} 请求路径 {} 请求ip {}", appName, requestURI, remoteIp);
             return true;
         }
