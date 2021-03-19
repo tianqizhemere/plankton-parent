@@ -37,6 +37,7 @@ public enum ErrorStateEnum {
     VISIT_FREQUENTLY(1012, "访问过于频繁!"),
     /** 账号已存在 */
     ACCOUNT_EXIST(1013, "该账号已存在"),
+    /** redis连接错误 */
     REDIS_CONNECT_ERROR(1014, "Redis 连接错误");
 
 

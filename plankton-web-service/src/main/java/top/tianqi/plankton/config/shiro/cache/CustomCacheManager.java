@@ -13,7 +13,7 @@ public class CustomCacheManager implements CacheManager {
 
     @Override
     public <K, V> Cache<K, V> getCache(String s) throws CacheException {
-        return new CustomCache<K,V>();
+        return new CustomCache<>();
     }
 }
 

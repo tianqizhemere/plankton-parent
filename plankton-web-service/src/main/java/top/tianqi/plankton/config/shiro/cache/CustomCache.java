@@ -90,7 +90,7 @@ public class CustomCache<K,V> implements Cache<K,V> {
     public Set keys() {
         Jedis jedis = JedisUtil.getJedis();
         Set<byte[]> keys = Objects.requireNonNull(jedis).keys("*".getBytes());
-        Set<Object> set = new HashSet<Object>();
+        Set<Object> set = new HashSet<>();
         for (byte[] bs : keys) {
             set.add(SerializableUtil.unserializable(bs));
         }
@@ -104,7 +104,7 @@ public class CustomCache<K,V> implements Cache<K,V> {
     @Override
     public Collection values() {
         Set keys = this.keys();
-        List<Object> values = new ArrayList<Object>();
+        List<Object> values = new ArrayList<>();
         for (Object key : keys) {
             values.add(JedisUtil.getObject(this.getKey(key)));
         }

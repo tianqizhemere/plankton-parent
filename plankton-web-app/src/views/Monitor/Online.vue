@@ -34,7 +34,7 @@
       </table-column-filter-dialog>
     </div>
     <!--表格内容栏-->
-    <kt-table permsEdit="system:user:update" permsDelete="monitor:online:delete"
+    <kt-table permsEdit="system:user:update" permsDelete="monitor:online:kitOut"
               :data="pageResult" :columns="filterColumns"
               @findPage="findPage" @handleDelete="handleDelete">
     </kt-table>

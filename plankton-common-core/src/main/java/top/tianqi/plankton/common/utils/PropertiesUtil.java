@@ -19,14 +19,10 @@ public class PropertiesUtil {
 
     private PropertiesUtil() {}
 
-    /**
-     * logger
-     */
+    /** logger */
     private static final Logger logger = LoggerFactory.getLogger(PropertiesUtil.class);
 
-    /**
-     * PROP
-     */
+    /** PROP */
     private static final Properties PROP = new Properties();
 
     /**

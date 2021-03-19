@@ -96,7 +96,10 @@ public class RedisInfo {
         map.put("aof_rewrite_in_progress", "标识aof的rewrite操作是否在进行中");
         map.put("aof_rewrite_scheduled",
                 "rewrite任务计划，当客户端发送bgrewriteaof指令，如果当前rewrite子进程正在执行，那么将客户端请求的bgrewriteaof变为计划任务，待aof子进程结束后执行rewrite ");
-
+        map.put("rdb_last_cow_size", "RDB过程中父进程与子进程相比执行了多少修改(包括读缓冲区，写缓冲区，数据修改等)");
+        map.put("allocator_rss_bytes", "分配器的常驻内存大小");
+        map.put("rss_overhead_ratio", "常驻内存开销比例");
+        map.put("used_memory_scripts_human", "Lua脚本使用的字节数");
         map.put("aof_last_rewrite_time_sec", "最近一次aof rewrite耗费的时长");
         map.put("aof_current_rewrite_time_sec", "如果rewrite操作正在进行，则记录所使用的时间，单位秒");
         map.put("aof_last_bgrewrite_status", "上次bgrewrite aof操作的状态");
@@ -140,12 +143,13 @@ public class RedisInfo {
         map.put("used_memory_startup", "Redis在启动时消耗的初始内存量");
         map.put("used_memory_dataset", "数据占用内存的大小");
         map.put("used_memory_dataset_perc", "数据占用内存的大小百分比");
-
-
     }
 
+    /** 属性key */
     private String key;
+    /** 属性值 */
     private String value;
+    /** 属性描述 */
     private String description;
 
     public String getKey() {

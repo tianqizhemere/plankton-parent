@@ -101,6 +101,6 @@ public class MyControllerAdvice {
      */
     @ExceptionHandler(RedisConnectException.class)
     public Result redisConnectError(RedisConnectException e){
-        return Result.error(ErrorStateEnum.REDIS_CONNECT_ERROR);
+        return Result.error(ErrorStateEnum.REDIS_CONNECT_ERROR.getCode(), e.getMessage());
     }
 }

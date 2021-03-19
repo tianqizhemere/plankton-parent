@@ -68,6 +68,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
 
     /**
      * 验证是否登录
+     * 验证是否为放行路径
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
