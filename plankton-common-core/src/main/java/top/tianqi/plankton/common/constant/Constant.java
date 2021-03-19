@@ -27,7 +27,7 @@ public class Constant {
     public static Long TOKEN_REFRESH_TIME = TimeUnit.DAYS.toMillis(7);
 
     /**
-     * token请求头名称
+     * 自定义token请求头名称
      */
     public static String TOKEN_HEADER_NAME = "X-Token";
 

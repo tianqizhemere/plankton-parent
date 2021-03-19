@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import top.tianqi.plankton.common.Result;
+import top.tianqi.plankton.common.annotation.aop.Limit;
 import top.tianqi.plankton.common.annotation.aop.OperateLog;
 import top.tianqi.plankton.common.base.controller.BaseController;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.constant.OperationConst;
+import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
 import top.tianqi.plankton.common.exception.BusinessException;
 import top.tianqi.plankton.common.status.ErrorStateEnum;
 import top.tianqi.plankton.common.util.AddressUtils;
@@ -52,7 +54,7 @@ public class LoginController extends BaseController {
      * @param loginUser 登录对象
      * @return Result 前端提示信息
      */
-//    @Limit(count = 300, period = 300, limitType = LimitTypeEnum.IP, key = "login", prefix = "login_limit")
+    @Limit(count = 5, period = 60 * 10, limitType = LimitTypeEnum.IP, key = "login", prefix = "login_limit")
     @OperateLog(model = OperationConst.LOGIN_MODEL, desc = "登录", type = OperationConst.LOGIN)
     @PostMapping("login")
     public Result login(@RequestBody User loginUser, HttpServletRequest request) throws IOException {
