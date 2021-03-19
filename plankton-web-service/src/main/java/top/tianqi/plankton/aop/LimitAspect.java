@@ -70,6 +70,7 @@ public class LimitAspect {
             if (result > 0) {
                 return point.proceed();
             } else {
+                // 超过阈值
                 throw new LimitException();
             }
         } catch (Exception e) {

@@ -1,7 +1,6 @@
 package top.tianqi.plankton.common.util;
 
 import cn.hutool.core.io.IoUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.lionsoul.ip2region.DataBlock;
 import org.lionsoul.ip2region.DbConfig;
 import org.lionsoul.ip2region.DbSearcher;
@@ -11,14 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Method;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -28,7 +22,7 @@ import java.util.regex.Pattern;
  */
 public class AddressUtils {
 
-    private static Logger log = LoggerFactory.getLogger(AddressUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(AddressUtils.class);
 
     public final static String ERROR_IP = "127.0.0.1";
 
@@ -56,7 +50,6 @@ public class AddressUtils {
         if (ip.length() > 23) {
             ip = ip.substring(0, 23);
         }
-
         return ip;
     }
 
@@ -98,49 +91,6 @@ public class AddressUtils {
         return ip;
     }
 
-    public static String getLastIpSegment(HttpServletRequest request) {
-        String ip = getUserIP(request);
-        if (ip != null) {
-            ip = ip.substring(ip.lastIndexOf('.') + 1);
-        } else {
-            ip = "0";
-        }
-        return ip;
-    }
-
-    public static boolean isValidIP(HttpServletRequest request) {
-        String ip = getUserIP(request);
-        return isValidIP(ip);
-    }
-
-    /**
-     * 判断我们获取的ip是否是一个符合规则ip
-     *
-     * @param ip
-     * @return
-     */
-    public static boolean isValidIP(String ip) {
-        if (StringUtils.isEmpty(ip)) {
-            log.debug("ip is null. valid result is false");
-            return false;
-        }
-
-        Matcher matcher = pattern.matcher(ip);
-        boolean isValid = matcher.matches();
-        log.debug("valid ip:" + ip + " result is: " + isValid);
-        return isValid;
-    }
-
-    public static String getLastServerIpSegment() {
-        String ip = getServerIP();
-        if (ip != null) {
-            ip = ip.substring(ip.lastIndexOf('.') + 1);
-        } else {
-            ip = "0";
-        }
-        return ip;
-    }
-
     /**
      * 根据ip获取地址
      * @param ip
@@ -175,42 +125,5 @@ public class AddressUtils {
             e.printStackTrace();
             return null;
         }
-    }
-
-    /**
-     * 读取jar包中的资源文件
-     *
-     * @param fileName 文件名
-     * @return 文件内容
-     * @throws IOException 读取错误
-     */
-    private String readJarFile(String fileName) throws IOException {
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(fileName)));
-        StringBuilder buffer = new StringBuilder();
-        String line;
-        while ((line = in.readLine()) != null) {
-            buffer.append(line);
-        }
-        return buffer.toString();
-    }
-
-    public static String getServerIP() {
-        InetAddress inet;
-        try {
-            inet = InetAddress.getLocalHost();
-            String hostAddress = inet.getHostAddress();
-            return hostAddress;
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        return "127.0.0.1";
-    }
-
-    public static void main(String[] args) throws IOException {
-//        String ip = "119.123.226.17";
-        String ip = "124.71.97.40";
-        String address = getIpCity(ip);
-        System.out.println(address);
     }
 }
