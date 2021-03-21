@@ -2,7 +2,7 @@
   <div class="personal-panel">
     <div class="personal-desc" :style="{'background':this.$store.state.app.themeColor}">
       <div class="avatar-container">
-        <img class="avatar" :src="require('@/assets/user.png')"/>
+        <img class="avatar" :src="require('../../../static/avatar/595ba7b05f2e485eb50565a50cb6cc3c.jpeg')"/>
       </div>
       <div class="name-role">
         <span class="sender">{{ user.name }} - {{ user.name === "superAdmin" ? "超级管理员" : "普通用户" }}</span>

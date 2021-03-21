@@ -87,7 +87,7 @@
       var user = sessionStorage.getItem("user")
       if (user) {
         this.user.name = user;
-        this.user.avatar = require("@/assets/user.png")
+        this.user.avatar = require("../../../static/avatar/595ba7b05f2e485eb50565a50cb6cc3c.jpeg")
       }
     },
     computed: {

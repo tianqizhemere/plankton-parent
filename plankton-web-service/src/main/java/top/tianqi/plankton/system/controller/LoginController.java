@@ -18,8 +18,10 @@ import top.tianqi.plankton.common.status.ErrorStateEnum;
 import top.tianqi.plankton.common.util.AddressUtils;
 import top.tianqi.plankton.common.util.JedisUtil;
 import top.tianqi.plankton.config.shiro.token.JwtUtil;
+import top.tianqi.plankton.system.entity.LoginLog;
 import top.tianqi.plankton.system.entity.Nonmember;
 import top.tianqi.plankton.system.entity.User;
+import top.tianqi.plankton.system.service.LoginLogService;
 import top.tianqi.plankton.system.service.NonmemberService;
 import top.tianqi.plankton.system.service.UserService;
 
@@ -49,6 +51,9 @@ public class LoginController extends BaseController {
     @Resource(name = "nonmemberServiceImpl")
     private NonmemberService nonmemberService;
 
+    @Resource(name = "loginLogServiceImpl")
+    private LoginLogService loginLogService;
+
     /**
      * 登录
      * @param loginUser 登录对象
@@ -62,28 +67,42 @@ public class LoginController extends BaseController {
             throw new BusinessException(ErrorStateEnum.MISSING_PARAMETER);
         }
         User user = userService.getUser(loginUser.getCode());
+
+        // 记录未注册用户
         if (user == null) {
             Nonmember nonmember = new Nonmember(loginUser.getModel(), loginUser.getCode());
             nonmemberService.save(nonmember);
             throw new BusinessException(ErrorStateEnum.USERNAME_NOT_EXIST);
         }
+
         if (!Objects.equals(loginUser.getModel(), user.getModel())) {
             throw new BusinessException("设备型号不一致");
         }
+
          // 获取当前用户主体
         // 清除可能存在的Shiro权限信息缓存
         if (JedisUtil.exists(Constant.PREFIX_SHIRO_CACHE + user.getCode())) {
             JedisUtil.delKey(Constant.PREFIX_SHIRO_CACHE + user.getCode());
         }
+
         // 设置RefreshToken，时间戳为当前时间戳，覆盖已有的RefreshToken
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
         JedisUtil.setObject(Constant.PREFIX_SHIRO_REFRESH_TOKEN + user.getCode(), currentTimeMillis, Integer.parseInt(refreshTokenExpireTime));
         // 从Header中Authorization返回AccessToken，时间戳为当前时间戳
         String token = JwtUtil.sign(user.getCode(), currentTimeMillis);
+
         user.setAuthorization(token);
         user.setLoginTime(new Date());
         user.setIp(AddressUtils.getRemoteIp(request));
         userService.updateById(user);
+
+        // 记录登录日志
+        LoginLog loginLog = new LoginLog();
+        loginLog.setCode(user.getCode());
+        loginLog.setIp(user.getIp());
+        loginLog.setLoginTime(new Date());
+        loginLogService.save(loginLog);
+
         return Result.success("登录成功(Login Success.)", user);
     }
 

@@ -16,7 +16,6 @@ import redis.clients.jedis.Jedis;
 import top.tianqi.plankton.common.annotation.aop.Limit;
 import top.tianqi.plankton.common.enumeration.LimitTypeEnum;
 import top.tianqi.plankton.common.exception.LimitException;
-import top.tianqi.plankton.common.exception.RedisConnectException;
 import top.tianqi.plankton.common.util.AddressUtils;
 import top.tianqi.plankton.common.util.JedisUtil;
 
@@ -65,16 +64,14 @@ public class LimitAspect {
         }
         ImmutableList<String> keys = ImmutableList.of(StringUtils.join(limitAnnotation.prefix() + "_", key, ip));
         String luaScript = this.buildLuaScript();
-        try(Jedis jedis = JedisUtil.getJedis();){
-            Long result = (Long) jedis.evalsha(jedis.scriptLoad(luaScript), keys, Arrays.asList(Integer.toString(limitPeriod), Integer.toString(limitCount)));
-            if (result > 0) {
-                return point.proceed();
-            } else {
-                // 超过阈值
-                throw new LimitException();
-            }
-        } catch (Exception e) {
-            throw new RedisConnectException(e.getMessage());
+        Jedis jedis = JedisUtil.getJedis();
+        Long result = (Long) jedis.evalsha(jedis.scriptLoad(luaScript), keys, Arrays.asList(Integer.toString(limitPeriod), Integer.toString(limitCount)));
+        jedis.close();
+        if (result > 0) {
+            return point.proceed();
+        } else {
+            // 超过阈值
+            throw new LimitException();
         }
     }
 

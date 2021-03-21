@@ -1,149 +1,82 @@
 <template>
-  <div>
-    <el-row :gutter="24">
-      <el-col :span="9">
-        <div class="card bbxx">
-          <p class="title">
-            <i class="fa fa-server"></i>个人头像
-          </p>
-          <div class="user_img">
-            <img v-if="newImageUrl" :src="newImageUrl" alt="用户头像" />
-            <img v-else :src="personalInfo.avatar" alt="用户头像" />
-            <el-upload
-              class="avatar-uploader"
-              action
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-            >
-              <!--  <img v-if="imageUrl" :src="imageUrl" class="avatar"> -->
-              <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
-              <button
-                type="button"
-                class="el-button filter-item el-button--primary"
-                style="margin-top:10px"
-              >
-                <i class="fa fa-cloud-upload" aria-hidden="true"></i>
-                <span>上传头像</span>
-              </button>
-            </el-upload>
+  <div :class="'multi-page not-menu-page home-page'">
+    <el-row :gutter="8" class="head-info">
+      <el-card class="head-info-card">
+        <el-col :span="12">
+          <div class="head-info-avatar">
+            <img alt="头像" :src="avatar">
           </div>
-        </div>
+          <div class="head-info-count">
+            <div class="head-info-welcome">
+              {{welcomeMessage}}
+            </div>
+            <div class="head-info-desc">
+              <p>{{'暂无部门'}} | {{'暂无角色'}}</p>
+            </div>
+            <div class="head-info-time">登录时间：{{personalInfo.loginTime }}</div>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <div>
+            <el-row class="more-info">
+              <el-col :span="4"></el-col>
+              <el-col :span="4"></el-col>
+              <el-col :span="4"></el-col>
+              <el-col :span="4">
+                <head-info title="今日IP" :content="todayIp" :center="false" :bordered="false"/>
+              </el-col>
+              <el-col :span="4">
+                <head-info title="今日访问" :content="todayVisitCount" :center="false" :bordered="false"/>
+              </el-col>
+              <el-col :span="4">
+                <head-info title="总访问量" :content="totalVisitCount" :center="false" />
+              </el-col>
+            </el-row>
+          </div>
+        </el-col>
+      </el-card>
+    </el-row>
+    <el-row :gutter="8" class="count-info">
+      <el-col :span="12" class="visit-count-wrapper">
+        <el-card class="visit-count">
+          <div  id="countChart" style="height: 400px;border:1px solid  #f1f1f1;border-radius: 5px" ></div>
+        </el-card>
       </el-col>
-
-      <el-col :span="15">
-        <div class="card bbxx">
-          <p class="title">
-            <i class="fa fa-server"/>个人信息
-          </p>
-          <div class="table" :model="personalInfo">
-            <p>
-              <span class="tit">用户名</span>{{ personalInfo.code }}
-            </p>
-            <p>
-              <span class="tit">创建时间</span>{{ dateFormat(personalInfo.createTime) }}
-            </p>
-            <p>
-              <span class="tit">登陆时间</span>{{ dateFormat(personalInfo.loginTime) }}
-            </p>
-            <p>
-              <span class="tit">手机号码</span>{{ personalInfo.phone }}
-            </p>
-          </div>
-        </div>
+      <el-col :span="12" class="project-wrapper">
+        <el-card title="拓展区域" class="project-card" v-if="loadRepo === 1">
+          <a href="" target="_blank" slot="extra">所有项目</a>
+          <running-task :projects="projects">
+          </running-task>
+        </el-card>
       </el-col>
     </el-row>
-    <el-row :gutter="24">
-      <el-col :span="9">
-        <div class="card bbxx">
-          <p class="title">
-            <i class="fa fa-server"></i>个人头像
-          </p>
-          <div class="user_img">
-            <img v-if="newImageUrl" :src="newImageUrl" alt="用户头像" />
-            <img v-else :src="personalInfo.avatar" alt="用户头像" />
-            <el-upload
-                class="avatar-uploader"
-                action
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
-            >
-              <!--  <img v-if="imageUrl" :src="imageUrl" class="avatar"> -->
-              <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
-              <button
-                  type="button"
-                  class="el-button filter-item el-button--primary"
-                  style="margin-top:10px"
-              >
-                <i class="fa fa-cloud-upload" aria-hidden="true"></i>
-                <span>上传头像</span>
-              </button>
-            </el-upload>
-          </div>
-        </div>
-      </el-col>
-      <el-col :span="15">
-        <div class="card kjfs">
-          <div class="card kjfs">
-            <p class="title">
-              <i class="fa fa-th-large fa-lg"></i>快捷方式
-            </p>
-            <ul>
-              <li>
-                <router-link to="/sys/user" class="kjfs kjfs-bluee">
-                  <span>
-                    <i class="el-icon-service fa-2x"></i>
-                  </span>
-                  <span>用户管理</span>
-                </router-link>
-              </li>
-              <li>
-                <router-link to="/sys/role" class="kjfs kjfs-yelloww">
-                  <span>
-                    <i class="el-icon-view fa-2x"></i>
-                  </span>
-                  <span>角色管理</span>
-                </router-link>
-              </li>
-            </ul>
-            <ul>
-              <li>
-                <router-link to="/sys/dict" class="kjfs kjfs-grennn">
-                  <span>
-                    <i class="el-icon-collection fa-2x"></i>
-                  </span>
-                  <span>字典管理</span>
-                </router-link>
-              </li>
-              <li>
-                <router-link to="/sys/log" class="kjfs kjfs-lightBluee">
-                  <span>
-                    <i class="el-icon-tickets fa-2x"></i>
-                  </span>
-                  <span>系统日志</span>
-                </router-link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </el-col>
-
-    </el-row>
-
   </div>
 </template>
 
 <script>
 import moment from "moment";
-import {format} from "@/utils/datetime"
+import HeadInfo from './HeadInfo'
 moment.locale("zh-cn");
+import RunningTask from './RunningTask'
 export default {
   name: "HomePage",
   data() {
     return {
+      avatar: require("../../../static/avatar/c7c4ee7be3eb4e73a19887dc713505145.jpg"),
       editable: false,
-      newImageUrl: require("@/assets/user.png"),
+      series: [],
+      projects: [],
+      todayIp: '',
+      todayVisitCount: '',
+      totalVisitCount: '',
+      userRole: '',
+      userDept: '',
+      lastLoginTime: '',
+      welcomeMessage: '',
+      loadRepo: 0,
+      htmlspan: '<span style="display:inline-block;margin-right: 5px;border-radius: 10px;width: 10px;height: 10px;background-color: ',
+      legends: ['总数', '您'],
+      myChart: {},
       personalInfo: {
         id: 0,
         code: '',
@@ -154,241 +87,259 @@ export default {
       }
     };
   },
+  components: {RunningTask, HeadInfo},
   methods: {
-    //上传头像
-    uploadAvatar() {
-      alert("稍后补上");
+    welcome () {
+      const date = new Date()
+      const hour = date.getHours()
+      let time = hour < 6 ? '美好的一天开始' : (hour <= 11 ? '上午好' : (hour <= 13 ? '中午好' : (hour <= 18 ? '下午好' : '晚上好')))
+      let welcomeArr = [
+        '喝杯咖啡休息下吧☕',
+        '要不要和朋友打局LOL',
+        '要不要和朋友打局王者荣耀',
+        '几天没见又更好看了呢😍',
+        '今天又写了几个Bug🐞呢',
+        '今天在群里吹水了吗',
+        '今天吃了什么好吃的呢',
+        '今天您微笑了吗😊',
+        '今天帮助别人解决问题了吗',
+        '准备吃些什么呢',
+        '周末要不要去看电影？'
+      ]
+      let index = Math.floor((Math.random() * welcomeArr.length))
+      return `${time}，${this.personalInfo.username}`
     },
-    handleAvatarSuccess(res, file) {
-      this.newImageUrl = URL.createObjectURL(file.raw);
-      alert("修改头像成功");
+    getRepos () {
+
     },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-      }
-      return isJPG && isLt2M;
-    },
-    dateFormat(value) {
-      return format(value)
+    runningProject () {
+      let that = this
+      this.$api.loginLog.visitCount({code: this.personalInfo.username}).then((r) => {
+        let data = r.data
+        this.todayIp = data.todayIp
+        this.todayVisitCount = data.todayVisitCount
+        this.totalVisitCount = data.totalVisitCount
+        let dateArr = []
+        let totalSeries = {name: '总数', data: [], type: 'bar'}
+        let yourSeries = {name: '您', data: [], type: 'bar'}
+        for (let i = 6; i >= 0; i--) {
+          let time = moment().subtract(i, 'days').format('MM-DD')
+          let contain = false
+          for (let o of data.lastSevenVisitCount) {
+            if (o.days === time) {
+              contain = true
+              totalSeries.data.push(o.count)
+            }
+          }
+          if (!contain) {
+            totalSeries.data.push(0)
+          }
+          dateArr.push(time)
+        }
+        this.series.push(totalSeries)
+        for (let i = 6; i >= 0; i--) {
+          let time = moment().subtract(i, 'days').format('MM-DD')
+          let contain = false
+          for (let o of data.lastSevenUserVisitCount) {
+            if (o.days === time) {
+              contain = true
+              yourSeries.data.push(o.count)
+            }
+          }
+          if (!contain) {
+            yourSeries.data.push(0)
+          }
+        }
+        this.series.push(yourSeries)
+        this.myChart.setOption({
+          title: {
+            text: '近7日系统访问记录',
+            show: true,
+            left: 10,
+            top: 10
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'line'
+            },
+            formatter: function name (params) {
+              let htmlTip = ''
+              for (let i = 0; i < params.length; i++) {
+                if (i === 0) {
+                  htmlTip += params[i].axisValue + '<br />'
+                }
+                if (i === (params.length - 1)) {
+                  htmlTip += (that.htmlspan + params[i].color + ';"></span>' + params[i].seriesName + ' : ' + params[i].value)
+                } else {
+                  htmlTip += (that.htmlspan + params[i].color + ';"></span>' + params[i].seriesName + ' : ' + params[i].value + '<br />')
+                }
+              }
+              return htmlTip
+            }
+          },
+          legend: {
+            type: 'scroll',
+            x: 'center',
+            y: 'bottom',
+            textStyle: {
+              fontSize: '12'
+            },
+            data: this.legends
+          },
+          toolbox: {
+            show: true,
+            right: 20,
+            top: 10,
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          xAxis: {
+            type: 'category',
+            boundaryGap: true,
+            data: dateArr,
+            axisLabel: {
+              textStyle: {
+                fontSize: '12'
+              }
+            }
+          },
+          yAxis: {
+            type: 'value',
+            axisLabel: {
+              formatter: '{value}',
+              textStyle: {
+                fontSize: '12'
+              }
+            }
+          },
+          grid: {
+            left: '4%'
+          },
+          series: this.series
+        }, true)
+      }).catch((r) => {
+        console.error(r)
+        that.$message.error('获取首页信息失败')
+      })
     }
+  },
+  created () {
+    this.getRepos()
+    this.loadRepo = 1
   },
   mounted() {
     var user = sessionStorage.getItem("user")
     this.personalInfo.username = user
     this.$api.user.findByName({'username': user}).then((res) => {
         this.personalInfo = res.data
-			})
+    });
+    this.welcomeMessage = this.welcome()
+    this.myChart = this.$echarts.init(document.getElementById('countChart'))
+    this.runningProject()
   }
 };
 </script>
 
 <style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
+.home-page .head-info {
+  margin-bottom: .5rem;
 }
-li {
-  list-style: none;
+.home-page .head-info .head-info-card {
+  padding: .5rem;
+  border-color: #f1f1f1;
 }
-a {
-  text-decoration: none;
+.home-page .head-info .head-info-card .head-info-avatar {
+  display: inline-block;
+  float: left;
+  margin-right: 1rem;
 }
-.el-row {
-  margin-bottom: 20px;
+.home-page .head-info .head-info-card .head-info-avatar img {
+  width: 5rem;
+  border-radius: 2px;
 }
-.avatar {
-  width: 80px;
-  height: 80px;
+.home-page .head-info .head-info-card .head-info-count {
+  display: inline-block;
+  float: left;
 }
-$top: top;
-$bottom: bottom;
-$left: left;
-$right: right;
-$leftright: ($left, $right);
-$pinkk: #eec2d3;
-$bluee: #409eff;
-$yelloww: #f4d884;
-$grennn: #89dda0;
-$purplee: #78a2ea;
-$lightBluee: #b8d6ff;
-$list: bluee pinkk yelloww grennn purplee lightBluee;
-$list1: $bluee $pinkk $yelloww $grennn $purplee $lightBluee;
-%shadow {
-  background: #fff;
-  -webkit-box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.2);
-  box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.2);
-  border-color: rgba(0, 0, 0, 0.2);
-  .title {
-    font-size: 14px;
-    padding: 10px;
-    i {
-      margin-#{$right}: 5px;
-    }
-  }
+.home-page .head-info .head-info-card .head-info-count .head-info-welcome {
+  font-size: 1.05rem;
+  margin-bottom: .1rem;
 }
-@mixin flex($direction: row, $content: space-between) {
-  display: flex;
-  flex-direction: $direction;
-  justify-content: $content;
+.home-page .head-info .head-info-card .head-info-count .head-info-desc {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: .8rem;
+  padding: .2rem 0;
 }
-.card {
-  color: #666;
-  @extend %shadow;
-  ul {
-    @include flex;
-    li {
-      flex: 1;
-      a {
-        color: #666666;
-        align-items: center;
-        padding-#{$top}: 20px;
-        padding-#{$bottom}: 20px;
-        @include flex(column);
-        span {
-          height: 44px;
-        }
-        .num {
-          line-height: 44px;
-          font-size: 42px;
-          color: $bluee;
-          margin: 0px;
-        }
-      }
-      .kjfs-bluee {
-        color: $bluee;
-      }
-      .kjfs-pinkk {
-        color: $pinkk;
-      }
-      .kjfs-yelloww {
-        color: $yelloww;
-      }
-      .kjfs-grennn {
-        color: $grennn;
-      }
-      .kjfs-purplee {
-        color: $purplee;
-      }
-      .kjfs-lightBluee {
-        color: $lightBluee;
-      }
-      &:hover {
-        .kjfs-bluee {
-          color: #ffffff;
-          background: $bluee;
-        }
-        .kjfs-pinkk {
-          color: #ffffff;
-          background: $pinkk;
-        }
-        .kjfs-yelloww {
-          color: #ffffff;
-          background: $yelloww;
-        }
-        .kjfs-grennn {
-          color: #ffffff;
-          background: $grennn;
-        }
-        .kjfs-purplee {
-          color: #ffffff;
-          background: $purplee;
-        }
-        .kjfs-lightBluee {
-          color: #ffffff;
-          background: $lightBluee;
-        }
-      }
-    }
-  }
-  .table {
-    padding: 21px;
-    p {
-      height: 52px;
-      line-height: 52px;
-      border: 1px solid #cccccc;
-      overflow: hidden;
-      border-#{$top}: none;
-      @include flex(null, start);
-      &:first-child {
-        border-#{$top}: 1px solid #cccccc;
-      }
-      .tit {
-        width: 90px;
-        min-width: 90px;
-        height: 100%;
-        text-align: center;
-        border-#{$right}: 1px solid #cccccc;
-        margin-#{$right}: 18px;
-      }
-      span.gitbox {
-        flex: 1;
-        height: 100%;
-        overflow: hidden;
-        @include flex(row, start);
-        a {
-          &:first-child {
-            margin-#{$right}: 30px;
-          }
-        }
-      }
-    }
-  }
-}
-#lineEcharts {
-  margin-#{$top}: 30px;
-  padding-#{$top}: 30px;
-  @extend %shadow;
-}
-#maintable {
-  margin-#{$top}: 30px;
-  padding-#{$top}: 10px;
-  @extend %shadow;
-}
-.user_img {
-  /*width: 80%;*/
-  padding: 20px;
-  margin: 0;
-  text-align: center;
-  // border: 1px solid #dee1e2;
-  img {
-    max-width: 130px;
-    max-height: 130px;
-  }
-}
-.user_info {
-  /*padding-bottom: 20px;*/
-  border: 1px solid #dee1e2;
-  h2 {
-    margin: 0;
-    font-weight: normal;
-    padding: 10px 20px;
-    border-bottom: 1px solid #dee1e2;
-    .i_edit {
-      float: right;
-      font-size: 16px;
-      color: #7ab8ed;
-    }
-  }
-}
-.user_info_form,
-.user_info_text {
-  padding: 20px;
-}
-#income,
-#interest {
-  width: 100%;
-  height: 400px;
-}
-.el-form-item {
+.home-page .head-info .head-info-card .head-info-count .head-info-desc p {
   margin-bottom: 0;
 }
-.avatar-uploader {
-  margin-bottom: 32px;
+.home-page .head-info .head-info-card .head-info-count .head-info-time {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: .8rem;
+  padding: .2rem 0;
+}
+.home-page .count-info .visit-count-wrapper {
+  padding-left: 0 !important;
+}
+.home-page .count-info .visit-count-wrapper .visit-count {
+  padding: .5rem;
+  border-color: #f1f1f1;
+}
+.home-page .count-info .visit-count-wrapper .visit-count .ant-card-body {
+  padding: .5rem 1rem !important;
+}
+.home-page .count-info .project-wrapper {
+  padding-right: 0 !important;
+}
+.home-page .count-info .project-wrapper .project-card {
+  border: none !important;
+}
+.home-page .count-info .project-wrapper .project-card .ant-card-head {
+  border-left: 1px solid #f1f1f1 !important;
+  border-top: 1px solid #f1f1f1 !important;
+  border-right: 1px solid #f1f1f1 !important;
+}
+.home-page .count-info .project-wrapper .project-card .ant-card-body {
+  padding: 0 !important;
+}
+.home-page .count-info .project-wrapper .project-card .ant-card-body table {
+  width: 100%;
+}
+.home-page .count-info .project-wrapper .project-card .ant-card-body table td {
+  width: 50%;
+  border: 1px solid #f1f1f1;
+  padding: .6rem;
+}
+.home-page .count-info .project-wrapper .project-card .ant-card-body table td .project-avatar-wrapper {
+  display: inline-block;
+  float: left;
+  margin-right: .7rem;
+}
+.home-page .count-info .project-wrapper .project-card .ant-card-body table td .project-avatar-wrapper .project-avatar {
+  color: #42b983;
+  background-color: #d6f8b8;
+}
+.home-page .count-info .project-wrapper .project-card .project-detail {
+  display: inline-block;
+  float: left;
+  text-align: left;
+  width: 78%;
+}
+.home-page .count-info .project-wrapper .project-card .project-detail .project-name {
+  font-size: .9rem;
+  margin-top: -2px;
+  font-weight: 600;
+}
+.home-page .count-info .project-wrapper .project-card .project-detail .project-desc {
+  color: rgba(0, 0, 0, 0.45);
+}
+.home-page .count-info .project-wrapper .project-card .project-detail .project-desc p {
+  margin-bottom: 0;
+  font-size: .6rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

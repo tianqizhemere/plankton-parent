@@ -14,6 +14,7 @@ import * as external from './moudules/external'
 import * as notice from './moudules/notice'
 import * as exceptionLog from './moudules/exceptionLog'
 import * as redisInfo from './moudules/redisInfo'
+import * as loginLog from './moudules/loginLog'
 
 
 // 默认全部导出
@@ -30,5 +31,6 @@ export default {
     external,
     notice,
     exceptionLog,
-    redisInfo
+    redisInfo,
+    loginLog
 }

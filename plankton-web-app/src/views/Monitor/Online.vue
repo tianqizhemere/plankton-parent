@@ -34,7 +34,7 @@
       </table-column-filter-dialog>
     </div>
     <!--表格内容栏-->
-    <kt-table permsEdit="system:user:update" permsDelete="monitor:online:kitOut"
+    <kt-table permsEdit="system:user:update" permsDelete="monitor:online:kickOut"
               :data="pageResult" :columns="filterColumns"
               @findPage="findPage" @handleDelete="handleDelete">
     </kt-table>
@@ -112,6 +112,7 @@ export default {
     initColumns: function () {
       this.columns = [
         {prop: "code", label: "CODE", minWidth: 120},
+        {prop: "model", label: "设备型号", minWidth: 120},
         {prop: "loginTime", label: "登录时间", minWidth: 110, formatter: this.dateFormat},
         {prop: "ip", label: "IP", minWidth: 70},
         {prop: "address", label: "登录地点", minWidth: 70}

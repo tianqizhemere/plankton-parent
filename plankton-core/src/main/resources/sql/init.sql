@@ -225,3 +225,17 @@ CREATE TABLE user_notice (
   is_read int(11) DEFAULT NULL COMMENT '是否读取, 0-未读，1-已读',
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- 登录日志
+DROP TABLE IF EXISTS login_log;
+CREATE TABLE login_log (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  create_time datetime NOT NULL,
+  modify_time datetime NOT NULL,
+  code varchar(50) DEFAULT NULL COMMENT 'code',
+  login_time datetime DEFAULT NULL COMMENT '登录时间',
+  location varchar(50) DEFAULT NULL COMMENT '登录地点',
+  ip varchar(50) DEFAULT NULL COMMENT '登录ip',
+  PRIMARY KEY (id) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
