@@ -2,16 +2,16 @@
   <div class="icons-container">
     <el-tabs type="border-card">
       <div v-for="item of elementIcons" :key="item" @click="handleClipboard(generateElementIconCode(item),$event)">
-          <el-tooltip placement="top">
-            <div slot="content">
-              {{ generateElementIconCode(item) }}
-            </div>
-            <div class="icon-item">
-              <i :class="'el-icon-' + item" />
-              <span>{{ item }}</span>
-            </div>
-          </el-tooltip>
-        </div>
+        <el-tooltip placement="top">
+          <div slot="content">
+            {{ generateElementIconCode(item) }}
+          </div>
+          <div class="icon-item">
+            <i :class="'el-icon-' + item"/>
+            <span>{{ item }}</span>
+          </div>
+        </el-tooltip>
+      </div>
     </el-tabs>
   </div>
 </template>
@@ -19,6 +19,7 @@
 <script>
 import clipboard from '@/utils/clipboard'
 import elementIcons from './element-icons'
+
 export default {
   name: 'Icons',
   data() {
@@ -41,6 +42,7 @@ export default {
 .icons-container {
   margin: 10px 20px 0;
   overflow: hidden;
+
   .icon-item {
     margin: 20px;
     height: 85px;
@@ -51,11 +53,13 @@ export default {
     color: #24292e;
     cursor: pointer;
   }
+
   span {
     display: block;
     font-size: 16px;
     margin-top: 10px;
   }
+
   .disabled {
     pointer-events: none;
   }

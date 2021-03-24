@@ -71,7 +71,7 @@
           <model-tree-select :data="popupTreeData"
                              :defaultProps="defaultProps" multiple
                              :nodeKey="nodeKey" :checkedKeys="defaultCheckedKeys"
-                             @popoverHide="popoverHide" ></model-tree-select>
+                             @popoverHide="popoverHide"></model-tree-select>
         </el-form-item>
         <el-form-item label="升级文件" prop="attachIds">
           <el-upload
@@ -148,7 +148,7 @@ export default {
         attachIds: '',
         modelName: '',
         parentId: '',
-        downloadUrl:'',
+        downloadUrl: '',
         isSuccess: false
       },
       // 文件列表
@@ -173,7 +173,7 @@ export default {
     }
   },
   methods: {
-    popoverHide (checkedIds, checkedData) {
+    popoverHide(checkedIds, checkedData) {
       let modelName = '';
       if (checkedData) {
         checkedData.forEach(val => {
@@ -278,7 +278,7 @@ export default {
         versionDesc: '',
         parentId: '',
         attachIds: '',
-        downloadUrl:'',
+        downloadUrl: '',
         isSuccess: true
       }
       this.defaultCheckedKeys = []
@@ -313,7 +313,7 @@ export default {
                     this.$message({message: '操作成功', type: 'success'})
                     this.dialogVisible = false
                     this.$refs['dataForm'].resetFields()
-                  } else if(res.code === 1011){
+                  } else if (res.code === 1011) {
                     this.$message({message: '操作失败,' + res.massage, type: 'warning'})
                   } else {
                     this.$message({message: '操作失败, ' + res.massage, type: 'error'})
@@ -361,7 +361,7 @@ export default {
         {prop: "model", label: "设备型号", minWidth: 120},
         {prop: "versionDesc", label: "升级信息", minWidth: 100},
         {prop: "typeName", label: "状态", minWidth: 70},
-        {prop: "downloadUrl", label:"下载路径", minWidth: 120},
+        {prop: "downloadUrl", label: "下载路径", minWidth: 120},
         {prop: "createTime", label: "创建时间", minWidth: 120, formatter: this.dateFormat}
       ]
       this.filterColumns = JSON.parse(JSON.stringify(this.columns));

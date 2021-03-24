@@ -42,8 +42,8 @@ export default {
         {prop: "id", label: "ID", minWidth: 60},
         {prop: "name", label: "异常名称", minWidth: 100},
         {prop: "requestParam", label: "请求参数", minWidth: 120},
-        {prop: "errorMessage", label: "异常信息", minWidth: 140, showOverflowTooltip:true},
-        {prop: "method", label: "操作方法", minWidth: 120, showOverflowTooltip:true},
+        {prop: "errorMessage", label: "异常信息", minWidth: 140, showOverflowTooltip: true},
+        {prop: "method", label: "操作方法", minWidth: 120, showOverflowTooltip: true},
         {prop: "uri", label: "URI", minWidth: 100},
         {prop: "code", label: "请求人code", minWidth: 100},
         {prop: "ip", label: "IP", minWidth: 100},
@@ -56,7 +56,7 @@ export default {
       showOperation: false,
 
       // 数据操作类型
-      operationTypes:[],
+      operationTypes: [],
     }
   },
   methods: {

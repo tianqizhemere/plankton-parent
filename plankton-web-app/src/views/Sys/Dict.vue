@@ -180,7 +180,7 @@ export default {
     // 字典树选中
     handleTreeSelectChange(data, node) {
       this.dataForm.parentId = data.id
-      if (!data.id){
+      if (!data.id) {
         this.dataForm.parentId = data.parentId
       }
       this.dataForm.parentName = data.name

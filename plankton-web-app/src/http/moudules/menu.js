@@ -4,7 +4,7 @@ import axios from '../axios'
  * 菜单管理模块
  */
 
- // 保存
+// 保存
 export const save = (data) => {
     return axios({
         url: '/system/menu/save',

@@ -8,7 +8,9 @@
         </el-form-item>
         <el-form-item>
           <el-select placeholder="数据操作类型" v-model="filters.type" filterable clearable style="width: 100%;">
-            <el-option :label="item.typeName" v-for="item in operationTypes" :key="item.code" :value="item.typeName">{{ item.typeName }}</el-option>
+            <el-option :label="item.typeName" v-for="item in operationTypes" :key="item.code" :value="item.typeName">
+              {{ item.typeName }}
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -39,7 +41,7 @@ export default {
       size: 'small',
       filters: {
         name: '',
-        type:''
+        type: ''
       },
       columns: [
         {prop: "id", label: "ID", minWidth: 60},
@@ -60,7 +62,7 @@ export default {
       showOperation: false,
 
       // 数据操作类型
-      operationTypes:[],
+      operationTypes: [],
     }
   },
   methods: {
@@ -84,7 +86,7 @@ export default {
       return format(row[column.property])
     },
     // 获取数据操作类型
-    getOperationType(){
+    getOperationType() {
       this.$api.log.getOperationType().then(res => {
         this.operationTypes = res.data;
       })

@@ -12,9 +12,9 @@
       <el-divider content-position="left">Redis详细信息</el-divider>
       <table style="border-bottom: 1px solid #f1f1f1;">
         <tr v-for="(info, index) in redisInfo" :key="index" style="border-top: 1px solid #f1f1f1;">
-          <td style="padding: .7rem 1rem">{{info.key}}</td>
-          <td style="padding: .7rem 1rem">{{info.description}}</td>
-          <td style="padding: .7rem 1rem">{{info.value}}</td>
+          <td style="padding: .7rem 1rem">{{ info.key }}</td>
+          <td style="padding: .7rem 1rem">{{ info.description }}</td>
+          <td style="padding: .7rem 1rem">{{ info.value }}</td>
         </tr>
       </table>
     </el-row>
@@ -25,7 +25,7 @@ import moment from 'moment'
 
 export default {
   name: 'RedisInfo',
-  data () {
+  data() {
     return {
       loading: true,
       redisInfo: [],
@@ -38,12 +38,12 @@ export default {
       chartTwo: ''
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     if (this.timer) {
       clearInterval(this.timer)
     }
   },
-  mounted () {
+  mounted() {
     this.getData()
     this.timer = setInterval(() => {
       this.getData()
@@ -53,12 +53,12 @@ export default {
     })
   },
   methods: {
-    getData () {
+    getData() {
       if (this.$route.path.indexOf('redis') !== -1) {
         this.$api.redisInfo.keysSize().then(res => {
           let currentSize = res.data.dbSize;
           this.$api.redisInfo.memoryInfo().then(res => {
-          let currentMemory = res.data.used_memory / 1000;
+            let currentMemory = res.data.used_memory / 1000;
             let time = moment().format('hh:mm:ss')
             this.dataOne.push(currentMemory)
             this.categoriesOne.push(time)
@@ -81,7 +81,7 @@ export default {
         });
       }
     },
-    lineChartOne (chartId) {
+    lineChartOne(chartId) {
       this.chartOne = this.$echarts.init(document.getElementById(chartId))
       this.chartOne.setOption({
         color: ['#1890ff', '#fcc550', '#1890ff', '#ff9933', '#fa541c', '#42b983', '#722ed1', '#60FFF0', '#52c41a', '#42b983'],
@@ -122,7 +122,7 @@ export default {
         }]
       }, true)
     },
-    lineChartTwo (chartId) {
+    lineChartTwo(chartId) {
       this.chartTwo = this.$echarts.init(document.getElementById(chartId))
       this.chartTwo.setOption({
         color: ['#f5564e', '#fcc550', '#1890ff', '#ff9933', '#fa541c', '#42b983', '#722ed1', '#60FFF0', '#52c41a', '#42b983'],
@@ -166,6 +166,6 @@ export default {
   }
 }
 </script>
-<style >
+<style>
 
 </style>

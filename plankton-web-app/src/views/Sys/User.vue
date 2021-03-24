@@ -128,9 +128,9 @@ export default {
       filters: {
         name: '',
         phone: '',
-        qq:'',
-        model:'',
-        modelName:'',
+        qq: '',
+        model: '',
+        modelName: '',
       },
       columns: [],
       filterColumns: [],
@@ -157,9 +157,9 @@ export default {
         userMode: '',
         isEnable: true,
         modelName: '',
-        qq:'',
-        phone:'',
-        parentId:0
+        qq: '',
+        phone: '',
+        parentId: 0
       },
       roles: [],
       // 用户状态
@@ -185,7 +185,7 @@ export default {
   },
   methods: {
     // 多选框选择
-    popoverHide (checkedIds, checkedData) {
+    popoverHide(checkedIds, checkedData) {
       let modelName = '';
       if (checkedData) {
         checkedData.forEach(val => {
@@ -250,9 +250,9 @@ export default {
         model: '',
         isEnable: true,
         source: '',
-        qq:'',
-        phone:'',
-        parentId:0
+        qq: '',
+        phone: '',
+        parentId: 0
       }
     },
     // 显示编辑界面

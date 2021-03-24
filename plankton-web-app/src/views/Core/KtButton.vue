@@ -1,12 +1,13 @@
 <template>
   <el-button :size="size" :type="type" :icon="icon"
-    :loading="loading" :disabled="!hasPerms(perms)" @click="handleClick">
-    {{label}}
+             :loading="loading" :disabled="!hasPerms(perms)" @click="handleClick">
+    {{ label }}
   </el-button>
 </template>
 
 <script>
-import { hasPermission } from '@/permission/index.js'
+import {hasPermission} from '@/permission/index.js'
+
 export default {
   name: 'KtButton',
   props: {
@@ -40,14 +41,13 @@ export default {
     }
   },
   data() {
-    return {
-    }
+    return {}
   },
   methods: {
     handleClick: function () {
       // 按钮操作处理函数
       this.$emit('click', {})
-    }, 
+    },
     hasPerms: function (perms) {
       // 根据权限标识和外部指示状态进行权限判断
       return hasPermission(perms) & !this.disabled

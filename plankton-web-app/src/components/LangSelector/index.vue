@@ -9,40 +9,40 @@
 </template>
 
 <script>
-  export default {
-    name: 'LangSelector',
-    props: {
-      istyle: {
-        type: String,
-        default: 'width:60px;'
-      },
-      icon: {
-        type: String,
-        default: 'fa fa-language fa-lg'
-      },
-      iconStyle: {
-        type: String,
-        default: 'color:#fff;'
-      },
-      trigger: {
-        type: String,
-        default: 'click'
-      }
+export default {
+  name: 'LangSelector',
+  props: {
+    istyle: {
+      type: String,
+      default: 'width:60px;'
     },
-    data() {
-      return {
-        visible: false
-      }
+    icon: {
+      type: String,
+      default: 'fa fa-language fa-lg'
     },
-    methods: {
-      // 语言切换
-      changeLanguage(lang) {
-        lang === '' ? 'zh_cn' : lang
-        this.$i18n.locale = lang
-        this.visible = false
-      }
+    iconStyle: {
+      type: String,
+      default: 'color:#fff;'
+    },
+    trigger: {
+      type: String,
+      default: 'click'
+    }
+  },
+  data() {
+    return {
+      visible: false
+    }
+  },
+  methods: {
+    // 语言切换
+    changeLanguage(lang) {
+      lang === '' ? 'zh_cn' : lang
+      this.$i18n.locale = lang
+      this.visible = false
     }
   }
+}
 </script>
 <style scoped lang="scss">
 .item {
@@ -52,9 +52,11 @@
   padding-bottom: 5px;
   cursor: pointer;
 }
+
 .lang-selector:hover {
   background: #636b6931;
 }
+
 .item:hover {
   font-size: 18px;
   background: #b0d6ce4d;

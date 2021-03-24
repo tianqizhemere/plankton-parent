@@ -1,0 +1,102 @@
+package top.tianqi.plankton.common.controller;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import top.tianqi.plankton.base.entity.BaseEntity;
+import top.tianqi.plankton.common.Result;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * 基类controller
+ * @author Wukh
+ * @create 2021-01-04
+ */
+public class BaseController {
+
+    Map<String,String> orderTypeMap = new HashMap<>(2);
+
+    public BaseController(){
+        orderTypeMap.put("asc","asc");
+        orderTypeMap.put("desc","desc");
+    }
+
+    public HttpServletRequest getRequest() {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        return servletRequestAttributes.getRequest();
+    }
+
+    /**
+     * 获取分页对象
+     * @return Page分页对象
+     */
+    public <T extends BaseEntity> Page<T> getPage() {
+        HttpServletRequest request = getRequest();
+        String pageNum = request.getParameter("pageNum");
+        if (StringUtils.isEmpty(pageNum)) {
+            pageNum = "1";
+        }
+        String pageSize = request.getParameter("pageSize");
+        if (StringUtils.isEmpty(pageSize)) {
+            pageSize = "10";
+        }
+        return new Page<>(Integer.parseInt(pageNum), Integer.parseInt(pageSize));
+    }
+
+    /**
+     * 获取分页对象
+     * @param <T> T
+     * @return Page分页对象
+     */
+    public <T extends  BaseEntity> Page<T> getPage(T t) {
+        HttpServletRequest request = getRequest();
+        String pageNum = request.getParameter("pageNum");
+        if (StringUtils.isEmpty(pageNum)) {
+            pageNum = "1";
+        }
+        String pageSize = request.getParameter("pageSize");
+        if (StringUtils.isEmpty(pageSize)) {
+            pageSize = "10";
+        }
+        return new Page<>(Integer.parseInt(pageNum), Integer.parseInt(pageSize));
+    }
+
+    /**
+     * 成功信息
+     * @param data 返回对象
+     * @return Result 前端提示信息
+     */
+    protected static Result SUCCESS_MESSAGE(Object data) {
+        return Result.success("操作成功", data);
+    }
+
+    /**
+     * 默认成功信息
+     * @return Result 前端提示信息
+     */
+    protected static Result SUCCESS_MESSAGE() {
+        return Result.success();
+    }
+
+    /**
+     * 错误信息
+     * @param msg 错误提示信息
+     * @return Result 前端提示信息
+     */
+    protected static Result ERROR_MESSAGE(String msg) {
+        return Result.error(msg);
+    }
+
+    /**
+     * 错误信息
+     * @return Result 前端提示信息
+     */
+    protected static Result ERROR_MESSAGE() {
+        return Result.error();
+    }
+
+}

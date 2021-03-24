@@ -24,7 +24,7 @@ public enum ErrorStateEnum {
     /** 没有相关权限 */
     NOT_AUTH(1006, "没有相关权限"),
     /** token无效 */
-    TOKEN_INVALID(1007, "token failure!"),
+    TOKEN_INVALID(1007, "token无效!"),
     /** 缺少相应参数 */
     MISSING_PARAMETER(1008, "参数绑定失败:缺少参数"),
     /** 接口请求限制 */

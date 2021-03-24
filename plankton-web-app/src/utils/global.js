@@ -4,7 +4,7 @@
  * 通过 this.Global 调用
  */
 
- // 后台管理系统服务器地址
+    // 后台管理系统服务器地址
 // export const baseUrl = 'http://10.2.21.143:8089'
 export const baseUrl = '/api'
 

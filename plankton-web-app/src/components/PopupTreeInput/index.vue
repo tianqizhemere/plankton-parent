@@ -2,18 +2,19 @@
   <div>
     <el-popover ref="popover" :placement="placement" trigger="click">
       <el-tree
-        :data="data"
-        :props="props"
-        node-key="nodeKey"
-        ref="popupTree"
-        :show-checkbox="multiple"
-        @current-change="currentChangeHandle"
-        :default-expand-all="defaultExpandAll"
-        :highlight-current="true"
-        :expand-on-click-node="true">
+          :data="data"
+          :props="props"
+          node-key="nodeKey"
+          ref="popupTree"
+          :show-checkbox="multiple"
+          @current-change="currentChangeHandle"
+          :default-expand-all="defaultExpandAll"
+          :highlight-current="true"
+          :expand-on-click-node="true">
       </el-tree>
     </el-popover>
-    <el-input v-model="prop" v-popover:popover :readonly="true" :placeholder="placeholder" style="cursor:pointer;"></el-input>
+    <el-input v-model="prop" v-popover:popover :readonly="true" :placeholder="placeholder"
+              style="cursor:pointer;"></el-input>
   </div>
 </template>
 
@@ -56,7 +57,7 @@ export default {
     // 配置是否可多选
     multiple: {
       type: Boolean,
-      default () {
+      default() {
         return false;
       }
     },

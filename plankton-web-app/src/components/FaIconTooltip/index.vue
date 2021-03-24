@@ -1,4 +1,3 @@
-  
 <template>
   <el-tooltip class="tooltip" placement="top" effect="light">
     <div slot="content">
@@ -15,12 +14,9 @@
 <script>
 export default {
   data() {
-    return {
-    };
+    return {};
   },
-  methods: {
-
-  },
+  methods: {},
   mounted() {
 
   }

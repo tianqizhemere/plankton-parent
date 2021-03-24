@@ -18,7 +18,7 @@
         </el-menu-item>
         <el-menu-item index="5" v-popover:popover-personal>
           <!-- 用户信息 -->
-          <span class="user-info"><img :src="user.avatar"/>{{user.name}}</span>
+          <span class="user-info"><img :src="user.avatar"/>{{ user.name }}</span>
           <el-popover ref="popover-personal" placement="bottom-end" trigger="click" :visible-arrow="false">
             <personal-panel :user="user"></personal-panel>
           </el-popover>
@@ -29,133 +29,133 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
-  import mock from "@/mock/index"
-  import Hamburger from "@/components/Hamburger"
-  import ThemePicker from "@/components/ThemePicker"
-  import LangSelector from "@/components/LangSelector"
-  import Action from "@/components/Toolbar/Action"
-  import NoticePanel from "@/views/Core/NoticePanel"
-  import MessagePanel from "@/views/Core/MessagePanel"
-  import PersonalPanel from "@/views/Core/PersonalPanel"
+import {mapState} from 'vuex'
+import mock from "@/mock/index"
+import Hamburger from "@/components/Hamburger"
+import ThemePicker from "@/components/ThemePicker"
+import LangSelector from "@/components/LangSelector"
+import Action from "@/components/Toolbar/Action"
+import NoticePanel from "@/views/Core/NoticePanel"
+import MessagePanel from "@/views/Core/MessagePanel"
+import PersonalPanel from "@/views/Core/PersonalPanel"
 
-  export default {
-    components: {
-      Hamburger,
-      ThemePicker,
-      LangSelector,
-      Action,
-      NoticePanel,
-      MessagePanel,
-      PersonalPanel
-    },
-    data() {
-      return {
-        user: {
-          name: "",
-          avatar: "",
-          role: ""
-        },
-        activeIndex: '1',
-        langVisible: false
-      }
-    },
-    methods: {
-      openWindow(url) {
-        window.open(url)
+export default {
+  components: {
+    Hamburger,
+    ThemePicker,
+    LangSelector,
+    Action,
+    NoticePanel,
+    MessagePanel,
+    PersonalPanel
+  },
+  data() {
+    return {
+      user: {
+        name: "",
+        avatar: "",
+        role: ""
       },
-      selectNavBar(key, keyPath) {
-        console.log(key, keyPath)
-      },
-      // 折叠导航栏
-      onCollapse: function () {
-        this.$store.commit('onCollapse')
-      },
-      // 切换主题
-      onThemeChange: function (themeColor) {
-        this.$store.commit('setThemeColor', themeColor)
-      },
-      // 语言切换
-      changeLanguage(lang) {
-        lang === '' ? 'zh_cn' : lang
-        this.$i18n.locale = lang
-        this.langVisible = false
-      }
-    },
-    mounted() {
-      this.sysName = "WECHAT APP"
-      var user = sessionStorage.getItem("user")
-      if (user) {
-        this.user.name = user;
-        this.user.avatar = require("../../../static/avatar/595ba7b05f2e485eb50565a50cb6cc3c.jpeg")
-      }
-    },
-    computed: {
-      ...mapState({
-        themeColor: state => state.app.themeColor,
-        collapse: state => state.app.collapse
-      })
+      activeIndex: '1',
+      langVisible: false
     }
+  },
+  methods: {
+    openWindow(url) {
+      window.open(url)
+    },
+    selectNavBar(key, keyPath) {
+      console.log(key, keyPath)
+    },
+    // 折叠导航栏
+    onCollapse: function () {
+      this.$store.commit('onCollapse')
+    },
+    // 切换主题
+    onThemeChange: function (themeColor) {
+      this.$store.commit('setThemeColor', themeColor)
+    },
+    // 语言切换
+    changeLanguage(lang) {
+      lang === '' ? 'zh_cn' : lang
+      this.$i18n.locale = lang
+      this.langVisible = false
+    }
+  },
+  mounted() {
+    this.sysName = "WECHAT APP"
+    var user = sessionStorage.getItem("user")
+    if (user) {
+      this.user.name = user;
+      this.user.avatar = require("../../../static/avatar/595ba7b05f2e485eb50565a50cb6cc3c.jpeg")
+    }
+  },
+  computed: {
+    ...mapState({
+      themeColor: state => state.app.themeColor,
+      collapse: state => state.app.collapse
+    })
   }
+}
 </script>
 
 <style scoped lang="scss">
-  .headbar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 1030;
-    height: 60px;
-    line-height: 60px;
-    border-color: rgba(180, 190, 190, 0.8);
-    border-left-width: 1px;
-    border-left-style: solid;
-  }
+.headbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1030;
+  height: 60px;
+  line-height: 60px;
+  border-color: rgba(180, 190, 190, 0.8);
+  border-left-width: 1px;
+  border-left-style: solid;
+}
 
-  .hamburg, .navbar {
-    float: left;
-  }
+.hamburg, .navbar {
+  float: left;
+}
 
-  .toolbar {
+.toolbar {
+  float: right;
+}
+
+.lang-item {
+  font-size: 16px;
+  padding-left: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  cursor: pointer;
+}
+
+.lang-item:hover {
+  font-size: 18px;
+  background: #b0d6ce4d;
+}
+
+.user-info {
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    margin: 10px 0px 10px 10px;
     float: right;
   }
+}
 
-  .lang-item {
-    font-size: 16px;
-    padding-left: 8px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    cursor: pointer;
-  }
+.badge {
+  line-height: 18px;
+}
 
-  .lang-item:hover {
-    font-size: 18px;
-    background: #b0d6ce4d;
-  }
+.position-left {
+  left: 200px;
+}
 
-  .user-info {
-    font-size: 20px;
-    color: #fff;
-    cursor: pointer;
-
-    img {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      margin: 10px 0px 10px 10px;
-      float: right;
-    }
-  }
-
-  .badge {
-    line-height: 18px;
-  }
-
-  .position-left {
-    left: 200px;
-  }
-
-  .position-collapse-left {
-    left: 65px;
-  }
+.position-collapse-left {
+  left: 65px;
+}
 </style>

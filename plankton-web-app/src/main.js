@@ -18,9 +18,9 @@ Vue.prototype.global = global;
 Vue.prototype.$echarts = echarts;
 
 new Vue({
-  el: '#app',
-  i18n,
-  router,
-  store,
-  render: h => h(App)
+    el: '#app',
+    i18n,
+    router,
+    store,
+    render: h => h(App)
 });

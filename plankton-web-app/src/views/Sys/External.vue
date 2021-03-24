@@ -7,7 +7,8 @@
           <el-input v-model="filters.name" placeholder="应用名称"></el-input>
         </el-form-item>
         <el-form-item>
-          <kt-button icon="fa fa-search" :label="$t('action.search')" perms="system:externalApplication:view" type="primary"
+          <kt-button icon="fa fa-search" :label="$t('action.search')" perms="system:externalApplication:view"
+                     type="primary"
                      @click="findPage(null)"/>
         </el-form-item>
         <el-form-item>
@@ -38,7 +39,8 @@
       </table-column-filter-dialog>
     </div>
     <!--表格内容栏-->
-    <kt-table :height="720" permsEdit="system:externalApplication:update" permsDelete="system:externalApplication:delete"
+    <kt-table :height="720" permsEdit="system:externalApplication:update"
+              permsDelete="system:externalApplication:delete"
               :data="pageResult" :columns="filterColumns"
               @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
     </kt-table>
@@ -61,7 +63,9 @@
         </el-form-item>
         <el-form-item label="文件类型" prop="externalType">
           <el-select placeholder="请选择" v-model="dataForm.externalType" filterable clearable style="width: 100%;">
-            <el-option :label="item.typeName" v-for="item in options" :key="item.code" :value="item.code">{{ item.typeName }}</el-option>
+            <el-option :label="item.typeName" v-for="item in options" :key="item.code" :value="item.code">
+              {{ item.typeName }}
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="升级文件" prop="attachIds">
@@ -125,7 +129,7 @@ export default {
       pageResult: {},
 
       // 文件类型选项
-      options:[],
+      options: [],
 
       operation: false, // true:新增, false:编辑
       dialogVisible: false, // 新增编辑界面是否显示
@@ -137,18 +141,18 @@ export default {
         name: [
           {required: true, message: '请输入应用名称', trigger: 'blur'}
         ],
-        externalType:[
+        externalType: [
           {required: true, message: '请选择文件类型', trigger: 'blur'}
         ]
       },
       // 新增编辑界面数据
       dataForm: {
         id: 0,
-        name:'',
+        name: '',
         versionCode: '',
         versionDesc: '',
         attachIds: '',
-        externalType:'',
+        externalType: '',
         parentId: '',
         isSuccess: false
       },
@@ -226,7 +230,7 @@ export default {
         versionDesc: '',
         parentId: '',
         attachIds: '',
-        externalType:'',
+        externalType: '',
         isSuccess: true
       }
       this.fileList = []
@@ -309,7 +313,7 @@ export default {
       ]
       this.filterColumns = JSON.parse(JSON.stringify(this.columns));
     },
-    getOption(){
+    getOption() {
       this.$api.external.getOption().then(res => {
         this.options = res.data;
       })
