@@ -117,8 +117,10 @@ public class LogAspect {
                 operationLog.setUserId(user.getId());
             } else {
                 User currentUser = operationLogService.getCurrentUser();
-                operationLog.setUserId(currentUser.getId());
-                operationLog.setCode(currentUser.getCode());
+                if (currentUser != null) {
+                    operationLog.setUserId(currentUser.getId());
+                    operationLog.setCode(currentUser.getCode());
+                }
             }
             operationLog.setIp(AddressUtils.getRemoteIp(request)); // 请求IP
             operationLog.setUri(request.getRequestURI()); // 请求URI
@@ -181,8 +183,10 @@ public class LogAspect {
                 exceptionLog.setCode(map.get("code").toString());
             } else {
                 User currentUser = operationLogService.getCurrentUser();
-                exceptionLog.setUserId(currentUser.getId()); // 操作员ID
-                exceptionLog.setCode(currentUser.getCode()); // 操作员名称
+                if (currentUser != null) {
+                    exceptionLog.setUserId(currentUser.getId());
+                    exceptionLog.setCode(currentUser.getCode());
+                }
             }
             exceptionLog.setUri(request.getRequestURI()); // 操作URI
             exceptionLog.setIp(AddressUtils.getRemoteIp(request)); // 请求IP

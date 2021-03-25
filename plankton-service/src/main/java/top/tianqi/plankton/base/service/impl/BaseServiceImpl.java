@@ -27,8 +27,8 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
 
     @Override
     public User getCurrentUser() {
-        String token = SecurityUtils.getSubject().getPrincipal().toString();
-        if (token != null) {
+        if (SecurityUtils.getSubject().getPrincipal() != null) {
+            String token = SecurityUtils.getSubject().getPrincipal().toString();
             // 解密获得code
             String code = JwtUtil.getClaim(token, Constant.ACCOUNT);
             User user = userService.getUser(code);
