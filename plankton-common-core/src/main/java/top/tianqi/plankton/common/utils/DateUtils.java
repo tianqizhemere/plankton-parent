@@ -16,7 +16,7 @@ import java.util.GregorianCalendar;
  * @Author Wukh
  * @Date 2020/06/28
  */
-public class DateUtils {
+public final class DateUtils {
 
     /**
      * 例如:2020-06-28

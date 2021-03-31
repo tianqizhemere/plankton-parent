@@ -16,7 +16,7 @@ import java.security.cert.X509Certificate;
  * @author Wukh
  * @create 2021-03-17
  */
-public class HttpUtil {
+public final class HttpUtil {
 
     private static final Logger log = LoggerFactory.getLogger(HttpUtil.class);
 

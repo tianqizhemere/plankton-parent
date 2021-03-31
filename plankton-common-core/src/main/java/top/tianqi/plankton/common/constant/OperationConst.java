@@ -5,7 +5,7 @@ package top.tianqi.plankton.common.constant;
  * @author Wukh
  * @create 2021-01-08
  */
-public class OperationConst {
+public final class OperationConst {
 
     /*--------------------------- 数据操作类型 -----------------------------**/
 

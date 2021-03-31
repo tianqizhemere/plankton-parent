@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  * @author Wukh
  * @create 2021-01-19
  */
-public class AddressUtils {
+public final class AddressUtils {
 
     private static final Logger log = LoggerFactory.getLogger(AddressUtils.class);
 

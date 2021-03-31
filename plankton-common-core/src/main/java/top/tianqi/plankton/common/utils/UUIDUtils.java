@@ -9,7 +9,7 @@ import java.util.UUID;
  * @author Wukh
  * @create 2021-01-16
  */
-public class UUIDUtils {
+public final class UUIDUtils {
 
     /**
      * 获取一个UUID值

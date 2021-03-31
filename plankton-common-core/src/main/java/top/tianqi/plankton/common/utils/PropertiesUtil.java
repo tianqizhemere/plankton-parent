@@ -15,7 +15,7 @@ import java.util.Properties;
  * @author dolyw.com
  * @date 2018/8/31 17:29
  */
-public class PropertiesUtil {
+public final class PropertiesUtil {
 
     private PropertiesUtil() {}
 

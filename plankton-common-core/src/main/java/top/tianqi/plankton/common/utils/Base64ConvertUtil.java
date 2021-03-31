@@ -8,7 +8,7 @@ import java.util.Base64;
  * @author dolyw.com
  * @date 2018/8/21 15:14
  */
-public class Base64ConvertUtil {
+public final class Base64ConvertUtil {
 
     private Base64ConvertUtil() {}
 

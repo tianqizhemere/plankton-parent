@@ -15,7 +15,7 @@ import java.util.List;
  * @Author wkh
  * @Date 2020/6/28 17:19
  */
-public class JsonUtil {
+public final class JsonUtil {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 

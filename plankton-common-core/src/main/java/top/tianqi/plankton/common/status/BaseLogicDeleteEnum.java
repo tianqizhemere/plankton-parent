@@ -2,6 +2,7 @@ package top.tianqi.plankton.common.status;
 
 /**
  * 基础逻辑删除枚举类
+ * 配合Mybatis Plus使用
  * @author Wukh
  * @create 2021-01-04
  */

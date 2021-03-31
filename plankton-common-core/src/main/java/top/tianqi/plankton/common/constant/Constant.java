@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
  * @author Wukh
  * @create 2021-01-10
  */
-public class Constant {
+public final class Constant {
 
     private Constant(){}
 

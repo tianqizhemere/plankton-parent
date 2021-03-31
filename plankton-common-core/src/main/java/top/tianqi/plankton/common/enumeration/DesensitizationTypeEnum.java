@@ -2,6 +2,8 @@ package top.tianqi.plankton.common.enumeration;
 
 /**
  * 敏感词汇枚举类
+ * @author Wukh
+ * @create 2021-3-1
  */
 public enum DesensitizationTypeEnum {
     /**

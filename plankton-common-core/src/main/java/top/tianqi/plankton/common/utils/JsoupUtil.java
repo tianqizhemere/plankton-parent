@@ -10,7 +10,7 @@ import org.jsoup.safety.Whitelist;
  * @author Wukh
  * @create 2021-03-24
  */
-public class JsoupUtil {
+public final class JsoupUtil {
 
     private JsoupUtil(){}
 

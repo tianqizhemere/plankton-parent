@@ -11,7 +11,7 @@ import java.io.*;
  * @author dolyw.com
  * @date 2018/9/4 15:13
  */
-public class SerializableUtil {
+public final class SerializableUtil {
 
     private SerializableUtil() {}
 

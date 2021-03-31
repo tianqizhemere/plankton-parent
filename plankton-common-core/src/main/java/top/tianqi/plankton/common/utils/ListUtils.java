@@ -22,7 +22,7 @@ import java.util.*;
  * @author Wukh
  * @create 2021-01-06
  */
-public class ListUtils {
+public final class ListUtils {
 
     /**
      * list 集合分组

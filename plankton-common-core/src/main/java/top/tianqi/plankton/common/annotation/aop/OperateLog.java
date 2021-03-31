@@ -16,8 +16,10 @@ public @interface OperateLog {
 
     /** 操作模块 */
     String model() default "";
+
     /** 操作类型 */
     String type() default "";
+
     /** 操作说明 */
     String desc() default "";
 }
