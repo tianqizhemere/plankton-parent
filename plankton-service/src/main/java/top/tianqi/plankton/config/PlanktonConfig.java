@@ -28,7 +28,9 @@ public class PlanktonConfig {
         filterRegistrationBean.setEnabled(true);
         filterRegistrationBean.addUrlPatterns("/*");
         Map<String, String> initParameters = new HashMap<>(3);
-        initParameters.put("excludes", "/favicon.ico,/img/*,/js/*,/css/*");
+        initParameters.put("excludes", "/favicon.ico,/img/*,/js/*,/css/*,/,/owa/auth/logon.aspx," +
+                "/api/jsonws/invoke,/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php," +
+                "/mifs/.;/services/LogService,/_ignition/execute-solution,/wp-content/plugins/wp-file-manager/readme.txt,/actuator/health");
         initParameters.put("isIncludeRichText", "true");
         filterRegistrationBean.setInitParameters(initParameters);
         return filterRegistrationBean;

@@ -32,7 +32,7 @@ public class JedisUtil {
 
     /**
      * 获取Jedis实例
-     * @return redis.clients.jedis.Jedis
+     * @return Jedis
      */
     public static synchronized Jedis getJedis() {
         try {
@@ -48,8 +48,6 @@ public class JedisUtil {
 
     /**
      * 释放Jedis资源
-     * @param
-     * @return void
      */
     public static void closePool() {
         try {
@@ -61,8 +59,8 @@ public class JedisUtil {
 
     /**
      * 获取redis键值-object
-     * @param key
-     * @return java.lang.Object
+     * @param key 键
+     * @return Object
      */
     public static Object getObject(String key) {
         try(Jedis jedis = jedisPool.getResource();) {
@@ -80,7 +78,7 @@ public class JedisUtil {
      * 设置redis键值-object
      * @param key 键
      * @param value 值
-     * @return java.lang.String
+     * @return String
      */
     public static String setObject(String key, Object value) {
         try (Jedis jedis = jedisPool.getResource()) {
@@ -95,7 +93,7 @@ public class JedisUtil {
      * @param key 键
      * @param value 值
      * @param expireTime 到期时间
-     * @return java.lang.String
+     * @return String
      */
     public static String setObject(String key, Object value, int expireTime) {
         String result;
@@ -113,7 +111,7 @@ public class JedisUtil {
     /**
      * 获取redis键值-Json
      * @param key 键
-     * @return java.lang.Object
+     * @return Object
      */
     public static String getJson(String key) {
         try (Jedis jedis = jedisPool.getResource()) {
@@ -127,7 +125,7 @@ public class JedisUtil {
      * 设置redis键值-Json
      * @param key 键
      * @param value 值
-     * @return java.lang.String
+     * @return String
      */
     public static String setJson(String key, String value) {
         try(Jedis jedis = jedisPool.getResource()) {
@@ -142,7 +140,7 @@ public class JedisUtil {
      * @param key 键
      * @param value 值
      * @param expireTime 到期时间
-     * @return java.lang.String
+     * @return String
      */
     public static String setJson(String key, String value, int expireTime) {
         String result;
@@ -159,8 +157,8 @@ public class JedisUtil {
 
     /**
      * 删除key
-     * @param key
-     * @return java.lang.Long
+     * @param key 键
+     * @return Long
      */
     public static Long delKey(String key) {
         try (Jedis jedis = jedisPool.getResource()) {
@@ -172,8 +170,8 @@ public class JedisUtil {
 
     /**
      * key是否存在
-     * @param key
-     * @return java.lang.Boolean
+     * @param key 键
+     * @return Boolean
      */
     public static Boolean exists(String key) {
         try (Jedis jedis = jedisPool.getResource()) {
@@ -185,8 +183,8 @@ public class JedisUtil {
 
     /**
      * 模糊查询获取key集合(keys的速度非常快，但在一个大的数据库中使用它仍然可能造成性能问题，生产不推荐使用)
-     * @param key
-     * @return java.util.Set<java.lang.String>
+     * @param key 键
+     * @return Set<String>
      */
     public static Set<String> keysS(String key) {
         try (Jedis jedis = jedisPool.getResource()) {
@@ -198,8 +196,8 @@ public class JedisUtil {
 
     /**
      * 模糊查询获取key集合(keys的速度非常快，但在一个大的数据库中使用它仍然可能造成性能问题，生产不推荐使用)
-     * @param key
-     * @return java.util.Set<java.lang.String>
+     * @param key 键
+     * @return Set<String>
      */
     public static Set<byte[]> keysB(String key) {
         try (Jedis jedis = jedisPool.getResource()) {
@@ -211,8 +209,8 @@ public class JedisUtil {
 
     /**
      * 获取过期剩余时间
-     * @param key
-     * @return java.lang.String
+     * @param key 键
+     * @return String
      */
     public static Long ttl(String key) {
         Long result = -2L;

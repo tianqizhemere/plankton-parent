@@ -19,7 +19,7 @@ public @interface Limit {
     /** 资源 key */
     String key() default "";
 
-    /** key prefix */
+    /** key的前缀标识 */
     String prefix() default "";
 
     /** 时间的，单位秒 */

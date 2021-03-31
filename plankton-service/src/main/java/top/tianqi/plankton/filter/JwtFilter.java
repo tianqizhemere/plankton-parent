@@ -1,6 +1,5 @@
 package top.tianqi.plankton.filter;
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
@@ -13,6 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import top.tianqi.plankton.common.Result;
 import top.tianqi.plankton.common.constant.Constant;
 import top.tianqi.plankton.common.utils.AddressUtils;
+import top.tianqi.plankton.common.utils.JsonUtil;
 import top.tianqi.plankton.common.utils.PropertiesUtil;
 import top.tianqi.plankton.jedis.JedisUtil;
 import top.tianqi.plankton.shiro.token.JwtToken;
@@ -171,7 +171,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
             httpResponse.setCharacterEncoding("UTF-8");
             httpResponse.setContentType("application/json;charset=utf-8");
             Result result = Result.error(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):" + msg);
-            httpResponse.getWriter().write(JSONUtils.toJSONString(result));
+            httpResponse.getWriter().write(JsonUtil.toJsonString(result));
         } catch (IOException e) {
             log.error(e.getMessage());
         }

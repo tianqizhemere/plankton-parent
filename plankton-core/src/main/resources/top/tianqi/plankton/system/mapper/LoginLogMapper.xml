@@ -5,20 +5,11 @@
         select
         date_format(l.login_time, '%m-%d') days,
         count(1) count
-        from
-        (
-        select
-        *
-        from
-        login_log
-        where
-        date_sub(curdate(), interval 7 day) &lt;= date(login_time)
-        ) as l where 1 = 1
+        from (select * from login_log where date_sub(curdate(), interval 7 day) &lt;= date(login_time)) as l where 1 = 1
         <if test="code != null and code != ''">
             and l.code = #{code}
         </if>
-        group by
-        days
+        group by days
     </select>
 
     <select id="findTodayIp" resultType="java.lang.Integer">

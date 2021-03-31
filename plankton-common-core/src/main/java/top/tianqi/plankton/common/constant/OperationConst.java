@@ -36,9 +36,6 @@ public class OperationConst {
     /** 版本模块 */
     public static final String VERSION_MODEL = "版本管理";
 
-    /** Redis信息模块 */
-    public static final String REDIS_INFO_MODEL = "Redis信息";
-
     /** 菜单模块 */
     public static final String MENU_MODEL = "菜单模块";
 

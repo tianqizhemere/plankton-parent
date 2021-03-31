@@ -1,15 +1,18 @@
 package top.tianqi.plankton.system.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import top.tianqi.plankton.common.Result;
+import top.tianqi.plankton.common.annotation.aop.OperateLog;
+import top.tianqi.plankton.common.constant.OperationConst;
 import top.tianqi.plankton.common.controller.BaseController;
+import top.tianqi.plankton.common.status.ErrorStateEnum;
 import top.tianqi.plankton.system.entity.Menu;
 import top.tianqi.plankton.system.entity.User;
 import top.tianqi.plankton.system.service.MenuService;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -37,5 +40,20 @@ public class MenuController extends BaseController {
         }
         List<Menu> list = menuService.findNavTree(username);
         return SUCCESS_MESSAGE(list);
+    }
+
+    /**
+     * 新增菜单
+     * @param menu 菜单对象
+     * @param result 后台验证对象
+     * @return Result 前端提示信息
+     */
+    @OperateLog(model = OperationConst.MENU_MODEL, desc = "新增菜单", type = OperationConst.INSERT)
+    @PostMapping("save")
+    public Result save(@Valid @RequestBody Menu menu, BindingResult result){
+        if (result.hasErrors()){
+            return Result.error(ErrorStateEnum.MISSING_PARAMETER.getCode(), result.getFieldError().getDefaultMessage());
+        }
+        return SUCCESS_MESSAGE();
     }
 }
