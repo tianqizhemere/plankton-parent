@@ -15,6 +15,7 @@ import java.util.List;
  */
 @TableName("dictionaries")
 public class Dictionary extends BaseEntity {
+
     private static final long serialVersionUID = -5201090437613680914L;
 
     /** 数据值 */

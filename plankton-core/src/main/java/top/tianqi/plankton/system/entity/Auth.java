@@ -11,7 +11,8 @@ import top.tianqi.plankton.base.entity.BaseEntity;
  */
 @TableName("auth")
 public class Auth extends BaseEntity  {
-    private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 7556578432170650779L;
 
     /** 权限名称 */
     private String name;

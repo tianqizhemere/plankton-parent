@@ -12,15 +12,12 @@ import top.tianqi.plankton.base.entity.BaseEntity;
 @TableName("role_auth")
 public class RoleAuth extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -2464151187032249167L;
 
-    /**
-     * 角色 id
-     */
+    /** 角色 id*/
     private Long roleId;
-    /**
-     * 权限 id
-     */
+
+    /** 权限 id */
     private Long authId;
 
     public Long getRoleId() {

@@ -13,7 +13,7 @@ public class RoleMenu extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    /** 角色id*/
+    /** 角色id */
     private Long roleId;
 
     /** 菜单id */

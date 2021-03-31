@@ -12,6 +12,7 @@ import java.util.Date;
  */
 @TableName("login_log")
 public class LoginLog extends BaseEntity {
+
     private static final long serialVersionUID = 4308980614059058648L;
 
     /** 登录code */

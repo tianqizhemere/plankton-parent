@@ -18,7 +18,7 @@ import java.util.Date;
 @TableName("user")
 public class User extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -2369578080352985398L;
 
     /** UUID */
     private String code;

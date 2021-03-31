@@ -9,10 +9,11 @@ import top.tianqi.plankton.base.entity.BaseEntity;
  * @author Wukh
  * @create 2021-01-12
  */
-@TableName(value = "attach")
+@TableName("attach")
 public class Attach extends BaseEntity {
 
     private static final long serialVersionUID = 479412271168908422L;
+
     /** 标识数据来源 */
     private Integer dataType;
 

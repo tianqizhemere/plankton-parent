@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
  */
 @TableName("external_application")
 public class ExternalApplication extends BaseEntity {
+
     private static final long serialVersionUID = 4310128748575456556L;
 
     /** 应用名称 */
