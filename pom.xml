@@ -11,12 +11,11 @@
     <name>plankton-parent</name>
 
     <modules>
-        <module>plankton-web-client</module>
+        <module>plankton-web-service</module>
         <!--<module>plankton-mobile-app</module>-->
         <!--<module>plankton-mobile-client</module>-->
         <module>plankton-core</module>
         <module>plankton-common-core</module>
-        <module>plankton-service</module>
     </modules>
 
     <properties>
