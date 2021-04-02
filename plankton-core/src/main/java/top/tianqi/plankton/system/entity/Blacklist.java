@@ -13,15 +13,32 @@ public class Blacklist extends BaseEntity {
 
     private static final long serialVersionUID = 2476438859930288464L;
 
-    /** 用户的真实ip */
+    /** 开启状态，关闭 */
+    public static final int CLOSE = 0;
+
+    /** 开启状态，开启 */
+    public static final int OPEN = 1;
+
+    /** 黑名单ip */
     private String ip;
 
-    /** code */
-    private String code;
+    /** 请求URI */
+    private String requestUri;
 
-    /** 是否为黑名单用户 */
-    private Boolean isEnable;
+    /** 请求方法，如果为ALL则表示对所有方法生效 */
+    private String requestMethod;
 
+    /** 限制时间起 */
+    private String limitFrom;
+
+    /** 限制时间止 */
+    private String limitTo;
+
+    /** ip对应地址 */
+    private String location;
+
+    /** 状态，0关闭，1开启 */
+    private Integer isEnable;
 
     public String getIp() {
         return ip;
@@ -31,19 +48,51 @@ public class Blacklist extends BaseEntity {
         this.ip = ip;
     }
 
-    public String getCode() {
-        return code;
+    public String getRequestUri() {
+        return requestUri;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setRequestUri(String requestUri) {
+        this.requestUri = requestUri;
     }
 
-    public Boolean getEnable() {
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public void setRequestMethod(String requestMethod) {
+        this.requestMethod = requestMethod;
+    }
+
+    public String getLimitFrom() {
+        return limitFrom;
+    }
+
+    public void setLimitFrom(String limitFrom) {
+        this.limitFrom = limitFrom;
+    }
+
+    public String getLimitTo() {
+        return limitTo;
+    }
+
+    public void setLimitTo(String limitTo) {
+        this.limitTo = limitTo;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Integer getIsEnable() {
         return isEnable;
     }
 
-    public void setEnable(Boolean enable) {
-        isEnable = enable;
+    public void setIsEnable(Integer isEnable) {
+        this.isEnable = isEnable;
     }
 }
