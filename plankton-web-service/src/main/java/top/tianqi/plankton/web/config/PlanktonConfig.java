@@ -18,7 +18,7 @@ import java.util.Map;
 public class PlanktonConfig {
 
     /**
-     * XssFilter Bean
+     * 注册XssFilter
      */
     @Bean
     public FilterRegistrationBean<XssFilter> xssFilterRegistrationBean() {

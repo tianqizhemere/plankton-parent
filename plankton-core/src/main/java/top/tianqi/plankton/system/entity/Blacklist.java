@@ -3,6 +3,8 @@ package top.tianqi.plankton.system.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.tianqi.plankton.base.entity.BaseEntity;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * 黑名单
  * @author Wukh
@@ -20,9 +22,11 @@ public class Blacklist extends BaseEntity {
     public static final int OPEN = 1;
 
     /** 黑名单ip */
+    @NotBlank(message = "IP不能为空")
     private String ip;
 
     /** 请求URI */
+    @NotBlank(message = "请求URI不能为空")
     private String requestUri;
 
     /** 请求方法，如果为ALL则表示对所有方法生效 */

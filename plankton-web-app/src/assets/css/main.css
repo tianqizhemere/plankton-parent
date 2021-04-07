@@ -195,7 +195,7 @@ html {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url(../img/login-bg2.svg) center/cover no-repeat;
+    background: url(../img/login-bg2.png) center/cover no-repeat;
 }
 
 .login-bottom a {
