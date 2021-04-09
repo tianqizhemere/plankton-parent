@@ -2,20 +2,17 @@ package top.tianqi.plankton.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 /**
+ * 自动设置公用字段属性值
  * @author Wukh
  * @create 2021-02-03
  */
 @Component
 public class MyMetaObjectHandler implements MetaObjectHandler {
-
-    private static final Logger logger = LoggerFactory.getLogger(MyMetaObjectHandler.class);
 
     /** 创建时间 */
     public static final String CREATE_TIME = "createTime";
@@ -25,15 +22,12 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        logger.info("start install fill ......");
-        Date date = new Date();
-        this.strictInsertFill(metaObject, CREATE_TIME, Date.class, date);
-        this.strictInsertFill(metaObject, MODIFY_TIME, Date.class, date);
+        setFieldValByName(CREATE_TIME, new Date(), metaObject);
+        setFieldValByName(MODIFY_TIME, new Date(), metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        logger.info("start update fill ......");
-        this.strictInsertFill(metaObject, MODIFY_TIME, Date.class, new Date());
+        setFieldValByName(MODIFY_TIME, new Date(), metaObject);
     }
 }

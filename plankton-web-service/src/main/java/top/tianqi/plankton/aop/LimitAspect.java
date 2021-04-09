@@ -71,7 +71,7 @@ public class LimitAspect {
             return point.proceed();
         } else {
             // 超过阈值
-            log.error("触发限流====被限流的ip->{}", ip);
+            log.error("触发限流====被限流的ip->{}", key);
             throw new LimitException();
         }
     }

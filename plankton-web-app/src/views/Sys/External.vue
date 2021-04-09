@@ -309,7 +309,8 @@ export default {
         {prop: "downloadUrl", label: "下载路径", minWidth: 120},
         {prop: "fileType", label: "文件类型", minWidth: 100},
         {prop: "typeName", label: "状态", minWidth: 70},
-        {prop: "createTime", label: "创建时间", minWidth: 80, formatter: this.dateFormat}
+        {prop: "createTime", label: "创建时间", minWidth: 80, formatter: this.dateFormat},
+        {prop: "modifyTime", label: "更新时间", minWidth: 80, formatter: this.dateFormat}
       ]
       this.filterColumns = JSON.parse(JSON.stringify(this.columns));
     },

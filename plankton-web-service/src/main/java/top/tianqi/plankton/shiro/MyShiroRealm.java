@@ -18,8 +18,8 @@ import top.tianqi.plankton.util.JedisUtil;
 import top.tianqi.plankton.util.JwtUtil;
 import top.tianqi.plankton.core.common.constant.Constant;
 import top.tianqi.plankton.core.system.entity.User;
-import top.tianqi.plankton.core.system.service.AuthService;
-import top.tianqi.plankton.core.system.service.UserService;
+import top.tianqi.plankton.web.system.service.AuthService;
+import top.tianqi.plankton.web.system.service.UserService;
 
 import javax.annotation.Resource;
 import java.util.Set;

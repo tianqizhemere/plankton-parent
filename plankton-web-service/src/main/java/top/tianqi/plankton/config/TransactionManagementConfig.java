@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 
 /**
  * @EnableTransactionManagement 注解用于开启事务
+ * 事务管理器
  *
  * @author Wukh
  * @create 2021-01-04
