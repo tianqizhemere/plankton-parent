@@ -37,6 +37,7 @@ public class ServerConfig {
         ServerConfig.serverUrl = serverUrl;
     }
 
+    @SuppressWarnings("unused")
     public static String getUrl() {
         return serverUrl + ":" + serverPort;
     }

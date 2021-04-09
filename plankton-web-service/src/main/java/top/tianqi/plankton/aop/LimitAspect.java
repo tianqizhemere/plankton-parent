@@ -62,7 +62,7 @@ public class LimitAspect {
             default:
                 key = StringUtils.upperCase(method.getName());
         }
-        ImmutableList<String> keys = ImmutableList.of(StringUtils.join(limitAnnotation.prefix() + "_", key, ip));
+        ImmutableList<String> keys = ImmutableList.of(StringUtils.join(limitAnnotation.prefix() + ":", key, ip));
         String luaScript = this.buildLuaScript();
         Jedis jedis = JedisUtil.getJedis();
         Long result = (Long) jedis.evalsha(jedis.scriptLoad(luaScript), keys, Arrays.asList(Integer.toString(limitPeriod), Integer.toString(limitCount)));
@@ -71,7 +71,7 @@ public class LimitAspect {
             return point.proceed();
         } else {
             // 超过阈值
-            log.error("触发限流====被限流的ip->{}", key);
+            log.error("触发限流-----限流ip {}", key);
             throw new LimitException();
         }
     }
