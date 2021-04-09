@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.tianqi.plankton.core.notice.mapper.NoticeMapper">
+    <select id="findUserNotice" resultType="top.tianqi.plankton.core.notice.entity.Notice">
+        SELECT n.* FROM notice n
+        LEFT JOIN user_notice un ON n.id = un.notice_id
+        ${ew.customSqlSegment}
+    </select>
+</mapper>
