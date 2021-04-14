@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import top.tianqi.plankton.interceptor.DesensitizationInterceptor;
 
 /**
  * Mybatis-plus 配置类
@@ -40,6 +41,15 @@ public class MybatisConfig {
     @Bean
     public OptimisticLockerInnerInterceptor optimisticLockerInnerInterceptor() {
         return new OptimisticLockerInnerInterceptor();
+    }
+
+    /**
+     * SQL拦截器，用于数据脱敏
+     * @return
+     */
+    @Bean
+    public DesensitizationInterceptor desensitizationInterceptor(){
+        return new DesensitizationInterceptor();
     }
 
     /**
