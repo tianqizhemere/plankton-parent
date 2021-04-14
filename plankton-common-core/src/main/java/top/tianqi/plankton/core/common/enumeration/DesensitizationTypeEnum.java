@@ -1,7 +1,7 @@
 package top.tianqi.plankton.core.common.enumeration;
 
 /**
- * 敏感词汇枚举类
+ * 敏感词汇及脱敏规则枚举类
  * @author Wukh
  * @create 2021-3-1
  */
@@ -25,7 +25,16 @@ public enum DesensitizationTypeEnum {
     /**
      * 邮箱脱敏
      */
-    EMAIL("email", "电子邮箱", "(\\w+)\\w{5}@(\\w+)", "$1***@$2");
+    EMAIL("email", "电子邮箱", "(\\w+)\\w{5}@(\\w+)", "$1***@$2"),
+    /**
+     * 地址脱敏
+     */
+    ADDRESS("addrss", "地址", "(?<=.{3}).*(?=.{3})", "*"),
+    /**
+     * 自定义规则
+     */
+    CUSTOM("custom", "自定义正则处理", ""),
+    TRUNCATE("truncate", "字符串截取处理", "");
 
     /** 脱敏类型 */
     String type;
