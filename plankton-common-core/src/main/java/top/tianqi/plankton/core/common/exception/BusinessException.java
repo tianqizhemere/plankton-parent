@@ -50,8 +50,8 @@ public class BusinessException extends RuntimeException {
     /**
      * 构造一个基本异常.
      *
-     * @param errorCode
-     * @param message
+     * @param errorCode 状态码
+     * @param message 异常信息
      */
     public BusinessException(Integer errorCode, String message) {
         this(errorCode, message, true);
@@ -60,9 +60,9 @@ public class BusinessException extends RuntimeException {
     /**
      * 构造一个基本异常.
      *
-     * @param errorCode
-     * @param message
-     * @param cause
+     * @param errorCode 状态码
+     * @param message 异常信息
+     * @param cause 异常原因
      */
     public BusinessException(Integer errorCode, String message, Throwable cause) {
         this(errorCode, message, cause, true);
@@ -71,9 +71,9 @@ public class BusinessException extends RuntimeException {
     /**
      * 构造一个基本异常.
      *
-     * @param errorCode
-     * @param message
-     * @param propertiesKey
+     * @param errorCode 状态码
+     * @param message 异常信息
+     * @param propertiesKey 是否为properties文件中的key
      */
     public BusinessException(Integer errorCode, String message, boolean propertiesKey) {
         super(message);
@@ -84,10 +84,10 @@ public class BusinessException extends RuntimeException {
     /**
      * 构造一个基本异常.
      *
-     * @param errorCode
-     * @param message
-     * @param cause
-     * @param propertiesKey
+     * @param errorCode 异常状态码
+     * @param message 异常信息
+     * @param cause 异常原因
+     * @param propertiesKey 是否为properties文件中的key
      */
     public BusinessException(Integer errorCode, String message, Throwable cause, boolean propertiesKey) {
         super(message, cause);
@@ -98,8 +98,8 @@ public class BusinessException extends RuntimeException {
     /**
      * 构造一个基本异常.
      *
-     * @param message
-     * @param cause
+     * @param message 异常信息
+     * @param cause 异常原因
      */
     public BusinessException(String message, Throwable cause) {
         super(message, cause);
