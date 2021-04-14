@@ -27,8 +27,13 @@ public enum DesensitizationTypeEnum {
      */
     EMAIL("email", "电子邮箱", "(\\w+)\\w{5}@(\\w+)", "$1***@$2");
 
+    /** 脱敏类型 */
     String type;
+
+    /** 脱敏描述 */
     String describe;
+
+    /** 脱敏规则 */
     String[] regular;
 
     public String getType() {

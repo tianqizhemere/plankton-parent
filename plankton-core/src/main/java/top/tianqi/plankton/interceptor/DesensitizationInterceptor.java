@@ -67,6 +67,11 @@ public class DesensitizationInterceptor implements Interceptor {
         return obj;
     }
 
+    /**
+     * 处理数据,对字段进行脱敏处理
+     * @param obj 数据对象
+     * @param objFields 对象字段数组
+     */
     private void desensitizationField(Object obj, Field[] objFields) {
         for (Field field : objFields) {
             Desensitization desensitization;
@@ -87,6 +92,7 @@ public class DesensitizationInterceptor implements Interceptor {
                 continue;
             }
             List<String> regular;
+            // 获取脱敏规则类型
             DesensitizationTypeEnum type = desensitization.type();
             regular = Arrays.asList(type.getRegular());
             if (regular.size() > 1) {
