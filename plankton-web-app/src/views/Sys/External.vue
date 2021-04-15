@@ -198,7 +198,7 @@ export default {
        * 2. 取出上传文件的对象,在其它地方也可以使用
        * 3. 重新手动赋值filstList,免得自定义上传成功了,而fileList并没有动态改变,这样每次都是上传一个对象
        * */
-      this.$refs.upload.clearFiles()
+      this.$refs.uploadMutiple.clearFiles()
       this.logo = file.raw
       this.fileList = [{name: file.name, url: file.url}]
     },
@@ -326,7 +326,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

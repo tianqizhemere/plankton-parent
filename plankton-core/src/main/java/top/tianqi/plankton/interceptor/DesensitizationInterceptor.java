@@ -21,6 +21,7 @@ import java.util.*;
 
 /**
  * SQL拦截器，用于数据脱敏
+ * TODO 待优化，脱敏后数据更新问题
  * @author Wukh
  * @create 2021-03-24
  */
@@ -86,14 +87,13 @@ public class DesensitizationInterceptor implements Interceptor {
 
     /**
      * 对集合脱敏
-     * @param obj obj
-     * @return
+     * @param list 脱敏数据列表
+     * @return 脱敏后的数据
      */
     private List<?> desensitization(List<?> list) {
         if (CollectionUtils.isEmpty(list)) {
             return Collections.emptyList();
         }
-
         Class cls = null;
         for (Object o : list) {
             // 脱敏map，改变引用地址(根据静态配置脱敏)
@@ -101,7 +101,6 @@ public class DesensitizationInterceptor implements Interceptor {
                 o = desensitizationMap(o);
                 continue;
             }
-
             // 脱敏bean(根据注解脱敏)
             if (cls == null) {
                 cls = o.getClass();
@@ -119,7 +118,6 @@ public class DesensitizationInterceptor implements Interceptor {
         if (MapUtils.isEmpty(mapResult)) {
             return mapResult;
         }
-
         Set<String> keySet = mapResult.keySet();
         for (String key : keySet) {
             if (desensitionMap.containsKey(key)) {
@@ -144,8 +142,7 @@ public class DesensitizationInterceptor implements Interceptor {
             default:
                 regular = Arrays.asList(type.getRegular());
         }
-
-        if (regular != null && regular.size() > 1) {
+        if (regular.size() > 1) {
             String match = regular.get(0);
             String result = regular.get(1);
             if (null != match && result != null && match.length() > 0) {
@@ -196,7 +193,6 @@ public class DesensitizationInterceptor implements Interceptor {
         desensitionMap.put("idCard", DesensitizationTypeEnum.ID_CARD);
         desensitionMap.put("userIDCard", DesensitizationTypeEnum.ID_CARD);
         desensitionMap.put("userIdCard", DesensitizationTypeEnum.ID_CARD);
-
         desensitionMap.put("username", DesensitizationTypeEnum.NAME);
         desensitionMap.put("address", DesensitizationTypeEnum.ADDRESS);
     }

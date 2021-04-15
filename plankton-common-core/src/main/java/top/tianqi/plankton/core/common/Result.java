@@ -68,7 +68,6 @@ public class Result extends HashMap<String, Object> {
     public Result(int code, String msg, boolean isSuccess) {
         super.put(CODE_TAG, code);
         super.put(MSG_TAG, msg);
-        super.put(DATA_TAG, null);
         super.put(SUCCESS_TAG, isSuccess);
     }
 

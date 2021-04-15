@@ -36,7 +36,7 @@ public class User extends BaseEntity {
     private String versionCode;
 
     /** 下载次数 */
-    private Integer uploadCounter = 2;
+    private Integer uploadCounter;
 
     /** 是否被禁用 0:禁用，1：未禁用*/
     private Boolean isEnable = true;
@@ -45,7 +45,7 @@ public class User extends BaseEntity {
     @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date loginTime;
 
-    /** 用户来源 0 或1 */
+    /** 用户来源 0 或 1 */
     private Integer source;
 
     /** 手机号码 */

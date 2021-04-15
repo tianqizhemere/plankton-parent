@@ -36,10 +36,9 @@ public enum EnableStatusEnum {
      */
     public static String value(boolean code) {
         for (EnableStatusEnum enableStatus : EnableStatusEnum.values()) {
-            if (code) {
+            if (code == enableStatus.getCode()) {
                 return enableStatus.getTypeName();
             }
-            return enableStatus.getTypeName();
         }
         return null;
     }

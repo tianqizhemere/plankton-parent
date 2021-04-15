@@ -29,7 +29,7 @@ public enum DesensitizationTypeEnum {
     /**
      * 地址脱敏
      */
-    ADDRESS("addrss", "地址", "(?<=.{3}).*(?=.{3})", "*"),
+    ADDRESS("address", "地址", "(?<=.{3}).*(?=.{3})", "*"),
     /**
      * 自定义规则
      */
