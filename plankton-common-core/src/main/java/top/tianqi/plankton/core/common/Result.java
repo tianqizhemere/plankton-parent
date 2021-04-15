@@ -1,7 +1,7 @@
 package top.tianqi.plankton.core.common;
 
 import org.apache.http.HttpStatus;
-import top.tianqi.plankton.core.common.status.ErrorStateEnum;
+import top.tianqi.plankton.core.common.enumeration.ErrorStateEnum;
 
 import java.util.HashMap;
 

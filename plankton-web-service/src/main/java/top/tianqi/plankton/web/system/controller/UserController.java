@@ -12,7 +12,7 @@ import top.tianqi.plankton.core.common.annotation.aop.OperateLog;
 import top.tianqi.plankton.core.common.constant.Constant;
 import top.tianqi.plankton.core.common.constant.OperationConst;
 import top.tianqi.plankton.web.common.controller.BaseController;
-import top.tianqi.plankton.core.common.status.ErrorStateEnum;
+import top.tianqi.plankton.core.common.enumeration.ErrorStateEnum;
 import top.tianqi.plankton.util.JedisUtil;
 import top.tianqi.plankton.core.system.entity.User;
 import top.tianqi.plankton.web.system.service.AuthService;

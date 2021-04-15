@@ -1,4 +1,4 @@
-package top.tianqi.plankton.core.common.status;
+package top.tianqi.plankton.core.common.enumeration;
 
 /**
  * 基础逻辑删除枚举类

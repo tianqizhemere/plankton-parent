@@ -11,7 +11,7 @@ import top.tianqi.plankton.core.common.annotation.aop.OperateLog;
 import top.tianqi.plankton.web.common.controller.BaseController;
 import top.tianqi.plankton.core.common.constant.OperationConst;
 import top.tianqi.plankton.core.common.enumeration.LimitTypeEnum;
-import top.tianqi.plankton.core.common.status.ErrorStateEnum;
+import top.tianqi.plankton.core.common.enumeration.ErrorStateEnum;
 import top.tianqi.plankton.core.system.entity.VersionInfo;
 import top.tianqi.plankton.web.system.service.DictionariesService;
 import top.tianqi.plankton.web.system.service.VersionService;

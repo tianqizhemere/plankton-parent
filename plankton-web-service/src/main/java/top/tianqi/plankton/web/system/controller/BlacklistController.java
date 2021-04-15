@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.tianqi.plankton.core.common.Result;
 import top.tianqi.plankton.web.common.controller.BaseController;
-import top.tianqi.plankton.core.common.status.ErrorStateEnum;
+import top.tianqi.plankton.core.common.enumeration.ErrorStateEnum;
 import top.tianqi.plankton.core.system.entity.Blacklist;
 import top.tianqi.plankton.web.system.service.BlacklistService;
 

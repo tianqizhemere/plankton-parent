@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import top.tianqi.plankton.web.common.service.BaseService;
 import top.tianqi.plankton.core.common.constant.Constant;
 import top.tianqi.plankton.core.common.exception.BusinessException;
-import top.tianqi.plankton.core.common.status.ErrorStateEnum;
+import top.tianqi.plankton.core.common.enumeration.ErrorStateEnum;
 import top.tianqi.plankton.core.system.entity.User;
 import top.tianqi.plankton.web.system.service.UserService;
 import top.tianqi.plankton.util.JwtUtil;

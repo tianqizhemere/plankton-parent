@@ -19,7 +19,7 @@ import top.tianqi.plankton.core.common.exception.BusinessException;
 import top.tianqi.plankton.core.common.exception.LimitException;
 import top.tianqi.plankton.core.common.exception.RedisConnectException;
 import top.tianqi.plankton.core.common.exception.UnauthorizedException;
-import top.tianqi.plankton.core.common.status.ErrorStateEnum;
+import top.tianqi.plankton.core.common.enumeration.ErrorStateEnum;
 import top.tianqi.plankton.core.system.entity.User;
 
 import javax.validation.ConstraintViolation;

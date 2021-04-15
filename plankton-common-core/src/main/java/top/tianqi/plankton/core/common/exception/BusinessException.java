@@ -1,6 +1,6 @@
 package top.tianqi.plankton.core.common.exception;
 
-import top.tianqi.plankton.core.common.status.ErrorStateEnum;
+import top.tianqi.plankton.core.common.enumeration.ErrorStateEnum;
 
 /**
  * 自定义业务异常

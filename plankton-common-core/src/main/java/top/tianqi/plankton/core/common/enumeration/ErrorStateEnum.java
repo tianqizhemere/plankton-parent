@@ -1,4 +1,4 @@
-package top.tianqi.plankton.core.common.status;
+package top.tianqi.plankton.core.common.enumeration;
 
 /**
  * 响应状态码枚举
