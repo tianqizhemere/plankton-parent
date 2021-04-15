@@ -1,4 +1,4 @@
-package top.tianqi.plankton.core.common.function;
+package top.tianqi.plankton.function;
 
 import top.tianqi.plankton.core.common.exception.RedisConnectException;
 

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Client;
 import redis.clients.jedis.Jedis;
 import top.tianqi.plankton.core.common.exception.RedisConnectException;
-import top.tianqi.plankton.core.common.function.JedisExecutor;
+import top.tianqi.plankton.function.JedisExecutor;
 import top.tianqi.plankton.util.JedisUtil;
 import top.tianqi.plankton.core.system.entity.RedisInfo;
 import top.tianqi.plankton.web.system.service.RedisService;
