@@ -26,6 +26,7 @@ import java.util.Set;
 
 /**
  * 自定义 realm
+ *
  * @author Wukh
  * @create 2021-01-04
  */
@@ -63,9 +64,9 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
         User user = userService.getUser(code);
         if (user == null) {
-            throw new AuthenticationException("UUID:" + code + "不存在") ;
+            throw new AuthenticationException("CODE:" + code + "不存在");
         }
-        if (Constant.USER_FREEZE.equals(user.getIsEnable())){
+        if (Constant.USER_FREEZE.equals(user.getIsEnable())) {
             throw new AuthenticationException("账号已被禁用,请联系管理员!");
         }
         // 开始认证，要AccessToken认证通过，且Redis中存在RefreshToken，且两个Token时间戳一致
@@ -74,7 +75,7 @@ public class MyShiroRealm extends AuthorizingRealm {
             String currentTimeMillisRedis = JedisUtil.getObject(Constant.PREFIX_SHIRO_REFRESH_TOKEN + code).toString();
             // 获取AccessToken时间戳，与RefreshToken的时间戳对比
             if (JwtUtil.getClaim(token, Constant.CURRENT_TIME_MILLIS).equals(currentTimeMillisRedis)) {
-                    return new SimpleAuthenticationInfo(token, token, getName());
+                return new SimpleAuthenticationInfo(token, token, getName());
             }
         }
         throw new AuthenticationException("Token已过期(Token expired or incorrect.)");
@@ -98,7 +99,7 @@ public class MyShiroRealm extends AuthorizingRealm {
             }
             // 查询权限
             Set<String> auths = authService.getUserAuthListById(user.getId());
-            if (!CollectionUtils.isEmpty(auths)){
+            if (!CollectionUtils.isEmpty(auths)) {
                 // 构造权限后返回
                 SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
                 // 构造权限

@@ -63,6 +63,20 @@ public class Result extends HashMap<String, Object> {
      *
      * @param code 状态码
      * @param msg  返回内容
+     * @param isSuccess 是否操作成功
+     */
+    public Result(int code, String msg, boolean isSuccess) {
+        super.put(CODE_TAG, code);
+        super.put(MSG_TAG, msg);
+        super.put(DATA_TAG, null);
+        super.put(SUCCESS_TAG, isSuccess);
+    }
+
+    /**
+     * 初始化一个新创建的 Result 对象
+     *
+     * @param code 状态码
+     * @param msg  返回内容
      * @param data 数据对象
      * @param isSuccess 是否操作成功
      */

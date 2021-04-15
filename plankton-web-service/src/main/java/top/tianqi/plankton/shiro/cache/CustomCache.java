@@ -16,6 +16,7 @@ import java.util.*;
  * @author tianQi
  * @create 2021-01-16
  */
+@SuppressWarnings("unchecked")
 public class CustomCache<K,V> implements Cache<K,V> {
 
     /**

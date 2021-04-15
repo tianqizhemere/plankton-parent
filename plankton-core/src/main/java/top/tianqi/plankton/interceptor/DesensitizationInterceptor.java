@@ -24,6 +24,7 @@ import java.util.*;
  * @author Wukh
  * @create 2021-03-24
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 @Intercepts({
         @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class,
                 RowBounds.class, ResultHandler.class}),
