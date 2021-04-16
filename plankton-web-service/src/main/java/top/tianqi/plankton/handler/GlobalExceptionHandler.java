@@ -148,7 +148,7 @@ public class GlobalExceptionHandler {
         }
         message = new StringBuilder(message.substring(0, message.length() - 1));
         logger.error(message.toString(), e);
-        return  Result.error(HttpStatus.BAD_REQUEST.value(),message.toString());
+        return Result.error(HttpStatus.BAD_REQUEST.value(), message.toString());
     }
 
     /**

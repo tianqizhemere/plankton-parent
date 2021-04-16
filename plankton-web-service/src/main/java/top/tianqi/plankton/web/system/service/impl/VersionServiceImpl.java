@@ -137,14 +137,6 @@ public class VersionServiceImpl extends BaseServiceImpl<VersionMapper, VersionIn
     }
 
     @Override
-    public Integer checkIsExist(String model, String versionCode) {
-        LambdaQueryWrapper<VersionInfo> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(!StringUtils.isEmpty(model), VersionInfo::getModel, model);
-        lambdaQueryWrapper.eq(!StringUtils.isEmpty(versionCode), VersionInfo::getVersionCode, versionCode);
-        return versionMapper.selectCount(lambdaQueryWrapper);
-    }
-
-    @Override
     public boolean save(VersionInfo versionInfo) {
         // 版本型号主键id
         List<Long> versionIds = new ArrayList<>();

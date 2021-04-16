@@ -37,6 +37,10 @@ public class ServerConfig {
         ServerConfig.serverUrl = serverUrl;
     }
 
+    /**
+     * 获取当前服务完整路径
+     * @return
+     */
     @SuppressWarnings("unused")
     public static String getUrl() {
         return serverUrl + ":" + serverPort;
