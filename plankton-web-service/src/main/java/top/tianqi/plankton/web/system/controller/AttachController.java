@@ -3,6 +3,7 @@ package top.tianqi.plankton.web.system.controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import top.tianqi.plankton.config.ServerConfig;
 import top.tianqi.plankton.core.common.Result;
 import top.tianqi.plankton.web.common.controller.BaseController;
 import top.tianqi.plankton.core.system.entity.Attach;
@@ -26,6 +27,11 @@ public class AttachController extends BaseController {
     @Resource(name = "attachServiceImpl")
     private AttachService attachService;
 
+    /**
+     * 文件上传
+     * @param request HttpServletRequest
+     * @return Result 前端提示信息
+     */
     @PostMapping("uploadFile")
     public Result uploadFile(HttpServletRequest request){
         Integer dataType = Integer.valueOf(request.getParameter("dataType"));
@@ -37,9 +43,9 @@ public class AttachController extends BaseController {
 
     /**
      * 获取文件列表
-     * @param recordId 记录ID
+     * @param recordId 关联记录ID
      * @param dataType 数据标识来源
-     * @return List<AttachVO> 附件列表
+     * @return Result 前端提示信息
      */
     @GetMapping("getFileList")
     public Result getFileList(Long recordId, Integer dataType) {
@@ -51,12 +57,21 @@ public class AttachController extends BaseController {
      * 删除文件
      * @param recordId 记录ID
      * @param dataType 数据标识来源
-     * @return Message 前端提示信息
+     * @return Result 前端提示信息
      */
     @PostMapping("delete")
     public Result delete(BigInteger recordId, Integer dataType) {
         attachService.delete(recordId, dataType);
         return SUCCESS_MESSAGE();
+    }
+
+    /**
+     * 获取服务器完整路径
+     * @return Result 前端提示信息
+     */
+    @GetMapping("getServerUrl")
+    public Result getServerUrl(){
+        return SUCCESS_MESSAGE(ServerConfig.getUrl());
     }
 
 }
