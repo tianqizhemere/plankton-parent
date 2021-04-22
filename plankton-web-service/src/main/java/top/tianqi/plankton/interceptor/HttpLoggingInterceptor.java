@@ -16,7 +16,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 请求日志拦截器
+ * RestTemplate请求日志拦截器
  * @author Wukh
  * @create 2021-04-22
  */
@@ -24,10 +24,14 @@ public class HttpLoggingInterceptor implements ClientHttpRequestInterceptor {
 
     private static final Logger log = LoggerFactory.getLogger(HttpLoggingInterceptor.class);
 
-    private static final String REQ_BEG = "=========================== req beg >>>>>>>>>>>>>>>>>>>>>>>>>>";
-    private static final String REQ_END = "=========================== req end <<<<<<<<<<<<<<<<<<<<<<<<<<";
-    private static final String RES_BEG = "=========================== res beg >>>>>>>>>>>>>>>>>>>>>>>>>>";
-    private static final String RES_END = "=========================== res end <<<<<<<<<<<<<<<<<<<<<<<<<<";
+    /** 请求日志记录开始节点 */
+    private static final String REQ_BEG = "=========================== request beg >>>>>>>>>>>>>>>>>>>>>>>>>>";
+    /** 请求日志记录结束节点 */
+    private static final String REQ_END = "=========================== request end <<<<<<<<<<<<<<<<<<<<<<<<<<";
+    /** 响应日志记录开始节点 */
+    private static final String RES_BEG = "=========================== response beg >>>>>>>>>>>>>>>>>>>>>>>>>>";
+    /** 响应日志记录结束节点 */
+    private static final String RES_END = "=========================== response end <<<<<<<<<<<<<<<<<<<<<<<<<<";
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
@@ -43,8 +47,13 @@ public class HttpLoggingInterceptor implements ClientHttpRequestInterceptor {
         return response;
     }
 
+    /**
+     * 打印RestTemplate请求日志
+     * @param request HttpRequest
+     * @param body 请求体
+     * @throws IOException
+     */
     private void logRequest(HttpRequest request, byte[] body) throws IOException {
-
         if (log.isInfoEnabled()) {
             log.info(REQ_BEG);
             log.info("URI         : {}", request.getURI());
@@ -55,6 +64,11 @@ public class HttpLoggingInterceptor implements ClientHttpRequestInterceptor {
         }
     }
 
+    /**
+     * 打印RestTemplate响应日志
+     * @param response ClientHttpResponse
+     * @throws IOException
+     */
     private void logResponse(ClientHttpResponse response) throws IOException {
         if (log.isInfoEnabled()) {
             log.info(RES_BEG);
