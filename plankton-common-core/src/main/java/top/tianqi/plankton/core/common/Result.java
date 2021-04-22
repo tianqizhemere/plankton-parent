@@ -1,6 +1,5 @@
 package top.tianqi.plankton.core.common;
 
-import org.apache.http.HttpStatus;
 import top.tianqi.plankton.core.common.enumeration.ErrorStateEnum;
 
 import java.util.HashMap;
@@ -122,7 +121,7 @@ public class Result extends HashMap<String, Object> {
      * @return 成功消息
      */
     public static Result success(String msg, Object data) {
-        return new Result(HttpStatus.SC_OK, msg, data, Boolean.TRUE);
+        return new Result(ErrorStateEnum.REQUEST_SUCCESS.getCode(), msg, data, Boolean.TRUE);
     }
 
     /**
@@ -150,7 +149,7 @@ public class Result extends HashMap<String, Object> {
      * @return 警告消息
      */
     public static Result error(String msg, Object data) {
-        return new Result(HttpStatus.SC_INTERNAL_SERVER_ERROR, msg, data, Boolean.FALSE);
+        return new Result(ErrorStateEnum.REQUEST_ERROR.getCode(), msg, data, Boolean.FALSE);
     }
 
     /**

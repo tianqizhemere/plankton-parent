@@ -22,6 +22,7 @@ import java.util.*;
 /**
  * SQL拦截器，用于数据脱敏
  * TODO 待优化，脱敏后数据更新问题
+ *      方案一，查询使用VO接收数据，避免更新操作
  * @author Wukh
  * @create 2021-03-24
  */

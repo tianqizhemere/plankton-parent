@@ -11,18 +11,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 import top.tianqi.plankton.core.common.Result;
 import top.tianqi.plankton.core.common.constant.Constant;
-import top.tianqi.plankton.util.JedisUtil;
-import top.tianqi.plankton.shiro.token.JwtToken;
-import top.tianqi.plankton.util.AddressUtils;
 import top.tianqi.plankton.core.common.utils.JsonUtil;
 import top.tianqi.plankton.core.common.utils.PropertiesUtil;
+import top.tianqi.plankton.shiro.token.JwtToken;
+import top.tianqi.plankton.util.AddressUtils;
+import top.tianqi.plankton.util.JedisUtil;
 import top.tianqi.plankton.util.JwtUtil;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * JWT过滤器
@@ -172,7 +171,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter implements HandlerI
             httpResponse.setContentType("application/json;charset=utf-8");
             Result result = Result.error(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):" + msg);
             httpResponse.getWriter().write(JsonUtil.toJsonString(result));
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
     }

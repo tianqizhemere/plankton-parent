@@ -13,6 +13,8 @@ public enum ErrorStateEnum {
     SYSTEM_ERROR(-1, "未知错误"),
     /** 请求成功 */
     REQUEST_SUCCESS(200, "OK"),
+    /** 请求错误 */
+    REQUEST_ERROR(500, "ERROR"),
     /** 未登录 */
     REQUEST_UNAUTHC_EXCEPTION(411, "未登录"),
     /** 未授权 */
@@ -38,7 +40,9 @@ public enum ErrorStateEnum {
     /** 账号已存在 */
     ACCOUNT_EXIST(1013, "该账号已存在"),
     /** redis连接错误 */
-    REDIS_CONNECT_ERROR(1014, "Redis 连接错误");
+    REDIS_CONNECT_ERROR(1014, "Redis 连接错误"),
+    /** 请求超时 */
+    TIME_OUT(1015, "数据请求超时");
 
 
     /** 状态码 */
