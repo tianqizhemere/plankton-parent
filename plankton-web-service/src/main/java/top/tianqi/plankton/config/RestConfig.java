@@ -56,8 +56,8 @@ public class RestConfig {
     public RestTemplate restTemplate() {
         // 设置超时
        RestTemplate restTemplate = new RestTemplateBuilder()
-                .setConnectTimeout(Duration.ofMillis(5000))
-                .setReadTimeout(Duration.ofMillis(5000))
+                .setConnectTimeout(Duration.ofMillis(readTimeout))
+                .setReadTimeout(Duration.ofMillis(connectionTimeout))
                 .requestFactory(this::httpClientFactory)
                 .build();
         // 设置日志拦截

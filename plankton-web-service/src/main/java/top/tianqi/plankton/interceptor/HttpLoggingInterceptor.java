@@ -24,18 +24,17 @@ public class HttpLoggingInterceptor implements ClientHttpRequestInterceptor {
 
     private static final Logger log = LoggerFactory.getLogger(HttpLoggingInterceptor.class);
 
-    /** 请求日志记录开始节点 */
+    /** 请求日志记录开始 */
     private static final String REQ_BEG = "=========================== request beg >>>>>>>>>>>>>>>>>>>>>>>>>>";
-    /** 请求日志记录结束节点 */
+    /** 请求日志记录结束 */
     private static final String REQ_END = "=========================== request end <<<<<<<<<<<<<<<<<<<<<<<<<<";
-    /** 响应日志记录开始节点 */
+    /** 响应日志记录开始 */
     private static final String RES_BEG = "=========================== response beg >>>>>>>>>>>>>>>>>>>>>>>>>>";
-    /** 响应日志记录结束节点 */
+    /** 响应日志记录结束 */
     private static final String RES_END = "=========================== response end <<<<<<<<<<<<<<<<<<<<<<<<<<";
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-
         logRequest(request, body);
         ClientHttpResponse response;
         try {
@@ -51,9 +50,8 @@ public class HttpLoggingInterceptor implements ClientHttpRequestInterceptor {
      * 打印RestTemplate请求日志
      * @param request HttpRequest
      * @param body 请求体
-     * @throws IOException
      */
-    private void logRequest(HttpRequest request, byte[] body) throws IOException {
+    private void logRequest(HttpRequest request, byte[] body) {
         if (log.isInfoEnabled()) {
             log.info(REQ_BEG);
             log.info("URI         : {}", request.getURI());

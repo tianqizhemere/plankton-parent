@@ -201,7 +201,7 @@ public final class DateUtils {
         Date date = new Date();
         GregorianCalendar gc = (GregorianCalendar) Calendar.getInstance();
         gc.setTime(date);
-        return Integer.valueOf(gc.get(1));
+        return gc.get(Calendar.YEAR);
     }
 
     /**
@@ -213,7 +213,7 @@ public final class DateUtils {
         Date date = new Date();
         GregorianCalendar gc = (GregorianCalendar) Calendar.getInstance();
         gc.setTime(date);
-        return gc.get(2) + 1;
+        return gc.get(Calendar.MONTH) + 1;
     }
 
     /**
@@ -384,12 +384,12 @@ public final class DateUtils {
             pattern = DATE_TIME;
         }
         try {
-            SimpleDateFormat formater = new SimpleDateFormat(pattern);
-            return formater.parse(dateString);
+            SimpleDateFormat format = new SimpleDateFormat(pattern);
+            return format.parse(dateString);
         }catch(IllegalArgumentException iae){
-            SimpleDateFormat formater = new SimpleDateFormat(DATE_TIME);
+            SimpleDateFormat format = new SimpleDateFormat(DATE_TIME);
             try {
-                return formater.parse(dateString);
+                return format.parse(dateString);
             } catch (ParseException e) {
                 return null;
             }
@@ -451,7 +451,7 @@ public final class DateUtils {
      * @throws IllegalArgumentException
      *           如果源日期对象(<code>date</code>)为<code>null</code>.
      */
-    public static java.util.Date addYears(java.util.Date date, int amount) {
+    public static Date addYears(Date date, int amount) {
         return add(date, Calendar.YEAR, amount);
     }
 
@@ -467,7 +467,7 @@ public final class DateUtils {
      * @throws IllegalArgumentException
      *           如果源日期对象(<code>date</code>)为<code>null</code>.
      */
-    public static java.util.Date addMonths(java.util.Date date, int amount) {
+    public static Date addMonths(Date date, int amount) {
         return add(date, Calendar.MONTH, amount);
     }
 

@@ -83,7 +83,6 @@ public class DesensitizationInterceptor implements Interceptor {
      */
     @Override
     public void setProperties(Properties properties) {
-
     }
 
     /**
