@@ -19,7 +19,7 @@ import redis.clients.jedis.JedisPoolConfig;
  */
 @Configuration
 @EnableAutoConfiguration
-@PropertySource("classpath:config.properties")
+@PropertySource("classpath:application.properties")
 @ConfigurationProperties(prefix = "redis")
 public class JedisConfig {
 
@@ -67,6 +67,8 @@ public class JedisConfig {
             jedisPoolConfig.setMaxTotal(maxActive);
             jedisPoolConfig.setMinIdle(minIdle);
             jedisPoolConfig.setMaxTotal(maxTotal);
+            // 检测对象的有效性，检测空闲对象线程检测到对象不需要移除时
+            jedisPoolConfig.setTestWhileIdle(true);
             // 密码为空设置为null
             if (StringUtils.isBlank(password)) {
                 password = null;

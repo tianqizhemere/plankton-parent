@@ -12,7 +12,7 @@ import top.tianqi.plankton.core.system.entity.User;
 public interface BaseService<T> extends IService<T> {
 
     /**
-     * 获取当前用户
+     * 获取当前登录用户
      * @return currentUser
      */
     User getCurrentUser();

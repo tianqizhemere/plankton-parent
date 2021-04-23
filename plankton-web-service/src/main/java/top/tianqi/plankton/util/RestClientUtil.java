@@ -1,5 +1,6 @@
 package top.tianqi.plankton.util;
 
+import cn.hutool.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -23,12 +24,11 @@ public final class RestClientUtil {
     }
 
     /**
-     * get请求
-     *
+     * GET请求
      * @param url       请求地址
      * @param headerMap 头部信息
      * @param resp      响应结果类型
-     * @return
+     * @return Object 响应结果
      */
     public Object get(String url, Map<String, String> headerMap, Class<?> resp) {
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -37,6 +37,22 @@ public final class RestClientUtil {
         }
         HttpEntity httpEntity = new HttpEntity(httpHeaders);
         ResponseEntity<?> result = restTemplate.exchange(url, HttpMethod.GET, httpEntity, resp);
+        return result.getBody();
+    }
+
+    /**
+     * GET请求
+     * @param url       请求地址
+     * @param headerMap 头部信息
+     * @return Object 响应结果
+     */
+    public Object get(String url, Map<String, String> headerMap) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        for (Map.Entry<String, String> stringStringEntry : headerMap.entrySet()) {
+            httpHeaders.add(stringStringEntry.getKey(), stringStringEntry.getValue());
+        }
+        HttpEntity httpEntity = new HttpEntity(httpHeaders);
+        ResponseEntity<?> result = restTemplate.exchange(url, HttpMethod.GET, httpEntity, JSONObject.class);
         return result.getBody();
     }
 
