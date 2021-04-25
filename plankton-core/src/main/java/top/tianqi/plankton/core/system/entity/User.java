@@ -4,7 +4,7 @@ package top.tianqi.plankton.core.system.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import top.tianqi.plankton.anntation.Desensitization;
+import top.tianqi.plankton.core.common.annotation.aop.Desensitization;
 import top.tianqi.plankton.core.BaseEntity;
 import top.tianqi.plankton.core.common.enumeration.DesensitizationTypeEnum;
 import top.tianqi.plankton.core.system.enumeration.EnableStatusEnum;

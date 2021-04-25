@@ -17,6 +17,7 @@ public class ProxyConfig {
 
     /** 代理主机地址 */
     private String host;
+
     /** 代理端口 */
     private Integer port;
 

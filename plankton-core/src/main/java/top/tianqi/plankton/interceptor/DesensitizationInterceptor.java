@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
-import top.tianqi.plankton.anntation.Desensitization;
+import top.tianqi.plankton.core.common.annotation.aop.Desensitization;
 import top.tianqi.plankton.core.common.enumeration.DesensitizationTypeEnum;
 
 import java.lang.reflect.Field;

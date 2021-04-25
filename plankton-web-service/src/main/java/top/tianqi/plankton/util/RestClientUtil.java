@@ -57,6 +57,17 @@ public final class RestClientUtil {
     }
 
     /**
+     * GET请求
+     * @param <T> 响应结果类型
+     * @param url 请求路径
+     * @param clazz 字节码对象
+     * @return T
+     */
+    public static <T> T get(String url, Class<T> clazz) {
+        return restTemplate.getForObject(url , clazz);
+    }
+
+    /**
      * POST请求(JSON数据格式)
      * @param requestUrl 请求路径
      * @param requestJsonStrParam json格式请求参数

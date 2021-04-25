@@ -1,6 +1,5 @@
-package top.tianqi.plankton.anntation;
+package top.tianqi.plankton.core.common.annotation.aop;
 
-import org.apache.logging.log4j.util.Strings;
 import top.tianqi.plankton.core.common.enumeration.DesensitizationTypeEnum;
 
 import java.lang.annotation.ElementType;
@@ -25,5 +24,5 @@ public @interface Desensitization {
     /**
      * 附加值, 自定义正则表达式等
      */
-    String[] attach() default Strings.EMPTY;
+    String[] attach() default "";
 }
