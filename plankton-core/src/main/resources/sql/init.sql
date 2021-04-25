@@ -174,9 +174,9 @@ CREATE TABLE role_menu (
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
--- 数据字典
-DROP TABLE IF EXISTS data_Dictionary;
-CREATE TABLE data_Dictionary (
+-- 数据字典 TODO 修改表名，未修改实体名
+DROP TABLE IF EXISTS data_dictionary;
+CREATE TABLE data_dictionary (
   id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
   create_time datetime NOT NULL,
   modify_time datetime NOT NULL,
@@ -187,7 +187,7 @@ CREATE TABLE data_Dictionary (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='字典管理表';
 
--- 外置应用
+-- 外置应用 TODO 修改表名，未修改实体名
 DROP TABLE IF EXISTS external_app;
 CREATE TABLE external_app (
   id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',

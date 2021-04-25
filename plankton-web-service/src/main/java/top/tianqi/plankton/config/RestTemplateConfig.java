@@ -39,6 +39,10 @@ public class RestTemplateConfig {
     @Autowired
     private ProxyConfig proxyConfig;
 
+    /**
+     * 代理配置
+     * @return
+     */
     @Bean
     public SimpleClientHttpRequestFactory httpClientFactory() {
         SimpleClientHttpRequestFactory httpRequestFactory = new SimpleClientHttpRequestFactory();
