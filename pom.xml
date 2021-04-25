@@ -104,6 +104,21 @@
                 <version>4.3.3</version>
             </dependency>
 
+            <!--easyexcel报表导出  -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+
+            <!-- jxls 导出Excel文件 -->
+            <dependency>
+                <groupId>net.sf.jxls</groupId>
+                <artifactId>jxls-core</artifactId>
+                <version>1.0.6</version>
+            </dependency>
+
+
             <!-- java.io的扩展 -->
             <dependency>
                 <groupId>commons-io</groupId>
@@ -166,6 +181,28 @@
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
                 <version>${jsoup.version}</version>
+            </dependency>
+
+            <!-- OpenOffice -->
+            <dependency>
+                <groupId>org.apache.directory.studio</groupId>
+                <artifactId>org.apache.commons.io</artifactId>
+                <version>2.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.artofsolving</groupId>
+                <artifactId>jodconverter</artifactId>
+                <version>2.2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openoffice</groupId>
+                <artifactId>juh</artifactId>
+                <version>3.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openoffice</groupId>
+                <artifactId>unoil</artifactId>
+                <version>3.0.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

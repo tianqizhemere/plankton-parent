@@ -12,17 +12,12 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "proxy")
 public class ProxyConfig {
 
-    /**
-     * 是否启用代理
-     */
+    /** 是否启用代理 */
     private Boolean enabled;
-    /**
-     * 代理主机地址
-     */
+
+    /** 代理主机地址 */
     private String host;
-    /**
-     * 代理端口
-     */
+    /** 代理端口 */
     private Integer port;
 
     public Boolean getEnabled() {

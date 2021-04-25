@@ -5,6 +5,7 @@ import top.tianqi.plankton.web.common.service.BaseService;
 import top.tianqi.plankton.core.system.entity.Attach;
 
 import java.math.BigInteger;
+import java.net.ConnectException;
 import java.util.Collection;
 import java.util.List;
 
@@ -41,4 +42,11 @@ public interface AttachService extends BaseService<Attach> {
      * @return List<Attach> 文件列表
      */
     List<Attach> getFileList(Long recordId, Integer dataType);
+
+    /**
+     * 文件转换 word转PDF
+     * @param srcPath 文件路径
+     * @return 转换后的完整路径
+     */
+    String transitionFile(String srcPath) throws ConnectException;
 }

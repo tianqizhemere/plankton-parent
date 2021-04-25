@@ -1,6 +1,10 @@
 package top.tianqi.plankton.web.system.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import com.artofsolving.jodconverter.DocumentConverter;
+import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
+import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
+import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -10,14 +14,17 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.tianqi.plankton.attach.plugin.StoragePlugin;
-import top.tianqi.plankton.web.common.service.impl.BaseServiceImpl;
+import top.tianqi.plankton.config.ServerConfig;
+import top.tianqi.plankton.core.common.exception.BusinessException;
 import top.tianqi.plankton.core.system.entity.Attach;
 import top.tianqi.plankton.core.system.mapper.AttachMapper;
+import top.tianqi.plankton.web.common.service.impl.BaseServiceImpl;
 import top.tianqi.plankton.web.system.service.AttachService;
 
 import javax.annotation.Resource;
 import java.io.File;
 import java.math.BigInteger;
+import java.net.ConnectException;
 import java.util.*;
 
 /**
@@ -46,6 +53,12 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> imp
 
     @Resource
     private Map<String, StoragePlugin> storagePluginMap = new HashMap<>();
+
+    /** 转换文件后缀名 */
+    public static final String FILE_SUFFIX_PDF = ".pdf";
+
+    /** OpenOffice连接地址 */
+    private static final String OPEN_OFFICE_URL = "127.0.0.1";
 
     @Override
     public List<Attach> uploadFile(Collection<MultipartFile> files, Integer dataType) {
@@ -130,5 +143,37 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> imp
         lambdaQueryWrapper.eq(Attach::getRecordId, recordId);
         lambdaQueryWrapper.eq(dataType != null, Attach::getDataType, dataType);
         return attachMapper.selectList(lambdaQueryWrapper);
+    }
+
+    @Override
+    public String transitionFile(String srcPath) throws ConnectException {
+        // 完整路径
+        String filePath = uploadBase + srcPath;
+        File inputFile = new File(filePath);
+        if (!inputFile.exists()) {
+            throw new BusinessException("源文件不存在！");
+        }
+        // 输出路径
+        String desPath = srcPath.substring(0, srcPath.lastIndexOf(".")) + FILE_SUFFIX_PDF;
+        // 输出文件目录是否存在
+        File outputFile = new File(uploadBase + desPath);
+        if (outputFile.exists()) {
+            return desPath;
+        }
+        // 连接openOffice服务
+        OpenOfficeConnection connection = new SocketOpenOfficeConnection(OPEN_OFFICE_URL, 8100);
+        connection.connect();
+        // 转换word到PDF
+        DocumentConverter converter = new OpenOfficeDocumentConverter(connection);
+        try {
+            converter.convert(inputFile, outputFile);
+            // 关闭连接
+            connection.disconnect();
+            return ServerConfig.getUrl() + desPath;
+        } catch (IllegalArgumentException e) {
+            connection.disconnect();
+            e.printStackTrace();
+        }
+        return null;
     }
 }

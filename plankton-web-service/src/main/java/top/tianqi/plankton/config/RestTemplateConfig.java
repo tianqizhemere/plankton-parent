@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Configuration
 @ConditionalOnClass(ProxyConfig.class)
-public class RestConfig {
+public class RestTemplateConfig {
 
     /** 读取超时时间 */
     @Value("${rest.ReadTimeout}")

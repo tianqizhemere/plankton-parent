@@ -1,13 +1,23 @@
 package top.tianqi.plankton.web.common.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import top.tianqi.plankton.core.BaseEntity;
 import top.tianqi.plankton.core.common.Result;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +38,44 @@ public class BaseController {
     public HttpServletRequest getRequest() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return servletRequestAttributes.getRequest();
+    }
+
+    /**
+     * 文件下载
+     * @param trueName 文件名称
+     * @param downLoadPath 文件下载路径
+     * @return ResponseEntity
+     * @throws Exception
+     */
+    public ResponseEntity<byte[]> down(String trueName, String downLoadPath) throws Exception {
+        HttpServletRequest request = getRequest();
+
+        File file = new File(downLoadPath);
+        HttpHeaders headers = new HttpHeaders();
+        String fileName;
+
+        try {
+            String userAgent = request.getHeader("User-Agent");
+            // 判断是否为IE
+            if (userAgent.toUpperCase().indexOf("MSIE") > 0 || userAgent.toUpperCase().indexOf("TRIDENT") > 0) {
+                fileName = URLEncoder.encode(trueName, "UTF-8");
+            } else {
+                fileName = new String(trueName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
+            }
+        } catch (UnsupportedEncodingException e) {
+            throw new Exception("文件名转码失败", e);
+        }
+        // 解决中文名称乱码问题
+        headers.setContentDispositionFormData("attachment", fileName);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
+        byte[] bytes;
+        try {
+            bytes = FileUtils.readFileToByteArray(file);
+        } catch (IOException e) {
+            throw new Exception("读取文件失败", e);
+        }
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
 
     /**
