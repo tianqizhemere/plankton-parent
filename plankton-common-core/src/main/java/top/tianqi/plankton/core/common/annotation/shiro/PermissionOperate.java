@@ -1,4 +1,4 @@
-package top.tianqi.plankton.core.common.annotation.aop.shiro;
+package top.tianqi.plankton.core.common.annotation.shiro;
 
 import top.tianqi.plankton.core.common.enumeration.RelationTypeEnum;
 

@@ -4,8 +4,9 @@ package top.tianqi.plankton.core.system.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import top.tianqi.plankton.core.common.annotation.aop.Desensitization;
+import top.tianqi.plankton.core.common.annotation.Desensitization;
 import top.tianqi.plankton.core.BaseEntity;
+import top.tianqi.plankton.core.common.annotation.excel.ExcelColumn;
 import top.tianqi.plankton.core.common.enumeration.DesensitizationTypeEnum;
 import top.tianqi.plankton.core.system.enumeration.EnableStatusEnum;
 
@@ -23,13 +24,16 @@ public class User extends BaseEntity {
     private static final long serialVersionUID = -2369578080352985398L;
 
     /** UUID */
+    @ExcelColumn(order = 0, title = "CODE", column = 50)
     private String code;
 
     /** 设备型号 */
+    @ExcelColumn(order = 1, title = "设备型号", column = 50)
     @NotBlank(message = "设备型号不能为空")
     private String model;
 
     /** 用户状态，normal 普通用户 powerful专业 */
+    @ExcelColumn(order = 2, title = "用户类型", column = 50)
     private String userMode;
 
     /** 版本编号 */
@@ -39,9 +43,11 @@ public class User extends BaseEntity {
     private Integer uploadCounter;
 
     /** 是否被禁用 0:禁用，1：未禁用*/
+    @ExcelColumn(order = 4, title = "是否启用", column = 20)
     private Boolean isEnable = true;
 
     /** 用户最后登录时间 */
+    @ExcelColumn(order = 3, title = "最后登录时间", column = 50)
     @JsonFormat(timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date loginTime;
 

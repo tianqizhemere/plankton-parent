@@ -11,15 +11,18 @@ import top.tianqi.plankton.core.common.Result;
 import top.tianqi.plankton.core.common.annotation.aop.OperateLog;
 import top.tianqi.plankton.core.common.constant.Constant;
 import top.tianqi.plankton.core.common.constant.OperationConst;
-import top.tianqi.plankton.web.common.controller.BaseController;
 import top.tianqi.plankton.core.common.enumeration.ErrorStateEnum;
-import top.tianqi.plankton.util.JedisUtil;
 import top.tianqi.plankton.core.system.entity.User;
+import top.tianqi.plankton.util.AddressUtils;
+import top.tianqi.plankton.util.JedisUtil;
+import top.tianqi.plankton.util.excel.ExcelUtil;
+import top.tianqi.plankton.web.common.controller.BaseController;
 import top.tianqi.plankton.web.system.service.AuthService;
 import top.tianqi.plankton.web.system.service.UserService;
-import top.tianqi.plankton.util.AddressUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -172,5 +175,16 @@ public class UserController extends BaseController {
             }
         }
         return SUCCESS_MESSAGE();
+    }
+
+    /**
+     * 导出excel
+     * @return Result 前端提示信息
+     */
+    @GetMapping("export")
+    public void export(HttpServletRequest request, HttpServletResponse response){
+        Page<User> page = userService.getPage(null, null, null, null, getPage());
+        List<User> records = page.getRecords();
+        ExcelUtil.exportExcel(request, response, "用户数据", records, User.class);
     }
 }

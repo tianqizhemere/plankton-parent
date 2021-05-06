@@ -31,8 +31,8 @@ public enum EnableStatusEnum {
 
     /**
      * 根据类型获取编码
-     * @param typeName 类型名称
-     * @return code 编码
+     * @param code 编码
+     * @return typeName 类型名称
      */
     public static String value(boolean code) {
         for (EnableStatusEnum enableStatus : EnableStatusEnum.values()) {
@@ -41,5 +41,10 @@ public enum EnableStatusEnum {
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return typeName;
     }
 }

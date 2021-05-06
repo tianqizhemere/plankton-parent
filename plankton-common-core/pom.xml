@@ -71,10 +71,10 @@
             <artifactId>easyexcel</artifactId>
         </dependency>-->
 
-        <!-- Jxis导出Excel -->
+        <!--Excel-->
         <dependency>
-            <groupId>net.sf.jxls</groupId>
-            <artifactId>jxls-core</artifactId>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
         </dependency>
 
         <!-- hutool工具类 -->

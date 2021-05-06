@@ -111,11 +111,11 @@
                 <version>2.0.0</version>
             </dependency>
 
-            <!-- jxls 导出Excel文件 -->
+            <!--Excel-->
             <dependency>
-                <groupId>net.sf.jxls</groupId>
-                <artifactId>jxls-core</artifactId>
-                <version>1.0.6</version>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>3.11</version>
             </dependency>
 
 

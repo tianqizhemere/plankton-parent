@@ -1,4 +1,4 @@
-package top.tianqi.plankton.core.common.annotation.aop;
+package top.tianqi.plankton.core.common.annotation;
 
 import top.tianqi.plankton.core.common.enumeration.DesensitizationTypeEnum;
 
