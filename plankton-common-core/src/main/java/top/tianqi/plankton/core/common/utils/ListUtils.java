@@ -9,12 +9,12 @@ import java.util.*;
  *  Map<String,List<Student>> resMap = ListUtils.groupBy(studentList,new ListUtils.GroupBy<String,Student>(){
  *     @Override
  *     public String groupBy(Student row){
- *         String ktrq = row.getKtrq();
- *         String ktrqStr = "";
- *         if(ktrq != null){
- *             ktrqStr = ktrq.substring(0,4);
+ *         String trq = row.getTrq();
+ *         String trqStr = "";
+ *         if(trq != null){
+ *             trqStr = trq.substring(0,4);
  *         }
- *         return ktrqStr;
+ *         return trqStr;
  *     }
  * });
  *

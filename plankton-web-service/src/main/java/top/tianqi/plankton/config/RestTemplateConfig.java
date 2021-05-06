@@ -65,10 +65,10 @@ public class RestTemplateConfig {
                 .requestFactory(this::httpClientFactory)
                 .build();
         // 设置日志拦截
-        ClientHttpRequestInterceptor ri = new HttpLoggingInterceptor();
-        List<ClientHttpRequestInterceptor> ris = new ArrayList<>();
-        ris.add(ri);
-        restTemplate.setInterceptors(ris);
+        ClientHttpRequestInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
+        interceptors.add(httpLoggingInterceptor);
+        restTemplate.setInterceptors(interceptors);
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
         return restTemplate;
     }

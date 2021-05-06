@@ -11,19 +11,13 @@ public class BusinessException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 错误编码
-     */
+    /** 错误编码 */
     private Integer errorCode = 500;
 
-    /**
-     * 消息是否为属性文件中的Key
-     */
+    /** 消息是否为属性文件中的Key */
     private boolean propertiesKey = true;
 
-    /**
-     * 构造一个基本异常.
-     */
+    /** 构造一个基本异常 */
     public BusinessException(){
         super();
     }

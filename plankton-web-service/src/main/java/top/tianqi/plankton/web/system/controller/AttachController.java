@@ -1,6 +1,5 @@
 package top.tianqi.plankton.web.system.controller;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +9,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import top.tianqi.plankton.config.ServerConfig;
 import top.tianqi.plankton.core.common.Result;
 import top.tianqi.plankton.core.system.entity.Attach;
-import top.tianqi.plankton.util.excel.JxlsUtils;
 import top.tianqi.plankton.web.common.controller.BaseController;
 import top.tianqi.plankton.web.system.service.AttachService;
 
@@ -88,16 +86,9 @@ public class AttachController extends BaseController {
      */
     @GetMapping("transitionFile")
     public Result transitionFile(String srcPath) throws ConnectException {
+        logger.info("openOffice转换开始>>>>>>>>>>>>>");
         srcPath = attachService.transitionFile(srcPath);
+        logger.info("openOffice转换结束>>>>>>>>>>>>>");
         return SUCCESS_MESSAGE(srcPath);
     }
-
-    @GetMapping("export")
-    public ResponseEntity<byte[]> export() throws Exception {
-        String target  = "测试文件.xls";
-        String source = "test.xls";
-        String path = JxlsUtils.export(source, target, null);
-        return down(target, path);
-    }
-
 }

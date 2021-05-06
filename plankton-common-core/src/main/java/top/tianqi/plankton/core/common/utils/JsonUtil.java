@@ -15,6 +15,7 @@ import java.util.Map;
 
 /**
  * JsonUtil工具类
+ *
  * @Author wkh
  * @Date 2020/6/28 17:19
  */
@@ -22,12 +23,9 @@ public final class JsonUtil {
 
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
-    public static ObjectMapper getInstance() {
-        return objectMapper;
-    }
-
     /**
      * 对象转json
+     *
      * @param obj 目标对象
      * @return json
      */
@@ -39,6 +37,7 @@ public final class JsonUtil {
 
     /**
      * 转换为 JSON 字符串，忽略空值
+     *
      * @param obj obj 目标对象
      * @return json
      */
@@ -48,10 +47,9 @@ public final class JsonUtil {
         return mapper.writeValueAsString(obj);
     }
 
-
-
     /**
      * 集合对象转json集合
+     *
      * @param objects 多个同一类型对象
      * @return json集合
      */
@@ -68,8 +66,9 @@ public final class JsonUtil {
 
     /**
      * json转集合
+     *
      * @param jsons 多个json对象
-     * @param c 转换类型
+     * @param c     转换类型
      * @return T
      */
     public static <T> List<T> listJsonToListObject(List<String> jsons, Class<T> c) throws Exception {
@@ -85,7 +84,8 @@ public final class JsonUtil {
 
     /**
      * json转JavaBean
-     * @param json json字符串
+     *
+     * @param json  json字符串
      * @param clazz 转换对象
      * @return T
      */
@@ -96,6 +96,7 @@ public final class JsonUtil {
 
     /**
      * 字符串转换为 Map<String, Object>
+     *
      * @param json json字符串
      * @return Map 转换后的Map集合对象
      * @throws Exception
@@ -108,7 +109,8 @@ public final class JsonUtil {
 
     /**
      * 字符串转换为 Map<String, T>
-     * @param json json字符串
+     *
+     * @param json  json字符串
      * @param clazz 转换对象
      * @return Map 转换的Map集合
      */
@@ -135,7 +137,7 @@ public final class JsonUtil {
     /**
      * 把 JSON 解析成 List，如果 List 内部的元素存在 jsonString，继续解析
      *
-     * @param json json字符串
+     * @param json   json字符串
      * @param mapper 解析工具
      * @return
      * @throws Exception
@@ -163,7 +165,7 @@ public final class JsonUtil {
     /**
      * 把 JSON 解析成 Map，如果 Map 内部的 Value 存在 jsonString，继续解析
      *
-     * @param json json字符串
+     * @param json   json字符串
      * @param mapper
      * @return
      * @throws Exception
@@ -195,7 +197,7 @@ public final class JsonUtil {
      * 将 JSON 数组转换为集合
      *
      * @param jsonArrayStr 集合json字符串
-     * @param clazz 转换对象
+     * @param clazz        转换对象
      * @return
      * @throws Exception
      */
@@ -245,7 +247,7 @@ public final class JsonUtil {
     /**
      * 将 JSON 对象转换为 JavaBean
      *
-     * @param obj JavaBean
+     * @param obj   JavaBean
      * @param clazz 转换对象的字节码对象
      * @return
      */
@@ -256,8 +258,9 @@ public final class JsonUtil {
     /**
      * json转任意复杂类型
      * jsonToObject(json, new TypeReference<DelayTask<Order>>() {});
+     *
      * @param json json字符串
-     * @param tr 类型泛型
+     * @param tr   类型泛型
      * @return T
      */
     @SuppressWarnings("unchecked")

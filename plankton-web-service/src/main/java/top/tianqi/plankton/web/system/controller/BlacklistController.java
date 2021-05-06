@@ -28,6 +28,9 @@ public class BlacklistController extends BaseController {
 
     /**
      * 加载数据列表
+     * @param ip ip
+     * @param uri 访问URI
+     * @param method 请求方式
      * @return Result 前端提信息
      */
     @GetMapping("list")

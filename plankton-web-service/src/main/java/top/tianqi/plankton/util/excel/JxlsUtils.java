@@ -1,10 +1,15 @@
 package top.tianqi.plankton.util.excel;
 
+import cn.hutool.core.date.DateUtil;
 import net.sf.jxls.transformer.XLSTransformer;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.multipart.MultipartFile;
+import top.tianqi.plankton.core.common.utils.PropertiesUtil;
 
 import java.io.File;
+import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Jxls导入导出Excel工具类
@@ -13,13 +18,25 @@ import java.util.Map;
  */
 public final class JxlsUtils {
 
-    public static final String TEMPLATE_PATH = "E:\\workspace\\springboot-jxls\\src\\main\\resources\\templates\\export\\template";
-    public static final String SAVE_PATH = "E:\\workspace\\springboot-jxls\\src\\main\\resources\\templates\\export\\temp";
+    /** excel导出模板路径 */
+    public static final String TEMPLATE_PATH = ClassUtils.getDefaultClassLoader().getResource("/templates/export/template").getPath();
+    /** excel导出保存路径 */
+    public static String SAVE_PATH;
 
-    private JxlsUtils(){}
+    public static String uploadBase;
+
+    public static String fileUploadPath;
+
+    static {
+        PropertiesUtil.readProperties("application.properties");
+        uploadBase = PropertiesUtil.getProperty("attachUploadBase");
+        fileUploadPath = PropertiesUtil.getProperty("fileUploadPath");
+    }
+
+    private JxlsUtils(){ }
 
     /**
-     *  导出 Excel
+     * 导出 Excel
      *
      * @param source 模板文件路径
      * @param target 目标文件（文件下载时的路径）
@@ -28,9 +45,15 @@ public final class JxlsUtils {
      * @throws Exception
      */
     public static String export(String source, String target, Map<String, Object> beansMaps) throws Exception {
+        String fileName = target.substring(0, target.lastIndexOf("."));
+
         String[] sourceArrays = source.split("\\.");
         source = TEMPLATE_PATH + File.separator + source;
         target = SAVE_PATH + File.separator + sourceArrays[0] + "-" + System.currentTimeMillis() + "." + sourceArrays[1];
+        String uploadPath = fileUploadPath + DateUtil.format(new Date(), "yyyyMMdd") + "/" + UUID.randomUUID().toString() + "/";
+        String uuid = UUID.randomUUID().toString();
+        String returnSourcePath = uploadPath + uuid + "." + fileName;
+        String sourcePath = uploadBase + returnSourcePath;
         File file = new File(SAVE_PATH);
         if (!file.exists()) {
             file.mkdir();

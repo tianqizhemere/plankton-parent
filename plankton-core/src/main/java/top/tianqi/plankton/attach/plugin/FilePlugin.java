@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Component("filePlugin")
+@Component
 public class FilePlugin implements StoragePlugin {
 
 	@Value("${attachUploadBase}")

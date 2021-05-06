@@ -8,6 +8,8 @@ import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConv
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.task.TaskExecutor;
@@ -35,6 +37,8 @@ import java.util.*;
  */
 @Service
 public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> implements AttachService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AttachService.class);
 
     @Value("${attachUploadBase}")
     private String uploadBase;
@@ -151,6 +155,7 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> imp
         String filePath = uploadBase + srcPath;
         File inputFile = new File(filePath);
         if (!inputFile.exists()) {
+            logger.error("源文件不存在！");
             throw new BusinessException("源文件不存在！");
         }
         // 输出路径
@@ -169,6 +174,7 @@ public class AttachServiceImpl extends BaseServiceImpl<AttachMapper, Attach> imp
             converter.convert(inputFile, outputFile);
             // 关闭连接
             connection.disconnect();
+            logger.info("openOffice转换完成返回的路径{}", ServerConfig.getUrl() + desPath);
             return ServerConfig.getUrl() + desPath;
         } catch (IllegalArgumentException e) {
             connection.disconnect();

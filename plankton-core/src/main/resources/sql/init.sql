@@ -1,4 +1,4 @@
--- 2021-4-16 修改了表名，未同步修改实体名
+-- TODO 2021-4-16 修改了表名，未同步修改实体名
 -- version 版本升级信息表
 DROP TABLE IF EXISTS version;
 CREATE TABLE version (

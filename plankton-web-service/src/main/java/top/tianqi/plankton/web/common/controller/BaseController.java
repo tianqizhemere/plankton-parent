@@ -3,6 +3,8 @@ package top.tianqi.plankton.web.common.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +29,8 @@ import java.util.Map;
  * @create 2021-01-04
  */
 public class BaseController {
+
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     Map<String,String> orderTypeMap = new HashMap<>(2);
 

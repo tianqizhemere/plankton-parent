@@ -8,14 +8,9 @@ package top.tianqi.plankton.core.common.enumeration;
  */
 public enum BaseLogicDeleteEnum {
 
-    /**
-     * 逻辑删除
-     */
+    /** 逻辑删除 */
     LOGIC_DELETE("删除","1"),
-
-    /**
-     * 未删除
-     */
+    /** 未删除 */
     LOGIC_NOT_DELETE("未删除","0");
 
     private final String name;
