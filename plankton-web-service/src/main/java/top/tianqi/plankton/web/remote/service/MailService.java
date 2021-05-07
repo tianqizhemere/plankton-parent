@@ -1,4 +1,4 @@
-package top.tianqi.plankton.web.system.service;
+package top.tianqi.plankton.web.remote.service;
 
 /**
  * 邮件服务层接口
@@ -12,7 +12,6 @@ public interface MailService {
      * @param title 标题
      * @param content 内容
      * @param toUsers 收件人
-     * @return
      */
     void send(String title, String content, String[] toUsers) throws Exception;
 }

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 import top.tianqi.plankton.filter.XssFilter;
-import top.tianqi.plankton.web.system.service.MailService;
+import top.tianqi.plankton.web.remote.service.MailService;
 
 import java.util.HashMap;
 import java.util.Map;
