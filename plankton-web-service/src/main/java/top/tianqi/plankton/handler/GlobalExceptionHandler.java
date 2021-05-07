@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public Result errorHandler(Exception ex) {
-        logger.error("未知异常！原因是:",ex);
+        logger.error("未知异常！原因是:", ex);
         return Result.error(ErrorStateEnum.SYSTEM_ERROR);
     }
 

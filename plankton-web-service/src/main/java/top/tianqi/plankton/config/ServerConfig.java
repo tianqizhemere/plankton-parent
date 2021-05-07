@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 public class ServerConfig {
 
     /** 服务端口 */
-    private static int serverPort;
+    public static int serverPort;
 
     /** 访问地址 */
-    private static String serverUrl;
+    public static String serverUrl;
 
     /** 静态注入 */
     @SuppressWarnings("unused")

@@ -47,7 +47,7 @@ public class MyShiroRealm extends AuthorizingRealm {
     }
 
     /**
-     * 认证
+     * 身份认证
      *
      * @param authenticationToken
      * @return
@@ -82,7 +82,9 @@ public class MyShiroRealm extends AuthorizingRealm {
     }
 
     /**
+     * 授权权限
      * 设置角色与授权
+     * 用户进行权限验证时候Shiro会去缓存中找,如果查不到数据,会执行这个方法去查权限,并放入缓存中
      *
      * @param principals
      * @return
