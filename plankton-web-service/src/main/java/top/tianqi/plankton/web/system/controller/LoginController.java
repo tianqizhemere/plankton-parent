@@ -57,7 +57,7 @@ public class LoginController extends BaseController {
      * @param loginUser 登录对象
      * @return Result 前端提示信息
      */
-    @Limit(count = 5, period = 60 * 10, limitType = LimitTypeEnum.IP, key = "login", prefix = "login_limit")
+    @Limit(count = 5, period = 60 * 10, limitType = LimitTypeEnum.IP, key = "login", prefix = "login:limit")
     @OperateLog(model = OperationConst.LOGIN_MODEL, desc = "登录", type = OperationConst.LOGIN)
     @PostMapping("login")
     public Result login(@RequestBody User loginUser, HttpServletRequest request) {
@@ -68,7 +68,7 @@ public class LoginController extends BaseController {
 
         // 记录未注册用户
         if (user == null) {
-            Nonmember nonmember = new Nonmember(loginUser.getModel(), loginUser.getCode());
+            Nonmember nonmember = new Nonmember(loginUser.getCode(), loginUser.getModel());
             nonmemberService.save(nonmember);
             throw new BusinessException(ErrorStateEnum.USERNAME_NOT_EXIST);
         }
@@ -97,7 +97,6 @@ public class LoginController extends BaseController {
         loginLog.setIp(user.getIp());
         loginLog.setLoginTime(new Date());
         loginLogService.save(loginLog);
-
         return Result.success("登录成功(Login Success.)", user);
     }
 

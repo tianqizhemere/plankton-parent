@@ -3,7 +3,7 @@ package top.tianqi.plankton.core.common;
 import java.io.Serializable;
 
 /**
- * 自定义TitleColumn类（标题、列宽）
+ * Excel导出自定义TitleColumn类（标题、列宽）
  * @author Wukh
  * @create 2021-05-06
  */

@@ -22,7 +22,7 @@ public @interface Limit {
     /** key的前缀标识 */
     String prefix() default "";
 
-    /** 时间的，单位秒 */
+    /** 限制时间，单位秒 */
     int period();
 
     /** 限制访问次数 */

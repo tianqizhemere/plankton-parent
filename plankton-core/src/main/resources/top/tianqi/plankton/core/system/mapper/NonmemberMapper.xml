@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.tianqi.plankton.core.system.mapper.NonmemberMapper">
+
+    <select id="findTotalVisitCount" resultType="java.lang.Integer">
+        select count(DISTINCT(code)) from nonmember
+    </select>
+
+    <select id="findModelVisitCount" resultType="java.util.Map">
+        SELECT count(1), model FROM nonmember n
+        GROUP BY n.model
+    </select>
+</mapper>
