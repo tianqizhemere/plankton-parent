@@ -32,7 +32,7 @@ public class BaseController {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    Map<String,String> orderTypeMap = new HashMap<>(2);
+    protected Map<String,String> orderTypeMap = new HashMap<>(2);
 
     public BaseController(){
         orderTypeMap.put("asc","asc");

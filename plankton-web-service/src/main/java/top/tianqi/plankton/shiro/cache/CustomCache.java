@@ -22,7 +22,7 @@ public class CustomCache<K,V> implements Cache<K,V> {
     /**
      * 缓存的key名称获取为shiro:cache:account
      * @param key shiro:cache:account
-     * @return java.lang.String
+     * @return key
      */
     private String getKey(Object key) {
         return Constant.PREFIX_SHIRO_CACHE + JwtUtil.getClaim(key.toString(), Constant.ACCOUNT);

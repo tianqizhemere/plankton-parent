@@ -31,14 +31,22 @@ public final class ExcelUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
 
-    private ExcelUtil() {
-    }
+    private ExcelUtil() {}
 
     /** 标题行高 */
     private static final float TITLE_ROW_HEIGHT = 30;
+
     /** 数据行高 */
     private static final float DATA_ROW_HEIGHT = 25;
 
+    /**
+     * 导出excel
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param fileName excel文件名
+     * @param excelData 导出的数据列表
+     * @param clazz 导出数据的字节码对象
+     */
     public static void exportExcel(HttpServletRequest request, HttpServletResponse response, String fileName, List<?> excelData, Class<?> clazz) {
         try {
             logger.info(">>>>>>>>>>>>>>>>>> 导出excel开始 >>>>>>>>>>>>>>");
@@ -68,6 +76,7 @@ public final class ExcelUtil {
             HSSFCellStyle dataStyle = getCellStyle(resultWb, 11, false, HSSFColor.BLACK.index);
 
             // 将正文转换为excel数据
+            logger.info(">>>>>>>>>>>>>>> Excel导出数据转换中 >>>>>>>>>>>>>>");
             int rowNum = 1;
             for (Object data : excelData) {
                 HSSFRow row = sheet.createRow(rowNum++);
@@ -81,6 +90,7 @@ public final class ExcelUtil {
                         }
                 );
             }
+            logger.info(">>>>>>>>>>>>>>> Excel导出数据转换完成 >>>>>>>>>>>>>>");
             String downFileName = fileName.concat(".xlsx");
             // application/x-download
             response.setContentType("application/vnd.ms-excel; charset=UTF-8");

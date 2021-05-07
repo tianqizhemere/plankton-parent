@@ -19,22 +19,22 @@ public final class OperationConst {
     /*--------------------------- 模块名称 --------------------------------**/
 
     /** 登录模块 */
-    public static final String LOGIN_MODEL = "登录管理";
+    public static final String LOGIN_MODEL = "登录模块";
 
     /** 通知模块 */
-    public static final String NOTICE_MODEL = "通知管理";
+    public static final String NOTICE_MODEL = "通知模块";
 
     /** 字典模块 */
-    public static final String DICTIONARY_MODEL = "字典管理";
+    public static final String DICTIONARY_MODEL = "字典模块";
 
     /** 外置应用模块 */
-    public static final String EXTERNAL_MODEL = "外置应用";
+    public static final String EXTERNAL_MODEL = "外置应用模块";
 
     /** 用户模块 */
-    public static final String USER_MODEL = "用户管理";
+    public static final String USER_MODEL = "用户模块";
 
     /** 版本模块 */
-    public static final String VERSION_MODEL = "版本管理";
+    public static final String VERSION_MODEL = "版本模块";
 
     /** 菜单模块 */
     public static final String MENU_MODEL = "菜单模块";

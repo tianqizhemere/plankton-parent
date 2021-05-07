@@ -30,7 +30,7 @@ public final class RestClientUtil {
      * @param resp      响应结果类型
      * @return Object 响应结果
      */
-    public Object get(String url, Map<String, String> headerMap, Class<?> resp) {
+    public static Object get(String url, Map<String, String> headerMap, Class<?> resp) {
         HttpHeaders httpHeaders = new HttpHeaders();
         for (Map.Entry<String, String> stringStringEntry : headerMap.entrySet()) {
             httpHeaders.add(stringStringEntry.getKey(), stringStringEntry.getValue());
@@ -46,7 +46,7 @@ public final class RestClientUtil {
      * @param headerMap 头部信息
      * @return Object 响应结果
      */
-    public Object get(String url, Map<String, String> headerMap) {
+    public static Object get(String url, Map<String, String> headerMap) {
         HttpHeaders httpHeaders = new HttpHeaders();
         for (Map.Entry<String, String> stringStringEntry : headerMap.entrySet()) {
             httpHeaders.add(stringStringEntry.getKey(), stringStringEntry.getValue());
