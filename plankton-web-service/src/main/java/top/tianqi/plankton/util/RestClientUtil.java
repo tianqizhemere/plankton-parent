@@ -6,6 +6,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -73,14 +74,14 @@ public final class RestClientUtil {
      * @param requestJsonStrParam json格式请求参数
      * @return 返回值
      */
-    public static String postJson(String requestUrl, String requestJsonStrParam) {
+    public static HashMap postJson(String requestUrl, String requestJsonStrParam) {
         // 设置 Header
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE));
         // 设置参数
         HttpEntity<String> requestEntity = new HttpEntity<>(requestJsonStrParam, httpHeaders);
         // 执行请求
-        ResponseEntity<String> resp = restTemplate.exchange(requestUrl, HttpMethod.POST, requestEntity, String.class);
+        ResponseEntity<HashMap> resp = restTemplate.exchange(requestUrl, HttpMethod.POST, requestEntity, HashMap.class);
         // 返回请求返回值
         return resp.getBody();
     }
@@ -91,14 +92,14 @@ public final class RestClientUtil {
      * @param requestFormPara Form表单请求格式
      * @return 返回值
      */
-    public static String postForm(String requestUrl, String requestFormPara) {
+    public static HashMap postForm(String requestUrl, String requestFormPara) {
         // 设置 Header
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         // 设置参数
         HttpEntity<String> requestEntity = new HttpEntity<>(requestFormPara, httpHeaders);
         // 执行请求
-        ResponseEntity<String> resp = restTemplate.exchange(requestUrl, HttpMethod.POST, requestEntity, String.class);
+        ResponseEntity<HashMap> resp = restTemplate.exchange(requestUrl, HttpMethod.POST, requestEntity, HashMap.class);
         // 返回请求返回值
         return resp.getBody();
     }
