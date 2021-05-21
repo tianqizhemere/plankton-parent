@@ -90,7 +90,7 @@ public class UserController extends BaseController {
     }
 
     @OperateLog(model = OperationConst.USER_MODEL, desc = "删除用户", type = OperationConst.DELETE)
-    @RequiresPermissions(value = "system:user:delete")
+    @RequiresPermissions("system:user:delete")
     @PostMapping("delete")
     public Result delete(@RequestBody List<User> users){
         List<Long> ids = users.stream().map(User::getId).collect(Collectors.toList());

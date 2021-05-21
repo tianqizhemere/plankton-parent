@@ -42,7 +42,7 @@ public class VersionController extends BaseController {
      * @param dictId 数据字典id
      * @return Result 前端提示信息
      */
-    @RequiresPermissions(value = "system:version:view")
+    @RequiresPermissions("system:version:view")
     @GetMapping("list")
     public Result list(String name, String dictId){
         List<String> modelNames = dictionariesService.findNameById(dictId);
@@ -116,7 +116,7 @@ public class VersionController extends BaseController {
      * @return Result 前端提示信息
      */
     @OperateLog(model = OperationConst.VERSION_MODEL, desc = "删除应用版本", type = OperationConst.DELETE)
-    @RequiresPermissions(value = "system:version:delete")
+    @RequiresPermissions("system:version:delete")
     @PostMapping("delete")
     public Result delete(@RequestBody List<VersionInfo> versionInfos){
         List<Long> ids = versionInfos.stream().map(VersionInfo::getId).collect(Collectors.toList());

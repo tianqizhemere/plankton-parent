@@ -31,7 +31,7 @@ public class DictionariesController extends BaseController {
      * 获取树形字典
      * @return Result 前端提示信息
      */
-    @RequiresPermissions(value = "system:dict:view")
+    @RequiresPermissions("system:dict:view")
     @GetMapping("findTree")
     public Result findTree(){
         List<Dictionary> page = dictionariesService.findTree();
@@ -45,7 +45,7 @@ public class DictionariesController extends BaseController {
      * @return Result 前端提示信息
      */
     @OperateLog(model = OperationConst.DICTIONARY_MODEL, desc = "新增字典", type = OperationConst.INSERT)
-    @RequiresPermissions(value = "system:dict:save")
+    @RequiresPermissions("system:dict:save")
     @PostMapping("save")
     public Result save(@Valid @RequestBody Dictionary dictionaries, BindingResult result){
         if (result.hasErrors()){
@@ -62,7 +62,7 @@ public class DictionariesController extends BaseController {
      * @return Result 前端提示信息
      */
     @OperateLog(model = OperationConst.DICTIONARY_MODEL, desc = "修改字典", type = OperationConst.UPDATE)
-    @RequiresPermissions(value = "system:dict:update")
+    @RequiresPermissions("system:dict:update")
     @PostMapping("update")
     public Result update(@Valid @RequestBody Dictionary dictionaries, BindingResult result){
         if (result.hasErrors()){
@@ -78,7 +78,7 @@ public class DictionariesController extends BaseController {
      * @return Result
      */
     @OperateLog(model = OperationConst.DICTIONARY_MODEL, desc = "删除字典", type = OperationConst.DELETE)
-    @RequiresPermissions(value = "system:dict:delete")
+    @RequiresPermissions("system:dict:delete")
     @PostMapping("delete")
     public Result delete(@RequestBody List<Dictionary> dictionaries) {
         List<Long> ids = dictionaries.stream().map(Dictionary::getId).collect(Collectors.toList());

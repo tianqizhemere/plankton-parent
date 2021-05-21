@@ -32,7 +32,7 @@ public class ExternalApplicationController extends BaseController {
     @Resource(name = "externalApplicationServiceImpl")
     private ExternalApplicationService externalApplicationService;
 
-    @RequiresPermissions(value = "system:externalApplication:view")
+    @RequiresPermissions("system:externalApplication:view")
     @GetMapping("page")
     public Result getPage(String name) {
         Page<ExternalApplication> page = externalApplicationService.getPage(name, getPage());
@@ -40,7 +40,7 @@ public class ExternalApplicationController extends BaseController {
     }
 
     @OperateLog(model = OperationConst.EXTERNAL_MODEL, desc = "新增外置应用", type = OperationConst.INSERT)
-    @RequiresPermissions(value = "system:externalApplication:save")
+    @RequiresPermissions("system:externalApplication:save")
     @PostMapping("save")
     public Result save(@Valid @RequestBody ExternalApplication externalApplication, BindingResult result){
         if (result.hasErrors()){
@@ -51,7 +51,7 @@ public class ExternalApplicationController extends BaseController {
     }
 
     @OperateLog(model = OperationConst.EXTERNAL_MODEL, desc = "修改外置应用", type = OperationConst.UPDATE)
-    @RequiresPermissions(value = "system:externalApplication:update")
+    @RequiresPermissions("system:externalApplication:update")
     @PostMapping("update")
     public Result update(@Valid @RequestBody ExternalApplication externalApplication, BindingResult result){
         if (result.hasErrors()){
@@ -62,7 +62,7 @@ public class ExternalApplicationController extends BaseController {
     }
 
     @OperateLog(model = OperationConst.EXTERNAL_MODEL, desc = "删除外置应用", type = OperationConst.DELETE)
-    @RequiresPermissions(value = "system:externalApplication:delete")
+    @RequiresPermissions("system:externalApplication:delete")
     @PostMapping("delete")
     public Result delete(@RequestBody List<ExternalApplication> externalApplications){
         List<Long> ids = externalApplications.stream().map(ExternalApplication::getId).collect(Collectors.toList());

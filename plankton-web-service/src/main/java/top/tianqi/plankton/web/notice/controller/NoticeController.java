@@ -46,7 +46,7 @@ public class NoticeController extends BaseController {
      * @return Result 前端提示信息
      */
     @OperateLog(model = OperationConst.NOTICE_MODEL, desc = "新增通知", type = OperationConst.INSERT)
-    @RequiresPermissions(value = "notice:notice:save")
+    @RequiresPermissions("notice:notice:save")
     @PostMapping("save")
     public Result save(@Valid @RequestBody Notice notice, BindingResult result){
         if (result.hasErrors()){
@@ -63,7 +63,7 @@ public class NoticeController extends BaseController {
      * @return Result 前端提示信息
      */
     @OperateLog(model = OperationConst.NOTICE_MODEL, desc = "修改通知", type = OperationConst.UPDATE)
-    @RequiresPermissions(value = "notice:notice:update")
+    @RequiresPermissions("notice:notice:update")
     @PostMapping("update")
     public Result update(@Valid @RequestBody Notice notice, BindingResult result){
         if (result.hasErrors()){
@@ -79,7 +79,7 @@ public class NoticeController extends BaseController {
      * @return Result 前端提示信息
      */
     @OperateLog(model = OperationConst.NOTICE_MODEL, desc = "删除通知", type = OperationConst.DELETE)
-    @RequiresPermissions(value = "notice:notice:delete")
+    @RequiresPermissions("notice:notice:delete")
     @PostMapping("delete")
     public Result delete(@RequestBody List<Notice> notices){
         List<Long> ids = notices.stream().map(Notice::getId).collect(Collectors.toList());
