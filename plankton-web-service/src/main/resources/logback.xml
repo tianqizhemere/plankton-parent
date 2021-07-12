@@ -65,6 +65,6 @@
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.apache" level="WARN"/>
     <!--如果需要打印SQL,可以把下面的级别设置为DEBUG -->
-    <logger name="top.tianqi.plankton.*.mapper.*" level="DEBUG"/>
+    <logger name="top.tianqi.plankton.core.*.mapper.*" level="DEBUG"/>
 
 </configuration>

@@ -66,9 +66,6 @@ public class MyShiroRealm extends AuthorizingRealm {
         if (user == null) {
             throw new AuthenticationException("CODE:" + code + "不存在");
         }
-        if (Constant.USER_FREEZE.equals(user.getIsEnable())) {
-            throw new AuthenticationException("账号已被禁用,请联系管理员!");
-        }
         // 开始认证，要AccessToken认证通过，且Redis中存在RefreshToken，且两个Token时间戳一致
         if (JwtUtil.verify(token) && JedisUtil.exists(Constant.PREFIX_SHIRO_REFRESH_TOKEN + code)) {
             // 获取RefreshToken的时间戳

@@ -1,5 +1,6 @@
 package top.tianqi.plankton.web.system.controller;
 
+import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,6 +75,9 @@ public class LoginController extends BaseController {
         }
         if (!Objects.equals(loginUser.getModel(), user.getModel())) {
             throw new BusinessException("设备型号不一致");
+        }
+        if (Constant.USER_FREEZE.equals(user.getIsEnable())) {
+            throw new AuthenticationException("账号已被禁用,请联系管理员!");
         }
 
          // 获取当前用户主体
